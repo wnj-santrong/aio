@@ -18,7 +18,7 @@ public class TcpServer implements Runnable {
 			isRun = true;
 			
 			try{
-				ServerSocket ss = new ServerSocket(TcpDefine.BASIC_SERVER_PORT);
+				ServerSocket ss = new ServerSocket(TcpDefine.Basic_Server_port);
 				while(true)
 				{
 					Socket s = ss.accept();

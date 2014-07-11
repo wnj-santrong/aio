@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.santrong.base.BaseAction;
 import com.santrong.demo.dao.DemoDao;
 import com.santrong.demo.entry.DemoForm;
-import com.santrong.system.Global;
+import com.santrong.tcp.client.LocalTcpClientManager;
 
 @Controller
 public class Test1Action extends BaseAction{
@@ -36,4 +36,19 @@ public class Test1Action extends BaseAction{
 		}
 		return "index";
 	}
+	
+	@RequestMapping("fn2")
+	public String fn2() {
+		LocalTcpClientManager tcpClient = LocalTcpClientManager.getInstance();
+		tcpClient.Login();//31001
+//		tcpClient.GetConfInfo();//31007
+//		tcpClient.GetResource();//31009
+//		tcpClient.TiltCtrl();//310012
+//		tcpClient.DirectCtrl();//310013
+//		tcpClient.GetSourceState();//310016
+		
+		return "index";
+	}
+	
+	
 }

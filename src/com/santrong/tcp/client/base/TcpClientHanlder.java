@@ -78,11 +78,7 @@ public class TcpClientHanlder{
 			DataInputStream in = new DataInputStream(in_0);	
 			
 			/**  1, 发送消息***/
-			//消息头			
-			if(msgheader==null){			   
-			   msgheader = new MsgHeader((short)(xmlMsgb.length + 8), (short)2012, (short)1); //固定消息码为2012	
-			}
-			msgheader.setsLen((short)(xmlMsgb.length + 8));			
+			//消息头					
 			out.write(msgheader.getBytes());
 			 
 			//Msgbody			
@@ -146,11 +142,7 @@ public class TcpClientHanlder{
 			
 			
 			/**  1, 发送消息***/
-			//消息头			
-			if(msgheader==null){			   
-			   msgheader = new MsgHeader((short)(xmlMsgb.length + 8), (short)2012, (short)1); //固定消息码为2012	
-			}
-			msgheader.setsLen((short)(xmlMsgb.length + 8));			
+			//消息头
 			out.write(msgheader.getBytes());
 			
 			//Msgbody			
@@ -161,8 +153,8 @@ public class TcpClientHanlder{
             /**  2, 读取返回消息***/
             //读取返回消息长度&消息头
 
-            short msglen_rec = (short)(in.readShort() - 8);
-            in.skipBytes(6);//跳过消息头的后六个字节
+            int msglen_rec = in.readInt();
+            in.skipBytes(4);//跳过消息头的后4个字节
 
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);
