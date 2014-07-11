@@ -1,17 +1,16 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcpClient31010 extends AbstractTcpClient{
+public class LocalTcpClient31010 {
 	
 	public String getMajorXml() {
-		return header
+		return TcpDefine.Xml_Header
 			+ "<ReqMsg>"
 				+ "<MsgHead>"
 					+ "<MsgCode>" + TcpDefine.Basic_Client_DeleteCourse + "</MsgCode>"

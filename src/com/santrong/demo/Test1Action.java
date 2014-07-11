@@ -39,13 +39,13 @@ public class Test1Action extends BaseAction{
 	
 	@RequestMapping("fn2")
 	public String fn2() {
-		LocalTcpClientManager tcpClient = LocalTcpClientManager.getInstance();
-		tcpClient.Login();//31001
-//		tcpClient.GetConfInfo();//31007
-//		tcpClient.GetResource();//31009
-//		tcpClient.TiltCtrl();//310012
-//		tcpClient.DirectCtrl();//310013
-//		tcpClient.GetSourceState();//310016
+		LocalTcpClientManager client = LocalTcpClientManager.getInstance();
+		client.Login();//31001
+//		client.GetConfInfo();//31007
+//		client.GetResource();//31009
+//		client.TiltCtrl();//310012
+//		client.DirectCtrl();//310013
+//		client.GetSourceState();//310016
 		
 		return "index";
 	}

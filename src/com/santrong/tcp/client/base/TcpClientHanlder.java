@@ -11,10 +11,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import com.santrong.log.Log;
+import com.santrong.tcp.TcpDefine;
 
 public class TcpClientHanlder{
-	
-	private static final String Encoding = "UTF-8";
 	
     Socket gsocket = null;
     private static final int TIME_OUT = 10000;		// 连接超时时间
@@ -68,7 +67,7 @@ public class TcpClientHanlder{
 		
 		try {
 			Log.debug("sendXmlMsg : " + xmlMsg);
-			byte[] xmlMsgb = xmlMsg.getBytes(Encoding);
+			byte[] xmlMsgb = xmlMsg.getBytes(TcpDefine.Default_Encoding);
 			 
 			//获取输出流
 			OutputStream out_0 = gsocket.getOutputStream();
@@ -94,7 +93,7 @@ public class TcpClientHanlder{
 
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);	
-            msgRsp = new String(msgRsp_b, Encoding);
+            msgRsp = new String(msgRsp_b, TcpDefine.Default_Encoding);
             Log.debug("getXmlMsg : " + msgRsp);
 		 
 		} catch (UnknownHostException e) {
@@ -108,6 +107,11 @@ public class TcpClientHanlder{
 
 	}
 	
+
+	
+	public String sendMsgOnce(String host, int port, String xmlMsg) {
+		return this.sendMsgOnce(host, port, xmlMsg);
+	}
 	/**
 	 * 发送消息，可独立使用
 	 * 用于一个socket连接仅发送一个消息
@@ -117,7 +121,7 @@ public class TcpClientHanlder{
 	 * @param xmlMsg	
 	 * @return
 	 */
-	public String sendMsgOnce(String host, int port, MsgHeader msgheader, String xmlMsg) {
+	public String sendMsgOnce(String host, int port, String xmlMsg, MsgHeader msgheader) {
 		String msgRsp = null;		
 		
 		Socket socket = null;
@@ -131,7 +135,7 @@ public class TcpClientHanlder{
 			socket.setSoLinger(true, 30);
 			
 			Log.debug("sendXmlMsg : " + xmlMsg);
-			byte[] xmlMsgb = xmlMsg.getBytes(Encoding);
+			byte[] xmlMsgb = xmlMsg.getBytes(TcpDefine.Default_Encoding);
 			 
 			//获取输出流
 			OutputStream out_0 = socket.getOutputStream();
@@ -142,6 +146,9 @@ public class TcpClientHanlder{
 			
 			
 			/**  1, 发送消息***/
+			if(msgheader == null) {
+				msgheader = new MsgHeader(xmlMsgb.length);
+			}
 			//消息头
 			out.write(msgheader.getBytes());
 			
@@ -158,7 +165,7 @@ public class TcpClientHanlder{
 
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);
-            msgRsp = new String(msgRsp_b, Encoding);
+            msgRsp = new String(msgRsp_b, TcpDefine.Default_Encoding);
             Log.debug("getXmlMsg : " + msgRsp);
 
 		} catch (UnknownHostException e) {

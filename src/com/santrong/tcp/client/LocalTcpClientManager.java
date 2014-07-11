@@ -26,15 +26,19 @@ public class LocalTcpClientManager extends AbstractTcpClientManager{
 		return instance;
 	}
 	
+	public String replaceKey(String source, String key, String val) {
+		return source.replaceAll("\\#\\{" + key + "\\}", val);
+	}
+	
 
 	public void Login() {
 		LocalTcpClient31001 client = new LocalTcpClient31001();
 		String majorXml = client.getMajorXml();
-		majorXml = client.replaceKey(majorXml, "Addr", "192.168.10.102");
-		majorXml = client.replaceKey(majorXml, "Port", "3000");
-		majorXml = client.replaceKey(majorXml, "Heartheat", "5");
+		majorXml = this.replaceKey(majorXml, "Addr", "192.168.10.102");
+		majorXml = this.replaceKey(majorXml, "Port", "3000");
+		majorXml = this.replaceKey(majorXml, "Heartheat", "5");
 
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 		
 		//TODO 解析msgRsp
 	}
@@ -42,85 +46,85 @@ public class LocalTcpClientManager extends AbstractTcpClientManager{
 	public void Logout() {
 		LocalTcpClient31002 client = new LocalTcpClient31002();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void StartConfRecord() {
 		LocalTcpClient31004 client = new LocalTcpClient31004();
 		String majorXml = client.getMajorXml();
-		majorXml = client.replaceKey(majorXml, "Heartheat", "5");
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		majorXml = this.replaceKey(majorXml, "Heartheat", "5");
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void StopConfRecord() {
 		LocalTcpClient31005 client = new LocalTcpClient31005();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void RecordCtl() {
 		LocalTcpClient31006 client = new LocalTcpClient31006();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void GetConfInfo() {
 		LocalTcpClient31007 client = new LocalTcpClient31007();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void SetThreshold() {
 		LocalTcpClient31008 client = new LocalTcpClient31008();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void GetResource() {
 		LocalTcpClient31009 client = new LocalTcpClient31009();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void DeleteCourse() {
 		LocalTcpClient31010 client = new LocalTcpClient31010();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void SetLogLevel() {
 		LocalTcpClient31011 client = new LocalTcpClient31011();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void TiltCtrl() {
 		LocalTcpClient31012 client = new LocalTcpClient31012();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void DirectCtrl() {
 		LocalTcpClient31013 client = new LocalTcpClient31013();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void AddSource() {
 		LocalTcpClient31014 client = new LocalTcpClient31014();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void DelSource() {
 		LocalTcpClient31015 client = new LocalTcpClient31015();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 	
 	public void GetSourceState() {
 		LocalTcpClient31016 client = new LocalTcpClient31016();
 		String majorXml = client.getMajorXml();
-		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, new MsgHeader(majorXml.getBytes().length), majorXml);
+		String msgRsp = tcpHanlder.sendMsgOnce("192.168.10.10", TcpDefine.Basic_Client_Port, majorXml);
 	}	
 }
