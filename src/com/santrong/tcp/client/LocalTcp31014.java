@@ -1,14 +1,15 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31014 implements AbstractTcpClient {
+public class LocalTcp31014 extends AbstractTcp {
 
 	private String srcAddr;
 	private int srcPort;
@@ -16,40 +17,27 @@ public class LocalTcp31014 implements AbstractTcpClient {
 	private String srcPw;
 	private int srcType;
 	
-	public String getSrcAddr() {
-		return srcAddr;
+	// 返回值
+	private int resultCode;
+
+	public int getResultCode() {
+		return resultCode;
 	}
 
 	public void setSrcAddr(String srcAddr) {
 		this.srcAddr = srcAddr;
 	}
 
-	public int getSrcPort() {
-		return srcPort;
-	}
-
 	public void setSrcPort(int srcPort) {
 		this.srcPort = srcPort;
-	}
-
-	public String getSrcUser() {
-		return srcUser;
 	}
 
 	public void setSrcUser(String srcUser) {
 		this.srcUser = srcUser;
 	}
 
-	public String getSrcPw() {
-		return srcPw;
-	}
-
 	public void setSrcPw(String srcPw) {
 		this.srcPw = srcPw;
-	}
-
-	public int getSrcType() {
-		return srcType;
 	}
 
 	public void setSrcType(int srcType) {
@@ -80,8 +68,8 @@ public class LocalTcp31014 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/AddSourceResp/ResultCode").getText());
 		
 	}
 }

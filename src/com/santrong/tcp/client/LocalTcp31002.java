@@ -1,14 +1,20 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31002 implements AbstractTcpClient {
+public class LocalTcp31002 extends AbstractTcp {
+	private int resultCode;
+
+	public int getResultCode() {
+		return resultCode;
+	}
 
 	@Override
 	public String toXml() {
@@ -27,8 +33,7 @@ public class LocalTcp31002 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
-		
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/LogoutResp/ResultCode").getText());
 	}
 }

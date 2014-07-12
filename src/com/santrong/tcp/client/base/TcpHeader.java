@@ -3,18 +3,18 @@ package com.santrong.tcp.client.base;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class MsgHeader {
+public class TcpHeader {
 	int normalDataLen;	// 标准xml数据长度，4字节
 	int privateDataLen;// 私有二进制数据长度，4字节
 	
 	private ByteBuffer byteBuffer =  ByteBuffer.allocate(8);
 	
-	public MsgHeader(int normalDataLen , int privateDataLen){
+	public TcpHeader(int normalDataLen , int privateDataLen){
 		this.normalDataLen = normalDataLen;
 		this.privateDataLen = privateDataLen;
 	}
 	
-	public MsgHeader(int normalDataLen){
+	public TcpHeader(int normalDataLen){
 		this.normalDataLen = normalDataLen;
 		this.privateDataLen = 0;
 	}
@@ -33,7 +33,7 @@ public class MsgHeader {
 	}
    
    public static void main(String args[]){
-	   MsgHeader head= new MsgHeader(1025, 2);
+	   TcpHeader head= new TcpHeader(1025, 2);
 	   byte[] b = head.getBytes();
 	   
 	   ByteBuffer bf =  ByteBuffer.allocate(8);

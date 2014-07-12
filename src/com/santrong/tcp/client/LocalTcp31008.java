@@ -1,33 +1,31 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31008 implements AbstractTcpClient {
+public class LocalTcp31008 extends AbstractTcp {
 	
 	private int freeSize;
 	private int maxTime;
 	
-	
-	public int getFreeSize() {
-		return freeSize;
-	}
+	private int resultCode;
 
 	public void setFreeSize(int freeSize) {
 		this.freeSize = freeSize;
 	}
 
-	public int getMaxTime() {
-		return maxTime;
-	}
-
 	public void setMaxTime(int maxTime) {
 		this.maxTime = maxTime;
+	}
+	
+	public int getResultCode() {
+		return resultCode;
 	}
 
 	@Override
@@ -51,8 +49,8 @@ public class LocalTcp31008 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/SetThresholdRes/ResultCode").getText());
 		
 	}
 }

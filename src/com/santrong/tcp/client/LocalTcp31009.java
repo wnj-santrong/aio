@@ -1,15 +1,58 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31009 implements AbstractTcpClient {
+public class LocalTcp31009 extends AbstractTcp {
 	
+	// 返回值
+	private int resultCode;
+	private int confMax;
+	private int confInUse;
+	private int uniVodMax;
+	private int uniCur;
+	private int vodCur;
+	private int freePcent;
+	private int freeSize;
+	
+	public int getResultCode() {
+		return resultCode;
+	}
+
+	public int getConfMax() {
+		return confMax;
+	}
+
+	public int getConfInUse() {
+		return confInUse;
+	}
+
+	public int getUniVodMax() {
+		return uniVodMax;
+	}
+
+	public int getUniCur() {
+		return uniCur;
+	}
+
+	public int getVodCur() {
+		return vodCur;
+	}
+
+	public int getFreePcent() {
+		return freePcent;
+	}
+
+	public int getFreeSize() {
+		return freeSize;
+	}
+
 	@Override
 	public String toXml() {
 		StringBuilder sb = new StringBuilder();
@@ -27,8 +70,15 @@ public class LocalTcp31009 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/GetResResp/ResultCode").getText());
+		this.confMax = Integer.parseInt(xml.find("/MsgBody/GetResResp/ConfMax").getText());
+		this.confInUse = Integer.parseInt(xml.find("/MsgBody/GetResResp/ConfInUse").getText());
+		this.uniVodMax = Integer.parseInt(xml.find("/MsgBody/GetResResp/UniVodMax").getText());
+		this.uniCur = Integer.parseInt(xml.find("/MsgBody/GetResResp/UniCur").getText());
+		this.vodCur = Integer.parseInt(xml.find("/MsgBody/GetResResp/VdCur").getText());
+		this.freePcent = Integer.parseInt(xml.find("/MsgBody/GetResResp/FreePcent").getText());
+		this.freeSize = Integer.parseInt(xml.find("/MsgBody/GetResResp/FreeSize").getText());
 		
 	}
 }

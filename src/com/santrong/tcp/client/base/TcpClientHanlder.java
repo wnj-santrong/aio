@@ -59,7 +59,7 @@ public class TcpClientHanlder{
 	 * @return
 	 * @throws Exception
 	 */
-	public String sendMsg(MsgHeader msgheader, String xmlMsg) throws Exception {
+	public String sendMsg(TcpHeader msgheader, String xmlMsg) throws Exception {
 		String msgRsp = null;		
 		if(gsocket==null){
 			throw new Exception("Please call createSocket() first!");
@@ -121,7 +121,7 @@ public class TcpClientHanlder{
 	 * @param xmlMsg	
 	 * @return
 	 */
-	public String sendMsgOnce(String host, int port, String xmlMsg, MsgHeader msgheader) {
+	public String sendMsgOnce(String host, int port, String xmlMsg, TcpHeader msgheader) {
 		String msgRsp = null;		
 		
 		Socket socket = null;
@@ -147,7 +147,7 @@ public class TcpClientHanlder{
 			
 			/**  1, 发送消息***/
 			if(msgheader == null) {
-				msgheader = new MsgHeader(xmlMsgb.length);
+				msgheader = new TcpHeader(xmlMsgb.length);
 			}
 			//消息头
 			out.write(msgheader.getBytes());

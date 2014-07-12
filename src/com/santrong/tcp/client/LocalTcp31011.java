@@ -1,23 +1,30 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31011 implements AbstractTcpClient {
+public class LocalTcp31011 extends AbstractTcp {
+	// 参数
 	private int logLevel;
-
-	public int getLogLevel() {
-		return logLevel;
-	}
+	
+	// 返回值
+	private int resultCode;
 
 	public void setLogLevel(int logLevel) {
 		this.logLevel = logLevel;
 	}
+	
+	public int getResultCode() {
+		return resultCode;
+	}
+
+
 
 	@Override
 	public String toXml() {
@@ -39,8 +46,8 @@ public class LocalTcp31011 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/SetLogLevelResp/ResultCode").getText());
 		
 	}
 }

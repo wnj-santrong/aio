@@ -1,31 +1,30 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31006 implements AbstractTcpClient {
+public class LocalTcp31006 extends AbstractTcp {
 	private String confId;
 	private int operType;// <!-- 0：停止录制; 1：开始录制; 2：暂停录制; -->
-
-	public String getConfId() {
-		return confId;
-	}
+	
+	private int resultCode;
 
 	public void setConfId(String confId) {
 		this.confId = confId;
 	}
 
-	public int getOperType() {
-		return operType;
-	}
-
 	public void setOperType(int operType) {
 		this.operType = operType;
+	}
+	
+	public int getResultCode() {
+		return resultCode;
 	}
 
 	@Override
@@ -49,8 +48,8 @@ public class LocalTcp31006 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/RcdCtlResp/ResultCode").getText());
 		
 	}
 }

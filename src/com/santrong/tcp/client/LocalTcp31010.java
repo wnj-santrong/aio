@@ -1,28 +1,31 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31010 implements AbstractTcpClient {
+public class LocalTcp31010 extends AbstractTcp {
 	private String courseName;
 	private String confId;
+	
+	// 返回值
+	private int resultCode;
 
-	public String getCourseName() {
-		return courseName;
-	}
 
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
 
-	public String getConfId() {
-		return confId;
+
+	public int getResultCode() {
+		return resultCode;
 	}
+
 
 	public void setConfId(String confId) {
 		this.confId = confId;
@@ -49,8 +52,8 @@ public class LocalTcp31010 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/DelCourseResp/ResultCode").getText());
 		
 	}
 	

@@ -1,63 +1,46 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31012 implements AbstractTcpClient {
+public class LocalTcp31012 extends AbstractTcp {
 	private String confId;
 	private int strmId;
 	private int tiltTpe;
 	private int speed;
 	private int preset;
 	private int camAddr;
+	
+	private int resultCode;
 
-	public String getConfId() {
-		return confId;
+	public int getResultCode() {
+		return resultCode;
 	}
 
 	public void setConfId(String confId) {
 		this.confId = confId;
 	}
 
-	public int getStrmId() {
-		return strmId;
-	}
-
 	public void setStrmId(int strmId) {
 		this.strmId = strmId;
-	}
-
-	public int getTiltTpe() {
-		return tiltTpe;
 	}
 
 	public void setTiltTpe(int tiltTpe) {
 		this.tiltTpe = tiltTpe;
 	}
 
-	public int getSpeed() {
-		return speed;
-	}
-
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
-	public int getPreset() {
-		return preset;
-	}
-
 	public void setPreset(int preset) {
 		this.preset = preset;
-	}
-
-	public int getCamAddr() {
-		return camAddr;
 	}
 
 	public void setCamAddr(int camAddr) {
@@ -89,8 +72,8 @@ public class LocalTcp31012 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/TiltCtrlResp/ResultCode").getText());
 		
 	}
 }

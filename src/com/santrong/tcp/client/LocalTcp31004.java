@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31004 implements AbstractTcpClient {
+public class LocalTcp31004 extends AbstractTcp {
 	
 	private String confId;
 	private int isLive;
@@ -24,93 +25,77 @@ public class LocalTcp31004 implements AbstractTcpClient {
 	private String teacher;
 	private String rcdName;
 	private List<RecStreamInfo> recStreamInfoList = new ArrayList<RecStreamInfo>();
-	
-	public String getConfId() {
-		return confId;
-	}
 
+	private int resultCode;
+	private String _confId;
+	private int doRcd;
+	private int doUni;
+	private String _rcdName;
+	
 	public void setConfId(String confId) {
 		this.confId = confId;
-	}
-
-	public int getIsLive() {
-		return isLive;
 	}
 
 	public void setIsLive(int isLive) {
 		this.isLive = isLive;
 	}
 
-	public int getIsRecord() {
-		return isRecord;
-	}
-
 	public void setIsRecord(int isRecord) {
 		this.isRecord = isRecord;
-	}
-
-	public int getRecordType() {
-		return recordType;
 	}
 
 	public void setRecordType(int recordType) {
 		this.recordType = recordType;
 	}
 
-	public int getLayout() {
-		return layout;
-	}
-
 	public void setLayout(int layout) {
 		this.layout = layout;
-	}
-
-	public int getbScale() {
-		return bScale;
 	}
 
 	public void setbScale(int bScale) {
 		this.bScale = bScale;
 	}
 
-	public String getCourseName() {
-		return courseName;
-	}
-
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
-	}
-
-	public String getCourseAbs() {
-		return courseAbs;
 	}
 
 	public void setCourseAbs(String courseAbs) {
 		this.courseAbs = courseAbs;
 	}
 
-	public String getTeacher() {
-		return teacher;
-	}
-
 	public void setTeacher(String teacher) {
 		this.teacher = teacher;
-	}
-
-	public String getRcdName() {
-		return rcdName;
 	}
 
 	public void setRcdName(String rcdName) {
 		this.rcdName = rcdName;
 	}
 
-	public List<RecStreamInfo> getRecStreamInfoList() {
-		return recStreamInfoList;
-	}
-
 	public void setRecStreamInfoList(List<RecStreamInfo> recStreamInfoList) {
 		this.recStreamInfoList = recStreamInfoList;
+	}
+
+	
+	
+	public int getResultCode() {
+		return resultCode;
+	}
+
+	public String get_confId() {
+		return _confId;
+	}
+
+	public int getDoRcd() {
+		return doRcd;
+	}
+
+	public int getDoUni() {
+		return doUni;
+	}
+
+	public String get_rcdName() {
+		return _rcdName;
 	}
 
 	@Override
@@ -159,8 +144,12 @@ public class LocalTcp31004 implements AbstractTcpClient {
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		// TODO Auto-generated method stub
+	public void resolveXml(XmlReader xml) {
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/StartConfRcdResp/ResultCode").getText());
+		this._confId = xml.find("/MsgBody/StartConfRcdResp/ConfID").getText();
+		this.doRcd = Integer.parseInt(xml.find("/MsgBody/StartConfRcdResp/DoRcd").getText());
+		this.doUni = Integer.parseInt(xml.find("/MsgBody/StartConfRcdResp/DoUni").getText());
+		this._rcdName = xml.find("/MsgBody/StartConfRcdResp/RcdName").getText();
 		
 	}
 	
@@ -176,68 +165,35 @@ public class LocalTcp31004 implements AbstractTcpClient {
 		private int audSmpRate;
 		private int audCh;
 		private int audBitrate;
-		public String getStrmAddr() {
-			return strmAddr;
-		}
 		public void setStrmAddr(String strmAddr) {
 			this.strmAddr = strmAddr;
-		}
-		public int getStrmPort() {
-			return strmPort;
 		}
 		public void setStrmPort(int strmPort) {
 			this.strmPort = strmPort;
 		}
-		public String getStrmUser() {
-			return StrmUser;
-		}
 		public void setStrmUser(String strmUser) {
 			StrmUser = strmUser;
-		}
-		public String getStrmPw() {
-			return StrmPw;
 		}
 		public void setStrmPw(String strmPw) {
 			StrmPw = strmPw;
 		}
-		public int getStrmType() {
-			return strmType;
-		}
 		public void setStrmType(int strmType) {
 			this.strmType = strmType;
-		}
-		public int getStrmBandwidth() {
-			return strmBandwidth;
 		}
 		public void setStrmBandwidth(int strmBandwidth) {
 			this.strmBandwidth = strmBandwidth;
 		}
-		public int getStrmFmt() {
-			return strmFmt;
-		}
 		public void setStrmFmt(int strmFmt) {
 			this.strmFmt = strmFmt;
-		}
-		public int getStrmFRate() {
-			return strmFRate;
 		}
 		public void setStrmFRate(int strmFRate) {
 			this.strmFRate = strmFRate;
 		}
-		public int getAudSmpRate() {
-			return audSmpRate;
-		}
 		public void setAudSmpRate(int audSmpRate) {
 			this.audSmpRate = audSmpRate;
 		}
-		public int getAudCh() {
-			return audCh;
-		}
 		public void setAudCh(int audCh) {
 			this.audCh = audCh;
-		}
-		public int getAudBitrate() {
-			return audBitrate;
 		}
 		public void setAudBitrate(int audBitrate) {
 			this.audBitrate = audBitrate;

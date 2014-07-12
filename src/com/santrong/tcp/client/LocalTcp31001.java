@@ -1,41 +1,41 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcpClient;
+import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.util.XmlReader;
 
 /**
  * @author weinianjie
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31001 implements AbstractTcpClient{
+public class LocalTcp31001 extends AbstractTcp{
 	
 	private String addr;
 	private int port;
 	private int heartbeat;
 	
-	public String getAddr() {
-		return addr;
-	}
+	private int resultCode;
+	private int isReboot;
 
 	public void setAddr(String addr) {
 		this.addr = addr;
-	}
-
-	public int getPort() {
-		return port;
 	}
 
 	public void setPort(int port) {
 		this.port = port;
 	}
 
-	public int getHeartbeat() {
-		return heartbeat;
-	}
-
 	public void setHeartbeat(int heartbeat) {
 		this.heartbeat = heartbeat;
+	}
+
+	public int getResultCode() {
+		return resultCode;
+	}
+
+	public int getIsReboot() {
+		return isReboot;
 	}
 
 	@Override
@@ -60,9 +60,10 @@ public class LocalTcp31001 implements AbstractTcpClient{
 	}
 
 	@Override
-	public void resolveXml(String repXml) {
-		
-		
+	public void resolveXml(XmlReader xml) {
+
+		this.resultCode = Integer.parseInt(xml.find("/MsgBody/LoginResp/ResultCode").getText());
+		this.isReboot = Integer.parseInt(xml.find("/MsgBody/LoginResp/IsReboot").getText());
 	}
 
 }
