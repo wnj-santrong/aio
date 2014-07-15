@@ -1,8 +1,7 @@
 package com.santrong.tcp.client;
 
-import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.LocalTcpBase;
 import com.santrong.tcp.client.base.AbstractTcpService;
+import com.santrong.tcp.client.base.TcpImpl;
 import com.santrong.util.XmlReader;
 
 
@@ -27,7 +26,7 @@ public class TcpService extends AbstractTcpService{
 		return instance;
 	}
 	
-	public void request(LocalTcpBase service){
+	public void request(TcpImpl service){
 		
 		// 发送TCP
 		String msgRsp = tcpHanlder.sendMsgOnce(service.getHost(), service.getPort(), service.toXml());

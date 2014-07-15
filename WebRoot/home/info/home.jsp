@@ -1,36 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-
-           <ul class="meeting">
-                <li>
-                    <p>序列号:</p>
-                    <span>
-                    SERI
-                    </span> </li>
-                <li>
-                    <p>设备型号:</p>
-                    <span>CL2412</span></li>
-                <li>
-                    <p>系统版本:</p>
-                    <span>1.4.9.5T2132</span></li>
-                <li>
-                    <p>Web版本:</p>
-                    <span>44.10KH2</span></li>
-                <li>
-                    <p>内核版本:</p>
-                    <span>1.1.2</span></li>
-                <li>
-                    <p>ENC版本:</p>
-                    <span>DVDA2412</span></li>
-                <li>
-                    <p>硬盘空间:</p>
-                    <span>455.62 GByte</span></li>
-                <li>
-                    <p>剩余硬盘空间:</p>
-                    <span>432.44 GByte</span></li>
-                 <li>
-                    <p>IP:</p>
-                    <span>192.168.9.225</span></li>
-            </ul>
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<fmt:setLocale value="zh_CN" /> 
+<fmt:setBundle basename="message" />
+<code id="pagename" style="display:none">c:index_a:info</code>
+<ul class="meeting">
+	<li><p><fmt:message key="info_deviceNo"/>:</p><span>${info.deviceNo}</span></li>
+	<li><p><fmt:message key="info_deviceType"/>:</p><span>${info.deviceType}</span></li>
+	<li><p><fmt:message key="info_maxPlay"/>:</p><span>${info.uniVodMax}</span></li>
+	<li><p><fmt:message key="info_uniCur"/>:</p><span>${info.uniCur}</span></li>
+	<li><p><fmt:message key="info_vodCur"/>:</p><span>${info.vodCur}</span></li>
+	<li><p><fmt:message key="info_diskSize"/>:</p><span>${info.totalSize}</span></li>
+	<li><p><fmt:message key="info_diskFree"/>:</p><span>${info.freeSize}</span></li>
+	<c:forEach items="${info.moduleList}" var="item">
+	<li><p>${item.name}:</p><span>${item.version}<c:if test="${item.state == 1}"><span class="warn">(<fmt:message key="text_exception"/>)</span></c:if></span></li>
+	</c:forEach>
+</ul>

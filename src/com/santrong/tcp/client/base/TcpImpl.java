@@ -1,5 +1,6 @@
 package com.santrong.tcp.client.base;
 
+import com.santrong.tcp.client.LocalTcpXmlHeader;
 import com.santrong.util.XmlReader;
 
 /**
@@ -15,4 +16,6 @@ public interface TcpImpl {
 	String getHost();
 	
 	int getPort();
+	
+	LocalTcpXmlHeader getRespHeader();
 }
