@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.tcp.client.base.LocalTcpBase;
 import com.santrong.util.XmlReader;
 
 /**
@@ -12,7 +12,7 @@ import com.santrong.util.XmlReader;
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31004 extends AbstractTcp {
+public class LocalTcp31004 extends LocalTcpBase {
 	
 	private String confId;
 	private int isLive;
@@ -131,9 +131,11 @@ public class LocalTcp31004 extends AbstractTcp {
 								sb.append("<StrmBandwidth type=\"int\">").append(item.strmBandwidth).append("</StrmBandwidth>");
 								sb.append("<StrmFmt type=\"int\">").append(item.strmFmt).append("</StrmFmt>");
 								sb.append("<StrmFRate type=\"int\">").append(item.strmFRate).append("</StrmFRate>");
-								sb.append("<AudSmpRate type=\"int\">").append(item.audSmpRate).append("</AudSmpRate>");
-								sb.append("<AudCh type=\"int\">").append(item.audCh).append("</AudCh>");
-								sb.append("<AudBitrate type=\"int\">").append(item.audBitrate).append("</AudBitrate>");
+								if(item.hasAud == 1) {
+									sb.append("<AudSmpRate type=\"int\">").append(item.audSmpRate).append("</AudSmpRate>");
+									sb.append("<AudCh type=\"int\">").append(item.audCh).append("</AudCh>");
+									sb.append("<AudBitrate type=\"int\">").append(item.audBitrate).append("</AudBitrate>");
+								}
 							sb.append("</RcdStreamInfo>");
 						}
 					sb.append("</RcdStreamInfoArray>");
@@ -158,13 +160,17 @@ public class LocalTcp31004 extends AbstractTcp {
 		private int strmPort;
 		private String StrmUser;
 		private String StrmPw;
-		private int strmType;
-		private int strmBandwidth;
-		private int strmFmt;
-		private int strmFRate;
-		private int audSmpRate;
-		private int audCh;
-		private int audBitrate;
+		private int strmType;// 类型
+		private int strmBandwidth;// 码率
+		private int strmFmt;// 格式（宽高） 720P这类的
+		private int strmFRate;// 帧率
+		//---------------------------以下是音频，如果没有请不要发送
+		private int audSmpRate;// 声音采样率
+		private int audCh;// 声道
+		private int audBitrate;// 声音码率
+		
+		private int hasAud; // 是否有音频
+		
 		public void setStrmAddr(String strmAddr) {
 			this.strmAddr = strmAddr;
 		}
@@ -198,7 +204,9 @@ public class LocalTcp31004 extends AbstractTcp {
 		public void setAudBitrate(int audBitrate) {
 			this.audBitrate = audBitrate;
 		}
-		
+		public void setHasAud(int hasAud) {
+			this.hasAud = hasAud;
+		}
 	}
 
 }

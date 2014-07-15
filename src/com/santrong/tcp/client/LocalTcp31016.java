@@ -6,7 +6,7 @@ import java.util.List;
 import org.jdom.Element;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.tcp.client.base.LocalTcpBase;
 import com.santrong.util.XmlReader;
 
 /**
@@ -14,7 +14,7 @@ import com.santrong.util.XmlReader;
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31016 extends AbstractTcp {
+public class LocalTcp31016 extends LocalTcpBase {
 	private String srcAddr;
 	
 	// 返回值

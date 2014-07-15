@@ -7,6 +7,7 @@ package com.santrong.tcp;
  */
 public class TcpDefine {
 	public static final int Basic_Client_Port = 30000;
+	public static final int Main_Client_Port = 30001;
 	public static final int Basic_Server_port = 9009;
 	
 	public static final String Xml_Header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -28,4 +29,5 @@ public class TcpDefine {
 	public static final String Basic_Client_AddSource 			= "31014";	// 添加数据源
 	public static final String Basic_Client_DelSource 			= "31015";	// 删除数据源
 	public static final String Basic_Client_GetSourceState 		= "31016";	// 获取数据源状态
+	public static final String Basic_Client_GetModInfo 			= "39004";	// 获取模块信息
 }

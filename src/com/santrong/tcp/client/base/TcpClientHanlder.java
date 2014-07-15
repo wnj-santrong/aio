@@ -110,7 +110,7 @@ public class TcpClientHanlder{
 
 	
 	public String sendMsgOnce(String host, int port, String xmlMsg) {
-		return this.sendMsgOnce(host, port, xmlMsg);
+		return this.sendMsgOnce(host, port, xmlMsg, null);
 	}
 	/**
 	 * 发送消息，可独立使用
@@ -160,7 +160,10 @@ public class TcpClientHanlder{
             /**  2, 读取返回消息***/
             //读取返回消息长度&消息头
 
-            int msglen_rec = in.readInt();
+//            int msglen_rec = in.readInt();
+            byte[] b = new byte[4];
+            in.read(b);
+            int msglen_rec = lBytesToInt(b);
             in.skipBytes(4);//跳过消息头的后4个字节
 
             //读取消息内容
@@ -227,7 +230,7 @@ public class TcpClientHanlder{
      * @param n int  
      * @return byte[]  
      */   
-   public static byte[] intToHH(int n) {   
+   public static byte[] intToHH(int n) {
      byte[] b = new byte[4];   
      b[3] = (byte) (n & 0xff);   
      b[2] = (byte) (n >> 8 & 0xff);   

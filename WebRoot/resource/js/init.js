@@ -67,69 +67,22 @@ function IndexClass() {
 
 IndexClass.prototype = {
     index:function() {
-		var search_def_text = '输入公司名称搜索';
-        $(".searchbar .keywords").focus(function(e){
-        	if ($(this).val() == search_def_text) {
-        		$(this).val('');
-        		$(this).css({'color' : '#000'});
-        	}
-        });
-        
-        $(".searchbar .keywords").blur(function(e){
-        	if ($(this).val() == '') {
-        		$(this).val(search_def_text);
-        		$(this).css({'color' : '#999'});
-        	}
-        });
-        
-        $(".salaryRank li").mouseover(function(e){
-        	$(this).siblings("li").removeClass("active");
-        	$(this).addClass("active");
-        });        
+    	$(".navigator a").click(function() {
+    		var pageName = $(this).text();
+    		var pageUrl = $(this).attr("rel");
+    		
+    		$(".sub_top").html(pageName);
+    		$.get(pageUrl, function(result){
+    		    $(".sub_content").html(result);
+    		    parsePageName();
+    		  });
+    	});
+    	
+    	$("code#pagename").remove();
+    	$(".navigator a:first").click();
     },
     
-    userlist:function() {
-        $(".infolist .advance").click(function(e){
-            var tr = $(this).parent().parent();            
-            $(".dialog input[name=sid]").val(tr.children().eq(0).text());
-            $(".dialog #uname").html(tr.children().eq(1).text());
-            $(".dialog input[name=jdate]").val(tr.children().eq(6).text());
-            $(".dialog input[name=rdate]").val(tr.children().eq(7).text());
-            $(".dialog").show();
-        });
-        
-        $(".dialog form").submit(function(e){
-            if(false){
-                return false;
-            }
-            return true;
-        });
-    }
-};
-
-function SearchClass() {
-    $(".houses li").hover(function() {
-        $(".houses li").removeClass("hover");
-        $(this).addClass("hover");
-    }, function() {
-        $(".houses li").removeClass("hover");
-    });
-    $(".bykeywords a.sel").click(function() {
-        return false;
-    });
-    subSearch();
-};
-SearchClass.prototype = {
-    loadestate:function() {
-        loadjs({filename:"/estate.js?rev={%ESTATE_JS%}"})
-    },
-    resale:function() {
-        this.loadestate();
-        loadjs({filename:"/search.js?rev={%SEARCH_JS%}"});
-        $(".nav li").removeClass("up");
-        $("#n_resale").addClass("up");
-        $("#name").focus();
-        verifyinsearchpage();
-        pathnav();
+    meeting:function() {
+//        alert(2);
     }
 };

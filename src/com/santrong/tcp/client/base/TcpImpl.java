@@ -11,4 +11,8 @@ public interface TcpImpl {
 	String toXml();
 	
 	void resolveXml(XmlReader xml);
+	
+	String getHost();
+	
+	int getPort();
 }

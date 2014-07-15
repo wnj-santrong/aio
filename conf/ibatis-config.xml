@@ -10,6 +10,8 @@
         
         
         <mapper class="com.santrong.demo.mapper.DemoMapper"/>
+        <mapper class="com.santrong.system.mapper.UserMapper"/>
+        <mapper class="com.santrong.system.mapper.MenuMapper"/>
         
         <!-- <mapper resource="com/santrong/demo/mapper/demo-sqlmap.xml"/> -->
         

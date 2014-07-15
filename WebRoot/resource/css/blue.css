@@ -1,0 +1,129 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background: url(../photo/171.gif); }
+.mainbav{ width:1280px; height:768px; margin:0 auto;position:absolute; top:50%;left:50%; overflow:hidden; margin-left:-640px; margin-top:-384px;}
+.topnav{ height:84px; background:url(../photo/bj_bg.jpg) no-repeat left top;}
+.topnav_logo { width:1280px; height:84px; margin:0 auto;}
+.topnav_logo p{ float:left; width:auto; padding:0 10px; margin:10px 10px 0 0;}
+.topnav_logo h2{  float:left;color:#fff; font-size:26px; line-height:80px;}
+.topnav_logo span { float:right; display:block; margin-top:50px; margin-right:20px; }
+.topnav_logo span a{ float:right; margin-right:2px;/* width:70px; */display:block;padding:0 15px;}
+.topnav_logo span a:hover{ color:#CF6; font-size:16px;}
+
+/*--------------中间内容----------------*/
+.column{ width:1280px; height:768px;margin:0;padding:5px 0 0 0; margin:0 auto; background:#fff;}
+
+.title_sid{float:left; display:block; width:220px; height:700px; margin-right:5px; height:100%; background:#5d9dd2 url(../photo/ul.png) no-repeat left top;}
+.title_sid ul {margin-top:50px; padding-top:100px; background:url(../photo/ul_bg.png) no-repeat 60px 0px;}
+.title_sid ul li{ background:url(../photo/ul_bottom.png) no-repeat left bottom;}
+.title_sid ul li a{ width:220px; height:40px;line-height:40px;display:inline-block; padding:5px 0; font-size:20px; text-align:center;}
+.title_sid ul li a:hover{ background:url(../photo/ul_ahover.jpg) no-repeat left top; color:#333; font-size:22px;}
+
+
+/*-------------内容--right---------------*/
+.submenu{ float:right;width:1054px;height:700px;}
+.sub_top {height:30px; line-height:30px; margin:0 0 5px 5px; background:#d6ecff; color:#006; font-size:18px; text-indent:5px;}
+
+/*-------------内容--right----文件管理-----------*/
+.sub_content{ width:1050px; height:472px; background:#fff;display:inline; margin:0 0 5px 5px;}
+.sub_content table { width:1030px; border-collapse:collapse; margin:10px 0 0 5px; position:relative;}
+.sub_content table tr, .con_right table th, .con_right table td{border:1px #CCC solid;}
+.sub_content table th{ height:30px; text-align:center;line-height:30px; font-size:16px; color:#333; background:#e2eef8;}
+.sub_content tbody b{ color:#0C0; font-weight:none;}
+.sub_content tbody i{ color:#F00; text-decoration:none;}
+.sub_content tbody tr td{height:30px; line-height:30px; text-align:center; color:#666; border-right:1px #ccc solid; overflow:hidden;}
+.sub_content tbody tr td a { color:#0a6aa5; text-decoration:none;}
+.sub_content tbody tr:hover{ background:#ecffca;}
+
+
+.sub_content table caption { margin:5px 0;height:30px; line-height:30px;background:#f5f5f5;}
+.table_btn { position:absolute; left:10px; top:10px;}
+.table_btn a{ background:url(../photo/orange70_none.png) no-repeat left top;float:right; display:block; width:70px; height:20px; line-height:20px; margin-right:10px; text-align:center;}
+.table_btn a:hover{ background:url(../photo/orange_hover.png) no-repeat left top;}
+.table_btn_right { position:absolute; right:20px; top:10px;}
+.table_btn_right a{ width:60px; height:20px;}
+
+.sub_content tfoot tr td{height:30px; line-height:30px; text-align:right; background:#f0f8ff;}
+.sub_content tfoot tr td a{ color:#06F; margin:0 5px; overflow:hidden;}
+
+
+/*
+.meeting_titile { width:100%; height:36px; background:#f1f8ff; margin-left:5px; border-bottom:1px #aacdf5 solid;}
+.meeting_titile li{ float:left; margin-top:10px;}
+.meeting_titile li a{ float:left;display:block; width:100px; height:26px; background:#c2dcf9; padding:0 20px; color:#666; font-size:18px; line-height:26px; margin-right:10px; text-align:center;}
+.meeting_titile li a:hover{ background:#5d9dd2; color:#fff;}
+*/
+
+.meeting  {width:1000px; border:1px #86b9e3 solid; margin:10px 0 0 10px; padding-top:10px; background:url(../photo/ph.png) no-repeat left top;}
+.meeting::after{ content:"";display:block;height:0; font-family:0; clear:both; visibility:hidden;}
+.meeting  li{ width:800px; float:left;  height:24px; line-height:24px; margin-bottom:10px;}
+.meeting  li p{ float:left; width:400px; display:block; margin-right:15px; text-align:right; font-weight:500; color:#666; font-size:16px; letter-spacing:2px;}
+.meeting  li span{ float:left;display:block; margin-right:10px;}
+.meeting  li span a { color:#09f; margin-right:15px; border:1px #09f solid; padding:1px 10px;}
+.meeting  li span a:hover, .save a:hover{ color:#f00;border:1px #f00 solid; background:#eeffed;}
+.meeting .rate {width:90px;}
+.meeting .add { color:#09f; margin-left:10px;}
+.meeting .add:hover { color:#F00;}
+.meeting .Data_address {border:0; height:22px; line-height:22px;}
+
+
+.system_set {width:490px; border:1px #86b9e3 solid; margin:10px 20px 10px 10px; padding:10px 0 6px 0; background:url(../photo/ph.png) no-repeat left top;display:inline;overflow:hidden;}
+.system_set dt{ text-align:center; font-size:16px; margin-bottom:10px;border-bottom:1px #b5d8f4 solid; padding-bottom:5px;}
+.system_set dd {width:460px; float:left;  height:24px; line-height:24px; margin-bottom:10px;}
+.system_set dd p{ float:left; width:200px; display:block; margin-right:15px; text-align:right; font-weight:500; color:#666; font-size:16px; letter-spacing:2px;}
+.system_set dd span{ float:left;display:block; margin-right:10px;}
+.system_set dd span a { color:#09f; margin-right:15px; border:1px #09f solid; padding:1px 10px;}
+.system_set dd span a:hover, .save a:hover{ color:#f00;border:1px #f00 solid; background:#eeffed;}
+.single { clear:both; width:490px !important; text-align:center !important;}
+
+/*----------会议 --直播----------*/
+.meeting_vod { float:left; margin-left:5px;  padding-top:10px; width:1000px;}
+.meeting_vod li{ float:left;width:230px;margin:0 20px 10px 0; text-align:center; color:#666; position:relative;background:#f1f8ff;  border-bottom:2px #5d9dd2 solid;}
+.meeting_vod li p{ margin:5px 0; overflow:hidden;}
+.meeting_vod li em { width:230px; height:131px; position:absolute; left:0; top:0px; background:url(../photo/guankan.png) no-repeat left top;  display:none; z-index:999;}
+.meeting_vod li .guankan_img {position:absolute; left:0; top:0; z-index:2;}
+.meeting_vod li a:hover em{ display:block;}
+
+/*----------会议 --点播----------*/
+
+.meeting_vod li b{ width:230px; height:131px; position:absolute; left:0; top:0px; background:url(../photo/vod_hover.png) no-repeat left top;  display:none; z-index:999;}
+.meeting_vod li .vod_img{position:absolute; left:0; top:0; z-index:2;}
+.meeting_vod li a:hover b{ display:block;}
+
+/*-----文本框----------*/
+
+.form_text{	border: 1px solid #CCCCCC; border-radius: 4px 4px 4px 4px;padding:4px;}
+.form_text{  
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.form_text:focus, textarea:focus { /*鼠标放上去变颜色－－高亮 --文本框*/
+  border-color: rgba(82, 168, 236, 0.8);
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);}
+
+.save {width:120px; margin:20px auto;}
+.save a {color:#09f; border:1px #09f solid; padding:2px 10px; display:inline;}
+/*----------会议 --分页----------*/
+.page { float:left; display:block; border-top:1px #09F solid; width:100%; margin:10px 0 0 0; padding-top:5px;text-indent:380px;}
+.page a{ color:#5d9dd2; padding:0 6px;}
+.page a:hover{ color:#F90;}
+
+/*----------窗口----------*/
+.window { width:600px; height:440px; background:#f1faff; border:1px #5d9dd2 solid; margin:0 auto;position:absolute; top:50%;left:50%; overflow:hidden; margin-left:-250px; margin-top:-200px;}
+.window dt{ height:30px; line-height:30px; background:#5d9dd2; border-bottom:#085786 1px solid; margin-bottom:10px; color:#FFF; font-size:18px; text-indent:5px;}
+.window dt a{ margin-left:496px; width:20px; height:20px; background:url(../photo/edit-delete.png) no-repeat right top;}
+.window dt a:hover{ background:url(../photo/delete-hover.png) no-repeat left 1px;}
+.window dd{ float:left; margin-bottom:10px;}
+.window dd p{ width:200px; float:left;display:block; text-align:right; line-height:22px;}
+.window dd span{ width:200px; float:left;display:block; margin-left:10px;}
+.window .win_save { margin:10px 0 0 200px; height: auto;}
+.window .win_save a{ display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin-right:20px; color:#5d9dd2; text-align:center;}
+.window .win_save a:hover{color:#f00;border:1px #f00 solid; background:#eeffed;}

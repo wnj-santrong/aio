@@ -1,7 +1,7 @@
 package com.santrong.tcp.client;
 
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.tcp.client.base.LocalTcpBase;
 import com.santrong.util.XmlReader;
 
 /**
@@ -9,7 +9,7 @@ import com.santrong.util.XmlReader;
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31009 extends AbstractTcp {
+public class LocalTcp31009 extends LocalTcpBase {
 	
 	// 返回值
 	private int resultCode;
@@ -76,9 +76,9 @@ public class LocalTcp31009 extends AbstractTcp {
 		this.confInUse = Integer.parseInt(xml.find("/MsgBody/GetResResp/ConfInUse").getText());
 		this.uniVodMax = Integer.parseInt(xml.find("/MsgBody/GetResResp/UniVodMax").getText());
 		this.uniCur = Integer.parseInt(xml.find("/MsgBody/GetResResp/UniCur").getText());
-		this.vodCur = Integer.parseInt(xml.find("/MsgBody/GetResResp/VdCur").getText());
-		this.freePcent = Integer.parseInt(xml.find("/MsgBody/GetResResp/FreePcent").getText());
-		this.freeSize = Integer.parseInt(xml.find("/MsgBody/GetResResp/FreeSize").getText());
+		this.vodCur = Integer.parseInt(xml.find("/MsgBody/GetResResp/VodCur").getText());
+		this.freePcent = Integer.parseInt(xml.find("/MsgBody/GetResResp/SpaceInfo/FreePcent").getText());
+		this.freeSize = Integer.parseInt(xml.find("/MsgBody/GetResResp/SpaceInfo/FreeSize").getText());
 		
 	}
 }

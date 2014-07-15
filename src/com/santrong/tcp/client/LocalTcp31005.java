@@ -1,10 +1,7 @@
 package com.santrong.tcp.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santrong.tcp.TcpDefine;
-import com.santrong.tcp.client.base.AbstractTcp;
+import com.santrong.tcp.client.base.LocalTcpBase;
 import com.santrong.util.XmlReader;
 
 /**
@@ -12,9 +9,9 @@ import com.santrong.util.XmlReader;
  * @date 2014年7月11日
  * @time 下午5:37:06
  */
-public class LocalTcp31005 extends AbstractTcp {
+public class LocalTcp31005 extends LocalTcpBase {
 	
-	private List<String> confIdList = new ArrayList<String>();
+	private String confId;
 	
 	private int resultCode;
 	private String _confId;
@@ -26,10 +23,11 @@ public class LocalTcp31005 extends AbstractTcp {
 	private int cMPSRcdSize;
 	private int rcdType;
 	
-	public void setConfIdList(List<String> confIdList) {
-		this.confIdList = confIdList;
+	public void setConfId(String confId) {
+		this.confId = confId;
 	}
-	
+
+
 	public int getResultCode() {
 		return resultCode;
 	}
@@ -95,9 +93,7 @@ public class LocalTcp31005 extends AbstractTcp {
 			sb.append("</MsgHead>");
 			sb.append("<MsgBody>");
 				sb.append("<StopConfRcdReq>");
-					for(String id : confIdList) {
-						sb.append("<ConfID type=\"string\">").append(id).append("</ConfID>");
-					}
+					sb.append("<ConfID type=\"string\">").append(this.confId).append("</ConfID>");
 				sb.append("</StopConfRcdReq>");
 			sb.append("</MsgBody>");
 		sb.append("</ReqMsg>");
