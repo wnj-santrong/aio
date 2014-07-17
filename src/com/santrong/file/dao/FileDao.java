@@ -21,4 +21,13 @@ public class FileDao extends BaseDao{
 		}
 		return null;
 	}
+	
+	public FileItem selectById(String id) {
+		
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.selectById(id);
+		}
+		return null;		
+	}
 }

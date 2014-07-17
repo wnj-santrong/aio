@@ -3,8 +3,8 @@
 <code id="pagename" style="display:none">c:index_a:file</code>
 <table>
     <caption>
-    <div class="table_btn"><a href="#">高级</a> <a href="#">下载</a><a href="#">删除</a><a href="#">编辑</a></div>
-    <span class="table_btn_right"><a href="#"><img src="photo/newcode_btn_03.png"></a> <a href="#"><img src="photo/btn_watching.png"></a> </span>
+    <div class="table_btn"><a href="#" id="fileDel">删除</a><a href="#" id="fileDownload">下载</a><a href="#" id="fileEdit">编辑</a></div>
+    <span class="table_btn_right"><a href="#" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a> </span>
     </caption>
     <colgroup>
     <col width="4%" />
@@ -34,7 +34,7 @@
     	<tr>
     		<td><form id="form1" name="form1" method="post" action="">
                     <label>
-                        <input type="checkbox" name="CheckboxGroup1" value="复选框" id="CheckboxGroup1_0" />
+                        <input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" />
                     </label>
                 </form></td>
     		<td>${file.duration}</td>

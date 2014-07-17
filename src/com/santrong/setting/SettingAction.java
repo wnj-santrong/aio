@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.log.Log;
@@ -39,18 +40,9 @@ public class SettingAction extends BaseAction{
 	/*
 	 * 管理员修改密码
 	 */
-	@RequestMapping(value="/user", method=RequestMethod.GET)
-	public String sysAdminGet() {
-		return "setting/user";
-	}
-	
-	
-	/*
-	 * 管理员修改密码
-	 */
 	@RequestMapping(value="/user", method=RequestMethod.POST)
 	@ResponseBody
-	public String sysAdminPost(String newname, String newpwd, String oldpwd) {
+	public String userUpdate(String newname, String newpwd, String oldpwd) {
 		if(StringUtils.isNullOrEmpty(newname) || StringUtils.isNullOrEmpty(newpwd) || StringUtils.isNullOrEmpty(oldpwd)) {
 			return "error_param";
 		}
@@ -74,21 +66,30 @@ public class SettingAction extends BaseAction{
 	/*
 	 * 数据库备份列表
 	 */
-	@RequestMapping("/database")
+	@RequestMapping("/dbList")
+	@ResponseBody
 	public String database() {
-		List<File> dbList = new ArrayList<File>();
-		dbList = FileUtils.searchFile(Global.dbBackupDir, "sql");
-		request.setAttribute("dbList", dbList);
-		return "setting/database";
+		List<String> nameList = new ArrayList<String>();
+		
+		List<File> dbList = FileUtils.searchFile(Global.dbBackupDir, "sql");
+		if(dbList != null) {
+			for(File f : dbList) {
+				nameList.add(f.getName());
+			}
+		}
+		
+		Gson gson = new Gson();
+		
+		return gson.toJson(nameList);
 	}
 	
 	
 	/*
 	 * 数据库备份操作
 	 */
-	@RequestMapping(value="/dbbackup", method=RequestMethod.POST)
+	@RequestMapping(value="/dbBackup", method=RequestMethod.POST)
 	@ResponseBody
-	public String dbbackup() {
+	public String dbBackup() {
 		String[] cmd = new String[] { "cmd.exe  /c mysqldump -uroot -p1996815 -B aio > " + Global.dbBackupDir + File.separator + "111.sql"};
 		
 		try {
@@ -112,9 +113,9 @@ public class SettingAction extends BaseAction{
 	/*
 	 * 数据库删除操作
 	 */
-	@RequestMapping(value="/dbdel", method=RequestMethod.POST)
+	@RequestMapping(value="/dbDel", method=RequestMethod.POST)
 	@ResponseBody
-	public String dbdel(String filename) {
+	public String dbDel(String filename) {
 		if(StringUtils.isNullOrEmpty(filename)) {
 			return "error_param";
 		}
@@ -130,9 +131,9 @@ public class SettingAction extends BaseAction{
 	/*
 	 * 数据库恢复操作
 	 */
-	@RequestMapping(value="/dbrestore", method=RequestMethod.POST)
+	@RequestMapping(value="/dbRestore", method=RequestMethod.POST)
 	@ResponseBody
-	public String dbrestore(String filename) {
+	public String dbRestore(String filename) {
 		if(StringUtils.isNullOrEmpty(filename)) {
 			return "error_param";
 		}
@@ -155,4 +156,70 @@ public class SettingAction extends BaseAction{
 		
 		return SUCCESS;
 	}	
+	
+	/*
+	 * 网络设置
+	 */
+	@RequestMapping(value="/network", method=RequestMethod.POST)
+	@ResponseBody
+	public String network(int type, String ip, String mask, String gateway) {
+		if(StringUtils.isNullOrEmpty(ip) || StringUtils.isNullOrEmpty(mask) || StringUtils.isNullOrEmpty(gateway)) {
+			return "error_param";
+		}
+		
+		return SUCCESS;
+	}	
+	
+	/*
+	 * 网络设置
+	 */
+	@RequestMapping(value="/ftp", method=RequestMethod.POST)
+	@ResponseBody
+	public String ftp(int useFtp, String host, String port, String username, String password, String duration1, String duration2) {
+		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(password)) {
+			return "error_param";
+		}
+		
+		return SUCCESS;
+	}
+	
+	/*
+	 * 网络设置
+	 */
+	@RequestMapping(value="/license", method=RequestMethod.POST)
+	@ResponseBody
+	public String license(String file) {
+		if(StringUtils.isNullOrEmpty(file)) {
+			return "error_param";
+		}
+		
+		return SUCCESS;
+	}
+	
+	/*
+	 * 网络设置
+	 */
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@ResponseBody
+	public String update(String file) {
+		if(StringUtils.isNullOrEmpty(file)) {
+			return "error_param";
+		}
+		
+		return SUCCESS;
+	}
+	
+	/*
+	 * 网络设置
+	 */
+	@RequestMapping(value="/language", method=RequestMethod.POST)
+	@ResponseBody
+	public String language(String lang) {
+		if(StringUtils.isNullOrEmpty(lang)) {
+			return "error_param";
+		}
+		
+		return SUCCESS;
+	}	
+		
 }

@@ -6,8 +6,41 @@
  * obj.filename: the filename  (example:  obj.filename = "/search.js?rev={%SEARCH_JS%}";)
  * obj.fn: callback function. (example:  obj.fn = function(jsfiles) {alert("hello" + jsfiles)}; )
  */
-jQuery(function($){});
+// jquery扩展
+jQuery(function($){
+	
+	$.fn.checkboxVals = function(params) {
+		var finalParams = {
+			must : true,
+			single : false
+		};
+		finalParams = $.extend(finalParams, params);
+		
+		var vals = "";
+		$(this).each(function(){
+			if($(this).attr("checked")) {
+				vals += "," + $(this).val();
+			}
+		});
+		if(vals != "") {
+			vals = vals.substr(1);
+		}
+		
+		if(finalParams.must && vals == "") {
+			alert("请选择一条记录");
+			return false;
+		}
+		
+		if(finalParams.single && vals.indexOf(",") != -1) {
+			alert("只能选择一条记录");
+			return false;
+		}
+		return vals;
+	};
+	
+});
 
+// 全局初始化
 function init() {   
     $(".close").click(function(e){
     	$(this).closest(".dialog").hide();
@@ -75,10 +108,13 @@ function init() {
 	});
 };
 
+// index模块初始化
 function IndexClass() {
 };
 
+//index模块的具体页面初始化
 IndexClass.prototype = {
+	// 全页面
     index:function() {
     	$("code#pagename").remove();
     	
@@ -96,84 +132,129 @@ IndexClass.prototype = {
     	$(".navigator a:first").click();
     },
     
+    // 会议管理
     meeting:function() {
     },
     
+    
+    // 视频播放
     play:function() {
     },
     
+    // 文件管理
     file:function() {
+    	
+    	$("#fileEdit").click(function(){
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
+    		if(values) {
+    			Boxy.load(Globals.ctx + "/file/fileEdit.action?id=" + values);
+    		}
+    	});
+    	
+    	$("#filePlay").click(function(){
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
+    		if(values) {
+    			var url = Globals.ctx + "/file/filePlay.action?id=" + values;
+    			window.open(url,"play","fullscreen=no,toolbar=no,menubar=no,scrollbars=no,resizable=yes,location=no,status=no");
+    		}
+    	});
+    	
+    	$("#fileDel").click(function(){
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals();
+    		if(values) {
+    			$.ajax({
+    				type : "POST",
+    				date : {ids : values},
+    				url : Globals.ctx + "/file/fileDownload.action",
+    				cache : false,
+    				success : function(result){
+    					alert(Message.dynamic(result));
+    				}
+    			});
+    		}
+    	});
+    	
+    	$("#fileDownload").click(function(){
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals();
+    		if(values) {
+    			$.ajax({
+    				type : "POST",
+    				date : {ids : values},
+    				url : Globals.ctx + "/file/fileDownload.action",
+    				cache : false,
+    				success : function(result){
+    					alert(Message.dynamic(result));
+    					//TODO refleshList
+    				}
+    			});
+    		}
+    	});
     },
     
+    // 系统管理
     setting:function() {
-    	$("code#pagename").remove();
-    	var completeCount = 0;
     	
-    	var modules = ['/setting/user.action', '/setting/database.action'];
-    	for(var i=0; i<modules.length; i++) {
-			$.ajax({
-				type : "GET",
-				url : Globals.ctx + modules[i],
-				cache : false,
+    	// 获取数据库
+    	var freshDbList = function() {
+    		$.ajax({
+				data : {},
+				dataType : "json",
+				url : Globals.ctx + "/setting/dbList.action",
 				success : function(result){
-					$(".modules").append(result);
-			    	completeCount++;
+					var html = "";
+					for(var i=0;i<result.length;i++){
+						html += "<li><span>" + result[i] + "</span>-----<a href=\"#\" class=\"dbRestore\">还原</a>---<a href=\"#\" class=\"dbDel\">删除</a></li>";
+					}
+					$("#dbList").html(html);
+					
+					
+					// 删除数据库
+					$(".dbDel").click(function(){
+						var filename = $(this).parent().find("span").text();
+						$.ajax({
+							type : "POST",
+							data : {"filename" : filename},
+							url : Globals.ctx + "/setting/dbDel.action",
+							cache : false,
+							success : function(result){
+								alert(Message.dynamic(result));
+								freshDbList();
+							}
+						});
+					});
+					
+					// 恢复数据库
+					$(".dbRestore").click(function(){
+						var filename = $(this).parent().find("span").text();
+						$.ajax({
+							type : "POST",
+							data : {"filename" : filename},
+							url : Globals.ctx + "/setting/dbRestore.action",
+							cache : false,
+							success : function(result){
+								alert(Message.dynamic(result));
+								freshDbList();
+							}
+						});
+					});				
 				}
-			});
+    		});
     	};
     	
-    	var thread = setInterval(function(){
-    		if(completeCount == modules.length) {
-    			parsePageName();
-    			clearInterval(thread);
-    		}
-    	}, 100);
-    }
-};
-
-function SettingClass() {
-};
-
-SettingClass.prototype = {
-	database:function() {
 		// 备份数据库
-		$("#dbbackup").click(function(){
+		$("#dbBackup").click(function(){
 			$.ajax({
 				type : "POST",
-				url : Globals.ctx + "/setting/dbbackup.action",
+				url : Globals.ctx + "/setting/dbBackup.action",
 				cache : false,
 				success : function(result){
 					alert(Message.dynamic(result));
+					freshDbList();
 				}
 			});
 		});
+    	
+		freshDbList();
 		
-		// 删除数据库
-		$(".deldb").click(function(){
-			var filename = $(this).parent().find("span").text()
-			$.ajax({
-				type : "POST",
-				data : {"filename" : filename},
-				url : Globals.ctx + "/setting/dbdel.action",
-				cache : false,
-				success : function(result){
-					alert(Message.dynamic(result));
-				}
-			});
-		});
-		
-		// 恢复数据库
-		$(".restore").click(function(){
-			var filename = $(this).parent().find("span").text()
-			$.ajax({
-				type : "POST",
-				data : {"filename" : filename},
-				url : Globals.ctx + "/setting/dbrestore.action",
-				cache : false,
-				success : function(result){
-					alert(Message.dynamic(result));
-				}
-			});
-		});
-	}
+    }
 };

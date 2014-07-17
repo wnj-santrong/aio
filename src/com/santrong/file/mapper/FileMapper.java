@@ -2,6 +2,7 @@ package com.santrong.file.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.santrong.file.entry.FileItem;
@@ -15,5 +16,8 @@ public interface FileMapper {
 	
     @Select("select * from web_file order by cts desc limit 14")
     List<FileItem> selectAll();
+    
+    @Select("select * from web_file where id=#{id}")
+    FileItem selectById(@Param("id") String id);
     
 }

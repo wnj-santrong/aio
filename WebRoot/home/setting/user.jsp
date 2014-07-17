@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../inc/common.jsp"%>
-<form action="${ctx}/setting/user.action" method="post" id="setting_form">
+<form action="${ctx}/setting/user.action" method="post" id="setting_user">
 	<dl class="system_set fr">
 	    <dt><fmt:message key="setting_user" /></dt>
 	    <dd>
