@@ -9,6 +9,7 @@
 // jquery扩展
 jQuery(function($){
 	
+	// 在jquery对象上扩展
 	$.fn.checkboxVals = function(params) {
 		var finalParams = {
 			must : true,
@@ -27,26 +28,44 @@ jQuery(function($){
 		}
 		
 		if(finalParams.must && vals == "") {
-			alert("请选择一条记录");
+			Boxy.alert(Message.dynamic("notice_must_select_one"));
 			return false;
 		}
 		
 		if(finalParams.single && vals.indexOf(",") != -1) {
-			alert("只能选择一条记录");
+			Boxy.alert(Message.dynamic("notice_only_one_select"));
 			return false;
 		}
 		return vals;
+	};
+	
+	// 在$上扩展
+	$.simplePost = function(url, data, success) {
+		if(!url) {
+			return;
+		}
+		
+		$.ajax({
+			type : "POST",
+			date : data,
+			url : url,
+			cache : false,
+			success : function(result){
+				Boxy.alert(Message.dynamic(result));
+				if(success)success();
+			}
+		});
 	};
 	
 });
 
 // 全局初始化
 function init() {   
-    $(".close").click(function(e){
-    	$(this).closest(".dialog").hide();
+    $(".close").unbind("click").click(function(e){
+    	Boxy.get(this).hideAndUnload();
     });
     
-	$(".submit").click(function(){
+	$(".submit").unbind("click").click(function(){
     	var form = $(this).closest("form");
     	if(form.length > 0){
     		form.ajaxSubmit({
@@ -99,8 +118,9 @@ function init() {
 	    		success : function(result) {
 	    			if(result == "success") {
 	    				form.clearForm();
+	    				$(".close").click();
 	    			}
-	    			alert(Message.dynamic(result));
+	    			Boxy.alert(Message.dynamic(result));
 	    		}
 	    	});
     	}
@@ -126,6 +146,7 @@ IndexClass.prototype = {
     		$.get(pageUrl, function(result){
     		    $(".sub_content").html(result);
     		    parsePageName();
+    		    $("code#pagename").remove();
     		  });
     	});
     	
@@ -147,7 +168,12 @@ IndexClass.prototype = {
     	$("#fileEdit").click(function(){
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
-    			Boxy.load(Globals.ctx + "/file/fileEdit.action?id=" + values);
+    			Boxy.load(Globals.ctx + "/file/fileEdit.action?id=" + values, {
+    				modal : true,
+    				afterShow : function() {
+    					parsePageName();
+    				}
+    			});
     		}
     	});
     	
@@ -162,31 +188,14 @@ IndexClass.prototype = {
     	$("#fileDel").click(function(){
     		var values = $("input[name=CheckboxGroup1]").checkboxVals();
     		if(values) {
-    			$.ajax({
-    				type : "POST",
-    				date : {ids : values},
-    				url : Globals.ctx + "/file/fileDownload.action",
-    				cache : false,
-    				success : function(result){
-    					alert(Message.dynamic(result));
-    				}
-    			});
+    			$.simplePost(Globals.ctx + "/file/fileDel.action", {ids : values});     			
     		}
     	});
     	
     	$("#fileDownload").click(function(){
     		var values = $("input[name=CheckboxGroup1]").checkboxVals();
     		if(values) {
-    			$.ajax({
-    				type : "POST",
-    				date : {ids : values},
-    				url : Globals.ctx + "/file/fileDownload.action",
-    				cache : false,
-    				success : function(result){
-    					alert(Message.dynamic(result));
-    					//TODO refleshList
-    				}
-    			});
+        		$.simplePost(Globals.ctx + "/file/fileDownload.action", {ids : values});    			
     		}
     	});
     },
@@ -211,31 +220,13 @@ IndexClass.prototype = {
 					// 删除数据库
 					$(".dbDel").click(function(){
 						var filename = $(this).parent().find("span").text();
-						$.ajax({
-							type : "POST",
-							data : {"filename" : filename},
-							url : Globals.ctx + "/setting/dbDel.action",
-							cache : false,
-							success : function(result){
-								alert(Message.dynamic(result));
-								freshDbList();
-							}
-						});
+						$.simplePost(Globals.ctx + "/setting/dbDel.action", {"filename" : filename}, freshDbList);
 					});
 					
 					// 恢复数据库
 					$(".dbRestore").click(function(){
 						var filename = $(this).parent().find("span").text();
-						$.ajax({
-							type : "POST",
-							data : {"filename" : filename},
-							url : Globals.ctx + "/setting/dbRestore.action",
-							cache : false,
-							success : function(result){
-								alert(Message.dynamic(result));
-								freshDbList();
-							}
-						});
+						$.simplePost(Globals.ctx + "/setting/dbRestore.action", {"filename" : filename});
 					});				
 				}
     		});
@@ -243,15 +234,7 @@ IndexClass.prototype = {
     	
 		// 备份数据库
 		$("#dbBackup").click(function(){
-			$.ajax({
-				type : "POST",
-				url : Globals.ctx + "/setting/dbBackup.action",
-				cache : false,
-				success : function(result){
-					alert(Message.dynamic(result));
-					freshDbList();
-				}
-			});
+			$.simplePost(Globals.ctx + "/setting/dbBackup.action", null, freshDbList);
 		});
     	
 		freshDbList();

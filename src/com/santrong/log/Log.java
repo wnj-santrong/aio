@@ -27,11 +27,11 @@ public class Log {
 		logger.error(obj);
 	}
 	
-	public static void printStackTrace(Throwable Ex){
-		if(Ex==null){return;}
-		StackTraceElement[] stackTraceElement = Ex.getStackTrace();
+	public static void printStackTrace(Throwable e){
+		if(e==null){return;}
+		StackTraceElement[] stackTraceElement = e.getStackTrace();
 		if(stackTraceElement==null){return;}
-		logger.error(Ex.toString());
+		logger.error(e.toString());
 		for(int i=0 ; i < stackTraceElement.length ;i++){
 			logger.error(stackTraceElement[i].toString());
 	    }

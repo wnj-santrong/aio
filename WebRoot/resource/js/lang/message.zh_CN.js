@@ -5,6 +5,8 @@ var Message = {
 	error_oldpwd : "\u65e7\u5bc6\u7801\u9519\u8bef",
 	error_file_exists : "\u6587\u4ef6\u5df2\u5b58\u5728", 
 	error_file_not_exists : "\u6587\u4ef6\u4e0d\u5b58\u5728", 
+	notice_must_select_one : "\u8bf7\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
+	notice_only_one_select : "\u53ea\u80fd\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	dynamic : function(key, value) {
 		if (key == "") {
 			return "";

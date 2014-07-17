@@ -444,7 +444,7 @@ Boxy.prototype = {
             }
             this.modalBlackout = jQuery('<div class="boxy-modal-blackout"></div>')
                 .css({zIndex: Boxy._nextZ(),
-                      opacity: 0.7,
+                      opacity: 0.2,
                       width: jQuery(document).width(),
                       height: jQuery(document).height()})
                 .appendTo(document.body);
@@ -471,11 +471,11 @@ Boxy.prototype = {
         var self = this;
         if (this.options.modal) {
             jQuery(document.body).unbind('keypress.boxy');
-            this.modalBlackout.animate({opacity: 0}, function() {
+            this.modalBlackout.animate({opacity: 0}, 0,  function() {
                 jQuery(this).remove();
             });
         }
-        this.boxy.stop().animate({opacity: 0}, 300, function() {
+        this.boxy.stop().animate({opacity: 0}, 0, function() {
             self.boxy.css({display: 'none'});
             self.visible = false;
             self._fire('afterHide');

@@ -4,7 +4,7 @@
 	<div class="window">
 	    <div>
 	        <dl>
-	            <dt>文件编辑 <a href="#">&nbsp;&nbsp;&nbsp;</a></dt>
+	            <dt>文件编辑 <a href="#" class="close">&nbsp;&nbsp;&nbsp;</a></dt>
 	            <dd><p>课程名称:</p><span><input name="text" type="text"  class="form_text"/></span></dd>
 	            <dd><p>录制时间:</p><span><input name="text" type="text"  class="form_text"/></span></dd>
 	            <dd><p>老师名称:</p><span><input name="text" type="text"  class="form_text"/></span></dd>
@@ -14,6 +14,6 @@
 	        </dl>
 	    </div>
 	    <div class="clr"></div>
-	    <div class="win_save"><a href="#" class="submmit">保存</a><a href="#">取消</a></div>
+	    <div class="win_save"><a href="#" class="submit">保存</a><a href="#" class="close">取消</a></div>
 	</div>
 </form>

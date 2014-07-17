@@ -49,15 +49,20 @@ public class SettingAction extends BaseAction{
 		
 		newpwd = CommonTools.getMD5(newpwd);
 		oldpwd = CommonTools.getMD5(oldpwd);
-		UserDao userDao = new UserDao();
-		UserItem user = userDao.selectByUserName("admin");
-		if(user.getPassword().equals(oldpwd)){
-			user.setShowName(newname);
-			user.setUsername(newname);
-			user.setPassword(newpwd);
-			userDao.update(user);
-		}else{
-			return "error_oldpwd";
+		try{
+			UserDao userDao = new UserDao();
+			UserItem user = userDao.selectByUserName("admin");
+			if(user.getPassword().equals(oldpwd)){
+				user.setShowName(newname);
+				user.setUsername(newname);
+				user.setPassword(newpwd);
+				userDao.update(user);
+			}else{
+				return "error_oldpwd";
+			}
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+			return FAIL;
 		}
 		return SUCCESS;
 	}	
