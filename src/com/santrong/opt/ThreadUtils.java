@@ -15,7 +15,7 @@ import com.santrong.log.Log;
  * @Date 2014-7-4
  * @Time 下午4:39:59
  */
-public class ThreadUtil{
+public class ThreadUtils{
 	
 	// 绑定线程的数据库连接对象
     private static final ThreadLocal<Connection> _connection = new ThreadLocal<Connection>();

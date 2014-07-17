@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.santrong.log.Log;
-import com.santrong.opt.ThreadUtil;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.entry.UserItem;
 
 /**
@@ -17,6 +17,8 @@ import com.santrong.setting.entry.UserItem;
  * @Time 下午4:38:21
  */
 public abstract class BaseAction {
+	protected final String SUCCESS = "success";
+	protected final String FAIL = "fail";
 	
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
@@ -30,11 +32,11 @@ public abstract class BaseAction {
 	public final void init(HttpServletRequest request, HttpServletResponse response) {
 		this.request = request;
 		this.response = response;
-		ThreadUtil.setHttpSession(this.request.getSession());
+		ThreadUtils.setHttpSession(this.request.getSession());
 	}		
 	
 	public final UserItem currentUser() {
-		UserItem user = (UserItem)ThreadUtil.currentHttpSession().getAttribute("user");
+		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute("user");
 		return user;
 	}
 	

@@ -7,7 +7,7 @@ package com.santrong.home.entry;
  */
 public class MenuItem {
 	private String id;
-	private String menuname;
+	private String menuName;
 	private String parentId;
 	private String pageUrl;
 	private int priority;
@@ -18,11 +18,11 @@ public class MenuItem {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getMenuname() {
-		return menuname;
+	public String getMenuName() {
+		return menuName;
 	}
-	public void setMenuname(String menuname) {
-		this.menuname = menuname;
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
 	public String getParentId() {
 		return parentId;

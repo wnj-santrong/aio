@@ -56,7 +56,7 @@ public class SimpleDataSource implements DataSource {
 
 	@Override
 	public Connection getConnection() throws SQLException {
-		return ThreadUtil.currentConnection();
+		return ThreadUtils.currentConnection();
 	}
 
 

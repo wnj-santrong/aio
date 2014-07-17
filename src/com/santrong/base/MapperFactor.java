@@ -2,7 +2,7 @@ package com.santrong.base;
 
 import java.sql.SQLException;
 
-import com.santrong.opt.ThreadUtil;
+import com.santrong.opt.ThreadUtils;
 
 /**
  * @Author weinianjie
@@ -12,7 +12,7 @@ import com.santrong.opt.ThreadUtil;
 public class MapperFactor {
 	public <T> T xx(Class<T> T) {
 		try {
-			return ThreadUtil.currentSqlSession().getMapper(T);
+			return ThreadUtils.currentSqlSession().getMapper(T);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

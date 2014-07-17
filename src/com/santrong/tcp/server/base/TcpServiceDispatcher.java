@@ -8,7 +8,7 @@ import java.net.Socket;
 
 import com.santrong.log.Log;
 import com.santrong.opt.MsgCode;
-import com.santrong.opt.ThreadUtil;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.util.XmlReader;
 
 public class TcpServiceDispatcher implements Runnable{
@@ -86,7 +86,7 @@ public class TcpServiceDispatcher implements Runnable{
 			os.close();
 			out.close();
 			clientSocket.close();
-			ThreadUtil.closeAll();
+			ThreadUtils.closeAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

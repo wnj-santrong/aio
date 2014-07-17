@@ -54,29 +54,30 @@ Querystring.prototype = {
  * 分析当前页面的<code id="pagename">c:xxx_a:xxx_par1:xxx_par2:xxx...</code>
  */
 function parsePageName() {
+	init();
+	
     var qs = new Querystring();
     var def = Globals.define;
     def.pgn = {c:"", a:""};
-    var code = $("code#pagename");
-    if (code.length == 0) {
-        return false;
-    }
-    qs.parse(code.html());
-    def.pgn.c = qs.has("c") ? qs.get("c") : '';
-    def.pgn.a = qs.has("a") ? qs.get("a") : '';
-    try {
-        if(def.pgn.c === "") {
-            return;
+    
+    $("code#pagename").each(function(){
+    	qs.parse($(this).html());
+        def.pgn.c = qs.has("c") ? qs.get("c") : '';
+        def.pgn.a = qs.has("a") ? qs.get("a") : '';
+        try {
+            if(def.pgn.c === "") {
+                return;
+            }
+            def.pgn.c = def.pgn.c.substr(0, 1).toUpperCase() + def.pgn.c.substr(1);
+            var command  = 'var obj = new ' + def.pgn.c + 'Class(); ';
+            if(def.pgn.a !== "") {
+                command += 'obj.' + def.pgn.a + '()';
+            }
+            eval(command);
+        } catch (e) {
+//            jslog("jslog", "parsePageName", def.pgn.c, def.pgn.a);
         }
-        def.pgn.c = def.pgn.c.substr(0, 1).toUpperCase() + def.pgn.c.substr(1);
-        var command  = 'var obj = new ' + def.pgn.c + 'Class(); ';
-        if(def.pgn.a !== "") {
-            command += 'obj.' + def.pgn.a + '()';
-        }
-        eval(command);
-    } catch (e) {
-//        jslog("jslog", "parsePageName", def.pgn.c, def.pgn.a);
-    }
+    });
     qs = null;
 }
 

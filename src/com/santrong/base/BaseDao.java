@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.santrong.log.Log;
 import com.santrong.opt.SimpleDataSource;
-import com.santrong.opt.ThreadUtil;
+import com.santrong.opt.ThreadUtils;
 
 
 /**
@@ -29,7 +29,7 @@ public abstract class BaseDao {
 		if(sqlSession == null) {
 			try {
 				
-				sqlSession = ThreadUtil.currentSqlSession();
+				sqlSession = ThreadUtils.currentSqlSession();
 				
 			} catch (SQLException e) {
 				Log.error(e);

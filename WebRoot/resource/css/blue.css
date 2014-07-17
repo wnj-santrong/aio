@@ -10,8 +10,6 @@ body{ background: url(../photo/171.gif); }
 .topnav_logo span a{ float:right; margin-right:2px;/* width:70px; */display:block;padding:0 15px;}
 .topnav_logo span a:hover{ color:#CF6; font-size:16px;}
 
-.warn {color:#ee0000;}
-
 /*--------------中间内容----------------*/
 .column{ width:1280px; height:768px;margin:0;padding:5px 0 0 0; margin:0 auto; background:#fff;}
 
@@ -129,3 +127,10 @@ body{ background: url(../photo/171.gif); }
 .window .win_save { margin:10px 0 0 200px; height: auto;}
 .window .win_save a{ display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin-right:20px; color:#5d9dd2; text-align:center;}
 .window .win_save a:hover{color:#f00;border:1px #f00 solid; background:#eeffed;}
+
+/*----------公共的-提醒-警告-优先级最高----------*/
+.warn {color:#ee0000;}
+.error {color:#ee0000;}
+.notice {color:#ee0000;}
+.text_warn {border:solid 1px #ee0000;}
+.radio_warn {}

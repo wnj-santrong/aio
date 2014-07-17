@@ -7,7 +7,7 @@ package com.santrong.setting.entry;
  */
 public class UserItem {
 	private String id;
-	private String showname;
+	private String showName;
 	private String username;
 	private String password;
 	
@@ -17,11 +17,11 @@ public class UserItem {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getShowname() {
-		return showname;
+	public String getShowName() {
+		return showName;
 	}
-	public void setShowname(String showname) {
-		this.showname = showname;
+	public void setShowName(String showName) {
+		this.showName = showName;
 	}
 	public String getUsername() {
 		return username;

@@ -8,7 +8,7 @@ import com.santrong.demo.entry.DemoForm;
 import com.santrong.demo.entry.DemoView;
 import com.santrong.demo.mapper.DemoMapper;
 import com.santrong.log.Log;
-import com.santrong.opt.ThreadUtil;
+import com.santrong.opt.ThreadUtils;
 
 /**
  * @Author weinianjie
@@ -28,7 +28,7 @@ public class DemoDao extends BaseDao{
 		
 		try{
 			
-			Connection conn = ThreadUtil.currentConnection();
+			Connection conn = ThreadUtils.currentConnection();
 			Statement stm = conn.createStatement();
 			stm.executeUpdate(sql);
 //			stm.execute(arg0);

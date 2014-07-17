@@ -2,10 +2,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-
-			</div><!-- end right -->
-		</div><!-- end maintain -->
-	</div><!-- end wrapper -->
-</body>
-</html>
+<fmt:setLocale value="zh_CN" /> 
+<fmt:setBundle basename="message" />

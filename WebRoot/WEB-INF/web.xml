@@ -15,7 +15,6 @@
 			<!-- 免登陆页面 -->
 			<param-name>passUrls</param-name>
 			<param-value>
-				/
 			</param-value>
 		</init-param>
 	</filter>  
@@ -25,7 +24,7 @@
 	</filter-mapping>
 	<filter-mapping>  
 		<filter-name>CommonFilter</filter-name>  
-		<url-pattern>/</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
   	
   	
@@ -49,10 +48,6 @@
     <servlet-mapping>  
         <servlet-name>spring</servlet-name>  
         <url-pattern>*.action</url-pattern>  
-    </servlet-mapping>
-    <servlet-mapping>  
-        <servlet-name>spring</servlet-name>  
-        <url-pattern>/</url-pattern>  
     </servlet-mapping>
     
 

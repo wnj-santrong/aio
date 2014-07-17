@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.santrong.log.Log;
-import com.santrong.opt.ThreadUtil;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.system.Global;
 
 /**
@@ -36,10 +36,7 @@ public class CommonFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		
-		ThreadUtil.setHttpSession(request.getSession());
-		
-		//打个标记，表示该request曾经来过过滤器
-		request.setAttribute("passFilter", 1);
+		ThreadUtils.setHttpSession(request.getSession());
 		
 		String url = request.getRequestURI();
 		if (url != null) {
@@ -69,7 +66,7 @@ public class CommonFilter implements Filter{
 			if (!pass) {
 				//TODO 校验菜单权限
 				if(passUrls == null) {
-					response.sendRedirect("/login.do");
+					response.sendRedirect("/login.action");
 				}
 			}
 		}
@@ -80,7 +77,7 @@ public class CommonFilter implements Filter{
 		 * ---------以下是后置执行-------------
 		 */
 		
-		ThreadUtil.closeAll();
+		ThreadUtils.closeAll();
 	}
 
 

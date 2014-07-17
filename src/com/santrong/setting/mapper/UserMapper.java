@@ -16,7 +16,7 @@ public interface UserMapper {
     @Select("select * from web_user where username=#{username}")
     UserItem selectByUserName(@Param("username") String username);
     
-    @Update("update web_user set username=#{username}, password=#{password} where id=#{id}")
+    @Update("update web_user set showName=#{showName}, username=#{username}, password=#{password} where id=#{id}")
     int update(UserItem user);
     
 }

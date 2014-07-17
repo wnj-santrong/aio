@@ -40,7 +40,7 @@ public class SessionManager {
     	
         try {
         	
-            Connection conn = ThreadUtil.currentConnection();
+            Connection conn = ThreadUtils.currentConnection();
             return sqlMapper.openSession(conn);
 
         } catch (Exception e) {
