@@ -16,6 +16,8 @@ import com.santrong.log.Log;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
+import com.santrong.system.network.NetworkInfo;
+import com.santrong.system.network.SystemUtils;
 import com.santrong.util.CommonTools;
 import com.santrong.util.FileUtils;
 
@@ -163,20 +165,42 @@ public class SettingAction extends BaseAction{
 	}	
 	
 	/*
-	 * 网络设置
+	 * 网络设置获取
 	 */
-	@RequestMapping(value="/network", method=RequestMethod.POST)
+	@RequestMapping(value="/networkGet", method=RequestMethod.GET)
 	@ResponseBody
-	public String network(int type, String ip, String mask, String gateway) {
+	public String inputNetwork(int type) {// lan 0, wan 1
+		NetworkInfo info = SystemUtils.getNetwork(type);
+		Gson gson = new Gson();
+		
+		return gson.toJson(info);
+	}	
+	
+	/*
+	 * 网络设置写入
+	 */
+	@RequestMapping(value="/networkPost", method=RequestMethod.POST)
+	@ResponseBody
+	public String saveNetwork(int type, String ip, String mask, String gateway) {
 		if(StringUtils.isNullOrEmpty(ip) || StringUtils.isNullOrEmpty(mask) || StringUtils.isNullOrEmpty(gateway)) {
 			return "error_param";
+		}
+		
+		NetworkInfo info = new NetworkInfo();
+		info.setIndex(type);
+		info.setIp(ip);
+		info.setMask(mask);
+		info.setGateway(gateway);
+		
+		if(!SystemUtils.setNetwork(info)) {
+			return FAIL;
 		}
 		
 		return SUCCESS;
 	}	
 	
 	/*
-	 * 网络设置
+	 * ftp设置
 	 */
 	@RequestMapping(value="/ftp", method=RequestMethod.POST)
 	@ResponseBody
@@ -189,7 +213,7 @@ public class SettingAction extends BaseAction{
 	}
 	
 	/*
-	 * 网络设置
+	 * license
 	 */
 	@RequestMapping(value="/license", method=RequestMethod.POST)
 	@ResponseBody
@@ -202,7 +226,7 @@ public class SettingAction extends BaseAction{
 	}
 	
 	/*
-	 * 网络设置
+	 * 系统升级
 	 */
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	@ResponseBody
@@ -215,7 +239,7 @@ public class SettingAction extends BaseAction{
 	}
 	
 	/*
-	 * 网络设置
+	 * 语言设置
 	 */
 	@RequestMapping(value="/language", method=RequestMethod.POST)
 	@ResponseBody

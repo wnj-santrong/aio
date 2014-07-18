@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../inc/common.jsp"%>
-<form action="${ctx}/setting/network.action" method="post" id="setting_wan">
-	<input type="hidden" name="type" value="0" />
+<form action="${ctx}/setting/networkPost.action" method="post" id="setting_wan">
+	<input type="hidden" name="type" value="1" />
 	<dl class="system_set fl">
 	    <dt><fmt:message key="setting_wan" /></dt>
 	    <dd>

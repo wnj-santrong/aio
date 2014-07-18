@@ -117,7 +117,7 @@ function init() {
 	    		},
 	    		success : function(result) {
 	    			if(result == "success") {
-	    				form.clearForm();
+//	    				form.clearForm();
 	    				$(".close").click();
 	    			}
 	    			Boxy.alert(Message.dynamic(result));
@@ -202,6 +202,29 @@ IndexClass.prototype = {
     
     // 系统管理
     setting:function() {
+    	// 获取wan
+    	$.ajax({
+    		data : {type : 1},
+    		dataType : "json",
+    		url : Globals.ctx + "/setting/networkGet.action",
+    		success : function(result) {
+    			$("#setting_wan input[name=ip]").val(result.ip);
+    			$("#setting_wan input[name=mask]").val(result.mask);
+    			$("#setting_wan input[name=gateway]").val(result.gateway);
+    		}
+    	}); 
+    	
+    	// 获取lan
+    	$.ajax({
+    		data : {type : 0},
+    		dataType : "json",
+    		url : Globals.ctx + "/setting/networkGet.action",
+    		success : function(result) {
+    			$("#setting_lan input[name=ip]").val(result.ip);
+    			$("#setting_lan input[name=mask]").val(result.mask);
+    			$("#setting_lan input[name=gateway]").val(result.gateway);
+    		}
+    	});
     	
     	// 获取数据库
     	var freshDbList = function() {
