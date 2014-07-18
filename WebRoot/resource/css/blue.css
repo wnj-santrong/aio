@@ -128,6 +128,13 @@ body{ background: url(../photo/171.gif); }
 .window .win_save a{ display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin-right:20px; color:#5d9dd2; text-align:center;}
 .window .win_save a:hover{color:#f00;border:1px #f00 solid; background:#eeffed;}
 
+/*----------pagination分页--------------------*/
+.pagination {font-size:80%;}       
+.pagination a {text-decoration:none; border:solid 1px #AAE; color:#15B;}
+.pagination a, .pagination span {display:block; float:left; padding:0.3em 0.5em; margin-right:5px; margin-bottom:5px; min-width:1em; text-align:center;}
+.pagination .current {background:#26B; color:#fff; border:solid 1px #AAE;}
+.pagination .current.prev, .pagination .current.next{color:#999; border-color:#999; background:#fff;}
+
 /*----------公共的-提醒-警告-优先级最高----------*/
 .warn {color:#ee0000;}
 .error {color:#ee0000;}

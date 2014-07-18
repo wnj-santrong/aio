@@ -29,29 +29,17 @@
             <!-- 录制时长 -->
         </tr>
     </thead>
-    <tbody>
-    <c:forEach items="${fileList}" var="file">
-    	<tr>
-    		<td><form id="form1" name="form1" method="post" action="">
-                    <label>
-                        <input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" />
-                    </label>
-                </form></td>
-    		<td>${file.duration}</td>
-    		<td>${file.courseName}</td>
-    		<td>${file.fileSize}</td>
-    		<td>${file.status}</td>
-    		<td>${file.level}</td>
-    		<td>${file.teacher}</td>
-    		<td>${file.remark}</td>
-    	</tr>
-    </c:forEach>
+    <tbody id="fileList">
+
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="8"><a href="#">上一页</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">下一页</a></td>
+            <!-- <td colspan="8"><a href="#">上一页</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">下一页</a></td> -->
         </tr>
     </tfoot>
 </table>
+<div id="pagination" style="text-align:right;"></div>
+<input type="hidden" name="fileCount" value="${query.count}" />
+<input type="hidden" name="pageSize" value="${query.pageSize}" />
 
 

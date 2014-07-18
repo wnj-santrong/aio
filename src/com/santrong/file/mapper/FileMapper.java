@@ -1,7 +1,6 @@
 package com.santrong.file.mapper;
 
-import java.util.List;
-
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -13,11 +12,10 @@ import com.santrong.file.entry.FileItem;
  * @Time 下午10:33:09
  */
 public interface FileMapper {
-	
-    @Select("select * from web_file order by cts desc limit 14")
-    List<FileItem> selectAll();
     
     @Select("select * from web_file where id=#{id}")
     FileItem selectById(@Param("id") String id);
     
+    @Delete("delete from web_file where id=#{id}")
+    int deleteById(@Param("id") String id);    
 }

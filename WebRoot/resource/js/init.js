@@ -47,7 +47,7 @@ jQuery(function($){
 		
 		$.ajax({
 			type : "POST",
-			date : data,
+			data : data,
 			url : url,
 			cache : false,
 			success : function(result){
@@ -165,6 +165,36 @@ IndexClass.prototype = {
     // 文件管理
     file:function() {
     	
+    	var fileCount = $("input[name=fileCount]").val();
+    	var pageSize = $("input[name=pageSize]").val();
+    	$("#pagination").pagination(fileCount, {
+    		items_per_page : pageSize,
+    		callback : function(current_page, containers) {
+    			$.ajax({
+    				data : {pageNum : current_page},
+    				dataType : "json",
+    				url : Globals.ctx + "/file/fileList.action",
+    				success : function(result){
+    					var html = "";
+    					for(var i=0;i<result.length;i++){
+	    				    html += "<tr>";
+	    				    html += "<td><input type=\"checkbox\" name=\"CheckboxGroup1\" value=\"" + result[i].id + "\" id=\"CheckboxGroup1_0\" /></td>";
+	    				    html += "<td>" + result[i].duration + "</td>";
+	    				    html += "<td>" + result[i].courseName + "</td>";
+	    				    html += "<td>" + result[i].fileSize + "</td>";
+	    				    html += "<td>" + result[i].status + "</td>";
+	    				    html += "<td>" + result[i].level + "</td>";
+	    				    html += "<td>" + result[i].teacher + "</td>";
+	    				    html += "<td>" + result[i].remark + "</td>";
+	    				    html += "</tr>";
+    					}
+    					$("#fileList").html(html);
+    				}
+    			});
+    		}
+    	});
+    	
+    	
     	$("#fileEdit").click(function(){
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
@@ -186,7 +216,7 @@ IndexClass.prototype = {
     	});
     	
     	$("#fileDel").click(function(){
-    		var values = $("input[name=CheckboxGroup1]").checkboxVals();
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals();alert(values);
     		if(values) {
     			$.simplePost(Globals.ctx + "/file/fileDel.action", {ids : values});     			
     		}

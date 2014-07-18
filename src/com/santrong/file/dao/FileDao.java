@@ -1,10 +1,20 @@
 package com.santrong.file.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseDao;
 import com.santrong.file.entry.FileItem;
+import com.santrong.file.entry.FileQuery;
 import com.santrong.file.mapper.FileMapper;
+import com.santrong.log.Log;
+import com.santrong.opt.ThreadUtils;
+import com.santrong.util.BeanUtils;
+import com.santrong.util.criteria.Statement;
 
 /**
  * @author weinianjie
@@ -13,14 +23,91 @@ import com.santrong.file.mapper.FileMapper;
  */
 public class FileDao extends BaseDao{
 	
-	public List<FileItem> selectAll() {
+	public List<FileItem> selectByPage(FileQuery query) {
 		
-		FileMapper mapper = this.getMapper(FileMapper.class);
-		if(mapper != null) {
-			return mapper.selectAll();
+		List<FileItem> list = new ArrayList<FileItem>();
+		
+		try{
+			Statement criteria = new Statement("web_file", "f");
+			// 条件
+			if(!StringUtils.isNullOrEmpty(query.getKeyword())) {
+				criteria.where(or(
+						like("f.showName", "%" + query.getKeyword() + "%"),
+						like("f.fileName", "%" + query.getKeyword() + "%"),
+						like("f.courseName", "%" + query.getKeyword() + "%"),
+						like("f.teacher", "%" + query.getKeyword() + "%"),
+						like("f.remark", "%" + query.getKeyword() + "%")));
+			}
+			if(query.getLevel() != -1) {
+				criteria.where(eq("f.level", "?"));
+				criteria.setIntParam(query.getLevel());
+			}
+			// 排序
+			if(!StringUtils.isNullOrEmpty(query.getOrderBy())) {
+				if("desc".equalsIgnoreCase(query.getOrderRule())) {
+					criteria.desc("f." + query.getOrderBy());
+				}else {
+					criteria.asc("f." + query.getOrderBy());
+				}
+			}
+			
+			// 分页
+			criteria.limit(query.getBeginIndex(), query.getPageSize());
+			
+			Log.debug("===============criteria:" + criteria.toString());
+			
+			Connection conn = ThreadUtils.currentConnection();
+			PreparedStatement stm = criteria.getRealStatement(conn);
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()){
+				FileItem item = new FileItem();
+				BeanUtils.Rs2Bean(rs, item);
+				list.add(item);
+			}
+			
+		}catch(Exception e){
+			Log.printStackTrace(e);
 		}
-		return null;
+		
+		return list;
 	}
+	
+	public int selectByPageCount(FileQuery query) {
+		
+		int count = 0;
+		
+		try{
+			Statement criteria = new Statement("web_file", "f");
+			criteria.setFields("count(*) cn");
+			// 条件
+			if(!StringUtils.isNullOrEmpty(query.getKeyword())) {
+				criteria.where(or(
+						like("f.showName", "%" + query.getKeyword() + "%"),
+						like("f.fileName", "%" + query.getKeyword() + "%"),
+						like("f.courseName", "%" + query.getKeyword() + "%"),
+						like("f.teacher", "%" + query.getKeyword() + "%"),
+						like("f.remark", "%" + query.getKeyword() + "%")));
+			}
+			if(query.getLevel() != -1) {
+				criteria.where(eq("f.level", "?"));
+				criteria.setIntParam(query.getLevel());
+			}
+			
+			Log.debug("===============criteria:" + criteria.toString());
+			
+			Connection conn = ThreadUtils.currentConnection();
+			PreparedStatement stm = criteria.getRealStatement(conn);
+			ResultSet rs = stm.executeQuery();
+			rs.next();
+			count = rs.getInt("cn");
+			
+		}catch(Exception e){
+			Log.printStackTrace(e);
+		}
+		
+		return count;
+	}	
+	
 	
 	public FileItem selectById(String id) {
 		
@@ -29,5 +116,13 @@ public class FileDao extends BaseDao{
 			return mapper.selectById(id);
 		}
 		return null;		
+	}
+	
+	public int deleteById(String id) {
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.deleteById(id);
+		}
+		return 0;
 	}
 }

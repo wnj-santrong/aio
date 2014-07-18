@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.santrong.log.Log;
 import com.santrong.opt.SimpleDataSource;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.util.criteria.SqlOperator;
 
 
 /**
@@ -15,7 +16,7 @@ import com.santrong.opt.ThreadUtils;
  * @Date 2014-7-4
  * @Time 下午11:32:53
  */
-public abstract class BaseDao {
+public abstract class BaseDao extends SqlOperator{
 	
 	private org.apache.ibatis.session.SqlSession 				sqlSession;
 	private org.springframework.jdbc.core.JdbcTemplate		 	jdbcTemplate;
@@ -53,5 +54,4 @@ public abstract class BaseDao {
 		
 		return jdbcTemplate;
 	}
-
 }

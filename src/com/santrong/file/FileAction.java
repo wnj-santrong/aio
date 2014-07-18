@@ -7,10 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
+import com.santrong.file.entry.FileQuery;
+import com.santrong.log.Log;
+import com.santrong.opt.ThreadUtils;
+import com.santrong.tcp.client.LocalTcp31010;
+import com.santrong.tcp.client.TcpService;
 
 /**
  * @author weinianjie
@@ -22,11 +28,33 @@ import com.santrong.file.entry.FileItem;
 public class FileAction extends BaseAction{
 	
 	@RequestMapping("/home")
-	public String home(){
+	public String home(String keyword){
 		FileDao fileDao = new FileDao();
-		List<FileItem> fileList = fileDao.selectAll();
-		request.setAttribute("fileList", fileList);
+		
+		FileQuery query = new FileQuery();
+		query.setKeyword(keyword);
+		query.setCount(fileDao.selectByPageCount(query));
+		
+		request.setAttribute("query", query);
 		return "file/home";
+	}
+	
+	/*
+	 * 获取课件列表
+	 */
+	@RequestMapping("/fileList")
+	@ResponseBody
+	public String fileList(String keyword, int pageNum) {
+		FileDao fileDao = new FileDao();
+		
+		FileQuery query = new FileQuery();
+		query.setKeyword(keyword);
+		query.setPageNum(pageNum);
+		List<FileItem> fileList = fileDao.selectByPage(query);
+		
+		Gson gson = new Gson();
+		
+		return gson.toJson(fileList); 
 	}
 	
 	/*
@@ -72,7 +100,30 @@ public class FileAction extends BaseAction{
 	@RequestMapping(value="/fileDel", method=RequestMethod.POST)
 	@ResponseBody
 	public String fileDel(String ids) {
+		if(StringUtils.isNullOrEmpty(ids)) {
+			return "error_param";
+		}
+		String[] idArr = ids.split(",");
+		
+		FileDao fileDao = new FileDao();
+		TcpService client = TcpService.getInstance();
+		LocalTcp31010 tcp31010 = new LocalTcp31010();
 
+		ThreadUtils.beginTranx();
+		try{
+			for(String id : idArr) {
+				// 先删除实体文件
+				tcp31010.setConfId(id);
+				client.request(tcp31010);
+				
+				// 再删除数据库
+				fileDao.deleteById(id);
+			}
+		}catch(Exception e) {
+			ThreadUtils.rollbackTranx();
+			Log.printStackTrace(e);
+		}
+		ThreadUtils.commitTranx();
 		
 		return SUCCESS;
 	}
