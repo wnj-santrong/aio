@@ -1,19 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../inc/common.jsp"%>
 <form action="${ctx}/file/fileEdit.action" method="post" id="file_fileEdit">
+	<input type="hidden" name="id" value="${file.id}"/>
 	<div class="window">
 	    <div>
 	        <dl>
-	            <dt>文件编辑 <a href="#" class="close">&nbsp;&nbsp;&nbsp;</a></dt>
-	            <dd><p>课程名称:</p><span><input name="text" type="text"  class="form_text"/></span></dd>
-	            <dd><p>录制时间:</p><span><input name="text" type="text"  class="form_text"/></span></dd>
-	            <dd><p>老师名称:</p><span><input name="text" type="text"  class="form_text"/></span></dd>
-	            <dd><p>老师名称:</p><span><input name="text" type="text"  class="form_text"/></span></dd>
-	            <dd><p>文件大小:</p><span><textarea name="textarea" cols="30" rows="4" class="form_text"></textarea></span></dd>
-	            <dd><p>备注:</p><span><textarea name="textarea" cols="30" rows="2" class="form_text"></textarea></span></dd>
+	            <dt><fmt:message key="file_edit"/> <a href="#" class="close">&nbsp;&nbsp;&nbsp;</a></dt>
+	            <dd><p><fmt:message key="file_courseName"/>:</p><span><input name="courseName" type="text"  class="form_text" value="${file.courseName}"/></span></dd>
+	            <dd><p><fmt:message key="file_teacher"/>:</p><span><input name="teacher" type="text"  class="form_text" value="${file.teacher}" /></span></dd>
+	            <dd><p><fmt:message key="file_remark"/>:</p><span><textarea name="remark" cols="30" rows="4" class="form_text">${file.remark}</textarea></span></dd>
 	        </dl>
 	    </div>
 	    <div class="clr"></div>
-	    <div class="win_save"><a href="#" class="submit">保存</a><a href="#" class="close">取消</a></div>
+	    <div class="win_save"><a href="#" class="submit"><fmt:message key="text_save"/></a><a href="#" class="close"><fmt:message key="text_cancel"/></a></div>
 	</div>
 </form>

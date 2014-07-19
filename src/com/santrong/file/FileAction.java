@@ -1,5 +1,6 @@
 package com.santrong.file;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,6 @@ import com.santrong.file.entry.FileItem;
 import com.santrong.file.entry.FileQuery;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
-import com.santrong.tcp.client.LocalTcp31010;
-import com.santrong.tcp.client.TcpService;
 
 /**
  * @author weinianjie
@@ -79,13 +78,25 @@ public class FileAction extends BaseAction{
 	@RequestMapping(value="/fileEdit", method=RequestMethod.POST)
 	@ResponseBody
 	public String fileEdit(FileItem file) {
-
+		FileDao fileDao = new FileDao();
+		FileItem dbFile = fileDao.selectById(file.getId());
+		
+		if(dbFile == null) {
+			return ERROR_PARAM;
+		}
+		
+		dbFile.setCourseName(file.getCourseName());
+		dbFile.setTeacher(file.getTeacher());
+		dbFile.setRemark(file.getRemark());
+		dbFile.setUts(new Date());
+		
+		fileDao.update(dbFile);
 		
 		return SUCCESS;
 	}
 	
 	/*
-	 * 修改课件信息
+	 * 播放课件
 	 */
 	@RequestMapping("/filePlay")
 	public String filePlay(String id) {
@@ -101,20 +112,20 @@ public class FileAction extends BaseAction{
 	@ResponseBody
 	public String fileDel(String ids) {
 		if(StringUtils.isNullOrEmpty(ids)) {
-			return "error_param";
+			return ERROR_PARAM;
 		}
 		String[] idArr = ids.split(",");
 		
 		FileDao fileDao = new FileDao();
-		TcpService client = TcpService.getInstance();
-		LocalTcp31010 tcp31010 = new LocalTcp31010();
+//		TcpService client = TcpService.getInstance();
+//		LocalTcp31010 tcp31010 = new LocalTcp31010();
 
 		ThreadUtils.beginTranx();
 		try{
 			for(String id : idArr) {
 				// 先删除实体文件
-				tcp31010.setConfId(id);
-				client.request(tcp31010);
+//				tcp31010.setConfId(id);
+//				client.request(tcp31010);
 				
 				// 再删除数据库
 				fileDao.deleteById(id);

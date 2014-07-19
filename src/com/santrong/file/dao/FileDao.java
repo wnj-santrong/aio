@@ -23,6 +23,35 @@ import com.santrong.util.criteria.Statement;
  */
 public class FileDao extends BaseDao{
 	
+	
+	public FileItem selectById(String id) {
+		
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.selectById(id);
+		}
+		return null;		
+	}
+	
+	public int deleteById(String id) {
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.deleteById(id);
+		}
+		return 0;
+	}
+	
+	public int update(FileItem file) {
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.update(file);
+		}
+		return 0;
+	}
+	
+	/*
+	 * 分页获取课件列表
+	 */
 	public List<FileItem> selectByPage(FileQuery query) {
 		
 		List<FileItem> list = new ArrayList<FileItem>();
@@ -72,6 +101,9 @@ public class FileDao extends BaseDao{
 		return list;
 	}
 	
+	/*
+	 * 分页获取课件列表总数
+	 */
 	public int selectByPageCount(FileQuery query) {
 		
 		int count = 0;
@@ -108,21 +140,4 @@ public class FileDao extends BaseDao{
 		return count;
 	}	
 	
-	
-	public FileItem selectById(String id) {
-		
-		FileMapper mapper = this.getMapper(FileMapper.class);
-		if(mapper != null) {
-			return mapper.selectById(id);
-		}
-		return null;		
-	}
-	
-	public int deleteById(String id) {
-		FileMapper mapper = this.getMapper(FileMapper.class);
-		if(mapper != null) {
-			return mapper.deleteById(id);
-		}
-		return 0;
-	}
 }

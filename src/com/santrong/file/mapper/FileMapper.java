@@ -3,6 +3,7 @@ package com.santrong.file.mapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.santrong.file.entry.FileItem;
 
@@ -18,4 +19,7 @@ public interface FileMapper {
     
     @Delete("delete from web_file where id=#{id}")
     int deleteById(@Param("id") String id);    
+    
+    @Update("update web_file set teacher=#{teacher}, courseName=#{courseName}, remark=#{remark}, uts=#{uts} where id=#{id}")
+    int update(FileItem file);
 }

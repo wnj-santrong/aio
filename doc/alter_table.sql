@@ -1,6 +1,7 @@
 -- 2014-07-14 weinianjie
 create database aio;
 
+use aio;
 
 -- 用户表 ---
 drop table if exists web_user;

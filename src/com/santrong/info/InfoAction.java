@@ -22,16 +22,17 @@ public class InfoAction extends BaseAction{
 	@RequestMapping("/home")
 	public String home() {
 		
-		TcpService client = TcpService.getInstance();
-		LocalTcp31009 tcp31009 = new LocalTcp31009();
-		client.request(tcp31009);
-		
-		MainTcp39004 tcp39004 = new MainTcp39004();
-		client.request(tcp39004);
-		
 		SystemInfoView info = new SystemInfoView();
-		BeanUtils.copyProperties(tcp31009, info);
-		BeanUtils.copyProperties(tcp39004, info);
+		
+//		TcpService client = TcpService.getInstance();
+//		LocalTcp31009 tcp31009 = new LocalTcp31009();
+//		client.request(tcp31009);
+//		
+//		MainTcp39004 tcp39004 = new MainTcp39004();
+//		client.request(tcp39004);
+//		
+//		BeanUtils.copyProperties(tcp31009, info);
+//		BeanUtils.copyProperties(tcp39004, info);
 		
 		request.setAttribute("info", info);
 		

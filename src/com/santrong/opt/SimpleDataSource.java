@@ -67,7 +67,6 @@ public class SimpleDataSource implements DataSource {
 	}
 
 
-	@Override
 	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
 		Logger log = Logger.getLogger("");
 		return log;

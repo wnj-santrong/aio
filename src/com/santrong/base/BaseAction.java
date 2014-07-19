@@ -19,6 +19,7 @@ import com.santrong.setting.entry.UserItem;
 public abstract class BaseAction {
 	protected final String SUCCESS = "success";
 	protected final String FAIL = "fail";
+	protected final String ERROR_PARAM = "error_param";
 	
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
