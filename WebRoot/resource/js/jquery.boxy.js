@@ -187,7 +187,7 @@ jQuery.extend(Boxy, {
     
     // displays an alert box with a given message, calling after callback iff
     // user selects OK.
-    confirm: function(message, after, options) {
+    confirm: function(message, after, options) {alert(123);
         return Boxy.ask(message, ['确认', '取消'], function(response) {
             if (response == '确认') after();
         }, options);

@@ -38,7 +38,7 @@
         </tr>
     </tfoot>
 </table>
-<div id="pagination" style="text-align:right;"></div>
+<div id="pagination"></div>
 <input type="hidden" name="fileCount" value="${query.count}" />
 <input type="hidden" name="pageSize" value="${query.pageSize}" />
 

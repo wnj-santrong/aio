@@ -1,12 +1,20 @@
 var Message = {
 	success : "\u64cd\u4f5c\u6210\u529f",
 	fail : "\u64cd\u4f5c\u5931\u8d25",
+	
 	error_param : "\u53c2\u6570\u9519\u8bef",
 	error_oldpwd : "\u65e7\u5bc6\u7801\u9519\u8bef",
 	error_file_exists : "\u6587\u4ef6\u5df2\u5b58\u5728", 
-	error_file_not_exists : "\u6587\u4ef6\u4e0d\u5b58\u5728", 
+	error_file_not_exists : "\u6587\u4ef6\u4e0d\u5b58\u5728",
+	
+	warn_del_confirm : "\u786e\u5b9a\u8981\u5220\u9664\u5417", 
+	
 	notice_must_select_one : "\u8bf7\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	notice_only_one_select : "\u53ea\u80fd\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
+	
+	text_confirm : "\u786e\u8ba4",
+	text_cancel : "\u53d6\u6d88",
+	
 	dynamic : function(key, value) {
 		if (key == "") {
 			return "";
