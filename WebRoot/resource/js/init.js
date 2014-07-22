@@ -29,7 +29,20 @@ IndexClass.prototype = {
     
     // 会议管理
     meeting:function() {
-    	//TODO 如果界面是开启会议的状态，锁定修改
+    	// 如果界面是开启会议的状态，锁定修改
+    	if(isLive == 1) {
+//    		$(".sub_content input").attr('readonly', 'readonly');
+//    		$(".sub_content select").attr('readonly', 'readonly');
+//    		$(".sub_content textarea").attr('readonly', 'readonly');
+    		
+//    		$(".sub_content input").focus(function(){$(this).blur();});
+//    		$(".sub_content select").focus(function(){$(this).blur();});
+//    		$(".sub_content textarea").focus(function(){$(this).blur();});
+    		
+    		$(".sub_content input").attr('disabled', true);
+    		$(".sub_content select").attr('disabled', true);
+    		$(".sub_content textarea").attr('disabled', true);
+    	}
     	
     	$(".save").bindFormClick({url : Globals.ctx + '/meeting/save.action'});
     	

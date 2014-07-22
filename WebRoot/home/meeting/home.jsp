@@ -68,27 +68,43 @@
 	        <span><textarea name="remark" cols="30" rows="4" class="form_text">${meeting.remark}</textarea></span></li>
 	    <li>
 	    	<p><fmt:message key="meeting_status" />:</p>
-	        <span><b>正在开会中......</b></span></li>
+	        <span>
+	        <b>
+	        <c:if test="${meeting.isLive == 0}">
+	        	<fmt:message key="meeting_not_inMeeting" />
+	        </c:if>
+	        <c:if test="${meeting.isLive == 1 && meeting.isRecord == 0}">
+	        	<fmt:message key="meeting_inMeeting" />
+	        </c:if>
+	        <c:if test="${meeting.isLive == 1 && meeting.isRecord == 1}">
+	        	<fmt:message key="meeting_inRecord" />
+	        </c:if>
+	        </b>
+	        </span>
+	    </li>
 	</ul>
 	<div class="button_panel">
 		<span>
 		<c:if test="${meeting.isConnected == 1}"><!-- 跟系统调度能连接上才显示 -->
+		<c:if test="${meeting.isLive == 0}">
 			<a href="#" class="save"><fmt:message key="text_save" /></a>
-			<c:if test="${meeting.isLive == 0}">
 			<a href="#" class="openLive"><fmt:message key="meeting_openLive" /></a>
-			</c:if>
-			<c:if test="${meeting.isLive == 1}">
+		</c:if>
+		<c:if test="${meeting.isLive == 1}">
 			<a href="#" class="closeLive"><fmt:message key="meeting_closeLive" /></a>
-			</c:if>
-			<c:if test="${meeting.isLive == 1 && meeting.isRecord == 0}">
+		</c:if>
+		<c:if test="${meeting.isLive == 1 && meeting.isRecord == 0}">
 			<a href="#" class="startRecord"><fmt:message key="meeting_startRecord" /></a>
-			</c:if>
-			<c:if test="${meeting.isLive == 1 && meeting.isRecord == 1}">
+		</c:if>
+		<c:if test="${meeting.isLive == 1 && meeting.isRecord == 1}">
 			<a href="#" class="stopRecord"><fmt:message key="meeting_stopRecord" /></a>
-			</c:if>
+		</c:if>
 		</c:if>
 		</span>
 	</div>
 </form>
+<script type="text/javascript">
+var isLive = ${meeting.isLive};
+</script>
 
 
