@@ -11,12 +11,12 @@ jQuery(function($){
 	*/
 	
 	// 获取checkbox的值
-	$.fn.checkboxVals = function(params) {
-		var finalParams = {
+	$.fn.checkboxVals = function(options) {
+		var _options = {
 			must : true,
 			single : false
 		};
-		finalParams = $.extend(finalParams, params);
+		_options = $.extend(_options, options);
 		
 		var vals = "";
 		$(this).each(function(){
@@ -28,12 +28,12 @@ jQuery(function($){
 			vals = vals.substr(1);
 		}
 		
-		if(finalParams.must && vals == "") {
+		if(_options.must && vals == "") {
 			Boxy.alert(Message.dynamic("notice_must_select_one"));
 			return false;
 		}
 		
-		if(finalParams.single && vals.indexOf(",") != -1) {
+		if(_options.single && vals.indexOf(",") != -1) {
 			Boxy.alert(Message.dynamic("notice_only_one_select"));
 			return false;
 		}
@@ -41,11 +41,20 @@ jQuery(function($){
 	};
 	
 	// 让form使用ajax提交
-	$.fn.bindFormClick = function(callback) {
+	$.fn.bindFormClick = function(options) {
 		$(this).click(function(){
 	    	var form = $(this).closest("form");
 	    	if(form.length > 0){
+	    		
+	    		if(options.beforeSubmit){
+	    			var rs = options.beforeSubmit(form);
+	    			if(rs == false) {
+	    				return;
+	    			}
+	    		}
+	    		
 	    		form.ajaxSubmit({
+	    			url : options.url,
 		    		beforeSubmit : function(){
 		    			form.find(".text_warn").removeClass("text_warn");
 		    	        var isPass = true;
@@ -96,7 +105,7 @@ jQuery(function($){
 		    			Boxy.alert(Message.dynamic(result));
 		    			if(result == "success") {
 		    				$(".close").click();
-		    				if(callback)callback(form);
+		    				if(options.afterSubmit)options.afterSubmit(form);
 		    			}
 		    		}
 		    	});
@@ -207,7 +216,7 @@ function parsePageName() {
             }
             eval(command);
         } catch (e) {
-        	console.info("error:parsePageName---" + $(this).html());
+//        	console.info("error:parsePageName---" + $(this).html());
         }
     });
     qs = null;

@@ -54,11 +54,11 @@ public class LocalTcp31007 extends LocalTcpBase {
 			item.confId = xml.find("/ConfID", el).getText();
 			item.rcdName = xml.find("/RcdName", el).getText();
 			item.startTime = xml.find("/StartTime", el).getText();
-			item.rcdState = Integer.parseInt(xml.find("/RcdState").getText());
-			item.liveState = Integer.parseInt(xml.find("/LiveState").getText());
-			item.recordType = Integer.parseInt(xml.find("/RecordType").getText());
-			item.layout = Integer.parseInt(xml.find("/Layout").getText());
-			item.bScale = Integer.parseInt(xml.find("/bScale").getText());
+			item.rcdState = Integer.parseInt(xml.find("/RcdState", el).getText());
+			item.liveState = Integer.parseInt(xml.find("/LiveState", el).getText());
+			item.recordType = Integer.parseInt(xml.find("/RecordType", el).getText());
+			item.layout = Integer.parseInt(xml.find("/Layout", el).getText());
+			item.bScale = Integer.parseInt(xml.find("/bScale", el).getText());
 			item.courseName = xml.find("/CourseName", el).getText();
 			item.courseAbs = xml.find("/CourseAbs", el).getText();
 			item.teacher = xml.find("/Teacher", el).getText();

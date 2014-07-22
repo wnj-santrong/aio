@@ -11,8 +11,8 @@ import com.santrong.util.XmlReader;
  */
 public class LocalTcp31008 extends LocalTcpBase {
 	
-	private int freeSize;
-	private int maxTime;
+	private int freeSize;// 设置磁盘空间阀值，磁盘空间少于此值则自行停止录制，单位M
+	private int maxTime;// 最大录制时长，单位：分钟
 	
 	private int resultCode;
 

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import com.santrong.i18n.Message;
 import com.santrong.log.Log;
+import com.santrong.tcp.TcpDefine;
 import com.santrong.util.CommonTools;
 
 public class Global {
@@ -14,7 +15,8 @@ public class Global {
 	 */
 	public static final String iniFileEncoding = "UTF-8";
 	public static final String dbBackupDir = "E:\\workspace\\data\\sql";					// 数据库备份路径
-	public static final String shellDir = "E:\\workspace\\data\\shell";					// 所有shell脚本目录
+	public static final String shellDir = "E:\\workspace\\data\\shell";						// 所有shell脚本目录
+	public static final String vedioDir = "/data";											// 录制的视频目录
 	
 	
 	/*

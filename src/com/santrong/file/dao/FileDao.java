@@ -23,14 +23,36 @@ import com.santrong.util.criteria.Statement;
  */
 public class FileDao extends BaseDao{
 	
+	public int insert(FileItem file) {
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.insert(file);
+		}
+		return 0;		
+	}
 	
 	public FileItem selectById(String id) {
-		
 		FileMapper mapper = this.getMapper(FileMapper.class);
 		if(mapper != null) {
 			return mapper.selectById(id);
 		}
 		return null;		
+	}
+	
+	public FileItem selectRecording(int channel) {
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.selectRecording(channel);
+		}
+		return null;		
+	}
+	
+	public FileItem selectByFileName(String fileName) {
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {
+			return mapper.selectByFileName(fileName);
+		}
+		return null;
 	}
 	
 	public int deleteById(String id) {

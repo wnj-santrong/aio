@@ -26,17 +26,21 @@ public class TcpService extends AbstractTcpService{
 		return instance;
 	}
 	
-	public void request(TcpImpl service){
+	public void request(TcpImpl service) {
 		
 		// 发送TCP
 		String msgRsp = tcpHanlder.sendMsgOnce(service.getHost(), service.getPort(), service.toXml());
 		
 		// 解析返回XML
-		XmlReader xml = new XmlReader();
-		xml.parse(msgRsp);
-		service.getRespHeader().setMsgCode(xml.find("/MsgHead/MsgCode").getText());
-		service.getRespHeader().setReturnCode(Integer.parseInt(xml.find("/MsgHead/ReturnCode").getText()));
-		service.getRespHeader().setSessionId(xml.find("/MsgHead/SessionId").getText());
-		service.resolveXml(xml);
+		if(msgRsp != null) {
+			XmlReader xml = new XmlReader();
+			xml.parse(msgRsp);
+			service.getRespHeader().setMsgCode(xml.find("/MsgHead/MsgCode").getText());
+			service.getRespHeader().setReturnCode(Integer.parseInt(xml.find("/MsgHead/ReturnCode").getText()));
+			service.getRespHeader().setSessionId(xml.find("/MsgHead/SessionId").getText());
+			service.resolveXml(xml);
+		}else{
+			service.getRespHeader().setReturnCode(1);
+		}
 	}
 }

@@ -58,7 +58,9 @@ public class SettingAction extends BaseAction{
 				user.setShowName(newname);
 				user.setUsername(newname);
 				user.setPassword(newpwd);
-				userDao.update(user);
+				if(userDao.update(user) <= 0) {
+					return FAIL;
+				}
 			}else{
 				return "error_oldpwd";
 			}

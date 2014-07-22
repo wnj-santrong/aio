@@ -16,14 +16,10 @@ public class LocalTcp31004 extends LocalTcpBase {
 	
 	private String confId;
 	private int isLive;
-	private int isRecord;
-	private int recordType;
+	private int recordType;// 1资源，2电影，4合成
 	private int layout;
-	private int bScale;
-	private String courseName;
-	private String courseAbs;
-	private String teacher;
-	private String rcdName;
+	private int bScale;// 1拉伸，0不拉伸
+
 	private List<RecStreamInfo> recStreamInfoList = new ArrayList<RecStreamInfo>();
 
 	private int resultCode;
@@ -39,11 +35,7 @@ public class LocalTcp31004 extends LocalTcpBase {
 	public void setIsLive(int isLive) {
 		this.isLive = isLive;
 	}
-
-	public void setIsRecord(int isRecord) {
-		this.isRecord = isRecord;
-	}
-
+	
 	public void setRecordType(int recordType) {
 		this.recordType = recordType;
 	}
@@ -54,22 +46,6 @@ public class LocalTcp31004 extends LocalTcpBase {
 
 	public void setbScale(int bScale) {
 		this.bScale = bScale;
-	}
-
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
-
-	public void setCourseAbs(String courseAbs) {
-		this.courseAbs = courseAbs;
-	}
-
-	public void setTeacher(String teacher) {
-		this.teacher = teacher;
-	}
-
-	public void setRcdName(String rcdName) {
-		this.rcdName = rcdName;
 	}
 
 	public void setRecStreamInfoList(List<RecStreamInfo> recStreamInfoList) {
@@ -112,14 +88,9 @@ public class LocalTcp31004 extends LocalTcpBase {
 				sb.append("<StartConfRecordReq>");
 					sb.append("<ConfID type=\"string\">").append(this.confId).append("</ConfID>");
 					sb.append("<IsLive type=\"int\">").append(this.isLive).append("</IsLive>");
-					sb.append("<IsRecord type=\"int\">").append(this.isRecord).append("</IsRecord>");
 					sb.append("<RecordType type=\"int\">").append(this.recordType).append("</RecordType>");
 					sb.append("<Layout type=\"int\">").append(this.layout).append("</Layout>");
 					sb.append("<bScale type=\"int\">").append(this.bScale).append("</bScale>");
-					sb.append("<CourseName type=\"string\">").append(this.courseName).append("</CourseName>");
-					sb.append("<CourseAbs type=\"string\">").append(this.courseAbs).append("</CourseAbs>");
-					sb.append("<Teacher type=\"string\">").append(this.teacher).append("</Teacher>");
-					sb.append("<RcdName type=\"string\">").append(this.rcdName).append("</RcdName>");
 					sb.append("<RcdStreamInfoArray>");
 						for(RecStreamInfo item : recStreamInfoList){
 							sb.append("<RcdStreamInfo>");
@@ -160,14 +131,14 @@ public class LocalTcp31004 extends LocalTcpBase {
 		private int strmPort;
 		private String StrmUser;
 		private String StrmPw;
-		private int strmType;// 类型
+		private int strmType;// 类型	1VGA和0摄像头
 		private int strmBandwidth;// 码率
 		private int strmFmt;// 格式（宽高） 720P这类的
-		private int strmFRate;// 帧率
+		private int strmFRate;// 帧率		一般填25
 		//---------------------------以下是音频，如果没有请不要发送
 		private int audSmpRate;// 声音采样率
 		private int audCh;// 声道
-		private int audBitrate;// 声音码率
+		private int audBitrate;// 声音码率 单位k，一般传递64即可
 		
 		private int hasAud; // 是否有音频
 		

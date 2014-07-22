@@ -16,6 +16,8 @@ import com.santrong.file.entry.FileItem;
 import com.santrong.file.entry.FileQuery;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.tcp.client.LocalTcp31010;
+import com.santrong.tcp.client.TcpService;
 
 /**
  * @author weinianjie
@@ -114,27 +116,39 @@ public class FileAction extends BaseAction{
 		if(StringUtils.isNullOrEmpty(ids)) {
 			return ERROR_PARAM;
 		}
-		String[] idArr = ids.split(",");
 		
-		FileDao fileDao = new FileDao();
-//		TcpService client = TcpService.getInstance();
-//		LocalTcp31010 tcp31010 = new LocalTcp31010();
-
-		ThreadUtils.beginTranx();
 		try{
+			
+			String[] idArr = ids.split(",");
+			
+			FileDao fileDao = new FileDao();
+			TcpService client = TcpService.getInstance();
+			LocalTcp31010 tcp31010 = new LocalTcp31010();
+	
+			// 先删除实体文件
 			for(String id : idArr) {
-				// 先删除实体文件
-//				tcp31010.setConfId(id);
-//				client.request(tcp31010);
+				tcp31010.setConfId(id);
+				client.request(tcp31010);
 				
-				// 再删除数据库
-				fileDao.deleteById(id);
+				if(tcp31010.getRespHeader().getReturnCode() == 1 || tcp31010.getResultCode() == 1) {
+					return FAIL;
+				}
 			}
+			
+			// 再删除数据库
+			ThreadUtils.beginTranx();
+			for(String id : idArr) {
+				if(fileDao.deleteById(id) <= 0) {
+					ThreadUtils.rollbackTranx();
+					return FAIL;
+				}
+			}
+			ThreadUtils.commitTranx();
 		}catch(Exception e) {
-			ThreadUtils.rollbackTranx();
 			Log.printStackTrace(e);
+			ThreadUtils.rollbackTranx();
+			return FAIL;
 		}
-		ThreadUtils.commitTranx();
 		
 		return SUCCESS;
 	}

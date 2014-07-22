@@ -68,7 +68,7 @@ body{ background: url(../photo/171.gif); }
 
 .meeting  {width:1000px; border:1px #86b9e3 solid; margin:10px 0 0 10px; padding-top:10px; background:url(../photo/ph.png) no-repeat right top;}
 .meeting::after{ content:"";display:block;height:0; font-family:0; clear:both; visibility:hidden;}
-.meeting  li{ width:800px; float:left;  height:1%; line-height:24px; margin-bottom:10px;}
+.meeting  li{ width:800px; float:left; line-height:24px; margin-bottom:10px;}
 .meeting  li p{ float:left; width:400px; display:block; margin-right:15px; text-align:right; font-weight:500; color:#666; font-size:16px; letter-spacing:2px;}
 .meeting  li span{ float:left;display:block; margin-right:10px;}
 .meeting  li span a { color:#09f; margin-right:15px;border:1px #09f solid; padding:1px 10px;}
@@ -135,15 +135,15 @@ body{ background: url(../photo/171.gif); }
   -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);}
 
-.save {width:120px; margin:20px auto;}
-.save a {color:#09f; border:1px #09f solid; padding:2px 10px; display:inline;}
+.button_panel {width:100%; text-align:center;}
+.button_panel a {color:#09f; border:1px #09f solid; padding:2px 10px; margin:0 10px; display:inline;}
 /*----------会议 --分页----------*/
 .page {  border-top:1px #5d9dd2 solid; width:100%; margin:10px 0 0 0; padding-top:5px;text-indent:40%; position:absolute; left:0px; bottom:10px;}
 .page a{  display:inline;width:1%;color:#5d9dd2; padding:0 6px;}
 .page a:hover{ color:#F90;}
 
 /*----------窗口----------*/
-.window { width:600px; height:270px; background:#f1faff; border:1px #5d9dd2 solid; margin:0 auto;position:absolute; top:50%;left:50%; overflow:hidden; margin-left:-250px; margin-top:-200px;}
+.window { width:600px; height:300px; background:#f1faff; border:1px #5d9dd2 solid; margin:0 auto;position:absolute; top:50%;left:50%; overflow:hidden; margin-left:-250px; margin-top:-200px;}
 .window dt{ height:30px; line-height:30px; background:#5d9dd2; border-bottom:#085786 1px solid; margin-bottom:10px; color:#FFF; font-size:18px; text-indent:5px;}
 .window dt a{ margin-left:496px; width:20px; height:20px; background:url(../photo/edit-delete.png) no-repeat right top;}
 .window dt a:hover{ background:url(../photo/delete-hover.png) no-repeat left 1px;}
@@ -154,16 +154,16 @@ body{ background: url(../photo/171.gif); }
 .window .win_save a{ display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin-right:20px; color:#5d9dd2; text-align:center;}
 .window .win_save a:hover{color:#f00;border:1px #f00 solid; background:#eeffed;}
 
-/*----------pagination分页--------------------*/
+/*----------pagination分页--------------------
 .pagination {font-size:80%;}       
 .pagination a {text-decoration:none; border:solid 1px #AAE; color:#15B;}
 .pagination a, .pagination span {display:block; float:left; padding:0.3em 0.5em; margin-right:5px; margin-bottom:5px; min-width:1em; text-align:center;}
 .pagination .current {background:#26B; color:#fff; border:solid 1px #AAE;}
-.pagination .current.prev, .pagination .current.next{color:#999; border-color:#999; background:#fff;}
+.pagination .current.prev, .pagination .current.next{color:#999; border-color:#999; background:#fff;}*/
 
-/*----------公共的-提醒-警告-优先级最高----------*/
+/*----------公共的-提醒-警告-优先级最高----------
 .warn {color:#ee0000;}
 .error {color:#ee0000;}
 .notice {color:#ee0000;}
 .text_warn {border:solid 1px #ee0000;}
-.radio_warn {}
+.radio_warn {}*/

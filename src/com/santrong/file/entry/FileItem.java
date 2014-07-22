@@ -8,18 +8,22 @@ import java.util.Date;
  * @time 下午4:23:29
  */
 public class FileItem {
+	public static final int File_Status_Recording = 0;// 正在录制中
+	public static final int File_Status_Recorded = 1;// 录制已完成
+	
 	private String id;
 	private String showName;
 	private String fileName;
 	private String courseName;
 	private String teacher;
-	private String className;
-	private String gradeName;
 	private String remark;
 	private long fileSize;
 	private String duration;
 	private int status;
 	private int level;
+	private int channel;
+	private int bitRate;
+	private int resolution;
 	private int playCount;
 	private int downloadCount;
 	private Date cts;
@@ -36,6 +40,24 @@ public class FileItem {
 	}
 	public void setShowName(String showName) {
 		this.showName = showName;
+	}
+	public int getChannel() {
+		return channel;
+	}
+	public void setChannel(int channel) {
+		this.channel = channel;
+	}
+	public int getBitRate() {
+		return bitRate;
+	}
+	public void setBitRate(int bitRate) {
+		this.bitRate = bitRate;
+	}
+	public int getResolution() {
+		return resolution;
+	}
+	public void setResolution(int resolution) {
+		this.resolution = resolution;
 	}
 	public String getFileName() {
 		return fileName;
@@ -54,18 +76,6 @@ public class FileItem {
 	}
 	public void setTeacher(String teacher) {
 		this.teacher = teacher;
-	}
-	public String getClassName() {
-		return className;
-	}
-	public void setClassName(String className) {
-		this.className = className;
-	}
-	public String getGradeName() {
-		return gradeName;
-	}
-	public void setGradeName(String gradeName) {
-		this.gradeName = gradeName;
 	}
 	public String getRemark() {
 		return remark;

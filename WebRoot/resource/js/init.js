@@ -29,6 +29,33 @@ IndexClass.prototype = {
     
     // 会议管理
     meeting:function() {
+    	//TODO 如果界面是开启会议的状态，锁定修改
+    	
+    	$(".save").bindFormClick({url : Globals.ctx + '/meeting/save.action'});
+    	
+    	$(".openLive").bindFormClick({url : Globals.ctx + '/meeting/openLive.action',
+    		afterSubmit : function(form) {
+    			$(".navigator a:first").click();//刷新页面以便更新按钮
+    		}
+    	});
+    	
+    	$(".closeLive").bindFormClick({url : Globals.ctx + '/meeting/closeLive.action',
+    		afterSubmit : function(form) {
+    			$(".navigator a:first").click();//刷新页面以便更新按钮
+    		}
+    	});
+    	
+    	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action',
+    		afterSubmit : function(form) {
+    			$(".navigator a:first").click();//刷新页面以便更新按钮
+    		}
+    	});
+    	
+    	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action',
+    		afterSubmit : function(form) {
+    			$(".navigator a:first").click();//刷新页面以便更新按钮
+    		}
+    	});  	
     },
     
     
@@ -84,7 +111,7 @@ IndexClass.prototype = {
     				modal : true,
     				afterShow : function() {
     			    	// 绑定form提交
-    			    	$(".submit").bindFormClick(freshList);
+    			    	$(".submit").bindFormClick({afterSubmit : freshList});
     			    	
     			    	// 绑定取消
     			    	$(".close").bindFormClose();
@@ -122,11 +149,11 @@ IndexClass.prototype = {
     setting:function() {
     	
     	// 绑定所有form提交
-    	$(".submit").bindFormClick(function(form){
+    	$(".submit").bindFormClick({afterSubmit : function(form){
     		if(form.attr("id") == "setting_user") {
     			form.clearForm();
     		}
-    	});
+    	}});
     	
     	// 获取wan
     	$.ajax({
