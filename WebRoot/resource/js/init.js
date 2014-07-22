@@ -31,44 +31,31 @@ IndexClass.prototype = {
     meeting:function() {
     	// 如果界面是开启会议的状态，锁定修改
     	if(isLive == 1) {
-//    		$(".sub_content input").attr('readonly', 'readonly');
-//    		$(".sub_content select").attr('readonly', 'readonly');
-//    		$(".sub_content textarea").attr('readonly', 'readonly');
-    		
-//    		$(".sub_content input").focus(function(){$(this).blur();});
-//    		$(".sub_content select").focus(function(){$(this).blur();});
-//    		$(".sub_content textarea").focus(function(){$(this).blur();});
-    		
+    		// 设置disabled属性会导致jquery form提交的时候拿不到数据，所以在按钮操作前要还原为false
     		$(".sub_content input").attr('disabled', true);
     		$(".sub_content select").attr('disabled', true);
     		$(".sub_content textarea").attr('disabled', true);
     	}
     	
+    	var activeElements = function() {
+    		$(".sub_content input").attr('disabled', false);
+    		$(".sub_content select").attr('disabled', false);
+    		$(".sub_content textarea").attr('disabled', false);
+    	};
+    	
+    	var freshCurrentModel = function() {
+    		$(".navigator a:first").click();//刷新页面以便更新按钮
+    	}
+    	
     	$(".save").bindFormClick({url : Globals.ctx + '/meeting/save.action'});
     	
-    	$(".openLive").bindFormClick({url : Globals.ctx + '/meeting/openLive.action',
-    		afterSubmit : function(form) {
-    			$(".navigator a:first").click();//刷新页面以便更新按钮
-    		}
-    	});
+    	$(".openLive").bindFormClick({url : Globals.ctx + '/meeting/openLive.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
     	
-    	$(".closeLive").bindFormClick({url : Globals.ctx + '/meeting/closeLive.action',
-    		afterSubmit : function(form) {
-    			$(".navigator a:first").click();//刷新页面以便更新按钮
-    		}
-    	});
+    	$(".closeLive").bindFormClick({url : Globals.ctx + '/meeting/closeLive.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
     	
-    	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action',
-    		afterSubmit : function(form) {
-    			$(".navigator a:first").click();//刷新页面以便更新按钮
-    		}
-    	});
+    	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
     	
-    	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action',
-    		afterSubmit : function(form) {
-    			$(".navigator a:first").click();//刷新页面以便更新按钮
-    		}
-    	});  	
+    	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
     },
     
     
