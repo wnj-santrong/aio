@@ -123,19 +123,21 @@ jQuery(function($){
 	};
 	
 	// 简单的发送post
-	$.simplePost = function(url, data, success) {
-		if(!url) {
+	$.simplePost = function(options) {
+		if(!options.url) {
 			return;
 		}
 		
 		$.ajax({
 			type : "POST",
-			data : data,
-			url : url,
+			data : options.data,
+			url : options.url,
 			cache : false,
 			success : function(result){
-				Boxy.alert(Message.dynamic(result));
-				if(success)success();
+				if(options.tip != false) {
+					Boxy.alert(Message.dynamic(result, options.msgParams));
+				}
+				options.callback(result);
 			}
 		});
 	};

@@ -52,10 +52,10 @@
 	        <input type="hidden" name="dsId" value="${ds.id}"/>
 	        <input type="text" value="${ds.addr}" class="form_text"/>
 	        <c:if test="${ds.isConnected == 1}">
-	        <img class="rec_img" src="${ctx}/resource/photo/0222.gif" width="12" height="12" />
+	        <img class="rec_img" src="${ctx}/resource/photo/connected.gif" width="12" height="12" />
 	        </c:if>
 	        <c:if test="${ds.isConnected == 0}">
-	        <img class="rec_img" src="${ctx}/resource/photo/0222.gif" width="12" height="12" />
+	        <img class="rec_img" src="${ctx}/resource/photo/disconnected.gif" width="12" height="12" />
 	        </c:if>
 	        <a href="#" class="dsEdit">修改</a>
 	        <a href="#" class="dsDel">删除</a>
@@ -72,7 +72,35 @@
 	    <li>
 	        <p><fmt:message key="meeting_recordMode" />:</p>
 	        <span>
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" /><img src="${ctx}/resource/photo/03_70.png" width="71" height="47" /><img src="${ctx}/resource/photo/03_72.png" width="71" height="47" /> </span>
+	        <c:if test="${fn:length(meeting.dsList) == 0}">
+	        <!-- 0 + VGA -->
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
+	        </c:if>
+			
+			<c:if test="${fn:length(meeting.dsList) == 1}">
+	        <!-- 1 + VGA -->
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
+	        </c:if>
+			
+			<c:if test="${fn:length(meeting.dsList) == 2}">
+	        <!-- 2 + VGA -->
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
+	        </c:if>
+	        
+	        <c:if test="${fn:length(meeting.dsList) == 3}">
+	        <!-- 3 + VGA -->
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
+	        </c:if>
+	        
+			</span>
 	        </li>
 	    <li>
 	        <p><fmt:message key="meeting_showName" />:</p>

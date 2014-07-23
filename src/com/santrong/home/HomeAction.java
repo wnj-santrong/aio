@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.santrong.base.BaseAction;
 import com.santrong.home.dao.MenuDao;
 import com.santrong.home.entry.MenuItem;

@@ -30,4 +30,7 @@ public interface DatasourceMapper {
 	
 	@Select("select * from web_datasource where meetingId=#{mid} order by priority asc")
 	List<DatasourceItem> selectByMeetingId(String mid);
+	
+	@Select("select count(*) from web_datasource where meetingId=#{mid} order by priority asc")
+	int selectCountByMeetingId(String mid);
 }

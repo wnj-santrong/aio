@@ -25,6 +25,8 @@ public class Global {
 	public static int ProcessRepeatLogin = 0;   						// 0: 不处理重复登录，1: 处理重复登录
 	public static int RepeatLoginProcess = 0;   						// 0: 不做处理，1: 提示用户是否强制登录，2: 直接强制登录，3：提示已登录
 	
+	public static int VedioCount = 3;									// 视频路数，VGA + Camera
+	
 	
     /*
      * [RecFile]

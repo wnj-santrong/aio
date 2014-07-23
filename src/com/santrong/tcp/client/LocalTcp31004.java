@@ -22,6 +22,7 @@ public class LocalTcp31004 extends LocalTcpBase {
 
 	private List<RecStreamInfo> recStreamInfoList = new ArrayList<RecStreamInfo>();
 
+	// 返回值
 	private int resultCode;
 	private String _confId;
 	private int doRcd;

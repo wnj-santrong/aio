@@ -15,18 +15,23 @@ import com.santrong.util.XmlReader;
  * @time 下午5:37:06
  */
 public class LocalTcp31016 extends LocalTcpBase {
-	private String srcAddr;
+	private List<String> srcAddrList = new ArrayList<String>();
 	
 	// 返回值
 	private int resultCode;
 	private List<SrcState> srcStateList = new ArrayList<SrcState>();
 
-	public void setSrcAddr(String srcAddr) {
-		this.srcAddr = srcAddr;
-	}
 	
+	public void setSrcAddrList(List<String> srcAddrList) {
+		this.srcAddrList = srcAddrList;
+	}
+
 	public int getResultCode() {
 		return resultCode;
+	}
+	
+	public List<SrcState> getSrcStateList() {
+		return srcStateList;
 	}
 
 	@Override
@@ -42,7 +47,9 @@ public class LocalTcp31016 extends LocalTcpBase {
 			sb.append("<MsgBody>");
 				sb.append("<GetSrcStateReq>");
 					sb.append("<SrcArray>");
-						sb.append("<SrcAddr type=\"string\">").append(this.srcAddr).append("</SrcAddr>");
+						for(String s : srcAddrList) {
+						sb.append("<SrcAddr type=\"string\">").append(s).append("</SrcAddr>");
+						}
 					sb.append("</SrcArray>");
 				sb.append("</GetSrcStateReq>");
 			sb.append("</MsgBody>");
@@ -56,10 +63,8 @@ public class LocalTcp31016 extends LocalTcpBase {
 		List<Element> elementList = xml.finds("/MsgBody/GetSrcStateResp/SrcStateArray/SrcAddr");
 		for(Element el : elementList) {
 			SrcState item = new SrcState();
-			
 			item.addr = el.getText();
-			//TODO 属性如何拿state
-			
+			item.state = Integer.parseInt(el.getAttribute("state").getValue());
 			srcStateList.add(item);
 		}
 		

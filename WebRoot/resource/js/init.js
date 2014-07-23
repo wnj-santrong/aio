@@ -78,7 +78,7 @@ IndexClass.prototype = {
     	$(".add").click(function() {
     		var index = $(".dsList input[type=text]").length + 1;
     		if(index > 3) {
-    			Boxy.alert(Message.dynamic("warn_datasource_already_max"));
+    			Boxy.alert(Message.dynamic("warn_datasource_already_max", Globals.vedioCount));
     			return;
     		}
     		
@@ -97,7 +97,7 @@ IndexClass.prototype = {
     	$(".dsDel").click(function() {
     		var id = $(this).parent().find("input[name=dsId]").val();
     		$.delConfirm(function(){
-    			$.simplePost(Globals.ctx + "/datasource/dsDel.action", {"id" : id}, freshCurrentModel);
+    			$.simplePost({url : Globals.ctx + "/datasource/dsDel.action", data : {"id" : id}, msgParams : Globals.vedioCount, callback : freshCurrentModel});
     		});
     	});
 
@@ -177,7 +177,7 @@ IndexClass.prototype = {
     		var values = $("input[name=CheckboxGroup1]").checkboxVals();
     		if(values) {
     			$.delConfirm(function(){
-    				$.simplePost(Globals.ctx + "/file/fileDel.action", {ids : values}, freshList);
+    				$.simplePost({url : Globals.ctx + "/file/fileDel.action", data : {ids : values}, callback : freshList});
     			});
     		}
     	});
@@ -185,7 +185,7 @@ IndexClass.prototype = {
     	$("#fileDownload").click(function(){
     		var values = $("input[name=CheckboxGroup1]").checkboxVals();
     		if(values) {
-        		$.simplePost(Globals.ctx + "/file/fileDownload.action", {ids : values});    			
+        		$.simplePost({url : Globals.ctx + "/file/fileDownload.action", data : {ids : values}});    			
     		}
     	});
     },
@@ -241,13 +241,13 @@ IndexClass.prototype = {
 					// 删除数据库
 					$(".dbDel").click(function(){
 						var filename = $(this).parent().find("span").text();
-						$.simplePost(Globals.ctx + "/setting/dbDel.action", {"filename" : filename}, freshDbList);
+						$.simplePost({url : Globals.ctx + "/setting/dbDel.action", data : {"filename" : filename}, callback : freshDbList});
 					});
 					
 					// 恢复数据库
 					$(".dbRestore").click(function(){
 						var filename = $(this).parent().find("span").text();
-						$.simplePost(Globals.ctx + "/setting/dbRestore.action", {"filename" : filename});
+						$.simplePost({url : Globals.ctx + "/setting/dbRestore.action", data : {"filename" : filename}});
 					});				
 				}
     		});
@@ -255,7 +255,7 @@ IndexClass.prototype = {
     	
 		// 备份数据库
 		$("#dbBackup").click(function(){
-			$.simplePost(Globals.ctx + "/setting/dbBackup.action", null, freshDbList);
+			$.simplePost({url : Globals.ctx + "/setting/dbBackup.action", callback : freshDbList});
 		});
     	
 		freshDbList();

@@ -8,10 +8,8 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
@@ -28,6 +26,7 @@ import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.tcp.client.LocalTcp31005;
 import com.santrong.tcp.client.LocalTcp31006;
 import com.santrong.tcp.client.LocalTcp31008;
+import com.santrong.tcp.client.LocalTcp31016;
 import com.santrong.tcp.client.TcpService;
 import com.santrong.util.CommonTools;
 
@@ -53,6 +52,26 @@ public class MeetingAction extends BaseAction{
 		MeetingItem meeting = dao.selectFirst();
 		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
 		if(dsList != null) {
+			//获取状态
+			LocalTcp31016 tcp = new LocalTcp31016();
+			List<String> addrList = new ArrayList<String>();
+			addrList.add("");
+			client.request(tcp);
+			
+			//这里为了能正常显示界面，不处理请求失败，当成连接不上处理
+			if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {
+				//对比转换状态
+				for(int i=0;i<dsList.size();i++) {
+					for(int j=0;j<tcp.getSrcStateList().size();j++){
+						if(dsList.get(i).getAddr().equals(tcp.getSrcStateList().get(j).getAddr())) {
+							dsList.get(i).setIsConnected(tcp.getSrcStateList().get(j).getState());
+							break;
+						}
+					}
+				}
+			}
+			//TODO 数量不等的时候应该怎么办
+			
 			meeting.setDsList(dsList);
 		}
 		

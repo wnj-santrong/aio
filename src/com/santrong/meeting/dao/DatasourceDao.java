@@ -52,4 +52,12 @@ public class DatasourceDao extends BaseDao {
 		}
 		return null;
 	}
+	
+	public int selectCountByMeetingId(String mid) {
+		DatasourceMapper mapper = this.getMapper(DatasourceMapper.class);
+		if(mapper != null) {
+			return mapper.selectCountByMeetingId(mid);
+		}
+		return 0;
+	}
 }
