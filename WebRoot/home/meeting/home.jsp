@@ -71,33 +71,33 @@
 	        <span><input name="useRecord" type="checkbox" value="1" <c:if test="${meeting.useRecord == 1}">checked</c:if> /><label><fmt:message key="meeting_record" /></label></span></li>
 	    <li>
 	        <p><fmt:message key="meeting_recordMode" />:</p>
-	        <span>
+	        <span id="layoutContainer">
+	        <input type="hidden" name="recordMode" value="${meeting.recordMode}"/>
 	        <c:if test="${fn:length(meeting.dsList) == 0}">
 	        <!-- 0 + VGA -->
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a1" />
 	        </c:if>
 			
 			<c:if test="${fn:length(meeting.dsList) == 1}">
 	        <!-- 1 + VGA -->
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a2" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a3" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a4" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a5" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a6" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a7" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a8" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a9" />
 	        </c:if>
 			
 			<c:if test="${fn:length(meeting.dsList) == 2}">
 	        <!-- 2 + VGA -->
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
-	        </c:if>
-	        
-	        <c:if test="${fn:length(meeting.dsList) == 3}">
-	        <!-- 3 + VGA -->
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_70.png" width="71" height="47" />
-	        <img src="${ctx}/resource/photo/03_72.png" width="71" height="47" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a10" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a11" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a12" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a13" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a14" />
+	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a15" />
 	        </c:if>
 	        
 			</span>

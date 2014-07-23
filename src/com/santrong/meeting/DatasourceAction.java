@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
+import com.santrong.log.Log;
 import com.santrong.meeting.dao.DatasourceDao;
+import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.DatasourceItem;
+import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.system.Global;
 import com.santrong.tcp.client.LocalTcp31014;
 import com.santrong.tcp.client.LocalTcp31015;
@@ -68,9 +72,10 @@ public class DatasourceAction extends BaseAction {
 		ds.setDsType(DatasourceItem.Datasoruce_Type_Camera);
 		
 		// 校验数量，多人操作可能引发的问题
+		int dsCount = 0;
 		if(StringUtils.isNullOrEmpty(ds.getId())) {
-			int dsCount = dsDao.selectCountByMeetingId(ds.getMeetingId());
-			if(dsCount == Global.VedioCount) {
+			dsCount = dsDao.selectCountByMeetingId(ds.getMeetingId());
+			if(dsCount == Global.VedioCount - 1) {// 扣除VGA
 				return "error_datasource_already_max";
 			}
 		}
@@ -121,16 +126,37 @@ public class DatasourceAction extends BaseAction {
 		}
 		
 		// 数据库操作
-		if(StringUtils.isNullOrEmpty(ds.getId())) {
-			ds.setId(CommonTools.getGUID());
-			ds.setCts(new Date());
-			if(dsDao.insert(ds) < 1) {
-				return FAIL;
+		ThreadUtils.beginTranx();
+		try{
+			if(StringUtils.isNullOrEmpty(ds.getId())) {
+				ds.setId(CommonTools.getGUID());
+				ds.setCts(new Date());
+				
+				MeetingDao meetingDao = new MeetingDao();
+				MeetingItem meeting = meetingDao.selectById(ds.getMeetingId());
+				meeting.setUts(new Date());
+				//视频路数改变，布局模式也要调整
+				int recordMode = 0;
+				if(dsCount == 0) {//0+1+1（原有+即将新增+VGA）
+					recordMode = 2;
+				}else if(dsCount == 1) {//1+1+1
+					recordMode = 10;
+				}
+				meeting.setRecordMode(recordMode);
+				
+				if(dsDao.insert(ds) < 1 || meetingDao.update(meeting) < 1) {
+					return FAIL;
+				}
+			}else{
+				if(dsDao.update(ds) < 1) {
+					return FAIL;
+				}
 			}
-		}else{
-			if(dsDao.update(ds) < 1) {
-				return FAIL;
-			}
+			ThreadUtils.commitTranx();
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+			ThreadUtils.rollbackTranx();
+			return FAIL;
 		}
 
 		
@@ -165,7 +191,27 @@ public class DatasourceAction extends BaseAction {
 			return FAIL;
 		}
 		
-		if(dsDao.delete(id) < 1) {
+		ThreadUtils.beginTranx();
+		try{
+			MeetingDao meetingDao = new MeetingDao();
+			int dsCount = dsDao.selectCountByMeetingId(item.getMeetingId());
+			MeetingItem meeting = meetingDao.selectById(item.getMeetingId());
+			meeting.setUts(new Date());
+			//视频路数改变，布局模式也要调整
+			int recordMode = 0;
+			if(dsCount == 1) {//1-1+1
+				recordMode = 1;
+			}else if(dsCount == 2) {//2-1+1
+				recordMode = 2;
+			}
+			meeting.setRecordMode(recordMode);
+			if(dsDao.delete(id) < 1 || meetingDao.update(meeting) < 1) {
+				return FAIL;
+			}
+			ThreadUtils.commitTranx();
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+			ThreadUtils.rollbackTranx();
 			return FAIL;
 		}
 		return SUCCESS;

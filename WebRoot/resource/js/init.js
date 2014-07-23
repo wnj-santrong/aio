@@ -43,6 +43,19 @@ IndexClass.prototype = {
     		$(".sub_content textarea").attr('disabled', true);
     	}
     	
+    	var recordMode = $("input[name=recordMode]").val();
+    	$("#a" + recordMode).addClass("cur_layout");
+    	
+    	$("#layoutContainer img").click(function() {
+    		var recordMode = $(this).attr("id").substr(1);
+    		alert(recordMode);
+    		$("input[name=recordMode]").val(recordMode);
+    		
+    		$("#layoutContainer img").removeClass("cur_layout");
+    		$(this).addClass("cur_layout");
+    	});
+    	
+    	// 激活界面
     	var activeElements = function() {
     		$(".sub_content input").attr('disabled', false);
     		$(".sub_content select").attr('disabled', false);
@@ -61,7 +74,7 @@ IndexClass.prototype = {
     	
     	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
     	
-    	
+    	// 获取显示数据源的弹框
     	var dsGet = function(id, mid) {
 			Boxy.load(Globals.ctx + "/datasource/dsGet.action?id=" + id + "&meetingId=" + mid, {
 				modal : true,
@@ -83,14 +96,14 @@ IndexClass.prototype = {
     		}
     		
     		var id = '';
-    		var mid = $("#meeting_config input[name=id]").val();
+    		var mid = $(".sub_content input[name=id]").val();
     		dsGet(id, mid);
 
     	});
     	
     	$(".dsEdit").click(function() {
     		var id = $(this).parent().find("input[name=dsId]").val();
-    		var mid = $("#meeting_config input[name=id]").val();
+    		var mid = $(".sub_content input[name=id]").val();
     		dsGet(id, mid);
     	});
     	

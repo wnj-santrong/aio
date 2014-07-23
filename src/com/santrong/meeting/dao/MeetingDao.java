@@ -21,6 +21,14 @@ public class MeetingDao extends BaseDao{
 		return null;
 	}
 	
+	public MeetingItem selectById(String id) {
+		MeetingMapper mapper = this.getMapper(MeetingMapper.class);
+		if(mapper != null) {
+			return mapper.selectById(id);
+		}
+		return null;
+	}
+	
 	public List<MeetingItem> selectAll() {
 		MeetingMapper mapper = this.getMapper(MeetingMapper.class);
 		if(mapper != null) {
