@@ -1,9 +1,8 @@
 package com.santrong.meeting.entry;
 
+import java.util.ArrayList;
 import java.util.Date;
-
-import com.mysql.jdbc.StringUtils;
-import com.santrong.log.Log;
+import java.util.List;
 
 /**
  * @author weinianjie
@@ -36,24 +35,17 @@ public class MeetingItem {
 	public static final int Record_Type_MV				= 2; // 电影模式
 	public static final int Record_Type_CMPS			= 4; // 合成模式
 	
-	// 数据源类型strmType
-	public static final int Datasoruce_Type_VGA			= 1; // VGA
-	public static final int Datasoruce_Type_Camera		= 0; // 摄像头
-	
 	// 系统低层教室名称
 	public static final String ConfIdPreview = "CLSRM_";// 教室ID：CLSRM_*，*代表1——N，N为服务器所支持的最大教室数量
 	
-	private int id;
+	private String id;
 	private String showName;
 	private String courseName;
 	private String teacher;
 	private String remark;
 	private int bitRate;
-	private String resolution;
+	private int resolution;
 	private int maxTime;
-	private String datasource1;
-	private String datasource2;
-	private String datasource3;
 	private int useRecord;
 	private int recordMode;
 	private int channel;
@@ -65,33 +57,8 @@ public class MeetingItem {
 	private int isRecord;
 	private int isConnected;
 	
-	public int getWidth() {
-		if(!StringUtils.isNullOrEmpty(this.resolution)) {
-			String[] arr = resolution.split("\\*");
-			try{
-				return Integer.parseInt(arr[0]);
-			}catch(Exception e) {
-				Log.printStackTrace(e);
-				return 0;
-			}
-		}
-		return 0;
-	}
-	
-	public int getHeight() {
-		if(!StringUtils.isNullOrEmpty(this.resolution)) {
-			String[] arr = resolution.split("\\*");
-			try{
-				return Integer.parseInt(arr[1]);
-			}catch(Exception e) {
-				Log.printStackTrace(e);
-				return 0;
-			}
-		}
-		return 0;
-	}	
-	
-	
+	private List<DatasourceItem> dsList = new ArrayList<DatasourceItem>();
+
 	public int getIsConnected() {
 		return isConnected;
 	}
@@ -115,13 +82,22 @@ public class MeetingItem {
 	public void setIsLive(int isLive) {
 		this.isLive = isLive;
 	}
+	public List<DatasourceItem> getDsList() {
+		return dsList;
+	}
 
-	public int getId() {
+	public void setDsList(List<DatasourceItem> dsList) {
+		this.dsList = dsList;
+	}
+
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(String id) {
 		this.id = id;
 	}
+
 	public int getChannel() {
 		return channel;
 	}
@@ -160,10 +136,10 @@ public class MeetingItem {
 	public void setBitRate(int bitRate) {
 		this.bitRate = bitRate;
 	}
-	public String getResolution() {
+	public int getResolution() {
 		return resolution;
 	}
-	public void setResolution(String resolution) {
+	public void setResolution(int resolution) {
 		this.resolution = resolution;
 	}
 	public int getMaxTime() {
@@ -172,28 +148,6 @@ public class MeetingItem {
 	public void setMaxTime(int maxTime) {
 		this.maxTime = maxTime;
 	}
-	public String getDatasource1() {
-		return datasource1;
-	}
-	public void setDatasource1(String datasource1) {
-		this.datasource1 = datasource1;
-	}
-	public String getDatasource2() {
-		return datasource2;
-	}
-
-	public void setDatasource2(String datasource2) {
-		this.datasource2 = datasource2;
-	}
-
-	public String getDatasource3() {
-		return datasource3;
-	}
-
-	public void setDatasource3(String datasource3) {
-		this.datasource3 = datasource3;
-	}
-
 	public int getIsRecord() {
 		return isRecord;
 	}

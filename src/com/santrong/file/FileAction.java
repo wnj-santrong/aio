@@ -64,7 +64,7 @@ public class FileAction extends BaseAction{
 	@RequestMapping(value="/fileEdit", method=RequestMethod.GET)
 	public String fileInput(String id) {
 		if(StringUtils.isNullOrEmpty(id)){
-			return "";
+			return ERROR_PARAM;
 		}
 		
 		FileDao fileDao = new FileDao();

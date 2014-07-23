@@ -8,13 +8,17 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
 import com.santrong.log.Log;
+import com.santrong.meeting.dao.DatasourceDao;
 import com.santrong.meeting.dao.MeetingDao;
+import com.santrong.meeting.entry.DatasourceItem;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
@@ -45,7 +49,12 @@ public class MeetingAction extends BaseAction{
 	@RequestMapping("/home")
 	public String home(){
 		MeetingDao dao = new MeetingDao();
+		DatasourceDao dsDao = new DatasourceDao();
 		MeetingItem meeting = dao.selectFirst();
+		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
+		if(dsList != null) {
+			meeting.setDsList(dsList);
+		}
 		
 		RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
 		if(status != null) {
@@ -111,6 +120,20 @@ public class MeetingAction extends BaseAction{
 			
 			List<RecStreamInfo> datasourceList = new ArrayList<RecStreamInfo>();
 			
+			for(DatasourceItem item : meeting.getDsList()) {
+				RecStreamInfo ds = tcp.new RecStreamInfo();
+				ds.setHasAud(0);
+				ds.setStrmAddr(item.getAddr());
+				ds.setStrmPort(item.getPort());
+				ds.setStrmUser(item.getUsername());
+				ds.setStrmPw(item.getPassword());
+				ds.setStrmType(item.getDsType());
+				ds.setStrmBandwidth(meeting.getBitRate());
+				ds.setStrmFmt(meeting.getResolution());
+				ds.setStrmFRate(25);
+				datasourceList.add(ds);
+			}
+			
 			//强行把VGA塞进去
 			RecStreamInfo vga = tcp.new RecStreamInfo();
 			vga.setHasAud(0);
@@ -118,12 +141,17 @@ public class MeetingAction extends BaseAction{
 			vga.setStrmPort(0);
 			vga.setStrmUser("0");
 			vga.setStrmPw("0");
-			vga.setStrmType(MeetingItem.Datasoruce_Type_VGA);
+			vga.setStrmType(DatasourceItem.Datasoruce_Type_VGA);
 			vga.setStrmBandwidth(0);
 			vga.setStrmFmt(0);
 			vga.setStrmFRate(0);
-			
 			datasourceList.add(vga);
+			
+			// 第一路附加声音属性
+			datasourceList.get(0).setHasAud(1);// 标识为带声音的
+			datasourceList.get(0).setAudSmpRate(48);// 声音采样率
+			datasourceList.get(0).setAudCh(2);// 声道
+			datasourceList.get(0).setAudBitrate(64);// 声音码率
 				
 			tcp.setRecStreamInfoList(datasourceList);
 			client.request(tcp);

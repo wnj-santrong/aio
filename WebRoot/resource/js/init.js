@@ -8,7 +8,13 @@ function IndexClass() {
 
 //index模块的具体页面初始化
 IndexClass.prototype = {
-	// 全页面
+	login:function() {
+		$(".submit").bindFormClick({afterSubmit : function() {
+			window.location.href= Globals.ctx + "/index.action";
+		}});
+	},
+	
+	// 首页外部框架
     index:function() {
     	$("code#pagename").remove();
     	
@@ -43,9 +49,7 @@ IndexClass.prototype = {
     		$(".sub_content textarea").attr('disabled', false);
     	};
     	
-    	var freshCurrentModel = function() {
-    		$(".navigator a:first").click();//刷新页面以便更新按钮
-    	}
+    	var freshCurrentModel = function() {$(".navigator a:first").click();}
     	
     	$(".save").bindFormClick({url : Globals.ctx + '/meeting/save.action'});
     	
@@ -56,6 +60,47 @@ IndexClass.prototype = {
     	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
     	
     	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
+    	
+    	
+    	var dsGet = function(id, mid) {
+			Boxy.load(Globals.ctx + "/datasource/dsGet.action?id=" + id + "&meetingId=" + mid, {
+				modal : true,
+				afterShow : function() {
+			    	// 绑定form提交
+			    	$(".submit").bindFormClick({afterSubmit : freshCurrentModel});
+			    	
+			    	// 绑定取消
+			    	$(".close").bindFormClose();
+				}
+			});
+    	};
+    	
+    	$(".add").click(function() {
+    		var index = $(".dsList input[type=text]").length + 1;
+    		if(index > 3) {
+    			Boxy.alert(Message.dynamic("warn_datasource_already_max"));
+    			return;
+    		}
+    		
+    		var id = '';
+    		var mid = $("#meeting_config input[name=id]").val();
+    		dsGet(id, mid);
+
+    	});
+    	
+    	$(".dsEdit").click(function() {
+    		var id = $(this).parent().find("input[name=dsId]").val();
+    		var mid = $("#meeting_config input[name=id]").val();
+    		dsGet(id, mid);
+    	});
+    	
+    	$(".dsDel").click(function() {
+    		var id = $(this).parent().find("input[name=dsId]").val();
+    		$.delConfirm(function(){
+    			$.simplePost(Globals.ctx + "/datasource/dsDel.action", {"id" : id}, freshCurrentModel);
+    		});
+    	});
+
     },
     
     

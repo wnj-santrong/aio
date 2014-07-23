@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -37,17 +38,18 @@ public class HomeAction extends BaseAction{
 		return "index";
 	}
 	
-	@RequestMapping("/subMenu")
-	@ResponseBody
-	public String subMenu(String parentId) {
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String loginGet() {
 		
-		MenuDao menuDao = new MenuDao();
-		List<MenuItem> subMenu = menuDao.selectByParentId(parentId);
-		
-		Gson gson = new Gson();
-		
-		return gson.toJson(subMenu);
+		return "login";
 	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@ResponseBody
+	public String loginPOST(String username, String password) {
+		
+		return SUCCESS;
+	}	
 	
 	@RequestMapping("/404")
 	public String page404() {

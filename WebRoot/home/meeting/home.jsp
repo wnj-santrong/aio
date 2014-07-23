@@ -41,9 +41,29 @@
             </span></li>
 	    <li>
 	        <p><fmt:message key="meeting_datasource" />:</p>
-	        <span><input name="datasource1" type="text" value="" class="Data_address"/></span>
-	        <span class="rec_img"><img src="${ctx}/resource/photo/0222.gif" width="12" height="12" /></span>
+	        
 	        <a href="#" class="add"><fmt:message key="text_add" /></a>
+	        
+	        <span  class="dsList">
+	        
+	        <c:forEach items="${meeting.dsList}" var="ds">
+	        
+	        <span class="dsItem">
+	        <input type="hidden" name="dsId" value="${ds.id}"/>
+	        <input type="text" value="${ds.addr}" class="form_text"/>
+	        <c:if test="${ds.isConnected == 1}">
+	        <img class="rec_img" src="${ctx}/resource/photo/0222.gif" width="12" height="12" />
+	        </c:if>
+	        <c:if test="${ds.isConnected == 0}">
+	        <img class="rec_img" src="${ctx}/resource/photo/0222.gif" width="12" height="12" />
+	        </c:if>
+	        <a href="#" class="dsEdit">修改</a>
+	        <a href="#" class="dsDel">删除</a>
+	        </span>
+	        
+	        </c:forEach>
+	        
+	        </span>
 	    </li>
 	    
 	    <li>

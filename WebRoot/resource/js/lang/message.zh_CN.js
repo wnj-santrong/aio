@@ -13,6 +13,7 @@ var Message = {
 	error_disk_lack : "\u78c1\u76d8\u5269\u4f59\u7a7a\u95f4\u4e0d\u8db3",
 	
 	warn_del_confirm : "\u786e\u5b9a\u8981\u5220\u9664\u5417", 
+	warn_datasource_already_max : "\u6700\u591a\u53ea\u80fd\u67093\u4e2a\u6570\u636e\u6e90",
 	
 	notice_must_select_one : "\u8bf7\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	notice_only_one_select : "\u53ea\u80fd\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",

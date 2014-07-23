@@ -92,7 +92,7 @@ public class LocalTcp31004 extends LocalTcpBase {
 					sb.append("<Layout type=\"int\">").append(this.layout).append("</Layout>");
 					sb.append("<bScale type=\"int\">").append(this.bScale).append("</bScale>");
 					sb.append("<RcdStreamInfoArray>");
-						for(RecStreamInfo item : recStreamInfoList){
+						for(RecStreamInfo item : recStreamInfoList) {
 							sb.append("<RcdStreamInfo>");
 								sb.append("<StrmAddr type=\"string\">").append(item.strmAddr).append("</StrmAddr>");
 								sb.append("<StrmPort type=\"int\">").append(item.strmPort).append("</StrmPort>");

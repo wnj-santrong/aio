@@ -1,13 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="inc/common.jsp"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<link rel="stylesheet" type="text/css" href="${ctx}/resource/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/resource/css/boxy.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/resource/css/blue.css" />
 <script type="text/javascript" src="${ctx}/resource/js/lang/message.zh_CN.js"></script>
-<title></title>
+<script type="text/javascript" src="${ctx}/resource/js/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/jquery.pagination.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/jquery.form.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/jquery.boxy.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/event.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/init.js"></script>
+<script type="text/javascript">
+Globals = {};
+Globals.define = {};
+Globals.ctx = "${ctx}";
+</script>
 </head>
 <body>
-	login
+<code id="pagename" style="display:none">c:index_a:login</code>
+<form action="" method="post">
+	<p><input type="text" name="username" /></p>
+	<p><input type="password" name="password" /></p>
+	<a href="javascript:void(0);" class=".submit">登录</a>
+</form>
 </body>
 </html>

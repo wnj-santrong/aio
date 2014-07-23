@@ -11,6 +11,7 @@
         
         <mapper class="com.santrong.demo.mapper.DemoMapper"/>
         <mapper class="com.santrong.meeting.mapper.MeetingMapper"/>
+        <mapper class="com.santrong.meeting.mapper.DatasourceMapper"/>
         <mapper class="com.santrong.setting.mapper.UserMapper"/>
         <mapper class="com.santrong.home.mapper.MenuMapper"/>
         <mapper class="com.santrong.file.mapper.FileMapper"/>

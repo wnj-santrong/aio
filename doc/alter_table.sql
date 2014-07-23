@@ -99,9 +99,6 @@ create table web_meeting(
 	bitRate int(4) comment '码率单位kbps',
 	resolution int(4) comment '分辨率',
 	maxTime int(4) not null comment '允许录制最大时间分钟',
-	datasource1 varchar(256) comment '数据源地址',
-	datasource2 varchar(256) comment '数据源地址',
-	datasource3 varchar(256) comment '数据源地址',
 	useRecord int(4) not null default 0 comment '是否录制',
 	recordMode int(4) not null default 0 comment '录制模式',
 	channel int(4) not null default 1 comment '通道号，1开始',
@@ -110,4 +107,20 @@ create table web_meeting(
 	primary key (id)
 ) engine=InnoDB default charset=utf8 collate=utf8_bin;
 
-insert into web_meeting values('10000', '', '', '', '', 768, 0, 480, '', '', '', 0, 0, 1, now(), now());
+insert into web_meeting values('10000', '', '', '', '', 768, 0, 480, 0, 0, 1, now(), now());
+
+-- 数据源表 ---
+drop table if exists web_datasource;
+create table web_datasource(
+	id varchar(32) not null comment 'UUID',
+	addr varchar(256) comment '地址',
+	port int(4) comment'端口',
+	username varchar(256) comment '用户名',
+	password varchar(256) comment '密码',
+	meetingId varchar(32) not null comment '会议ID',
+	dsType int(4) not null comment '数据源类型',
+	priority int(4) default 0 comment '优先级',
+	cts datetime comment '创建时间',
+	uts datetime comment '修改时间',
+	primary key (id)
+) engine=InnoDB default charset=utf8 collate=utf8_bin;

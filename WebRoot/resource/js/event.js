@@ -42,7 +42,7 @@ jQuery(function($){
 	
 	// 让form使用ajax提交
 	$.fn.bindFormClick = function(options) {
-		$(this).click(function(){
+		$(this).unbind("click").click(function(){
 	    	var form = $(this).closest("form");
 	    	if(form.length > 0){
 	    		
@@ -105,7 +105,7 @@ jQuery(function($){
 		    			Boxy.alert(Message.dynamic(result));
 		    			if(result == "success") {
 		    				$(".close").click();
-		    				if(options.afterSubmit)options.afterSubmit(form);
+		    				if(options.afterSubmit)options.afterSubmit(form, result);
 		    			}
 		    		}
 		    	});
@@ -116,7 +116,7 @@ jQuery(function($){
 	
 	// 绑定关闭弹框
 	$.fn.bindFormClose = function(callback) {
-	    $(this).click(function(e){
+	    $(this).unbind("click").click(function(e){
 	    	Boxy.get(this).hideAndUnload();
 	    	if(callback)callback();
 	    });
