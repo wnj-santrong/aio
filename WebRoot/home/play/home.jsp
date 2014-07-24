@@ -8,9 +8,16 @@
     <a href="#" class="search_btn"><img src="${ctx}/resource/photo/search_icon_03.png" border="0" />搜索</a>
     </p>
     <!-- 标签 -->
-   <p class="category"><a href="#" class="tag_add"><img src="${ctx}/resource/photo/newcode_btn_03.png" width="60" height="20" /></a>
+    <c:set var="isLogin" value="${sessionScope.loginUser != null}"/>
+   <p class="category">
+   <c:if test="${isLogin}">
+   <a href="#" class="tag_add"><img src="${ctx}/resource/photo/newcode_btn_03.png" width="60" height="20" /></a>
+   </c:if>
    <c:forEach items="${tagList}" var="item">
-   <a href="#" class='tag<c:if test="${query.keyword == item.tagName}"> cur_tag</c:if>'>${item.tagName}</a><a href="#" class="tag_del">删除</a>
+   <a href="#" class='tag<c:if test="${query.keyword == item.tagName}"> cur_tag</c:if>'>${item.tagName}</a>
+   <c:if test="${isLogin}">
+   <a href="#" class="tag_del">删除</a>
+   </c:if>
    </c:forEach>
    </p>
 </div>

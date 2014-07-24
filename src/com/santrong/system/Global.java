@@ -17,6 +17,7 @@ public class Global {
 	public static final String dbBackupDir = "E:\\workspace\\data\\sql";					// 数据库备份路径
 	public static final String shellDir = "E:\\workspace\\data\\shell";						// 所有shell脚本目录
 	public static final String vedioDir = "/data";											// 录制的视频目录
+	public static final String loginUser_key = "loginUser";									// 存放在session中登录用户的key
 	
 	
 	/*

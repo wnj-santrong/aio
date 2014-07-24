@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
 
 /**
@@ -42,30 +43,27 @@ public class CommonFilter implements Filter{
 		if (url != null) {
 			boolean pass = false;
 			
-			// 永远不需要登录的界面
-			if(url.endsWith("/login.action")){
-				pass = true;
+			if (passUrls != null) {
 				
-			}else{
-				
-				if(!Global.allLogin){// 全局定义为全部登录，则不用扫描了
-					
-					if (passUrls != null) {
-						
-						for (String suffix : passUrls) {
-							if (url.endsWith(suffix)) {
-								pass = true;
-								break;
-							}
-						}
+				for (String suffix : passUrls) {
+					if (url.endsWith(suffix)) {
+						pass = true;
+						break;
 					}
 				}
 			}
 			
-			// 校验登录
+			// 直接访问的jsp页面，除非配置在web.xml里，其余全部拦截
+			// spring把视图移交给jsp页面时候经过servlet拦截，但是不经过filter拦截，所以不会导致无法移交视图
+			if(!pass && url.endsWith(".jsp")) {
+				response.sendRedirect("/login.action");
+			}
+//			Log.debug("-----------------:" + url);
+			
+			// 不是免登录的页面，开始校验登录状态
 			if (!pass) {
-				//TODO 校验菜单权限
-				if(passUrls == null) {
+				UserItem loginUser = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.loginUser_key);
+				if(loginUser == null) {
 					response.sendRedirect("/login.action");
 				}
 			}

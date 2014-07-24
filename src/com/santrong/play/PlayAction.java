@@ -32,7 +32,14 @@ public class PlayAction extends BaseAction{
 		FileQuery query = new FileQuery();
 		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
-		query.setPageSize(10);//本页面可以重置分页大小
+		
+		//TODO level不同
+		if(this.currentUser() == null) {// 未登录
+			query.setPageSize(15);
+		}else {// 已登录
+			query.setPageSize(12);
+		}
+		
 		query.setCount(fileDao.selectByPageCount(query));
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		

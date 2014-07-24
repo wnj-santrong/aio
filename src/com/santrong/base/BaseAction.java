@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.entry.UserItem;
+import com.santrong.system.Global;
 
 /**
  * @Author weinianjie
@@ -37,7 +38,7 @@ public abstract class BaseAction {
 	}		
 	
 	public final UserItem currentUser() {
-		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute("user");
+		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.loginUser_key);
 		return user;
 	}
 	

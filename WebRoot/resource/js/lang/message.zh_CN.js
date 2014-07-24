@@ -13,6 +13,9 @@ var Message = {
 	error_disk_lack : "\u78c1\u76d8\u5269\u4f59\u7a7a\u95f4\u4e0d\u8db3",
 	error_datasource_already_max : "\u6700\u591a\u53ea\u80fd\u6709{0}\u4e2a\u6570\u636e\u6e90",
 	error_datasource_already_exists : "\u8be5\u6570\u636e\u6e90\u5df2\u7ecf\u5b58\u5728",
+	error_login_nullInput : "\u7528\u6237\u540d\u548c\u5bc6\u7801\u4e0d\u80fd\u4e3a\u7a7a",
+	error_login_user_not_exists : "\u7528\u6237\u4e0d\u5b58\u5728",
+	error_login_password_wrong : "\u5bc6\u7801\u9519\u8bef",
 	
 	warn_del_confirm : "\u786e\u5b9a\u8981\u5220\u9664\u5417", 
 	warn_datasource_already_max : "\u6700\u591a\u53ea\u80fd\u6709{0}\u4e2a\u6570\u636e\u6e90",

@@ -53,7 +53,7 @@ public class SettingAction extends BaseAction{
 		oldpwd = CommonTools.getMD5(oldpwd);
 		try{
 			UserDao userDao = new UserDao();
-			UserItem user = userDao.selectByUserName("admin");
+			UserItem user = userDao.selectByUserName(this.currentUser().getUsername());
 			if(user.getPassword().equals(oldpwd)){
 				user.setShowName(newname);
 				user.setUsername(newname);

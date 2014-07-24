@@ -26,19 +26,26 @@ Globals.vedioCount = <%=Global.VedioCount%>;
 </script>
 </head>
 <body>
-<code id="pagename" style="display:none">c:index_a:index</code>
+<code id="pagename" style="display:none">c:index_a:manage</code>
 <div class="mainbav">
 <div class="topnav">
     <div class="topnav_logo">
         <p><img src="${ctx}/resource/photo/logo.png"></p>
         <h2>标题足球世界杯国际联赛</h2>
-        <span><a href="#" class="user_login">管理员登录</a></span> </div>
+        <span><a href="#">欢迎${sessionScope.loginUser.username}</a><a href="#" class="logout_submit">退出</a></span> </div>
 </div>
 <div class="column">
-	<div class="sub_top"></div>
-	<div class="sub_content">
-
-	</div>
+    <div class="title_sid">
+        <ul class="navigator">
+        	<c:forEach items="${navigator}" var="item"><li><a href='javascript:void(0);' rel='${ctx}/${item.pageUrl}'><fmt:message key="menu_${item.menuName}" /></a></li></c:forEach>
+        </ul>
+    </div>
+    <div class="submenu">
+        <div class="sub_top"></div>
+        <div class="sub_content">
+        
+        </div>
+    </div>
 </div>
 </div>
 </body>

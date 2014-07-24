@@ -8,14 +8,52 @@ function IndexClass() {
 
 //index模块的具体页面初始化
 IndexClass.prototype = {
-	login:function() {
-		$(".submit").bindFormClick({afterSubmit : function() {
-			window.location.href= Globals.ctx + "/index.action";
-		}});
+	// 公共方法，绑定登录
+	_bindLogin:function() {
+    	$(".login_submit").bindFormClick({tip : false, isGoodCall : false, afterSubmit : 
+    		function(form, result) {
+    			if(result != "success") {
+    				Boxy.alert(Message.dynamic(result));
+    			}else{
+    				window.location.href= Globals.ctx + "/index.action";
+    				return;
+    			}
+    		}
+    	});
+    	// 绑定取消
+    	$(".close").bindFormClose();
 	},
 	
-	// 首页外部框架
-    index:function() {
+	// 登录页
+	login:function() {
+		this._bindLogin();
+	},
+	
+	// 首页
+	index:function() {
+		var _this = this;
+		$("code#pagename").remove();
+		
+		var pageName = '';
+		var pageUrl = 'play/home.action';
+		
+		$(".sub_top").html(pageName);
+		$.get(pageUrl, null, function(result){
+		    $(".sub_content").html(result);
+		    parsePageName();
+		    $("code#pagename").remove();
+		  });
+		
+		$(".user_login").click(function() {
+			Boxy.load(Globals.ctx + "/loginForm.action", {
+				modal : true,
+				afterShow : _this._bindLogin
+			});
+		});
+	},
+	
+	// 管理页面主框架
+    manage:function() {
     	$("code#pagename").remove();
     	
     	$(".navigator a").click(function() {
@@ -29,6 +67,16 @@ IndexClass.prototype = {
     		    $("code#pagename").remove();
     		  });
     	});
+    	
+		$(".logout_submit").click(function() {
+			$.simplePost({url : Globals.ctx + "/logout.action", tip : false, callback : function(result) {
+				if(result != 'success') {
+					Boxy.alert(Message.dynamic(result));
+				}else{
+					window.location.href= Globals.ctx + "/index.action";
+				}
+			}});
+		});
     	
     	$(".navigator a:first").click();
     },

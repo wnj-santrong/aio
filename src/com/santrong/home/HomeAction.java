@@ -8,9 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.home.dao.MenuDao;
 import com.santrong.home.entry.MenuItem;
+import com.santrong.log.Log;
+import com.santrong.opt.ThreadUtils;
+import com.santrong.setting.dao.UserDao;
+import com.santrong.setting.entry.UserItem;
+import com.santrong.system.Global;
+import com.santrong.util.CommonTools;
 
 /**
  * @Author weinianjie
@@ -23,18 +30,34 @@ public class HomeAction extends BaseAction{
 	@RequestMapping("/index")
 	public String index(){
 		
-		MenuDao menuDao = new MenuDao();
-		List<MenuItem> navigator = null;
-		
-		navigator = menuDao.selectByParentId("0");
-		
-		if(navigator == null) {
-			navigator = new ArrayList<MenuItem>();
+		if(this.currentUser() == null){
+			//未登录
+			return "index";
+			
+		}else{
+			//已登录
+			MenuDao menuDao = new MenuDao();
+			List<MenuItem> navigator = null;
+			
+			navigator = menuDao.selectByParentId("0");
+			
+			if(navigator == null) {
+				navigator = new ArrayList<MenuItem>();
+			}
+			
+			request.setAttribute("navigator", navigator);
+			
+			return "manage";
+			
 		}
 		
-		request.setAttribute("navigator", navigator);
+
+	}
+	
+	@RequestMapping(value="/loginForm", method=RequestMethod.GET)
+	public String loginForm() {
 		
-		return "index";
+		return "inc/loginform";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
@@ -43,12 +66,48 @@ public class HomeAction extends BaseAction{
 		return "login";
 	}
 	
+	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	@ResponseBody
 	public String loginPOST(String username, String password) {
+		if(StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password)) {
+			return "error_login_nullInput";
+		}
+		
+		UserDao userDao = new UserDao();
+		UserItem user = userDao.selectByUserName(username);
+		
+		if(user == null) {
+			return "error_login_user_not_exists";
+		}
+		
+		if(!user.getPassword().equals(CommonTools.getMD5(password))) {
+			return "error_login_password_wrong";
+		}
+		
+		ThreadUtils.currentHttpSession().setAttribute(Global.loginUser_key, user);
 		
 		return SUCCESS;
-	}	
+	}
+	
+	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	@ResponseBody
+	public String logout() {
+
+		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.loginUser_key);
+		if(user == null) {
+			return SUCCESS;
+		}
+		
+		try{
+			ThreadUtils.currentHttpSession().removeAttribute(Global.loginUser_key);
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+			return FAIL;
+		}
+		
+		return SUCCESS;
+	}
 	
 	@RequestMapping("/404")
 	public String page404() {

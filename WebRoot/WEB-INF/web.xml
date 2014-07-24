@@ -37,6 +37,12 @@
 			<!-- 免登陆页面 -->
 			<param-name>passUrls</param-name>
 			<param-value>
+			/index.action,
+			/login.action,
+			/loginForm.action,
+			/404.action,
+			/500.action,
+			/play/home.action
 			</param-value>
 		</init-param>
 	</filter>  

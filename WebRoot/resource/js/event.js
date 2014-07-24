@@ -42,19 +42,25 @@ jQuery(function($){
 	
 	// 让form使用ajax提交
 	$.fn.bindFormClick = function(options) {
+		options = $.extend({
+//			url : null,//不能设置默认的URL，否则jquery使用$.extend合并参数的时候会发现options.url存在，则最终结果会是null
+			tip : true,
+			isGoodCall : true,//是否只有返回success才回调afterSubmit
+			beforeSubmit : function(){},
+			afterSubmit : function(){}
+		}, options||{});
+		
 		$(this).unbind("click").click(function(){
 	    	var form = $(this).closest("form");
 	    	if(form.length > 0){
 	    		
-	    		if(options.beforeSubmit){
-	    			var rs = options.beforeSubmit(form);
-	    			if(rs == false) {
-	    				return;
-	    			}
-	    		}
+    			var rs = options.beforeSubmit(form);
+    			if(rs == false) {
+    				return;
+    			}
 	    		
 	    		form.ajaxSubmit({
-	    			url : options.url,
+	    			url : options.url,//如果url参数为空，jquery form会调用form的action地址作为url
 		    		beforeSubmit : function(){
 		    			form.find(".text_warn").removeClass("text_warn");
 		    	        var isPass = true;
@@ -102,12 +108,14 @@ jQuery(function($){
 		    	        return isPass;
 		    		},
 		    		success : function(result) {
-		    			if(options.tip != false) {
+		    			if(options.tip) {
 		    				Boxy.alert(Message.dynamic(result));
 		    			}
 		    			if(result == "success") {
 		    				$(".close").click();
-		    				if(options.afterSubmit)options.afterSubmit(form, result);
+		    			}
+		    			if((options.isGoodCall && result == "success") || !options.isGoodCall){
+		    				options.afterSubmit(form, result);
 		    			}
 		    		}
 		    	});
@@ -139,7 +147,7 @@ jQuery(function($){
 				if(options.tip != false) {
 					Boxy.alert(Message.dynamic(result, options.msgParams));
 				}
-				options.callback(result);
+				if(options.callback)options.callback(result);
 			}
 		});
 	};
