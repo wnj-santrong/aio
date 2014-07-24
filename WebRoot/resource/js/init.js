@@ -45,11 +45,8 @@ IndexClass.prototype = {
 		  });
 		
 		$(".user_login").click(function() {
-			Boxy.load(Globals.ctx + "/loginForm.action", {
-				modal : true,
-				afterShow : _this._bindLogin
-			});
-		});
+			window.location.href= Globals.ctx + "/login.action";
+		});		
 	},
 	
 	// 管理页面主框架
