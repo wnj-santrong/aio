@@ -142,7 +142,7 @@
 			prev_show_always:true,
 			next_show_always:true,
 			renderer:"defaultRenderer",
-			load_first_page:true,
+			load_first_page:false,
 			callback:function(){return false;}
 		},opts||{});
 		

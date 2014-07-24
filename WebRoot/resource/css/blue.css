@@ -171,3 +171,4 @@ body{ background: url(../photo/171.gif); }
 /*---------其他---------------------*/
 #layoutContainer img {border:solid 2px #fff; cursor:pointer;}
 #layoutContainer img.cur_layout {border:solid 2px red;}
+.serch .cur_tag {background-color:#ccc;}

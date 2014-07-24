@@ -23,7 +23,7 @@ IndexClass.prototype = {
     		var pageUrl = $(this).attr("rel");
     		
     		$(".sub_top").html(pageName);
-    		$.get(pageUrl, function(result){
+    		$.get(pageUrl, null, function(result){
     		    $(".sub_content").html(result);
     		    parsePageName();
     		    $("code#pagename").remove();
@@ -48,7 +48,6 @@ IndexClass.prototype = {
     	
     	$("#layoutContainer img").click(function() {
     		var recordMode = $(this).attr("id").substr(1);
-    		alert(recordMode);
     		$("input[name=recordMode]").val(recordMode);
     		
     		$("#layoutContainer img").removeClass("cur_layout");
@@ -119,6 +118,67 @@ IndexClass.prototype = {
     
     // 视频播放
     play:function() {
+    	var freshPage = function(opts) {
+    		opts = $.extend({
+    			keyword : keyword,
+    			pageNum : 0
+    			}, opts || {});
+    		
+    		var pageUrl = Globals.ctx + "/play/home.action";
+    		
+    		$.get(pageUrl, {keyword : opts.keyword, pageNum : opts.pageNum}, function(result){
+    		    $(".sub_content").html(result);
+    		    //虽然自身已经被替换，JS仍可以继续执行
+    		    parsePageName();
+    		    $("code#pagename").remove();
+    		  });
+    	};    	
+    	
+    	$("#pagination").pagination(fileCount, {
+    		items_per_page : pageSize,
+    		current_page : pageNum,
+    		callback : function(current_page, containers) {
+    			var params = {
+    				keyword : $("www").val(),
+    				tag : $("www").val(),
+    				pageNum : current_page
+    			};
+    			freshPage(params);
+    		}
+    	});
+    	
+    	$(".search_btn").click(function() {
+    		freshPage({keyword : $("input[name=keywork]").val()});
+    		
+    	});
+    	
+    	$(".tag").click(function() {
+    		$(".tag").removeClass(".tag");
+    		$(this).addClass("cur_tag");
+    		freshPage({keyword : $(this).text()});
+    	});
+    	
+    	$(".tag_add").click(function() {
+			Boxy.load(Globals.ctx + "/tag/tagGet.action", {
+				modal : true,
+				afterShow : function() {
+			    	// 绑定form提交
+			    	$(".submit").bindFormClick({afterSubmit : freshPage});
+			    	
+			    	// 绑定取消
+			    	$(".close").bindFormClose();
+				}
+			});
+    	});
+    	
+    	$(".tag_del").click(function() {
+    		$.simplePost({url : Globals.ctx + "/tag/tagDel.action", data : {tagName :$(this).prev().text()}, callback : freshPage})
+    	});
+    	
+	    $(".meeting_vod li").click(function() {
+//	    	window.open(url,"play","fullscreen=no,toolbar=no,menubar=no,scrollbars=no,resizable=yes,location=no,status=no");
+    	alert(1);
+	    }); 
     },
     
     // 文件管理

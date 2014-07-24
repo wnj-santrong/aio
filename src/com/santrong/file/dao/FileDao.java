@@ -83,11 +83,16 @@ public class FileDao extends BaseDao{
 			// 条件
 			if(!StringUtils.isNullOrEmpty(query.getKeyword())) {
 				criteria.where(or(
-						like("f.showName", "%" + query.getKeyword() + "%"),
-						like("f.fileName", "%" + query.getKeyword() + "%"),
-						like("f.courseName", "%" + query.getKeyword() + "%"),
-						like("f.teacher", "%" + query.getKeyword() + "%"),
-						like("f.remark", "%" + query.getKeyword() + "%")));
+						like("f.showName", "?"),
+						like("f.fileName", "?"),
+						like("f.courseName", "?"),
+						like("f.teacher", "?"),
+						like("f.remark", "?")));
+				criteria.setStringParam("%" + query.getKeyword() + "%");
+				criteria.setStringParam("%" + query.getKeyword() + "%");
+				criteria.setStringParam("%" + query.getKeyword() + "%");
+				criteria.setStringParam("%" + query.getKeyword() + "%");
+				criteria.setStringParam("%" + query.getKeyword() + "%");
 			}
 			if(query.getLevel() != -1) {
 				criteria.where(eq("f.level", "?"));

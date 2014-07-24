@@ -124,3 +124,15 @@ create table web_datasource(
 	uts datetime comment '修改时间',
 	primary key (id)
 ) engine=InnoDB default charset=utf8 collate=utf8_bin;
+
+-- 标签表 ---
+drop table if exists web_tag;
+create table web_tag(
+	id varchar(32) not null comment 'UUID',
+	tagName varchar(256) comment '地址',
+	priority int(4) default 0 comment '优先级',
+	cts datetime comment '创建时间',
+	uts datetime comment '修改时间',
+	primary key (id)
+) engine=InnoDB default charset=utf8 collate=utf8_bin;
+insert into web_tag values('10000', 'CLSRM', 0, now(), now());
