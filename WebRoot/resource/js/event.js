@@ -102,7 +102,9 @@ jQuery(function($){
 		    	        return isPass;
 		    		},
 		    		success : function(result) {
-		    			Boxy.alert(Message.dynamic(result));
+		    			if(options.tip != false) {
+		    				Boxy.alert(Message.dynamic(result));
+		    			}
 		    			if(result == "success") {
 		    				$(".close").click();
 		    				if(options.afterSubmit)options.afterSubmit(form, result);

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
@@ -29,33 +28,22 @@ import com.santrong.tcp.client.TcpService;
 public class FileAction extends BaseAction{
 	
 	@RequestMapping("/home")
-	public String home(String keyword){
-		FileDao fileDao = new FileDao();
+	public String home(String keyword, Integer pageNum){
+		if(pageNum == null) {
+			pageNum = 0;
+		}
 		
-		FileQuery query = new FileQuery();
-		query.setKeyword(keyword);
-		query.setCount(fileDao.selectByPageCount(query));
-		
-		request.setAttribute("query", query);
-		return "file/home";
-	}
-	
-	/*
-	 * 获取课件列表
-	 */
-	@RequestMapping("/fileList")
-	@ResponseBody
-	public String fileList(String keyword, int pageNum) {
 		FileDao fileDao = new FileDao();
 		
 		FileQuery query = new FileQuery();
 		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
+		query.setCount(fileDao.selectByPageCount(query));
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		
-		Gson gson = new Gson();
-		
-		return gson.toJson(fileList); 
+		request.setAttribute("query", query);
+		request.setAttribute("fileList", fileList);
+		return "file/home";
 	}
 	
 	/*

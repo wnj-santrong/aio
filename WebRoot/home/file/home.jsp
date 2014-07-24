@@ -1,11 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../inc/common.jsp"%>
 <code id="pagename" style="display:none">c:index_a:file</code>
+<div class="serch">
+	<!-- 关键字 -->
+    <p class="serch_img"><input type="text" name="keywork" class="serch_text" value="${query.keyword}" />
+    <a href="#" class="search_btn"><img src="${ctx}/resource/photo/search_icon_03.png" border="0" />搜索</a>
+    </p>
+   <!-- 按钮 -->
+   <span class="table_btn" style="position:static;float:left;"><a href="#" id="fileDel">删除</a><a href="#" id="fileDownload">下载</a><a href="#" id="fileEdit">编辑</a></span>
+   <span class="table_btn_right" style="position:static;float:right;"><a href="#" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a> </span>
+</div>
+<!-- 列表 -->
 <table>
-    <caption>
-    <div class="table_btn"><a href="#" id="fileDel">删除</a><a href="#" id="fileDownload">下载</a><a href="#" id="fileEdit">编辑</a></div>
-    <span class="table_btn_right"><a href="#" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a> </span>
-    </caption>
     <colgroup>
     <col width="4%" />
     <col width="25%" />
@@ -29,8 +35,19 @@
             <!-- 录制时长 -->
         </tr>
     </thead>
-    <tbody id="fileList">
-
+    <tbody>
+		<c:forEach items="${fileList}" var="file">
+		<tr>
+		    <td><input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" /></td>
+		    <td>${file.duration}</td>
+		    <td>${file.courseName}</td>
+		    <td>${file.fileSize}</td>
+		    <td>${file.status}</td>
+		    <td>${file.level}</td>
+		    <td>${file.teacher}</td>
+		    <td>${file.remark}</td>
+		</tr>
+		</c:forEach>
     </tbody>
     <tfoot>
         <tr>
@@ -38,8 +55,13 @@
         </tr>
     </tfoot>
 </table>
+<!-- 分页 -->
 <div id="pagination"></div>
-<input type="hidden" name="fileCount" value="${query.count}" />
-<input type="hidden" name="pageSize" value="${query.pageSize}" />
+<script type="text/javascript">
+var fileCount = ${query.count};
+var pageNum = ${query.pageNum};
+var pageSize = ${query.pageSize};
+var keyword = '${query.keyword}';
+</script>
 
 

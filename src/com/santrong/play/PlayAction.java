@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
@@ -23,7 +22,7 @@ import com.santrong.play.entry.TagItem;
 public class PlayAction extends BaseAction{
 	
 	@RequestMapping("/home")
-	public String home(String keyword, String tag, Integer pageNum){
+	public String home(String keyword, Integer pageNum){
 		if(pageNum == null) {
 			pageNum = 0;
 		}
@@ -31,11 +30,7 @@ public class PlayAction extends BaseAction{
 		FileDao fileDao = new FileDao();
 		
 		FileQuery query = new FileQuery();
-		if(!StringUtils.isNullOrEmpty(tag)) {
-			query.setKeyword(tag);
-		}else{
-			query.setKeyword(keyword);
-		}
+		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
 		query.setPageSize(10);//本页面可以重置分页大小
 		query.setCount(fileDao.selectByPageCount(query));
@@ -44,8 +39,6 @@ public class PlayAction extends BaseAction{
 		TagDao tagDao = new TagDao();
 		List<TagItem> tagList = tagDao.selectAll();
 		
-		request.setAttribute("keyword", keyword);
-		request.setAttribute("tag", tag);
 		request.setAttribute("query", query);
 		request.setAttribute("fileList", fileList);
 		request.setAttribute("tagList", tagList);
