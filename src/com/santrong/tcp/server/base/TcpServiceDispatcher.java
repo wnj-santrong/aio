@@ -69,9 +69,9 @@ public class TcpServiceDispatcher implements Runnable{
 			
 			String uuid = CommonTools.getGUID();
 			
-			Log.debug("TCP-begin-" + uuid + ":getXmlMsg : " + str);
+			Log.debug("getXmlMsg [TCP_BEGIN(" + uuid + ")] : " + str);
 			String retMsg = dispatch(str);
-			Log.debug("TCP-end-" + uuid + ":sendXmlMsg : " + retMsg);
+			Log.debug("sendXmlMsg [TCP_END(" + uuid + ")] : " + retMsg);
 			
 			OutputStream os = clientSocket.getOutputStream();
 			DataOutputStream out = new DataOutputStream(os);

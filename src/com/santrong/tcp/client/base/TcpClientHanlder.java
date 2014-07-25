@@ -69,7 +69,7 @@ public class TcpClientHanlder{
 		try {
 			String uuid = CommonTools.getGUID();
 			
-			Log.debug("TCP-begin-" + uuid + ":sendXmlMsg : " + xmlMsg);
+			Log.debug("sendXmlMsg[TCP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			byte[] xmlMsgb = xmlMsg.getBytes(Global.Default_Encoding);
 			 
 			//获取输出流
@@ -97,7 +97,7 @@ public class TcpClientHanlder{
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);	
             msgRsp = new String(msgRsp_b, Global.Default_Encoding);
-            Log.debug("TCP-end-" + uuid + ":getXmlMsg : " + msgRsp);
+            Log.debug("getXmlMsg[TCP_END(" + uuid + ")] : " + msgRsp);
 		 
 		} catch (UnknownHostException e) {
 			Log.printStackTrace(e);
@@ -137,7 +137,9 @@ public class TcpClientHanlder{
 			socket.setSoTimeout(TIME_OUT);
 			socket.setSoLinger(true, 30);
 			
-			Log.debug("sendXmlMsg : " + xmlMsg);
+			String uuid = CommonTools.getGUID();
+			
+			Log.debug("sendXmlMsg [TCP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			byte[] xmlMsgb = xmlMsg.getBytes(Global.Default_Encoding);
 			 
 			//获取输出流
@@ -172,7 +174,7 @@ public class TcpClientHanlder{
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);
             msgRsp = new String(msgRsp_b, Global.Default_Encoding);
-            Log.debug("getXmlMsg : " + msgRsp);
+            Log.debug("getXmlMsg [TCP_END(" + uuid + ")] : " + msgRsp);
 
 		} catch (UnknownHostException e) {
 			Log.printStackTrace(e);

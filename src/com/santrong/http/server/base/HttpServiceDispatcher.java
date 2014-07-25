@@ -67,9 +67,9 @@ public class HttpServiceDispatcher {
 			
 			String uuid = CommonTools.getGUID();
 			
-			Log.debug("HTTP-begin-" + uuid + ":getXmlMsg : " + xmlMsg);
+			Log.debug("getXmlMsg [HTTP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			String retMsg = dispatch(xmlMsg);
-			Log.debug("HTTP-end-" + uuid + ":sendXmlMsg : " + retMsg);
+			Log.debug("sendXmlMsg [HTTP_END(" + uuid + ")] : " + retMsg);
 			
 			OutputStream out = response.getOutputStream();
             if (retMsg != null) {
