@@ -11,7 +11,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import com.santrong.log.Log;
-import com.santrong.tcp.TcpDefine;
+import com.santrong.system.Global;
+import com.santrong.util.CommonTools;
 
 public class TcpClientHanlder{
 	
@@ -66,8 +67,10 @@ public class TcpClientHanlder{
 		}
 		
 		try {
-			Log.debug("sendXmlMsg : " + xmlMsg);
-			byte[] xmlMsgb = xmlMsg.getBytes(TcpDefine.Default_Encoding);
+			String uuid = CommonTools.getGUID();
+			
+			Log.debug("TCP-begin-" + uuid + ":sendXmlMsg : " + xmlMsg);
+			byte[] xmlMsgb = xmlMsg.getBytes(Global.Default_Encoding);
 			 
 			//获取输出流
 			OutputStream out_0 = gsocket.getOutputStream();
@@ -93,8 +96,8 @@ public class TcpClientHanlder{
 
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);	
-            msgRsp = new String(msgRsp_b, TcpDefine.Default_Encoding);
-            Log.debug("getXmlMsg : " + msgRsp);
+            msgRsp = new String(msgRsp_b, Global.Default_Encoding);
+            Log.debug("TCP-end-" + uuid + ":getXmlMsg : " + msgRsp);
 		 
 		} catch (UnknownHostException e) {
 			Log.printStackTrace(e);
@@ -135,7 +138,7 @@ public class TcpClientHanlder{
 			socket.setSoLinger(true, 30);
 			
 			Log.debug("sendXmlMsg : " + xmlMsg);
-			byte[] xmlMsgb = xmlMsg.getBytes(TcpDefine.Default_Encoding);
+			byte[] xmlMsgb = xmlMsg.getBytes(Global.Default_Encoding);
 			 
 			//获取输出流
 			OutputStream out_0 = socket.getOutputStream();
@@ -168,7 +171,7 @@ public class TcpClientHanlder{
 
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);
-            msgRsp = new String(msgRsp_b, TcpDefine.Default_Encoding);
+            msgRsp = new String(msgRsp_b, Global.Default_Encoding);
             Log.debug("getXmlMsg : " + msgRsp);
 
 		} catch (UnknownHostException e) {

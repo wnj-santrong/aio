@@ -2,8 +2,8 @@
 <%@ include file="../inc/common.jsp"%>
 <code id="pagename" style="display:none">c:index_a:info</code>
 <ul class="meeting">
-	<li><p><fmt:message key="info_deviceNo"/>:</p><span>${info.deviceNo}</span></li>
-	<li><p><fmt:message key="info_deviceType"/>:</p><span>${info.deviceType}</span></li>
+	<li><p><fmt:message key="info_deviceNo"/>:</p><span>${info.model}</span></li>
+	<li><p><fmt:message key="info_deviceType"/>:</p><span>${info.serialNo}</span></li>
 	<li><p><fmt:message key="info_maxPlay"/>:</p><span>${info.uniVodMax}</span></li>
 	<li><p><fmt:message key="info_uniCur"/>:</p><span>${info.uniCur}</span></li>
 	<li><p><fmt:message key="info_vodCur"/>:</p><span>${info.vodCur}</span></li>

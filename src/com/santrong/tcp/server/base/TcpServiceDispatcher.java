@@ -9,6 +9,7 @@ import java.net.Socket;
 import com.santrong.log.Log;
 import com.santrong.opt.MsgCode;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.util.CommonTools;
 import com.santrong.util.XmlReader;
 
 public class TcpServiceDispatcher implements Runnable{
@@ -27,16 +28,14 @@ public class TcpServiceDispatcher implements Runnable{
 		XmlReader xml = new XmlReader();
 		xml.parse(getMsg);
 		String msgCode = xml.find("/MsgHead/MsgCode").getText();
-		if(MsgCode.BASIC_TCP_SERVER_SIGN.contains(msgCode)) {
-			try {
-				
-				// 分发任务
-				AbstractTcpService service = (AbstractTcpService) Class.forName("com.santrong.tcp.BasicTcpService" + msgCode).newInstance();
-				return service.excute(getMsg);
-				
-			} catch (Exception e) {
-				Log.printStackTrace(e);
-			}
+		try {
+			
+			// 分发任务
+			AbstractTcpService service = (AbstractTcpService) Class.forName("com.santrong.tcp.server.BasicTcpService" + msgCode).newInstance();
+			return service.excute(getMsg);
+			
+		} catch (Exception e) {
+			Log.printStackTrace(e);
 		}
 		
 		//第二种信令规范请实现AbstractTcpService接口构建XXXTcpService类
@@ -67,9 +66,12 @@ public class TcpServiceDispatcher implements Runnable{
 			}
 			
 			String str = new String(in_b, Encoding);
-			Log.info("listen tcp server=======:" + str);
+			
+			String uuid = CommonTools.getGUID();
+			
+			Log.debug("TCP-begin-" + uuid + ":getXmlMsg : " + str);
 			String retMsg = dispatch(str);
-			Log.info("return tcp server=======:" + retMsg);
+			Log.debug("TCP-end-" + uuid + ":sendXmlMsg : " + retMsg);
 			
 			OutputStream os = clientSocket.getOutputStream();
 			DataOutputStream out = new DataOutputStream(os);

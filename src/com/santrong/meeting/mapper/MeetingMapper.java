@@ -20,6 +20,9 @@ public interface MeetingMapper {
 	@Select("select * from web_meeting where id=#{id}")
 	MeetingItem selectById(String id);
 	
+	@Select("select * from web_meeting where channel=#{channel}")
+	MeetingItem selectByChannel(int channel);	
+	
 	@Select("select * from web_meeting")
 	List<MeetingItem> selectAll();
 	

@@ -26,7 +26,7 @@ public class Ini {
     // 打开ini文件路径
     private String iniFile;
     // ini编码
-    private String encoding = Global.iniFileEncoding;
+    private String encoding = Global.Default_Encoding;
     // ini文件内所有数据
     
     private Map<String, Map<String, String>> datas = new HashMap<String, Map<String, String>>();

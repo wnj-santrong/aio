@@ -20,7 +20,6 @@ public class TcpHeader {
 	}
 	
 	/**
-	 * 旧版Beyonsys录播协议头
 	 * @return
 	 */
 	public byte[] getBytes(){		
@@ -38,11 +37,6 @@ public class TcpHeader {
 	   
 	   ByteBuffer bf =  ByteBuffer.allocate(8);
 	   bf.put(b);
-	   //ByteBuffer bf2 = bf.slice();
-//	   System.out.println(bf.getShort(0));
-//	   System.out.println(bf.getShort(2));
-//	   System.out.println(bf.getShort(4));
-//	   System.out.println(bf.getShort(6));
 	   
 	   System.out.println(bf.getInt(0));
 	   System.out.println(bf.getInt(1));

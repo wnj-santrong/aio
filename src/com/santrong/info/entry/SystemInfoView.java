@@ -12,8 +12,8 @@ import com.santrong.tcp.client.MainTcp39004.ModuleStatus;
  */
 public class SystemInfoView {
 	
-	private String deviceNo;
-	private String deviceType;
+	private String model;
+	private String serialNo;
 	private int uniVodMax;
 	private int uniCur;
 	private int vodCur;
@@ -31,18 +31,26 @@ public class SystemInfoView {
 		return "unknown";
 	}
 	
-	public String getDeviceNo() {
-		return deviceNo;
+	public String getModel() {
+		return model;
 	}
-	public void setDeviceNo(String deviceNo) {
-		this.deviceNo = deviceNo;
+
+
+	public void setModel(String model) {
+		this.model = model;
 	}
-	public String getDeviceType() {
-		return deviceType;
+
+
+	public String getSerialNo() {
+		return serialNo;
 	}
-	public void setDeviceType(String deviceType) {
-		this.deviceType = deviceType;
+
+
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
 	}
+
+
 	public int getUniVodMax() {
 		return uniVodMax;
 	}

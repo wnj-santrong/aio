@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jdom.Element;
 
+import com.santrong.system.Global;
 import com.santrong.tcp.TcpDefine;
 import com.santrong.tcp.client.base.MainTcpBase;
 import com.santrong.util.XmlReader;
@@ -34,7 +35,7 @@ public class MainTcp39004 extends MainTcpBase{
 		sb.append("<ReqMsg>");
 			sb.append("<MsgHead>");
 				sb.append("<MsgCode>").append(TcpDefine.Basic_Client_GetModInfo).append("</MsgCode>");
-				sb.append("<ModId>").append(TcpDefine.ModuleSign).append("</ModId>");
+				sb.append("<ModId>").append(Global.Module_Sign).append("</ModId>");
 				sb.append("<SessionId>1</SessionId>");
 			sb.append("</MsgHead>");
 			sb.append("<MsgBody>");

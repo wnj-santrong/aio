@@ -32,7 +32,7 @@
   	
 	<filter>  
 		<filter-name>CommonFilter</filter-name>  
-		<filter-class>com.santrong.filter.CommonFilter</filter-class> 
+		<filter-class>com.santrong.filter.CommonFilter</filter-class>
 		<init-param>
 			<!-- 免登陆页面 -->
 			<param-name>passUrls</param-name>
@@ -40,6 +40,7 @@
 			/index.action,
 			/login.action,
 			/loginForm.action,
+			/http/basic.action,
 			/404.action,
 			/500.action,
 			/play/home.action

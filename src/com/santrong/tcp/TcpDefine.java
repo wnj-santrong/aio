@@ -11,8 +11,6 @@ public class TcpDefine {
 	public static final int Basic_Server_port = 9009;
 	
 	public static final String Xml_Header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-	public static final String ModuleSign = "id_web_conn";
-	public static final String Default_Encoding = "UTF-8";
 	
 	public static final String Basic_Client_Login 				= "31001";	// 连接请求
 	public static final String Basic_Client_Logout 				= "31002";	// 断开连接

@@ -1,5 +1,6 @@
 package com.santrong.tcp.client;
 
+import com.santrong.system.Global;
 import com.santrong.tcp.TcpDefine;
 import com.santrong.tcp.client.base.LocalTcpBase;
 import com.santrong.util.XmlReader;
@@ -11,7 +12,7 @@ import com.santrong.util.XmlReader;
  */
 public class LocalTcp31006 extends LocalTcpBase {
 	private String confId;
-	private int operType;// <!-- 0：停止录制; 1：开始录制; 2：暂停录制; -->
+	private int operType;// <!-- 0：停止录制; 1：开始录制||继续录制; 2：暂停录制; -->
 	private String courseName;
 	private String courseAbs;
 	private String teacher;
@@ -84,7 +85,7 @@ public class LocalTcp31006 extends LocalTcpBase {
 		sb.append("<ReqMsg>");
 			sb.append("<MsgHead>");
 				sb.append("<MsgCode>").append(TcpDefine.Basic_Client_RecordCtl).append("</MsgCode>");
-				sb.append("<ModId>").append(TcpDefine.ModuleSign).append("</ModId>");
+				sb.append("<ModId>").append(Global.Module_Sign).append("</ModId>");
 				sb.append("<SessionId>1</SessionId>");
 			sb.append("</MsgHead>");
 			sb.append("<MsgBody>");

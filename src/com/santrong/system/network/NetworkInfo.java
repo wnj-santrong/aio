@@ -6,6 +6,10 @@ package com.santrong.system.network;
  * @time 上午9:45:03
  */
 public class NetworkInfo {
+	
+	public static final int Type_Lan = 0;
+	public static final int Type_Wan = 1;
+	
 	private int index;
 	private String ip;
 	private String mask;

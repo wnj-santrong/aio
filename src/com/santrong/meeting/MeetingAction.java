@@ -137,6 +137,7 @@ public class MeetingAction extends BaseAction{
 			tcp.setLayout(meeting.getRecordMode());
 			tcp.setbScale(MeetingItem.Bscale_Extend);
 			
+			// TODO ds获取
 			List<RecStreamInfo> datasourceList = new ArrayList<RecStreamInfo>();
 			
 			for(DatasourceItem item : meeting.getDsList()) {
@@ -179,13 +180,13 @@ public class MeetingAction extends BaseAction{
 				return FAIL;
 			}
 			
-			// 同步本地内存状态
-			roomStatus.setIsLive(tcp.getDoUni());
-			StatusMgr.setRoomStatus(confId, roomStatus);
-			
 			if(tcp.getDoUni() != 1) {//要求直播，但是结果显示直播没成功
 				return FAIL;
 			}
+			
+			// 同步本地内存状态
+			roomStatus.setIsLive(tcp.getDoUni());
+			StatusMgr.setRoomStatus(confId, roomStatus);
 			
 			// 如果要求录制
 			if(meeting.getUseRecord() == 1) {

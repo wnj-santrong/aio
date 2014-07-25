@@ -1,5 +1,6 @@
 package com.santrong.tcp.client;
 
+import com.santrong.system.Global;
 import com.santrong.tcp.TcpDefine;
 import com.santrong.tcp.client.base.LocalTcpBase;
 import com.santrong.util.XmlReader;
@@ -12,9 +13,8 @@ import com.santrong.util.XmlReader;
 public class LocalTcp31012 extends LocalTcpBase {
 	private String confId;
 	private int strmId;
-	private int tiltTpe;
+	private int tiltType;
 	private int speed;
-	private int preset;
 	private int camAddr;
 	
 	private int resultCode;
@@ -31,16 +31,12 @@ public class LocalTcp31012 extends LocalTcpBase {
 		this.strmId = strmId;
 	}
 
-	public void setTiltTpe(int tiltTpe) {
-		this.tiltTpe = tiltTpe;
+	public void setTiltType(int tiltType) {
+		this.tiltType = tiltType;
 	}
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
-	}
-
-	public void setPreset(int preset) {
-		this.preset = preset;
 	}
 
 	public void setCamAddr(int camAddr) {
@@ -54,16 +50,15 @@ public class LocalTcp31012 extends LocalTcpBase {
 		sb.append("<ReqMsg>");
 			sb.append("<MsgHead>");
 				sb.append("<MsgCode>").append(TcpDefine.Basic_Client_TiltCtrl).append("</MsgCode>");
-				sb.append("<ModId>").append(TcpDefine.ModuleSign).append("</ModId>");
+				sb.append("<ModId>").append(Global.Module_Sign).append("</ModId>");
 				sb.append("<SessionId>1</SessionId>");
 			sb.append("</MsgHead>");
 			sb.append("<MsgBody>");
 				sb.append("<TiltCtrlReq>");
 					sb.append("<ConfID type=\"string\">").append(this.confId).append("</ConfID>");
 					sb.append("<StrmId type=\"int\">").append(this.strmId).append("</StrmId>");
-					sb.append("<TiltType type=\"int\">").append(this.tiltTpe).append("</TiltType>");
+					sb.append("<TiltType type=\"int\">").append(this.tiltType).append("</TiltType>");
 					sb.append("<Speed type=\"int\">").append(this.speed).append("</Speed>");
-					sb.append("<Preset type=\"int\">").append(this.preset).append("</Preset>");
 					sb.append("<CamAddr type=\"int\">").append(this.camAddr).append("</CamAddr>");
 				sb.append("</TiltCtrlReq>");
 			sb.append("</MsgBody>");

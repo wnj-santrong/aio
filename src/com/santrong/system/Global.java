@@ -13,7 +13,8 @@ public class Global {
 	/*
 	 * static final config
 	 */
-	public static final String iniFileEncoding = "UTF-8";
+	public static final String Default_Encoding = "UTF-8";
+	public static final String Module_Sign = "id_web_conn";
 	public static final String dbBackupDir = "E:\\workspace\\data\\sql";					// 数据库备份路径
 	public static final String shellDir = "E:\\workspace\\data\\shell";						// 所有shell脚本目录
 	public static final String vedioDir = "/data";											// 录制的视频目录
