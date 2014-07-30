@@ -42,9 +42,9 @@ Globals.ctx = "${ctx}";
 	    <div class="lonin_con">
 	        <div class="login_name">
 	            <p><label><fmt:message key="index_login_username"/>：</label>
-	            <input type="text" name="username" class="login_text"/></p>
+	            <input type="text" name="username" class="login_text" required /></p>
 	            <p><label><fmt:message key="index_login_password"/>：</label>
-	            <input type="password" name="password" class="login_text"/></p>
+	            <input type="password" name="password" class="login_text" required /></p>
 	            <p class="login_a"><a href="#" class="login_submit"><fmt:message key="index_login_login"/></a></p>
 	        </div>
 	    </div>

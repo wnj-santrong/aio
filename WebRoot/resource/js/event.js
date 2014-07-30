@@ -109,28 +109,35 @@ jQuery(function($){
 		    	        	}
 		    	        });
 		    	        
-//		    	        //日期类型检测
-//		    	        var textboxs = form.find(".required_date");
-//		    	        for(var i=0;i<textboxs.size();i++){
-//		    	            //var reg_date = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;//强检测
-//		    	            var reg_date = /^\d{4}\-\d{1,2}\-\d{1,2}$/ig;//弱检测
-//		    	            var val = textboxs.eq(i).val().trim();
-//		    	            if(!val == "" && !reg_date.test(val)){
-//		    	                isPass = false;
-//		    	                break;
-//		    	            }
-//		    	        }
-//		    	        
-//		    	        //正整数检测        
-//		    	        textboxs = form.find(".required_int");
-//		    	        for(var i=0;i<textboxs.size();i++){
-//		    	            var reg_int = /^\d*$/ig;
-//		    	            var val = textboxs.eq(i).val().trim();
-//		    	            if(!val == "" && !reg_int.test(val)){
-//		    	                isPass = false;
-//		    	                break;
-//		    	            }
-//		    	        }            
+		    	        // 必填IP
+		    	        var re_ip = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/ig
+		    	        form.find("[required_Ip]").each(function(){
+		    	        	var val = $(this).val().trim();
+		    	        	if(val == "" || !re_ip.test(val) || RegExp.$1 > 256 || RegExp.$2 > 256 || RegExp.$3 > 256 || RegExp.$4 > 256) {
+		    	        		$(this).addClass("text_warn");
+		    	                isPass = false;
+		    	        	}
+		    	        });	
+		    	        
+		    	        // 必填0或正整数
+		    	        var re_number = /^[1-9][0-9]*$/ig
+		    	        form.find("[required_Number]").each(function(){
+		    	        	var val = $(this).val().trim();
+		    	        	if(val == "" || !re_ip.test(val)) {
+		    	        		$(this).addClass("text_warn");
+		    	                isPass = false;
+		    	        	}
+		    	        });	
+		    	        
+		    	        // 日期类型检测
+		    	        var re_number = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
+		    	        form.find("[required_Number]").each(function(){
+		    	        	var val = $(this).val().trim();
+		    	        	if(val == "" || !re_number.test(val)) {
+		    	        		$(this).addClass("text_warn");
+		    	                isPass = false;
+		    	        	}
+		    	        });           
 		    	        
 		    	        return isPass;
 		    		},

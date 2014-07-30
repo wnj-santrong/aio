@@ -5,13 +5,13 @@
 	<dl class="system_set fl">
 	    <dt><fmt:message key="setting_wan" /></dt>
 	    <dd>
-	        <p><fmt:message key="setting_ip" />:</p><span><input name="ip" type="text" class="form_text" required /></span><span class="notice">*</span>
+	        <p><fmt:message key="setting_ip" />:</p><span><input name="ip" type="text" class="form_text" required_Ip /></span><span class="notice">*</span>
 	    </dd>
 	    <dd>
-	        <p><fmt:message key="setting_mask" />:</p><span><input name="mask" type="text" class="form_text" required /></span><span class="notice">*</span>
+	        <p><fmt:message key="setting_mask" />:</p><span><input name="mask" type="text" class="form_text" required_Ip /></span><span class="notice">*</span>
 	    </dd>
 	    <dd>
-	        <p><fmt:message key="setting_gateway" />:</p><span><input name="gateway" type="text" class="form_text" required /></span><span class="notice">*</span>
+	        <p><fmt:message key="setting_gateway" />:</p><span><input name="gateway" type="text" class="form_text" required_Ip /></span><span class="notice">*</span>
 	    </dd>
 	    <dd>
 	        <p>&nbsp;</p>
