@@ -18,10 +18,15 @@ var Message = {
 	error_login_password_wrong : "\u5bc6\u7801\u9519\u8bef",
 	
 	warn_del_confirm : "\u786e\u5b9a\u8981\u5220\u9664\u5417", 
+	warn_db_backup_confirm : "\u786e\u5b9a\u8981\u5907\u4efd\u6570\u636e\u5e93\u5417",
+	warn_db_restore_confirm : "\u5f53\u524d\u6570\u636e\u5e93\u5c06\u88ab\u8986\u76d6\uff0c\u8bf7\u5148\u5907\u4efd\uff0c\u786e\u5b9a\u8981\u7ee7\u7eed\u8fd8\u539f\u5417",
 	warn_datasource_already_max : "\u6700\u591a\u53ea\u80fd\u6709{0}\u4e2a\u6570\u636e\u6e90",
 	
 	notice_must_select_one : "\u8bf7\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	notice_only_one_select : "\u53ea\u80fd\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
+	
+	play_page_prev : "\u4e0a\u4e00\u9875",
+	play_page_next : "\u4e0b\u4e00\u9875",
 	
 	text_confirm : "\u786e\u8ba4",
 	text_cancel : "\u53d6\u6d88",

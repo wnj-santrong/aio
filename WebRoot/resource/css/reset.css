@@ -39,7 +39,7 @@ blockquote:before, blockquote:after, q:before, q:after {
 blockquote, q {
 	quotes: "" "";
 }
-a{ text-decoration:none; outline:none;blr:expression(this.onFocus=this.blur()); color:#fff;}
+a{ text-decoration:none; outline:none;}
 
 a:hover{outline:none;}
 a:link,a:visited,a:active {outline:none;color:none;}

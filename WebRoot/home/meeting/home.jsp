@@ -6,8 +6,8 @@
 	<input type="hidden" name="channel" value='${meeting.channel}' />
 	<ul class="meeting">
 	    <li>
-	        <p><fmt:message key="meeting_bitRate" />:</p>
-	        <span>
+	        <span class="tit"><fmt:message key="meeting_bitRate" />:</span>
+	        <span class="cont">
 	        <select name="bitRate" class="rate">
 	            <option value="768" <c:if test="${meeting.bitRate == 768}">selected</c:if> >768kpbs</option>
 	            <option value="1024" <c:if test="${meeting.bitRate == 1024}">selected</c:if> >1024kpbs</option>
@@ -16,8 +16,8 @@
 	        </select>
 	        </span> </li>
 	    <li>
-	        <p><fmt:message key="meeting_resolution" />:</p>
-	        <span>
+	        <span class="tit"><fmt:message key="meeting_resolution" />:</span>
+	        <span class="cont">
 	        <select name="resolution" class="rate">
 	            <option value="0" <c:if test="${meeting.resolution == 0}">selected</c:if> >720x480</option>
 	            <option value="1" <c:if test="${meeting.resolution == 1}">selected</c:if> >1024x768</option>
@@ -26,8 +26,8 @@
 	        </select>
 	        </span></li>
 	    <li>
-            <p><fmt:message key="meeting_maxTime" />:</p>
-            <span>
+            <span class="tit"><fmt:message key="meeting_maxTime" />:</span>
+            <span class="cont">
             <select name="maxTime" class="rate">
                 <option value="60" <c:if test="${meeting.maxTime == 60}">selected</c:if> >1小时</option>
                 <option value="120" <c:if test="${meeting.maxTime == 120}">selected</c:if> >2小时</option>
@@ -40,25 +40,25 @@
             </select>
             </span></li>
 	    <li>
-	        <p><fmt:message key="meeting_datasource" />:</p>
-	        
-	        <a href="#" class="add"><fmt:message key="text_add" /></a>
-	        
-	        <span  class="dsList">
-	        
+	        <span class="tit"><fmt:message key="meeting_datasource" />:</span>
+	        <span class="cont dsList">
+	        <a href="#" class="add">+</a><br/>
 	        <c:forEach items="${meeting.dsList}" var="ds">
 	        
 	        <span class="dsItem">
 	        <input type="hidden" name="dsId" value="${ds.id}"/>
-	        <input type="text" value="${ds.addr}" class="form_text"/>
+	        192.168.1.1
 	        <c:if test="${ds.isConnected == 1}">
 	        <img class="rec_img" src="${ctx}/resource/photo/connected.gif" width="12" height="12" />
 	        </c:if>
 	        <c:if test="${ds.isConnected == 0}">
 	        <img class="rec_img" src="${ctx}/resource/photo/disconnected.gif" width="12" height="12" />
 	        </c:if>
+	        <a href="#" class="dsEdit">上移</a>
+	        <a href="#" class="dsEdit">下移</a>
 	        <a href="#" class="dsEdit">修改</a>
 	        <a href="#" class="dsDel">删除</a>
+	        <br/>
 	        </span>
 	        
 	        </c:forEach>
@@ -67,11 +67,11 @@
 	    </li>
 	    
 	    <li>
-	        <p><fmt:message key="meeting_useRecord" />:</p>
-	        <span><input name="useRecord" type="checkbox" value="1" <c:if test="${meeting.useRecord == 1}">checked</c:if> /><label><fmt:message key="meeting_record" /></label></span></li>
+	        <span class="tit"><fmt:message key="meeting_useRecord" />:</span>
+	        <span class="cont"><input name="useRecord" type="checkbox" value="1" <c:if test="${meeting.useRecord == 1}">checked</c:if> /><label><fmt:message key="meeting_record" /></label></span></li>
 	    <li>
-	        <p><fmt:message key="meeting_recordMode" />:</p>
-	        <span id="layoutContainer">
+	        <span class="tit"><fmt:message key="meeting_recordMode" />:</span>
+	        <span class="cont" id="layoutContainer">
 	        <input type="hidden" name="recordMode" value="${meeting.recordMode}"/>
 	        <c:if test="${fn:length(meeting.dsList) == 0}">
 	        <!-- 0 + VGA -->
@@ -103,20 +103,20 @@
 			</span>
 	        </li>
 	    <li>
-	        <p><fmt:message key="meeting_showName" />:</p>
-	        <span><input name="showName" type="text" class="form_text" value="${meeting.showName}" /></span></li>	        
+	        <span class="tit"><fmt:message key="meeting_showName" />:</span>
+	        <span class="cont"><input name="showName" type="text" class="form_text" value="${meeting.showName}" /></span></li>	        
 	    <li>
-	        <p><fmt:message key="meeting_courseName" />:</p>
-	        <span><input name="courseName" type="text" class="form_text" value="${meeting.courseName}" /></span></li>
+	        <span class="tit"><fmt:message key="meeting_courseName" />:</span>
+	        <span class="cont"><input name="courseName" type="text" class="form_text" value="${meeting.courseName}" /></span></li>
 	    <li>
-	        <p><fmt:message key="meeting_teacher" />:</p>
-	        <span><input name="teacher" type="text" class="form_text" value="${meeting.teacher}" /></span></li>
+	        <span class="tit"><fmt:message key="meeting_teacher" />:</span>
+	        <span class="cont"><input name="teacher" type="text" class="form_text" value="${meeting.teacher}" /></span></li>
 	    <li>
-	        <p><fmt:message key="meeting_remark" />:</p>
-	        <span><textarea name="remark" cols="30" rows="4" class="form_text">${meeting.remark}</textarea></span></li>
+	        <span class="tit"><fmt:message key="meeting_remark" />:</span>
+	        <span class="cont"><textarea name="remark" cols="30" rows="4" class="form_text">${meeting.remark}</textarea></span></li>
 	    <li>
-	    	<p><fmt:message key="meeting_status" />:</p>
-	        <span>
+	    	<span class="tit"><fmt:message key="meeting_status" />:</span>
+	        <span class="cont">
 	        <b>
 	        <c:if test="${meeting.isLive == 0}">
 	        	<fmt:message key="meeting_not_inMeeting" />
@@ -130,9 +130,9 @@
 	        </b>
 	        </span>
 	    </li>
+	    <li class="canves"<c:if test="${meeting.isLive == 0}">style="display:none;"</c:if>></li>
 	</ul>
 	<div class="button_panel">
-		<span>
 		<c:if test="${meeting.isConnected == 1}"><!-- 跟系统调度能连接上才显示 -->
 		<c:if test="${meeting.isLive == 0}">
 			<a href="#" class="save"><fmt:message key="text_save" /></a>
@@ -148,11 +148,7 @@
 			<a href="#" class="stopRecord"><fmt:message key="meeting_stopRecord" /></a>
 		</c:if>
 		</c:if>
-		</span>
 	</div>
 </form>
-<script type="text/javascript">
-var isLive = ${meeting.isLive};
-</script>
 
 

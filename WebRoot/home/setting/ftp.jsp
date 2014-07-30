@@ -2,7 +2,7 @@
 <%@ include file="../inc/common.jsp"%>
 <form action="${ctx}/setting/ftp.action" method="post" id="setting_ftp">
 	<input type="hidden" name="type" value="0" />
-	<dl class="system_set fl">
+	<dl class="system_set fr">
 	    <dt><fmt:message key="setting_ftp" /></dt>
 	    <dd>
 	        <p><fmt:message key="setting_useFtp" />:</p><span><input name="useFtp" type="text" class="form_text" required /></span><span class="notice">*</span>

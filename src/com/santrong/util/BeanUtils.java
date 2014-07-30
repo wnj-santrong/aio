@@ -1,6 +1,7 @@
 package com.santrong.util;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 
@@ -28,9 +29,14 @@ public class BeanUtils {
 							m.invoke(obj, rs.getString(field));
 						} catch (Exception e) {}// 当没有错误处理
 					}
-					if(returnType.equals(Integer.TYPE)) {
+					else if(returnType.equals(Integer.TYPE)) {
 						try{
 							m.invoke(obj, rs.getInt(field));
+						} catch (Exception e) {}// 当没有错误处理
+					}
+					else if(returnType.equals(Date.class)) {
+						try{
+							m.invoke(obj, rs.getDate(field));
 						} catch (Exception e) {}// 当没有错误处理
 					}
 				}

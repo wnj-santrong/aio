@@ -1,7 +1,15 @@
 // 全局初始化
-function init() {   
-};
-
+function init() {  
+	//页面竖直居中
+	$(window).unbind("resize").resize(function() {
+		var b_height = $(this).height();
+		var m_height = $(".mainbav").height();
+		var height = b_height - m_height;
+		height = height > 0? height/2 : 0;
+		$(".mainbav").css({"margin-top" : height + "px"});
+	});
+	$(window).resize();
+}
 // index模块初始化
 function IndexClass() {
 };
@@ -34,10 +42,8 @@ IndexClass.prototype = {
 		var _this = this;
 		$("code#pagename").remove();
 		
-		var pageName = '';
-		var pageUrl = 'play/home.action';
+		var pageUrl = 'play/homeAnonymous.action';
 		
-		$(".sub_top").html(pageName);
 		$.get(pageUrl, null, function(result){
 		    $(".sub_content").html(result);
 		    parsePageName();
@@ -45,8 +51,11 @@ IndexClass.prototype = {
 		  });
 		
 		$(".user_login").click(function() {
-			window.location.href= Globals.ctx + "/login.action";
-		});		
+			Boxy.load(Globals.ctx + "/loginForm.action", {
+				modal : true,
+				afterShow : _this._bindLogin
+			});
+		});	
 	},
 	
 	// 管理页面主框架
@@ -80,14 +89,6 @@ IndexClass.prototype = {
     
     // 会议管理
     meeting:function() {
-    	// 如果界面是开启会议的状态，锁定修改
-    	if(isLive == 1) {
-    		// 设置disabled属性会导致jquery form提交的时候拿不到数据，所以在按钮操作前要还原为false
-    		$(".sub_content input").attr('disabled', true);
-    		$(".sub_content select").attr('disabled', true);
-    		$(".sub_content textarea").attr('disabled', true);
-    	}
-    	
     	var recordMode = $("input[name=recordMode]").val();
     	$("#a" + recordMode).addClass("cur_layout");
     	
@@ -99,24 +100,17 @@ IndexClass.prototype = {
     		$(this).addClass("cur_layout");
     	});
     	
-    	// 激活界面
-    	var activeElements = function() {
-    		$(".sub_content input").attr('disabled', false);
-    		$(".sub_content select").attr('disabled', false);
-    		$(".sub_content textarea").attr('disabled', false);
-    	};
-    	
     	var freshCurrentModel = function() {$(".navigator a:first").click();}
     	
     	$(".save").bindFormClick({url : Globals.ctx + '/meeting/save.action'});
     	
-    	$(".openLive").bindFormClick({url : Globals.ctx + '/meeting/openLive.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
+    	$(".openLive").bindFormClick({url : Globals.ctx + '/meeting/openLive.action', afterSubmit : freshCurrentModel});
     	
-    	$(".closeLive").bindFormClick({url : Globals.ctx + '/meeting/closeLive.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
+    	$(".closeLive").bindFormClick({url : Globals.ctx + '/meeting/closeLive.action', afterSubmit : freshCurrentModel});
     	
-    	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
+    	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action', afterSubmit : freshCurrentModel});
     	
-    	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', beforeSubmit : activeElements, afterSubmit : freshCurrentModel});
+    	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', afterSubmit : freshCurrentModel});
     	
     	// 获取显示数据源的弹框
     	var dsGet = function(id, mid) {
@@ -169,7 +163,8 @@ IndexClass.prototype = {
     			pageNum : 0
     			}, opts || {});
     		
-    		var pageUrl = Globals.ctx + "/play/home.action";
+    		var pageSource = $("#pageSource").text();
+    		var pageUrl = Globals.ctx + "/play/" + pageSource + ".action";
     		
     		$.get(pageUrl, {keyword : opts.keyword, pageNum : opts.pageNum}, function(result){
     		    $(".sub_content").html(result);
@@ -182,6 +177,8 @@ IndexClass.prototype = {
     	$("#pagination").pagination(fileCount, {
     		items_per_page : pageSize,
     		current_page : pageNum,
+			prev_text: Message.dynamic("play_page_prev"),
+			next_text: Message.dynamic("play_page_next"),
     		callback : function(current_page, containers) {
     			var params = {
     				keyword : keyword,
@@ -218,7 +215,7 @@ IndexClass.prototype = {
     		$.simplePost({url : Globals.ctx + "/tag/tagDel.action", data : {tagName :$(this).prev().text()}, tip : false, callback : freshPage})
     	});
     	
-	    $(".meeting_vod li").click(function() {
+	    $(".meeting_vod li a").click(function() {
 //	    	window.open(url,"play","fullscreen=no,toolbar=no,menubar=no,scrollbars=no,resizable=yes,location=no,status=no");
     	alert(1);
 	    }); 
@@ -244,6 +241,8 @@ IndexClass.prototype = {
     	$("#pagination").pagination(fileCount, {
     		items_per_page : pageSize,
     		current_page : pageNum,
+			prev_text: Message.dynamic("play_page_prev"),
+			next_text: Message.dynamic("play_page_next"),    		
     		callback : function(current_page, containers) {
     			var params = {
     				keyword : keyword,
@@ -295,6 +294,8 @@ IndexClass.prototype = {
         		$.simplePost({url : Globals.ctx + "/file/fileDownload.action", data : {ids : values}});    			
     		}
     	});
+    	
+    	$(".checkAll").bindCheckAll("input[name=CheckboxGroup1]");
     },
     
     // 系统管理
@@ -340,7 +341,7 @@ IndexClass.prototype = {
 				success : function(result){
 					var html = "";
 					for(var i=0;i<result.length;i++){
-						html += "<li><span>" + result[i] + "</span>-----<a href=\"#\" class=\"dbRestore\">还原</a>---<a href=\"#\" class=\"dbDel\">删除</a></li>";
+						html += "<li><span>" + result[i] + "</span><a href=\"#\" class=\"dbRestore\">还原</a><a href=\"#\" class=\"dbDel\">删除</a></li>";
 					}
 					$("#dbList").html(html);
 					
@@ -348,13 +349,19 @@ IndexClass.prototype = {
 					// 删除数据库
 					$(".dbDel").click(function(){
 						var filename = $(this).parent().find("span").text();
-						$.simplePost({url : Globals.ctx + "/setting/dbDel.action", data : {"filename" : filename}, callback : freshDbList});
+						$.delConfirm(function() {
+							$.simplePost({url : Globals.ctx + "/setting/dbDel.action", data : {"filename" : filename}, callback : freshDbList});
+						});					
 					});
 					
 					// 恢复数据库
 					$(".dbRestore").click(function(){
 						var filename = $(this).parent().find("span").text();
-						$.simplePost({url : Globals.ctx + "/setting/dbRestore.action", data : {"filename" : filename}});
+						Boxy.ask(Message.dynamic("warn_db_restore_confirm"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
+				            if (response == Message.dynamic("text_confirm")) {
+								$.simplePost({url : Globals.ctx + "/setting/dbRestore.action", data : {"filename" : filename}});
+				            }
+						});							
 					});				
 				}
     		});
@@ -362,7 +369,11 @@ IndexClass.prototype = {
     	
 		// 备份数据库
 		$("#dbBackup").click(function(){
-			$.simplePost({url : Globals.ctx + "/setting/dbBackup.action", callback : freshDbList});
+			Boxy.ask(Message.dynamic("warn_db_backup_confirm"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
+	            if (response == Message.dynamic("text_confirm")) {
+	            	$.simplePost({url : Globals.ctx + "/setting/dbBackup.action", callback : freshDbList});
+	            }
+			});
 		});
     	
 		freshDbList();

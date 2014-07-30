@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../inc/common.jsp"%>
-<form action="${ctx}/datasource/dsPost.action" method="post" id="datasource_dsPost">
+<form action="${ctx}/datasource/dsPost.action" method="post" id="datasource_dsPost" class="layout_form">
 	<input type="hidden" name="id" value="${ds.id}"/>
 	<input type="hidden" name="meetingId" value="${ds.meetingId}"/>
 	<div class="window">
@@ -14,7 +14,6 @@
 	            <dd><p><fmt:message key="meeting_datasource_priority"/>:</p><span><input name="priority" type="text"  class="form_text" value="${ds.priority}" /></span></dd>
 	        </dl>
 	    </div>
-	    <div class="clr"></div>
 	    <div class="win_save"><a href="#" class="submit"><fmt:message key="text_save"/></a><a href="#" class="close"><fmt:message key="text_cancel"/></a></div>
 	</div>
 </form>

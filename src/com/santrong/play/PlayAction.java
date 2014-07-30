@@ -21,8 +21,7 @@ import com.santrong.play.entry.TagItem;
 @RequestMapping("/play")
 public class PlayAction extends BaseAction{
 	
-	@RequestMapping("/home")
-	public String home(String keyword, Integer pageNum){
+	private String doHome(String keyword, Integer pageNum, String source) {
 		if(pageNum == null) {
 			pageNum = 0;
 		}
@@ -49,6 +48,23 @@ public class PlayAction extends BaseAction{
 		request.setAttribute("query", query);
 		request.setAttribute("fileList", fileList);
 		request.setAttribute("tagList", tagList);
+		request.setAttribute("source", source);
 		return "play/home";
+	}
+	
+	/*
+	 * 免登陆
+	 */
+	@RequestMapping("/homeAnonymous")
+	public String homeAnonymous(String keyword, Integer pageNum){
+		return this.doHome(keyword, pageNum, "homeAnonymous");
+	}
+	
+	/*
+	 * 登录
+	 */
+	@RequestMapping("/home")
+	public String home(String keyword, Integer pageNum){
+		return this.doHome(keyword, pageNum, "home");
 	}
 }

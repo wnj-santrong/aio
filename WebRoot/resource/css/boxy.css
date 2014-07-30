@@ -33,7 +33,7 @@
 .boxy-inner{background-color:white; padding:0}
 .boxy-content{padding:15px;}
 /* Question Boxes */
-.boxy-wrapper .question{width:350px; min-height:60px; _height:60px;}
+.boxy-wrapper .question{width:350px; min-height:60px; _height:60px; text-align:center; line-height:66px;}
 .boxy-wrapper .answers{text-align:right;}
 /*confirm btn by zhangxinxu http://www.zhangxinxu.com*/
 .boxy-btn1,.boxy-btn2,.boxy-btn3{padding:3px 12px 1.9px; border-width:1px; border-style:solid; letter-spacing:1px; line-height:15px; cursor:pointer; overflow:visible;} 

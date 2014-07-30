@@ -43,7 +43,7 @@
 			/http/basic.action,
 			/404.action,
 			/500.action,
-			/play/home.action
+			/play/homeAnonymous.action
 			</param-value>
 		</init-param>
 	</filter>  

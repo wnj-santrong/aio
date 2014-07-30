@@ -8,7 +8,7 @@ package com.santrong.opt;
 public class PageQuery {
 	private int pageNum;
 	private int count;
-	private int pageSize = 14;
+	private int pageSize = 16;
 	
 	private String orderBy = "cts";
 	private String orderRule = "desc";	

@@ -1,32 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../inc/common.jsp"%>
 <code id="pagename" style="display:none">c:index_a:play</code>
+<div style="display:none" id="pageSource">${source}</div>
 <!-- 搜索 -->
-<div class="serch">
+<div class="search">
 	<!-- 关键字 -->
-    <p class="serch_img"><input type="text" name="keywork" class="serch_text" value="${query.keyword}" />
-    <a href="#" class="search_btn"><img src="${ctx}/resource/photo/search_icon_03.png" border="0" />搜索</a>
-    </p>
+    <span class="search_img"><input type="text" name="keywork" class="search_text" value="${query.keyword}" />
+    	<a href="#" class="search_btn"><fmt:message key="text_search"/></a>
+    </span>
     <!-- 标签 -->
     <c:set var="isLogin" value="${sessionScope.loginUser != null}"/>
-   <p class="category">
-   <c:if test="${isLogin}">
-   <a href="#" class="tag_add"><img src="${ctx}/resource/photo/newcode_btn_03.png" width="60" height="20" /></a>
-   </c:if>
-   <c:forEach items="${tagList}" var="item">
-   <a href="#" class='tag<c:if test="${query.keyword == item.tagName}"> cur_tag</c:if>'>${item.tagName}</a>
-   <c:if test="${isLogin}">
-   <a href="#" class="tag_del">删除</a>
-   </c:if>
-   </c:forEach>
-   </p>
+    <c:if test="${isLogin}">
+        <a href="#" class="tag_add"><img src="${ctx}/resource/photo/tag_add.png" width="54" height="20" /></a>
+    </c:if>
+    <span class="tags">
+    <c:forEach items="${tagList}" var="item">
+    	<a href="#" class='tag<c:if test="${query.keyword == item.tagName}"> cur_tag</c:if>'>${item.tagName}</a>
+    <c:if test="${isLogin}">
+    	<a href="#" class="tag_del"><fmt:message key="text_del"/></a>
+    </c:if>
+    </c:forEach>
+    </span>
 </div>
+<div class="split"></div>
 <!-- 列表 -->
- <ul class="meeting_vod">
+<ul class="meeting_vod">
  	<c:forEach items="${fileList}" var="file">
     <li><a href="#"><em></em><span class="guankan_img"><img src="${ctx}/resource/photo/guankan_a.png" ></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
-        <p>世办足球报道</p>
-        <p>2014-06-30</p>
+        <p>${file.showName}</p>
+        <p><fmt:formatDate value="${file.cts}" pattern="yyyy/MM/dd  HH:mm:ss" /></p>
     </li>
     </c:forEach>
 </ul>
