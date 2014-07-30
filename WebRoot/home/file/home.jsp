@@ -14,7 +14,6 @@
    </span>
    <a href="#" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a>
 </div>
-<div class="split"></div>
 <!-- 列表 -->
 <div class="file_list">
 	<table>

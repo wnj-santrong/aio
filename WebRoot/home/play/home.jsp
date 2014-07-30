@@ -10,9 +10,6 @@
     </span>
     <!-- 标签 -->
     <c:set var="isLogin" value="${sessionScope.loginUser != null}"/>
-    <c:if test="${isLogin}">
-        <a href="#" class="tag_add"><img src="${ctx}/resource/photo/tag_add.png" width="54" height="20" /></a>
-    </c:if>
     <span class="tags">
     <c:forEach items="${tagList}" var="item">
     	<a href="#" class='tag<c:if test="${query.keyword == item.tagName}"> cur_tag</c:if>'>${item.tagName}</a>
@@ -20,9 +17,11 @@
     	<a href="#" class="tag_del"><fmt:message key="text_del"/></a>
     </c:if>
     </c:forEach>
+    <c:if test="${isLogin}">
+        <a href="#" class="tag_add"><img src="${ctx}/resource/photo/tag_add.png" width="54" height="20" /></a>
+    </c:if>
     </span>
 </div>
-<div class="split"></div>
 <!-- 列表 -->
 <ul class="meeting_vod">
  	<c:forEach items="${fileList}" var="file">

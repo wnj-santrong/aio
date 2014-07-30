@@ -30,6 +30,13 @@ IndexClass.prototype = {
     	});
     	// 绑定取消
     	$(".close").bindFormClose();
+    	
+    	// 回车登录
+    	$(document).keydown(function(e){
+    		if(e.keyCode==13){
+    			$(".login_submit").click();
+    		}
+    	});
 	},
 	
 	// 登录页

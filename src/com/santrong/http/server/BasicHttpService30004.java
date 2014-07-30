@@ -155,7 +155,9 @@ public class BasicHttpService30004 implements AbstractHttpService{
 		}else if(addOrUpdate == 2) {
 			// 更新课件状态
 			FileDao fileDao = new FileDao();
-			FileItem file = fileDao.selectByFileName(tcp.getFileUrl());
+			
+			String[] arr = tcp.getFileUrl().split("/");
+			FileItem file = fileDao.selectByFileName(arr[arr.length - 1]);
 			file.setDuration(tcp.getRcdTime());
 			file.setUts(new Date());
 			file.setStatus(FileItem.File_Status_Recorded);

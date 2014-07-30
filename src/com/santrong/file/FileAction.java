@@ -90,8 +90,13 @@ public class FileAction extends BaseAction{
 	 */
 	@RequestMapping("/filePlay")
 	public String filePlay(String id) {
-
+		FileDao dao = new FileDao();
+		FileItem file = dao.selectById(id);
+		if(file == null) {
+			return "error_file_not_exists";
+		}
 		
+		request.setAttribute("file", file);
 		return "file/play";
 	}
 	

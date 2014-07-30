@@ -17,6 +17,7 @@
 Globals = {};
 Globals.define = {};
 Globals.ctx = "${ctx}";
+$()
 </script>
 </head>
 <body>
