@@ -19,6 +19,7 @@ import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31004;
+import com.santrong.tcp.client.LocalTcp31005;
 import com.santrong.tcp.client.LocalTcp31006;
 import com.santrong.tcp.client.TcpClientService;
 import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
@@ -79,6 +80,13 @@ public class BasicHttpService30004 implements AbstractHttpService{
 					// 前面已经校验状态，这里直接发送指令
 					rt = doRecord(meeting, confId, operType, addOrUpdate);
 				}
+				
+				if(rt != -1) {/*---------------------关会------------------------------*/
+					// 如果是停止录制，当前正在开会，会议的开启是由面板触发的，则同时停止会议
+					if(operType == 0 && roomStatus.getIsLive() == 1 && roomStatus.getLiveSource() == 1) {
+						rt = closeMeeting(confId);
+					}
+				}
 			}
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -120,9 +128,6 @@ public class BasicHttpService30004 implements AbstractHttpService{
 		if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
 			return 1;
 		}
-		
-		// 如果是停止录制，则顺便关闭会议
-		// TODO 关还是不关呢？？？
 		
 		// 更新内存状态
 		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
@@ -242,6 +247,28 @@ public class BasicHttpService30004 implements AbstractHttpService{
 		// 同步本地内存状态
 		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
 		roomStatus.setIsLive(tcp.getDoUni());
+		roomStatus.setLiveSource(1);// 标记下是从面板触发的开会
+		StatusMgr.setRoomStatus(confId, roomStatus);
+		
+		return 0;
+	}
+	
+	/* 
+	 * 关会
+	 */
+	private int closeMeeting(String confId) throws Exception{
+
+		LocalTcp31005 tcp = new LocalTcp31005();
+		tcp.setConfId(confId);
+		client.request(tcp);
+		
+		if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
+			return 1;
+		}
+		
+		// 同步本地内存
+		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
+		roomStatus.setIsLive(0);
 		StatusMgr.setRoomStatus(confId, roomStatus);
 		
 		return 0;
