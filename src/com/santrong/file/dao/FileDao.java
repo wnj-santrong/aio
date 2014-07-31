@@ -24,6 +24,24 @@ import com.santrong.util.criteria.Statement;
  */
 public class FileDao extends BaseDao{
 	
+	/*
+	 * 组合ID数组，可以防止注入
+	 */
+	private String consistIds(String[] ids) {
+		StringBuilder sb = new StringBuilder();
+		for(String id:ids) {
+			if(ValidateTools.isGUID(id)) {
+				sb.append(",'").append(id).append("'");
+			}
+		}
+		if(sb.length() > 0) {
+			sb.deleteCharAt(0);
+			return sb.toString();
+		}
+
+		return null;
+	}
+	
 	public int insert(FileItem file) {
 		FileMapper mapper = this.getMapper(FileMapper.class);
 		if(mapper != null) {
@@ -41,20 +59,13 @@ public class FileDao extends BaseDao{
 	}
 	
 	public List<FileItem> selectByIds(String[] ids) {
-		StringBuilder sb = new StringBuilder();
-		for(String id:ids) {
-			if(ValidateTools.isGUID(id)) {
-				sb.append(",'").append(id).append("'");
-			}
-		}
-		if(sb.length() > 0) {
-			sb.deleteCharAt(0);
+		String _ids = consistIds(ids);
+		if(_ids != null) {
 			FileMapper mapper = this.getMapper(FileMapper.class);
 			if(mapper != null) {			
-				return mapper.selectByIds(sb.toString());
+				return mapper.selectByIds(_ids);
 			}
 		}
-
 		return null;
 	}
 	
@@ -78,6 +89,39 @@ public class FileDao extends BaseDao{
 		FileMapper mapper = this.getMapper(FileMapper.class);
 		if(mapper != null) {
 			return mapper.deleteById(id);
+		}
+		return 0;
+	}
+	
+	public int deleteByIds(String[] ids) {
+		String _ids = consistIds(ids);
+		if(_ids != null) {
+			FileMapper mapper = this.getMapper(FileMapper.class);
+			if(mapper != null) {			
+				return mapper.deleteByIds(_ids);
+			}
+		}
+		return 0;
+	}
+	
+	public int openByIds(String[] ids) {
+		String _ids = consistIds(ids);
+		if(_ids != null) {
+			FileMapper mapper = this.getMapper(FileMapper.class);
+			if(mapper != null) {			
+				return mapper.openByIds(_ids);
+			}
+		}
+		return 0;
+	}
+	
+	public int closeByIds(String[] ids) {
+		String _ids = consistIds(ids);
+		if(_ids != null) {
+			FileMapper mapper = this.getMapper(FileMapper.class);
+			if(mapper != null) {			
+				return mapper.closeByIds(_ids);
+			}
 		}
 		return 0;
 	}

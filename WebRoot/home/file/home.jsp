@@ -10,6 +10,8 @@
    <span class="btns">
 	   <a href="#" id="fileEdit"><fmt:message key="text_edit"/></a>
 	   <a href="#" id="fileDownload"><fmt:message key="text_download"/></a>
+	   <a href="#" id="fileOpen"><fmt:message key="file_open"/></a>
+	   <a href="#" id="fileClose"><fmt:message key="file_close"/></a>
 	   <a href="#" id="fileDel"><fmt:message key="text_del"/></a>
    </span>
    <a href="#" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a>
@@ -50,7 +52,10 @@
 			    <td>${file.cts}</td>
 			    <td>${file.duration}</td>
 			    <td>${file.fileSize}</td>
-			    <td>${file.level}</td>
+			    <td>
+			    	<c:if test="${file.level == 0}"><fmt:message key="text_yes"/></c:if>
+			    	<c:if test="${file.level == 1}"><fmt:message key="text_no"/></c:if>
+			    </td>
 			    <td>${file.status}</td>
 			    <td>${file.remark}</td>
 			</tr>

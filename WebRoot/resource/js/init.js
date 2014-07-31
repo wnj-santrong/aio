@@ -295,10 +295,24 @@ IndexClass.prototype = {
     		}
     	});
     	
+    	$("#fileOpen").click(function(){
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals();
+    		if(values) {
+        		$.simplePost({url : Globals.ctx + "/file/fileOpen.action", data : {ids : values}, callback : freshPage});    			
+    		}
+    	});
+    	
+    	$("#fileClose").click(function(){
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals();
+    		if(values) {
+        		$.simplePost({url : Globals.ctx + "/file/fileClose.action", data : {ids : values}, callback : freshPage});    			
+    		}
+    	});    	
+    	
     	$("#fileDownload").click(function(){
     		var values = $("input[name=CheckboxGroup1]").checkboxVals();
     		if(values) {
-        		$.simplePost({url : Globals.ctx + "/file/fileDownload.action", data : {ids : values}});    			
+        		$.simplePost({url : Globals.ctx + "/file/fileDownload.action", data : {ids : values}, tip : false});    			
     		}
     	});
     	

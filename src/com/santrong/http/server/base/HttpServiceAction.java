@@ -24,7 +24,7 @@ import com.santrong.util.XmlReader;
  */
 @Controller
 @RequestMapping("/http")
-public class HttpServiceDispatcher {
+public class HttpServiceAction {
 
 	/*
 	 * 分发服务

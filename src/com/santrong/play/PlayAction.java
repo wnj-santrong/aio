@@ -32,9 +32,9 @@ public class PlayAction extends BaseAction{
 		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
 		
-		//TODO level不同
 		if(this.currentUser() == null) {// 未登录
 			query.setPageSize(15);
+			query.setLevel(FileItem.File_Level_Open);
 		}else {// 已登录
 			query.setPageSize(12);
 		}

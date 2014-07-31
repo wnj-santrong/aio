@@ -61,7 +61,7 @@ body {background: url(../photo/bg.gif);}
 .search .tag_add {float:left; margin-top:3px;}
 .search .tags a {float:left; margin-left:20px;}
 .search .btns a {float:left; margin-left:20px; background:url(../photo/orange70_none.png) no-repeat center center; width:70px; text-align:center; color:#fff;}
-.search .btns a:hover {background:url(../photo/orange_hover.png) no-repeat left top;}
+.search .btns a:hover {background:url(../photo/orange_hover.png) no-repeat center center;}
 .search #filePlay {float:right; margin-right:22px; margin-top:3px;}
 
 

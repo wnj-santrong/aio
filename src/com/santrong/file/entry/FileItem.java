@@ -11,6 +11,9 @@ public class FileItem {
 	public static final int File_Status_Recording = 0;// 正在录制中
 	public static final int File_Status_Recorded = 1;// 录制已完成
 	
+	public static final int File_Level_Open = 0;// 公开的课件
+	public static final int File_Level_Close = 1;// 未公开的课件
+	
 	private String id;
 	private String showName;
 	private String fileName;

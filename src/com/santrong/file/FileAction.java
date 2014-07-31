@@ -142,20 +142,62 @@ public class FileAction extends BaseAction{
 			}
 			
 			// 再删除数据库
-			ThreadUtils.beginTranx();
-			for(String id : idArr) {
-				if(fileDao.deleteById(id) <= 0) {
-					ThreadUtils.rollbackTranx();
-					return FAIL;
-				}
+			if(fileDao.deleteByIds(idArr) <= 0) {
+				return FAIL;
 			}
-			ThreadUtils.commitTranx();
 		}catch(Exception e) {
 			Log.printStackTrace(e);
-			ThreadUtils.rollbackTranx();
 			return FAIL;
 		}
 		
+		return SUCCESS;
+	}
+	
+	/*
+	 * 课件设为公开
+	 */
+	@RequestMapping(value="/fileOpen", method=RequestMethod.POST)
+	@ResponseBody
+	public String fileOpen(String ids) {
+		if(StringUtils.isNullOrEmpty(ids)) {
+			return ERROR_PARAM;
+		}
+		
+		try{
+			FileDao fileDao = new FileDao();
+			String[] idArr = ids.split(",");
+			
+			if(fileDao.openByIds(idArr) <= 0) {
+				return FAIL;
+			}
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+			return FAIL;
+		}
+		return SUCCESS;
+	}
+	
+	/*
+	 * 课件设为关闭
+	 */
+	@RequestMapping(value="/fileClose", method=RequestMethod.POST)
+	@ResponseBody
+	public String fileClose(String ids) {
+		if(StringUtils.isNullOrEmpty(ids)) {
+			return ERROR_PARAM;
+		}
+		
+		try{
+			FileDao fileDao = new FileDao();
+			String[] idArr = ids.split(",");
+			
+			if(fileDao.closeByIds(idArr) <= 0) {
+				return FAIL;
+			}
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+			return FAIL;
+		}
 		return SUCCESS;
 	}
 	

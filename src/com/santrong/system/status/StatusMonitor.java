@@ -30,11 +30,11 @@ public class StatusMonitor implements Runnable {
 			
 			// 状态监控一旦启动，永不停止，发生异常重连
 			
-			// 调试模式之运行一次，降低控制台输出
-			int a = 0;
-			while(a++ < 1) {
+//			调试模式之运行一次，降低控制台输出
+//			int a = 0;
+//			while(a++ < 1) {
 				
-//			while(true) {
+			while(true) {
 				try{
 					
 					long currentTime = System.currentTimeMillis();
@@ -52,7 +52,7 @@ public class StatusMonitor implements Runnable {
 						
 						TcpClientService client = TcpClientService.getInstance();
 						LocalTcp31001 tcp = new LocalTcp31001();
-						tcp.setAddr(InetAddress.getLocalHost().getHostAddress());
+						tcp.setAddr("http://" + InetAddress.getLocalHost().getHostAddress() + "/http/basic.action");
 						tcp.setPort(80);
 						tcp.setHeartbeat(period);
 						

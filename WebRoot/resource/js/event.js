@@ -176,7 +176,6 @@ jQuery(function($){
 			type : "POST",
 			data : options.data,
 			url : options.url,
-			cache : false,
 			success : function(result){
 				if(options.tip != false) {
 					Boxy.alert(Message.dynamic(result, options.msgParams));
