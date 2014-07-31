@@ -42,6 +42,12 @@ public class CommonFilter implements Filter{
 		if (url != null) {
 			boolean pass = false;
 			
+			// 是否是开发目录
+			if(url.startsWith("/dev/")) {
+				pass = true;
+			}
+			
+			// 是否是配置的免登陆页面
 			if (passUrls != null) {
 				
 				for (String suffix : passUrls) {

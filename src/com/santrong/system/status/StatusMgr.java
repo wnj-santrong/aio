@@ -18,4 +18,8 @@ public class StatusMgr {
 	public static void setRoomStatus(String key, RoomStatusEntry entry) {
 		roomlist.put(key, entry);
 	}
+	
+	public static Hashtable<String, RoomStatusEntry> getHashtable_Room() {
+		return roomlist;
+	}
 }
