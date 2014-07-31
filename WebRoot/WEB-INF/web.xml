@@ -41,9 +41,10 @@
 			/login.action,
 			/loginForm.action,
 			/http/basic.action,
+			/file/filePlay.action,
+			/play/homeAnonymous.action,
 			/404.action,
-			/500.action,
-			/play/homeAnonymous.action
+			/500.action
 			</param-value>
 		</init-param>
 	</filter>  

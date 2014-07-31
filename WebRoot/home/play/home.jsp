@@ -2,6 +2,7 @@
 <%@ include file="../inc/common.jsp"%>
 <code id="pagename" style="display:none">c:index_a:play</code>
 <div style="display:none" id="pageSource">${source}</div>
+<object id="RecCtrl1" classid="clsid:27671653-7A2D-4F23-92CF-76C7984F2CD5" class="hide" VIEWASTEXT></object>
 <!-- 搜索 -->
 <div class="search">
 	<!-- 关键字 -->
@@ -25,7 +26,7 @@
 <!-- 列表 -->
 <ul class="meeting_vod">
  	<c:forEach items="${fileList}" var="file">
-    <li><a href="#"><em></em><span class="guankan_img"><img src="${ctx}/resource/photo/guankan_a.png" ></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
+    <li><a href="#" rel="${file.id}"><em></em><span class="guankan_img"><img src="${ctx}/resource/photo/guankan_a.png" ></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
         <p>${file.showName}</p>
         <p><fmt:formatDate value="${file.cts}" pattern="yyyy/MM/dd  HH:mm:ss" /></p>
     </li>

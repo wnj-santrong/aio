@@ -223,8 +223,21 @@ IndexClass.prototype = {
     	});
     	
 	    $(".meeting_vod li a").click(function() {
-//	    	window.open(url,"play","fullscreen=no,toolbar=no,menubar=no,scrollbars=no,resizable=yes,location=no,status=no");
-    	alert(1);
+    		if(!/MSIE/.test(navigator.userAgent)) {
+    			Boxy.alert(Message.dynamic('notice_only_support_ie'));
+    		}
+    		
+    		var values = $(this).attr("rel");
+    		if(values) {
+    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values}, tip : false, callback : function(result) {
+    				if(result.indexOf('{') != -1) {
+    					var json = eval('(' + result + ')');
+        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+    				}else {
+    					Boxy.alert(Message.dynamic(result));
+    				}
+    			}});
+    		}
 	    }); 
     },
     
@@ -279,10 +292,20 @@ IndexClass.prototype = {
     	});
     	
     	$("#filePlay").click(function(){
+    		if(!/MSIE/.test(navigator.userAgent)) {
+    			Boxy.alert(Message.dynamic('notice_only_support_ie'));
+    		}
+    		
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
-    			var url = Globals.ctx + "/file/filePlay.action?id=" + values;
-    			window.open(url,"play","fullscreen=no,toolbar=no,menubar=no,scrollbars=no,resizable=yes,location=no,status=no");
+    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values}, tip : false, callback : function(result) {
+    				if(result.indexOf('{') != -1) {
+    					var json = eval('(' + result + ')');
+        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+    				}else {
+    					Boxy.alert(Message.dynamic(result));
+    				}
+    			}});
     		}
     	});
     	

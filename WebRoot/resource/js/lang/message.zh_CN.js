@@ -16,6 +16,7 @@ var Message = {
 	error_login_nullInput : "\u7528\u6237\u540d\u548c\u5bc6\u7801\u4e0d\u80fd\u4e3a\u7a7a",
 	error_login_user_not_exists : "\u7528\u6237\u4e0d\u5b58\u5728",
 	error_login_password_wrong : "\u5bc6\u7801\u9519\u8bef",
+	error_access_deny : "\u6ca1\u6709\u6743\u9650",
 	
 	warn_del_confirm : "\u786e\u5b9a\u8981\u5220\u9664\u5417", 
 	warn_db_backup_confirm : "\u786e\u5b9a\u8981\u5907\u4efd\u6570\u636e\u5e93\u5417",
@@ -24,6 +25,7 @@ var Message = {
 	
 	notice_must_select_one : "\u8bf7\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	notice_only_one_select : "\u53ea\u80fd\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
+	notice_only_support_ie : "\u8bf7\u4f7f\u7528IE\u6d4f\u89c8\u5668",
 	
 	play_page_prev : "\u4e0a\u4e00\u9875",
 	play_page_next : "\u4e0b\u4e00\u9875",

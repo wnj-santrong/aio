@@ -1,6 +1,6 @@
 package com.santrong.file;
 
-import java.text.SimpleDateFormat;
+import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
 
@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
 import com.santrong.file.entry.FileQuery;
+import com.santrong.file.entry.PlayInfo;
 import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
-import com.santrong.opt.ThreadUtils;
+import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
-import com.santrong.system.status.RoomStatusEntry;
-import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31010;
 import com.santrong.tcp.client.TcpClientService;
 
@@ -94,15 +94,43 @@ public class FileAction extends BaseAction{
 	 * 播放课件
 	 */
 	@RequestMapping("/filePlay")
+	@ResponseBody
 	public String filePlay(String id) {
-		FileDao dao = new FileDao();
-		FileItem file = dao.selectById(id);
-		if(file == null) {
-			return "error_file_not_exists";
+		try{
+			
+			FileDao dao = new FileDao();
+			FileItem file = dao.selectById(id);
+			if(file == null) {
+				return "error_file_not_exists";
+			}
+			
+			UserItem user = this.currentUser();
+			if(file.getLevel() == FileItem.File_Level_Close && user == null) {
+				return "error_access_deny";
+			}
+			
+			String confId = MeetingItem.ConfIdPreview + file.getChannel();
+			String filePath = Global.vedioDir + "/" + confId + "/" + file.getFileName();//全路径		
+			
+			PlayInfo info = new PlayInfo();
+			info.setId(id);
+			info.setType(PlayInfo.Type_Vod);
+			info.setAddr(InetAddress.getLocalHost().getHostAddress());
+			info.setConfId(confId);
+			info.setLiveType(0);
+			info.setFilePath(filePath);
+			
+			// 更新播放次数
+			file.setPlayCount(file.getPlayCount() + 1);
+			dao.update(file);
+			
+			Gson gson = new Gson();
+			return gson.toJson(info);
+			
+		}catch(Exception e) {
+			Log.printStackTrace(e);
 		}
-		
-		request.setAttribute("file", file);
-		return "file/play";
+		return FAIL;
 	}
 	
 	/*
