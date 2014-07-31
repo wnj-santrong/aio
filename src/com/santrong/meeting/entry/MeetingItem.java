@@ -55,16 +55,16 @@ public class MeetingItem {
 	//内存状态
 	private int isLive;
 	private int isRecord;
-	private int isConnected;
+	private int isConnect;
 	
 	private List<DatasourceItem> dsList = new ArrayList<DatasourceItem>();
 
-	public int getIsConnected() {
-		return isConnected;
+	public int getIsConnect() {
+		return isConnect;
 	}
 
-	public void setIsConnected(int isConnected) {
-		this.isConnected = isConnected;
+	public void setIsConnect(int isConnect) {
+		this.isConnect = isConnect;
 	}
 
 	public int getUseRecord() {

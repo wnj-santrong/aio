@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.santrong.base.BaseAction;
 import com.santrong.demo.dao.DemoDao;
 import com.santrong.demo.entry.DemoForm;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 
 @Controller
 public class Test1Action extends BaseAction{
@@ -39,7 +39,7 @@ public class Test1Action extends BaseAction{
 	
 	@RequestMapping("fn2")
 	public String fn2() {
-		TcpService client = TcpService.getInstance();
+		TcpClientService client = TcpClientService.getInstance();
 		
 		// 31001
 //		LocalTcp31001 tcp31001 = new LocalTcp31001();

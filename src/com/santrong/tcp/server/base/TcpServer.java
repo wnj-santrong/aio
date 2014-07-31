@@ -18,6 +18,10 @@ public class TcpServer implements Runnable {
 			isRun = true;
 			
 			try{
+				Log.info("Startup TcpServer Thread");
+			}catch(Exception e) {}			
+			
+			try{
 				ServerSocket ss = new ServerSocket(TcpDefine.Basic_Server_port);
 				while(true)
 				{

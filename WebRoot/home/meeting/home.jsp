@@ -133,7 +133,7 @@
 	    <li class="canves"<c:if test="${meeting.isLive == 0}">style="display:none;"</c:if>></li>
 	</ul>
 	<div class="button_panel">
-		<c:if test="${meeting.isConnected == 1}"><!-- 跟系统调度能连接上才显示 -->
+	<c:if test="${meeting.isConnect == 1}"><!-- 跟系统调度能连接上才显示 -->
 		<c:if test="${meeting.isLive == 0}">
 			<a href="#" class="save"><fmt:message key="text_save" /></a>
 			<a href="#" class="openLive"><fmt:message key="meeting_openLive" /></a>
@@ -147,7 +147,7 @@
 		<c:if test="${meeting.isLive == 1 && meeting.isRecord == 1}">
 			<a href="#" class="stopRecord"><fmt:message key="meeting_stopRecord" /></a>
 		</c:if>
-		</c:if>
+	</c:if>
 	</div>
 </form>
 

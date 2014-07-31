@@ -16,7 +16,7 @@ import com.santrong.file.entry.FileQuery;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.tcp.client.LocalTcp31010;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 
 /**
  * @author weinianjie
@@ -115,7 +115,7 @@ public class FileAction extends BaseAction{
 			String[] idArr = ids.split(",");
 			
 			FileDao fileDao = new FileDao();
-			TcpService client = TcpService.getInstance();
+			TcpClientService client = TcpClientService.getInstance();
 			LocalTcp31010 tcp31010 = new LocalTcp31010();
 	
 			// 先删除实体文件

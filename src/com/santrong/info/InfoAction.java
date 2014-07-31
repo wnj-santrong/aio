@@ -9,7 +9,7 @@ import com.santrong.info.entry.SystemInfoView;
 import com.santrong.log.Log;
 import com.santrong.tcp.client.LocalTcp31009;
 import com.santrong.tcp.client.MainTcp39004;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 
 /**
  * @author weinianjie
@@ -26,7 +26,7 @@ public class InfoAction extends BaseAction{
 		SystemInfoView info = new SystemInfoView();
 		
 		try{
-			TcpService client = TcpService.getInstance();
+			TcpClientService client = TcpClientService.getInstance();
 			LocalTcp31009 tcp31009 = new LocalTcp31009();
 			client.request(tcp31009);
 			

@@ -4,7 +4,7 @@ import com.santrong.http.HttpDefine;
 import com.santrong.http.server.base.AbstractHttpService;
 import com.santrong.log.Log;
 import com.santrong.tcp.client.LocalTcp31012;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 import com.santrong.util.XmlReader;
 
 /**
@@ -23,7 +23,7 @@ public class BasicHttpService30005 implements AbstractHttpService{
 		try{
 			sessionId = xml.find("/MsgHead/SessionId").getText();
 			
-			TcpService client = TcpService.getInstance();
+			TcpClientService client = TcpClientService.getInstance();
 			tcp = new LocalTcp31012();
 			tcp.setConfId(xml.find("/MsgBody/TiltCtrlReq/ConfID").getText());
 			tcp.setStrmId(Integer.parseInt(xml.find("/MsgBody/TiltCtrlReq/StrmId").getText()));

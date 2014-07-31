@@ -27,7 +27,7 @@ import com.santrong.tcp.client.LocalTcp31005;
 import com.santrong.tcp.client.LocalTcp31006;
 import com.santrong.tcp.client.LocalTcp31008;
 import com.santrong.tcp.client.LocalTcp31016;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 import com.santrong.util.CommonTools;
 
 /**
@@ -39,7 +39,7 @@ import com.santrong.util.CommonTools;
 @RequestMapping("/meeting")
 public class MeetingAction extends BaseAction{
 	
-	TcpService client = TcpService.getInstance();	
+	TcpClientService client = TcpClientService.getInstance();	
 	
 	/**
 	 * 会议管理主页面
@@ -79,7 +79,7 @@ public class MeetingAction extends BaseAction{
 		if(status != null) {
 			meeting.setIsLive(status.getIsLive());
 			meeting.setIsRecord(status.getIsRecord());
-			meeting.setIsConnected(1);
+			meeting.setIsConnect(status.getIsConnect());
 		}
 		request.setAttribute("meeting", meeting);
 		return "meeting/home";

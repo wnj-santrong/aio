@@ -19,7 +19,7 @@ import com.santrong.opt.ThreadUtils;
 import com.santrong.system.Global;
 import com.santrong.tcp.client.LocalTcp31014;
 import com.santrong.tcp.client.LocalTcp31015;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 import com.santrong.util.CommonTools;
 
 /**
@@ -31,7 +31,7 @@ import com.santrong.util.CommonTools;
 @RequestMapping("/datasource")
 public class DatasourceAction extends BaseAction {
 	
-	TcpService client = TcpService.getInstance();
+	TcpClientService client = TcpClientService.getInstance();
 	
 	/**
 	 * 数据源GET

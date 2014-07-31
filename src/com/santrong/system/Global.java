@@ -44,7 +44,7 @@ public class Global {
     /*
      * [System]
      */
-    public static String Title = "课程直播录制系统";
+    public static String Title = "三简课程直播录制系统";
     public static boolean isBeyonsys = true;    						// 是否beyonsys版本
     public static boolean isDirector = false; 							// 是否支持电影模式
     public static boolean VodRemoteFile = true;							// 是否支持点播远程课件

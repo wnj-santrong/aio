@@ -10,18 +10,18 @@ import com.santrong.util.XmlReader;
  * @Date 2014-7-8
  * @Time 上午10:44:52
  * @description 本机服务器（本机底层会有C++写的监听服务，JAVA发送TCP请求实现底层接口调用）
- * 向其他类型的服务器发送请求，请继承AbstractTcpClientManager构建新类
+ * 向其他类型的服务器发送请求，请继承AbstractTcpService构建新类
  */
-public class TcpService extends AbstractTcpService{
+public class TcpClientService extends AbstractTcpService{
 	
-	private static TcpService instance;
+	private static TcpClientService instance;
 	
-	private TcpService(){
+	private TcpClientService(){
 	}	
 	
-	public static TcpService getInstance(){
+	public static TcpClientService getInstance(){
 		if(instance == null){
-			instance = new TcpService();
+			instance = new TcpClientService();
 		}
 		return instance;
 	}

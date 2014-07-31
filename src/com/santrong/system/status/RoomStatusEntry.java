@@ -6,9 +6,16 @@ package com.santrong.system.status;
  * @time 下午5:20:35
  */
 public class RoomStatusEntry {
+	private int isConnect;
 	private int isRecord;
 	private int isLive;
 	
+	public int getIsConnect() {
+		return isConnect;
+	}
+	public void setIsConnect(int isConnect) {
+		this.isConnect = isConnect;
+	}
 	public int getIsRecord() {
 		return isRecord;
 	}

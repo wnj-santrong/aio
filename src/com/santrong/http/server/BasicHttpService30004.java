@@ -20,7 +20,7 @@ import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31004;
 import com.santrong.tcp.client.LocalTcp31006;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.util.CommonTools;
 import com.santrong.util.XmlReader;
@@ -32,7 +32,7 @@ import com.santrong.util.XmlReader;
  */
 public class BasicHttpService30004 implements AbstractHttpService{
 	
-	TcpService client = TcpService.getInstance();
+	TcpClientService client = TcpClientService.getInstance();
 
 	@Override
 	public String excute(XmlReader xml) {

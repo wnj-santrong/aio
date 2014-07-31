@@ -5,7 +5,7 @@ import com.santrong.http.server.base.AbstractHttpService;
 import com.santrong.log.Log;
 import com.santrong.tcp.client.MainTcp39004;
 import com.santrong.tcp.client.MainTcp39004.ModuleStatus;
-import com.santrong.tcp.client.TcpService;
+import com.santrong.tcp.client.TcpClientService;
 import com.santrong.util.XmlReader;
 
 /**
@@ -23,7 +23,7 @@ public class BasicHttpService30002 implements AbstractHttpService{
 		
 		try{
 			sessionId = xml.find("/MsgHead/SessionId").getText();
-			TcpService client = TcpService.getInstance();
+			TcpClientService client = TcpClientService.getInstance();
 			tcp = new MainTcp39004();
 			client.request(tcp);
 			
