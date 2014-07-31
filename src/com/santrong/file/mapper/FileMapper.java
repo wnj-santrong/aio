@@ -1,5 +1,7 @@
 package com.santrong.file.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -23,6 +25,9 @@ public interface FileMapper {
 	
     @Select("select * from web_file where id=#{id}")
     FileItem selectById(@Param("id") String id);
+    
+    @Select("select * from web_file where id in (${ids})")
+    List<FileItem> selectByIds(@Param("ids") String ids);
     
     @Select("select * from web_file where status=0 and channel=#{channel} limit 1")
     FileItem selectRecording(int channel);

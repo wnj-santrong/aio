@@ -218,6 +218,7 @@ public class MeetingAction extends BaseAction{
 		try{
 			String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
 			RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
+			int isRecord = roomStatus.getIsRecord();
 			
 			if(roomStatus.getIsLive() == 0) {
 				return "error_meeting_already_close";//会议已经被关闭，不可重复操作
@@ -231,13 +232,15 @@ public class MeetingAction extends BaseAction{
 				return FAIL;
 			}
 			
+			
+			
 			// 同步本地内存
 			roomStatus.setIsLive(0);
 			roomStatus.setIsRecord(0);//结束会议必然附带结束录制（如果存在录制的话）
 			StatusMgr.setRoomStatus(confId, roomStatus);
 			
 			// 要求录制
-			if(meeting.getUseRecord() == 1) {
+			if(meeting.getUseRecord() == 1 && isRecord == 1) {// 为了保险，最好还是同时判断关闭会议之前的录制状态，因为录制状态有可能被外设或者接口停止了
 				// 录制失败
 				if(tcp.getRcdResult() == 0) {
 					return FAIL;
@@ -392,7 +395,8 @@ public class MeetingAction extends BaseAction{
 		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//时间作为标致，精确到秒
-		String rcdName = Global.vedioDir + "/" + confId + "/" + sdf.format(new Date());//全路径		
+		String fileName = sdf.format(new Date());
+		String rcdName = Global.vedioDir + "/" + confId + "/" + fileName;//全路径		
 		
 		LocalTcp31006 tcp = new LocalTcp31006();
 		tcp.setConfId(confId);
@@ -416,11 +420,12 @@ public class MeetingAction extends BaseAction{
 		FileItem file = new FileItem();
 		BeanUtils.copyProperties(meeting, file);
 		file.setId(CommonTools.getGUID());
-		file.setFileName(rcdName);
+		file.setFileName(fileName);
 		file.setFileSize(0);
 		file.setDuration("");
 		file.setStatus(FileItem.File_Status_Recording);
 		file.setLevel(0);
+		file.setChannel(meeting.getChannel());
 		file.setDownloadCount(0);
 		file.setPlayCount(0);
 		file.setCts(new Date());

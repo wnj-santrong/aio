@@ -53,7 +53,7 @@ create table web_file(
 	level int(4) not null default 0 comment '课件级别，0开放，1不开放',
 	channel int(4) not null default 1 comment '产生课件的会议室通道',
 	bitRate int(4) comment '码率单位kbps',
-	resolution int(4) comment '分辨率',	
+	resolution int(4) comment '分辨率',
 	playCount int(4) not null default 0 comment '点播次数',
 	downloadCount int(4) not null default 0 comment '下载次数',
 	cts datetime comment '创建时间',

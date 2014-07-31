@@ -1,5 +1,6 @@
 package com.santrong.file;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,11 @@ import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
 import com.santrong.file.entry.FileQuery;
 import com.santrong.log.Log;
+import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.system.Global;
+import com.santrong.system.status.RoomStatusEntry;
+import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31010;
 import com.santrong.tcp.client.TcpClientService;
 
@@ -118,9 +123,17 @@ public class FileAction extends BaseAction{
 			TcpClientService client = TcpClientService.getInstance();
 			LocalTcp31010 tcp31010 = new LocalTcp31010();
 	
+			List<FileItem> fileList = fileDao.selectByIds(idArr);
+			if(fileList == null || fileList.size() == 0) {
+				return FAIL;
+			}
+			
 			// 先删除实体文件
-			for(String id : idArr) {
-				tcp31010.setConfId(id);
+			for(FileItem file : fileList) {
+				String confId = MeetingItem.ConfIdPreview + file.getChannel();
+				String rcdName = Global.vedioDir + "/" + confId + "/" + file.getFileName();//全路径
+				tcp31010.setConfId(confId);
+				tcp31010.setCourseName(rcdName);
 				client.request(tcp31010);
 				
 				if(tcp31010.getRespHeader().getReturnCode() == 1 || tcp31010.getResultCode() == 1) {

@@ -14,6 +14,7 @@ import com.santrong.file.mapper.FileMapper;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.util.BeanUtils;
+import com.santrong.util.ValidateTools;
 import com.santrong.util.criteria.Statement;
 
 /**
@@ -37,6 +38,24 @@ public class FileDao extends BaseDao{
 			return mapper.selectById(id);
 		}
 		return null;		
+	}
+	
+	public List<FileItem> selectByIds(String[] ids) {
+		StringBuilder sb = new StringBuilder();
+		for(String id:ids) {
+			if(ValidateTools.isGUID(id)) {
+				sb.append(",'").append(id).append("'");
+			}
+		}
+		if(sb.length() > 0) {
+			sb.deleteCharAt(0);
+			FileMapper mapper = this.getMapper(FileMapper.class);
+			if(mapper != null) {			
+				return mapper.selectByIds(sb.toString());
+			}
+		}
+
+		return null;
 	}
 	
 	public FileItem selectRecording(int channel) {

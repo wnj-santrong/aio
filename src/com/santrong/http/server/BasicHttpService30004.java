@@ -121,6 +121,9 @@ public class BasicHttpService30004 implements AbstractHttpService{
 			return 1;
 		}
 		
+		// 如果是停止录制，则顺便关闭会议
+		// TODO 关还是不关呢？？？
+		
 		// 更新内存状态
 		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
 		if(operType == 1) {

@@ -29,7 +29,12 @@ public class StatusMonitor implements Runnable {
 			}catch(Exception e) {}
 			
 			// 状态监控一旦启动，永不停止，发生异常重连
-			while(true) {
+			
+			// 调试模式之运行一次，降低控制台输出
+			int a = 0;
+			while(a++ < 1) {
+				
+//			while(true) {
 				try{
 					
 					long currentTime = System.currentTimeMillis();

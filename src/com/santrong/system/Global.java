@@ -45,6 +45,7 @@ public class Global {
      * [System]
      */
     public static String Title = "三简课程直播录制系统";
+    public static String Language = "zh_CN";
     public static boolean isBeyonsys = true;    						// 是否beyonsys版本
     public static boolean isDirector = false; 							// 是否支持电影模式
     public static boolean VodRemoteFile = true;							// 是否支持点播远程课件
@@ -138,6 +139,7 @@ public class Global {
             LanDeviceName = ini.readString("System", "LanDeviceName", LanDeviceName);
 
             Title = ini.readString("System", "Title", Title);
+            Language = ini.readString("System", "Language", Language);
             RecServerPort = ini.readInt("System", "RecServerPort", RecServerPort);
             LiveNodePort = ini.readInt("System", "LiveNodePort", LiveNodePort);
             DCMPPort = ini.readInt("System", "DCMPPort", DCMPPort);
