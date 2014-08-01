@@ -54,8 +54,8 @@ body {background: url(../photo/bg.gif);}
 /*-------------内容--顶部和搜索---------------*/
 .submenu {float:right;width:1054px;height:700px;}
 .sub_top {height:30px; line-height:30px; margin:0 0 5px 5px; background:#d6ecff; color:#006; font-size:18px; text-indent:5px;}
-.search {line-height:26px; padding-left:5px;  width:100%; margin-right:50px; display:inline-block; border-bottom:solid 1px #ccc;}
-.search .search_img {float:left; width:216px; background:url(../photo/search_bg.png) no-repeat left top;}
+.search {line-height:26px; width:100%; display:inline-block; border-bottom:solid 1px #ccc;}
+.search .search_img {float:left; width:216px; margin-left:22px; background:url(../photo/search_bg.png) no-repeat left top;}
 .search .search_text {width:150px; border:0; background:none; height:26px; line-height:26px; padding:0 0 0 5px;}
 .search .search_img a {color:#333; margin-left:5px; padding-left:15px; line-height:24px; background:url(../photo/search_icon.png) no-repeat left center;}
 .search .search_img a:hover {background:url(../photo/search_icon.png) no-repeat left center;}

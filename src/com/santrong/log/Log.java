@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.santrong.log.dao.OptLogDao;
-import com.santrong.log.dao.RequestLogDao;
 import com.santrong.log.entry.OptLogItem;
-import com.santrong.log.entry.RequestLogItem;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
@@ -23,6 +21,7 @@ import com.santrong.util.CommonTools;
 public class Log {
 	
 	private static final Logger logger = Logger.getLogger("");
+	private static final Logger logger_request = Logger.getLogger("request");
 	
 	public static void debug(Object obj) {
 		logger.debug(obj);
@@ -73,16 +72,19 @@ public class Log {
 	}
 	
 	public static void logRequest(HttpServletRequest request) {
-		RequestLogDao dao = new RequestLogDao();
-		RequestLogItem item = new RequestLogItem();
-		item.setId(CommonTools.getGUID());
-		item.setUri(request.getRequestURI());
-		item.setParam(request.getQueryString());
-		item.setMethod(request.getMethod());
-		item.setIp(CommonTools.getRequestAddrIp(request, "127.0.0.1"));
-		item.setCts(new Date());
-		item.setUts(new Date());
-		dao.insert(item);
+		// 数据库方式
+//		RequestLogDao dao = new RequestLogDao();
+//		RequestLogItem item = new RequestLogItem();
+//		item.setId(CommonTools.getGUID());
+//		item.setUri(request.getRequestURI());
+//		item.setParam(request.getQueryString());
+//		item.setMethod(request.getMethod());
+//		item.setIp(CommonTools.getRequestAddrIp(request, "127.0.0.1"));
+//		item.setCts(new Date());
+//		item.setUts(new Date());
+//		dao.insert(item);
+		// 日志文件
+		logger_request.info(request.getRequestURI() + " --- "  + request.getQueryString() + " --- " + request.getMethod() + " --- " + CommonTools.getRequestAddrIp(request, "127.0.0.1"));
 	}	
 	
 	
