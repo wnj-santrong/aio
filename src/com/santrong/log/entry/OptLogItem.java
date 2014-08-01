@@ -1,4 +1,6 @@
-package com.santrong.log;
+package com.santrong.log.entry;
+
+import java.util.Date;
 
 /**
  * @Author weinianjie
@@ -8,11 +10,11 @@ package com.santrong.log;
 public class OptLogItem {
 	private String id;
 	private String username;
-	private String type;
 	private String title;
 	private String content;
 	private String ip;
-	private String cts;
+	private Date cts;
+	private Date uts;
 	
 	public String getId() {
 		return id;
@@ -25,12 +27,6 @@ public class OptLogItem {
 	}
 	public void setUsername(String username) {
 		this.username = username;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 	public String getTitle() {
 		return title;
@@ -50,11 +46,17 @@ public class OptLogItem {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	public String getCts() {
+	public Date getCts() {
 		return cts;
 	}
-	public void setCts(String cts) {
+	public void setCts(Date cts) {
 		this.cts = cts;
+	}
+	public Date getUts() {
+		return uts;
+	}
+	public void setUts(Date uts) {
+		this.uts = uts;
 	}
 	
 }

@@ -148,6 +148,9 @@
 			<a href="#" class="stopRecord"><fmt:message key="meeting_stopRecord" /></a>
 		</c:if>
 	</c:if>
+	<c:if test="${meeting.isConnect == 0}">
+		<b><fmt:message key="MaxBackupIndex" /></b>
+	</c:if>
 	</div>
 </form>
 

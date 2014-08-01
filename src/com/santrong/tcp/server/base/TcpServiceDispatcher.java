@@ -16,7 +16,7 @@ import com.santrong.util.XmlReader;
 
 public class TcpServiceDispatcher implements Runnable{
 
-	private static final Logger logger = Logger.getLogger("xml");
+	private static final Logger logger = Logger.getLogger(TcpServiceDispatcher.class);
 	
 	protected Socket clientSocket;
 	
@@ -71,9 +71,9 @@ public class TcpServiceDispatcher implements Runnable{
 			
 			String uuid = CommonTools.getGUID();
 			
-			logger.debug("getXmlMsg  [TCP_BEGIN(" + uuid + ")] : " + str);
+			logger.info("getXmlMsg  [TCP_BEGIN(" + uuid + ")] : " + str);
 			String retMsg = dispatch(str);
-			logger.debug("sendXmlMsg [TCP_END  (" + uuid + ")] : " + retMsg);
+			logger.info("sendXmlMsg [TCP_END  (" + uuid + ")] : " + retMsg);
 			
 			OutputStream os = clientSocket.getOutputStream();
 			DataOutputStream out = new DataOutputStream(os);

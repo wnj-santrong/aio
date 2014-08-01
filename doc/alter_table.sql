@@ -136,3 +136,29 @@ create table web_tag(
 	primary key (id)
 ) engine=InnoDB default charset=utf8 collate=utf8_bin;
 insert into web_tag values('10000', 'CLSRM', 0, now(), now());
+
+-- 操作日志表 ---
+drop table if exists web_opt_log;
+create table web_opt_log(
+	id varchar(32) not null comment 'UUID',
+	username varchar(128) comment '用户名',
+	title varchar(128) comment '标题',
+	content varchar(1024) comment '内容',
+	ip varchar(32) comment 'IP',
+	cts datetime comment '创建时间',
+	uts datetime comment '修改时间',
+	primary key (id)
+) engine=InnoDB default charset=utf8 collate=utf8_bin;
+
+-- 操作日志表 ---
+drop table if exists web_request_log;
+create table web_request_log(
+	id varchar(32) not null comment 'UUID',
+	uri varchar(64) comment 'uri',
+	param varchar(256) comment '参数',
+	method varchar(16) comment '请求方法',
+	ip varchar(32) comment 'IP',
+	cts datetime comment '创建时间',
+	uts datetime comment '修改时间',
+	primary key (id)
+) engine=InnoDB default charset=utf8 collate=utf8_bin;

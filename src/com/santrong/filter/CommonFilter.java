@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
@@ -40,6 +41,12 @@ public class CommonFilter implements Filter{
 		
 		String url = request.getRequestURI();
 		if (url != null) {
+			
+			// 记录用户访问(过滤掉接口的请求)
+			if(!url.startsWith("/http/basic.action")) {
+				Log.logRequest(request);
+			}
+			
 			boolean pass = false;
 			
 			// 是否是开发目录

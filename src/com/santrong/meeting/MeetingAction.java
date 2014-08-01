@@ -198,6 +198,9 @@ public class MeetingAction extends BaseAction{
 				}
 				
 			}
+			
+			Log.logOpt("meeting-open", "", request);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -264,6 +267,9 @@ public class MeetingAction extends BaseAction{
 					return FAIL;
 				}
 			}
+			
+			Log.logOpt("meeting-close", "", request);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -293,6 +299,8 @@ public class MeetingAction extends BaseAction{
 			if(rs != SUCCESS) {
 				return rs;
 			}
+			
+			Log.logOpt("meeting-record", "start", request);
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -352,6 +360,8 @@ public class MeetingAction extends BaseAction{
 				return FAIL;
 			}
 			
+			Log.logOpt("meeting-record", "stop", request);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -379,6 +389,9 @@ public class MeetingAction extends BaseAction{
 		if(dao.update(meeting) <= 0) {
 			return FAIL;// 存储数据库失败
 		}
+		
+		Log.logOpt("meeting-save", "", request);
+		
 		return SUCCESS;
 	}
 	

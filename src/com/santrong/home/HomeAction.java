@@ -87,6 +87,8 @@ public class HomeAction extends BaseAction{
 		
 		ThreadUtils.currentHttpSession().setAttribute(Global.loginUser_key, user);
 		
+		Log.logOpt("user-login", user.getUsername(), request);
+		
 		return SUCCESS;
 	}
 	
@@ -105,6 +107,10 @@ public class HomeAction extends BaseAction{
 			Log.printStackTrace(e);
 			return FAIL;
 		}
+		
+		ThreadUtils.currentHttpSession().invalidate();
+		
+		Log.logOpt("user-out", user.getUsername(), request);
 		
 		return SUCCESS;
 	}

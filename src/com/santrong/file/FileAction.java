@@ -87,6 +87,8 @@ public class FileAction extends BaseAction{
 		
 		fileDao.update(dbFile);
 		
+		Log.logOpt("file-modify", dbFile.getId(), request);
+		
 		return SUCCESS;
 	}
 	
@@ -123,6 +125,8 @@ public class FileAction extends BaseAction{
 			// 更新播放次数
 			file.setPlayCount(file.getPlayCount() + 1);
 			dao.update(file);
+			
+			Log.logOpt("file-play", file.getId(), request);
 			
 			Gson gson = new Gson();
 			return gson.toJson(info);
@@ -173,6 +177,9 @@ public class FileAction extends BaseAction{
 			if(fileDao.deleteByIds(idArr) <= 0) {
 				return FAIL;
 			}
+			
+			Log.logOpt("file-delete", ids, request);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -198,6 +205,9 @@ public class FileAction extends BaseAction{
 			if(fileDao.openByIds(idArr) <= 0) {
 				return FAIL;
 			}
+			
+			Log.logOpt("file-open", ids, request);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -222,6 +232,9 @@ public class FileAction extends BaseAction{
 			if(fileDao.closeByIds(idArr) <= 0) {
 				return FAIL;
 			}
+			
+			Log.logOpt("file-close", ids, request);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -236,6 +249,7 @@ public class FileAction extends BaseAction{
 	@ResponseBody
 	public String fileDownload(String ids) {
 
+		Log.logOpt("file-download", ids, request);
 		
 		return SUCCESS;
 	}	

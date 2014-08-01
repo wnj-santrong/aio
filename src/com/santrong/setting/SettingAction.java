@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.log.Log;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
@@ -64,6 +65,15 @@ public class SettingAction extends BaseAction{
 			}else{
 				return "error_oldpwd";
 			}
+			
+			// 把新用户注入session
+			UserItem newuser = userDao.selectByUserName(newname);
+			if(newuser != null) {
+				ThreadUtils.currentHttpSession().setAttribute(Global.loginUser_key, newuser);
+			}
+			
+			Log.logOpt("user-modify", newname, request);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -111,6 +121,8 @@ public class SettingAction extends BaseAction{
 				Log.debug("----------- db back fail");
 			}
 			
+			Log.logOpt("db-backup", "", request);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -132,6 +144,8 @@ public class SettingAction extends BaseAction{
 		if(!FileUtils.delFile(Global.dbBackupDir + File.separator + filename)) {
 			return FAIL;
 		}
+		
+		Log.logOpt("db-delete", filename, request);
 		
 		return SUCCESS;
 	}
@@ -162,6 +176,8 @@ public class SettingAction extends BaseAction{
 		} catch (Exception e) {
 			
 		}
+		
+		Log.logOpt("db-restore", filename, request);
 		
 		return SUCCESS;
 	}	
@@ -198,6 +214,8 @@ public class SettingAction extends BaseAction{
 			return FAIL;
 		}
 		
+		Log.logOpt("net-save", String.valueOf(type), request);
+		
 		return SUCCESS;
 	}	
 	
@@ -210,6 +228,8 @@ public class SettingAction extends BaseAction{
 		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(password)) {
 			return "error_param";
 		}
+		
+		Log.logOpt("ftp-save", useFtp + "|" + host + "|" + port + "|" + username + "|" + password, request);
 		
 		return SUCCESS;
 	}
@@ -236,6 +256,8 @@ public class SettingAction extends BaseAction{
 		if(StringUtils.isNullOrEmpty(file)) {
 			return "error_param";
 		}
+		
+		Log.logOpt("system-update", file, request);
 		
 		return SUCCESS;
 	}

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.santrong.base.BaseAction;
+import com.santrong.log.Log;
 import com.santrong.play.dao.TagDao;
 import com.santrong.play.entry.TagItem;
 import com.santrong.util.CommonTools;
@@ -37,6 +38,9 @@ public class TagAction extends BaseAction{
 		if(tagDao.insert(tag) < 1) {
 			return FAIL;
 		}
+		
+		Log.logOpt("tag-insert", tag.getTagName(), request);
+		
 		return SUCCESS;
 	}
 	
@@ -48,6 +52,9 @@ public class TagAction extends BaseAction{
 		if(tagDao.deleteByTagName(tagName) < 1) {
 			return FAIL;
 		}
+		
+		Log.logOpt("tag-delete", tagName, request);
+		
 		return SUCCESS;
 	}
 }

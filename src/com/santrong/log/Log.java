@@ -1,6 +1,19 @@
 package com.santrong.log;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+
+import com.santrong.log.dao.OptLogDao;
+import com.santrong.log.dao.RequestLogDao;
+import com.santrong.log.entry.OptLogItem;
+import com.santrong.log.entry.RequestLogItem;
+import com.santrong.opt.ThreadUtils;
+import com.santrong.setting.entry.UserItem;
+import com.santrong.system.Global;
+import com.santrong.util.CommonTools;
 
 /**
  * @Author weinianjie
@@ -26,6 +39,52 @@ public class Log {
 	public static void error(Object obj) {
 		logger.error(obj);
 	}
+	
+	
+	public static void logOpt(String title, String content, String username, String ip) {
+		OptLogDao dao = new OptLogDao();
+		OptLogItem item = new OptLogItem();
+		item.setId(CommonTools.getGUID());
+		item.setUsername(username);
+		item.setTitle(title);
+		item.setIp(ip);
+		item.setCts(new Date());
+		item.setUts(new Date());
+		dao.insert(item);
+	}
+	
+	
+	public static void logOpt(String title, String content, HttpServletRequest request) {
+		OptLogDao dao = new OptLogDao();
+		OptLogItem item = new OptLogItem();
+		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.loginUser_key);
+		if(user != null) {
+			item.setUsername(user.getUsername());
+		}else{
+			item.setUsername("anonymous");
+		}
+		item.setId(CommonTools.getGUID());
+		item.setTitle(title);
+		item.setContent(content);
+		item.setIp(CommonTools.getRequestAddrIp(request, "127.0.0.1"));
+		item.setCts(new Date());
+		item.setUts(new Date());
+		dao.insert(item);
+	}
+	
+	public static void logRequest(HttpServletRequest request) {
+		RequestLogDao dao = new RequestLogDao();
+		RequestLogItem item = new RequestLogItem();
+		item.setId(CommonTools.getGUID());
+		item.setUri(request.getRequestURI());
+		item.setParam(request.getQueryString());
+		item.setMethod(request.getMethod());
+		item.setIp(CommonTools.getRequestAddrIp(request, "127.0.0.1"));
+		item.setCts(new Date());
+		item.setUts(new Date());
+		dao.insert(item);
+	}	
+	
 	
 	public static void printStackTrace(Throwable e){
 		if(e==null){return;}

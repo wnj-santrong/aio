@@ -27,7 +27,7 @@ import com.santrong.util.XmlReader;
 @RequestMapping("/http")
 public class HttpServiceAction {
 	
-	private static final Logger logger = Logger.getLogger("xml");
+	private static final Logger logger = Logger.getLogger(HttpServiceAction.class);
 
 	/*
 	 * 分发服务
@@ -70,9 +70,9 @@ public class HttpServiceAction {
 			
 			String uuid = CommonTools.getGUID();
 			
-			logger.debug("getXmlMsg  [HTTP_BEGIN(" + uuid + ")] : " + xmlMsg);
+			logger.info("getXmlMsg  [HTTP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			String retMsg = dispatch(xmlMsg);
-			logger.debug("sendXmlMsg [HTTP_END  (" + uuid + ")] : " + retMsg);
+			logger.info("sendXmlMsg [HTTP_END  (" + uuid + ")] : " + retMsg);
 			
 			OutputStream out = response.getOutputStream();
             if (retMsg != null) {
