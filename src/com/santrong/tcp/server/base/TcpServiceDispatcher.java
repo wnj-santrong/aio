@@ -6,15 +6,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 import com.santrong.log.Log;
-import com.santrong.opt.MsgCode;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.system.Global;
 import com.santrong.util.CommonTools;
 import com.santrong.util.XmlReader;
 
 public class TcpServiceDispatcher implements Runnable{
 
-	private static final String Encoding = "UTF-8";
+	private static final Logger logger = Logger.getLogger("xml");
 	
 	protected Socket clientSocket;
 	
@@ -65,17 +67,17 @@ public class TcpServiceDispatcher implements Runnable{
 				leftbytes = msglen_rec - bytesRead;			
 			}
 			
-			String str = new String(in_b, Encoding);
+			String str = new String(in_b, Global.Default_Encoding);
 			
 			String uuid = CommonTools.getGUID();
 			
-			Log.debug("getXmlMsg [TCP_BEGIN(" + uuid + ")] : " + str);
+			logger.debug("getXmlMsg  [TCP_BEGIN(" + uuid + ")] : " + str);
 			String retMsg = dispatch(str);
-			Log.debug("sendXmlMsg [TCP_END(" + uuid + ")] : " + retMsg);
+			logger.debug("sendXmlMsg [TCP_END  (" + uuid + ")] : " + retMsg);
 			
 			OutputStream os = clientSocket.getOutputStream();
 			DataOutputStream out = new DataOutputStream(os);
-			byte[] retMsgb = retMsg.getBytes(Encoding);
+			byte[] retMsgb = retMsg.getBytes(Global.Default_Encoding);
 			int msglength = retMsgb.length;
 			out.write(this.intTolBytes(msglength));// 先写入消息长度（前四个字节int型）				
 			out.write(retMsgb);

@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
  */
 public class Log {
 	
-	private static final Logger logger = Logger.getLogger(Log.class);
+	private static final Logger logger = Logger.getLogger("");
 	
 	public static void debug(Object obj) {
 		logger.debug(obj);

@@ -18,7 +18,7 @@ public class TcpServer implements Runnable {
 			isRun = true;
 			
 			try{
-				Log.info("Startup TcpServer Thread");
+				Log.info("************Startup TcpServer Thread************");
 			}catch(Exception e) {}			
 			
 			try{

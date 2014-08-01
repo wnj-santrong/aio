@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,8 @@ import com.santrong.util.XmlReader;
 @Controller
 @RequestMapping("/http")
 public class HttpServiceAction {
+	
+	private static final Logger logger = Logger.getLogger("xml");
 
 	/*
 	 * 分发服务
@@ -67,9 +70,9 @@ public class HttpServiceAction {
 			
 			String uuid = CommonTools.getGUID();
 			
-			Log.debug("getXmlMsg [HTTP_BEGIN(" + uuid + ")] : " + xmlMsg);
+			logger.debug("getXmlMsg  [HTTP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			String retMsg = dispatch(xmlMsg);
-			Log.debug("sendXmlMsg [HTTP_END(" + uuid + ")] : " + retMsg);
+			logger.debug("sendXmlMsg [HTTP_END  (" + uuid + ")] : " + retMsg);
 			
 			OutputStream out = response.getOutputStream();
             if (retMsg != null) {

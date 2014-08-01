@@ -10,11 +10,15 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.apache.log4j.Logger;
+
 import com.santrong.log.Log;
 import com.santrong.system.Global;
 import com.santrong.util.CommonTools;
 
 public class TcpClientHanlder{
+	
+	private static final Logger logger = Logger.getLogger("xml");
 	
     Socket gsocket = null;
     private static final int TIME_OUT = 10000;		// 连接超时时间
@@ -69,7 +73,7 @@ public class TcpClientHanlder{
 		try {
 			String uuid = CommonTools.getGUID();
 			
-			Log.debug("sendXmlMsg[TCP_BEGIN(" + uuid + ")] : " + xmlMsg);
+			Log.debug("sendXmlMsg [TCP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			byte[] xmlMsgb = xmlMsg.getBytes(Global.Default_Encoding);
 			 
 			//获取输出流
@@ -97,7 +101,7 @@ public class TcpClientHanlder{
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);	
             msgRsp = new String(msgRsp_b, Global.Default_Encoding);
-            Log.debug("getXmlMsg[TCP_END(" + uuid + ")] : " + msgRsp);
+            Log.debug("getXmlMsg  [TCP_END  (" + uuid + ")] : " + msgRsp);
 		 
 		} catch (UnknownHostException e) {
 			Log.printStackTrace(e);
@@ -139,7 +143,7 @@ public class TcpClientHanlder{
 			
 			String uuid = CommonTools.getGUID();
 			
-			Log.debug("sendXmlMsg [TCP_BEGIN(" + uuid + ")] : " + xmlMsg);
+			logger.debug("sendXmlMsg [TCP_BEGIN (" + uuid + ")] : " + xmlMsg);
 			byte[] xmlMsgb = xmlMsg.getBytes(Global.Default_Encoding);
 			 
 			//获取输出流
@@ -174,7 +178,7 @@ public class TcpClientHanlder{
             //读取消息内容
             byte[] msgRsp_b = this.readBytesContent(in, msglen_rec);
             msgRsp = new String(msgRsp_b, Global.Default_Encoding);
-            Log.debug("getXmlMsg [TCP_END(" + uuid + ")] : " + msgRsp);
+            logger.debug("getXmlMsg  [TCP_END   (" + uuid + ")] : " + msgRsp);
 
 		} catch (UnknownHostException e) {
 			Log.printStackTrace(e);

@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
+
 
 
 public class Statement extends Criteria{
+	
+	private static final Logger logger = Logger.getLogger(Statement.class);
 	
 	
 	//~ --- [STATIC FIELDS/INITIALIZERS] -------------------------------------------------------------------------------
@@ -132,6 +136,8 @@ public class Statement extends Criteria{
     		}
     	}
     	
+    	
+    	logger.debug("==>  Preparing: " + stm.toString());
     	return stm;
     }
 }

@@ -25,7 +25,7 @@ public class StatusMonitor implements Runnable {
 			isRun = true;
 			
 			try{
-				Log.info("Startup StatusMonitor Thread");
+				Log.info("************Startup StatusMonitor Thread************");
 			}catch(Exception e) {}
 			
 			// 状态监控一旦启动，永不停止，发生异常重连

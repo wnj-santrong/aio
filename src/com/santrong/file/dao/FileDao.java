@@ -173,8 +173,6 @@ public class FileDao extends BaseDao{
 			// 分页
 			criteria.limit(query.getBeginIndex(), query.getPageSize());
 			
-			Log.debug("===============criteria:" + criteria.toString());
-			
 			Connection conn = ThreadUtils.currentConnection();
 			PreparedStatement stm = criteria.getRealStatement(conn);
 			ResultSet rs = stm.executeQuery();
@@ -214,8 +212,6 @@ public class FileDao extends BaseDao{
 				criteria.where(eq("f.level", "?"));
 				criteria.setIntParam(query.getLevel());
 			}
-			
-			Log.debug("===============criteria:" + criteria.toString());
 			
 			Connection conn = ThreadUtils.currentConnection();
 			PreparedStatement stm = criteria.getRealStatement(conn);

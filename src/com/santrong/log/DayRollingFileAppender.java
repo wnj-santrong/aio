@@ -17,6 +17,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * @Author weinianjie
  * @Date 2014-7-5
  * @Time 下午2:18:02
+ * http://sw1982.iteye.com/blog/526585
  * 扩展的一个按天滚动的appender类 
  * 暂时不支持datePattern设置，但是可以配置maxBackupIndex
  */
