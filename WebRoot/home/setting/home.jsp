@@ -2,8 +2,8 @@
 <%@ include file="../inc/common.jsp"%>
 <code id="pagename" style="display:none">c:index_a:setting</code>
 <div class="setting_wrap">
-<%@ include file="wan.jsp"%>
 <%@ include file="lan.jsp"%>
+<%@ include file="wan.jsp"%>
 <%@ include file="database.jsp"%>
 <%@ include file="ftp.jsp"%>
 <%@ include file="user.jsp"%>

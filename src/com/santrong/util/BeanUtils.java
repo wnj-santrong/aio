@@ -34,6 +34,11 @@ public class BeanUtils {
 							m.invoke(obj, rs.getInt(field));
 						} catch (Exception e) {}// 当没有错误处理
 					}
+					else if(returnType.equals(Long.TYPE)) {
+						try{
+							m.invoke(obj, rs.getLong(field));
+						} catch (Exception e) {}// 当没有错误处理
+					}					
 					else if(returnType.equals(Date.class)) {
 						try{
 							m.invoke(obj, rs.getDate(field));

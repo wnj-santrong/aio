@@ -85,10 +85,15 @@ public class StatusMonitor implements Runnable {
 						
 					}
 					
-					Thread.sleep(period);
-					
 				}catch (Exception e) {
 					Log.info("---Connect Controller Fail!");
+					Log.printStackTrace(e);
+				}
+				
+				// 休息
+				try {
+					Thread.sleep(period);
+				} catch (InterruptedException e) {
 					Log.printStackTrace(e);
 				}
 			}

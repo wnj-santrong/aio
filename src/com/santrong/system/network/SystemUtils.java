@@ -32,7 +32,7 @@ public class SystemUtils {
 	public static NetworkInfo getNetwork(int index) {
 		int osType = getOsType();
 		if(osType == WINDOWS) {
-			return UnixNetworkHandle.getInstance().getNetworkInfo(index);
+			return WindowsNetworkHandle.getInstance().getNetworkInfo(index);
 		}
 		if(osType == LINUX) {
 			return UnixNetworkHandle.getInstance().getNetworkInfo(index);
@@ -49,7 +49,7 @@ public class SystemUtils {
 	public static boolean setNetwork(NetworkInfo info) {
 		int osType = getOsType();
 		if(osType == WINDOWS) {
-			return UnixNetworkHandle.getInstance().setNetworkInfo(info);
+			return WindowsNetworkHandle.getInstance().setNetworkInfo(info);
 		}
 		if(osType == LINUX) {
 			return UnixNetworkHandle.getInstance().setNetworkInfo(info);

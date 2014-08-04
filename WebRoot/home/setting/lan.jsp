@@ -2,7 +2,7 @@
 <%@ include file="../inc/common.jsp"%>
 <form action="${ctx}/setting/networkPost.action" method="post" id="setting_lan">
 	<input type="hidden" name="type" value="0" />
-	<dl class="system_set fr">
+	<dl class="system_set fl">
 	    <dt><fmt:message key="setting_lan" /></dt>
 	    <dd>
 	        <p><fmt:message key="setting_ip" />:</p><span><input name="ip" type="text" class="form_text" required_Ip /></span><span class="notice">*</span>

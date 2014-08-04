@@ -1,5 +1,10 @@
 package com.santrong.file;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +27,7 @@ import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
 import com.santrong.tcp.client.LocalTcp31010;
 import com.santrong.tcp.client.TcpClientService;
+import com.santrong.util.CommonTools;
 
 /**
  * @author weinianjie
@@ -31,6 +37,9 @@ import com.santrong.tcp.client.TcpClientService;
 @Controller
 @RequestMapping("/file")
 public class FileAction extends BaseAction{
+	
+	private static final Integer READER_BUFFER_SIZE = 8192;
+	
 	
 	@RequestMapping("/home")
 	public String home(String keyword, Integer pageNum){
@@ -244,13 +253,146 @@ public class FileAction extends BaseAction{
 	
 	/*
 	 * 下载课件
+	 * 支持断点下载
 	 */
-	@RequestMapping(value="/fileDownload", method=RequestMethod.POST)
-	@ResponseBody
-	public String fileDownload(String ids) {
-
-		Log.logOpt("file-download", ids, request);
+	@RequestMapping(value="/fileDownload")
+	public void fileDownload(String id) {
+		InputStream in = null;
+		OutputStream out = null;
+		long readed = 0L;
 		
-		return SUCCESS;
-	}	
+		//TODO 代理转发、路由器，是否使用session的key更准确些
+		String downloadKey = CommonTools.getRequestAddrIp(request, "127.0.0.1") + "-" + id;
+		try{
+			// id不正常
+			if(StringUtils.isNullOrEmpty(id)) {
+				return;
+			}
+			// 超过服务器配置最大下载值
+			if(BreakPointDownloadContent.downloading.size() >= Global.DownloadMaxCount) {
+				return;
+			}
+			// 如果该ip已经正在下载该id的文件了
+			if(BreakPointDownloadContent.downloading.contains(downloadKey)) {
+				return;
+			}
+			// 标记用户下载
+			BreakPointDownloadContent.downloading.add(downloadKey);
+			
+			
+			FileDao fileDao = new FileDao();
+			FileItem file = fileDao.selectById(id);
+
+			String path = Global.vedioDir + "/" + MeetingItem.ConfIdPreview + file.getChannel();
+			
+			// 获取tar压缩后的大小
+			long fileLenth = file.getTarSize();
+			if(fileLenth == 0) {
+				// 以前没算过tar大小的就要计算
+				fileLenth = getTarSize(path, file.getFileName());
+				if(fileLenth != 0) {
+					// 持久化到数据库下次下载的时候免算
+					file.setTarSize(fileLenth);
+					fileDao.update(file);
+				}
+			}
+			if(fileLenth == 0) {
+				return;
+			}
+			
+			// 获取上次下载的位置
+			if (request.getHeader("Range") != null) {
+				response.setStatus(javax.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT);
+				readed = Long.parseLong(request.getHeader("Range").replaceAll("bytes=", "").replaceAll("-", ""));
+			}
+			
+			// 设置HTTP响应头
+			StringBuffer contentRangeTemp = new StringBuffer("bytes ");
+			contentRangeTemp.append(new Long(readed).toString()).append("-");
+			contentRangeTemp.append(new Long(fileLenth - 1).toString()).append("/");
+			contentRangeTemp.append(new Long(fileLenth).toString());
+			String contentRange = contentRangeTemp.toString();
+			String downloadName = !StringUtils.isNullOrEmpty(file.getCourseName())?  file.getCourseName() : file.getFileName();// 课程名称不为空优先使用课程名称作为下载的文件名
+			response.setContentType("application/x-gzip");
+			response.setHeader("Content-Disposition","attachment;filename=" + downloadName + ".tar");
+			response.setHeader("Accept-Ranges", "bytes");
+			response.setHeader("Content-Range", contentRange);
+			response.setHeader("Content-Length", fileLenth + "");
+			
+	        // 边压缩边下载
+			String[] cmd = new String[] { "/bin/sh", "-c", " cd " + path + " && tar -c " + file.getFileName()};
+			Process ps = Runtime.getRuntime().exec(cmd);
+			in = ps.getInputStream();
+			byte[] buf = new byte[READER_BUFFER_SIZE];
+			out = response.getOutputStream();
+			int i = 0;
+			long oldByte = 0;
+			//下载
+			while ((i = in.read(buf)) != -1) {
+				oldByte += i;
+				if (readed != 0 && (oldByte - READER_BUFFER_SIZE) >= readed) {
+					out.write(buf, 0, i);
+					out.flush();
+				} else {
+					out.write(buf, 0, i);
+					out.flush();
+				}
+			}
+			ps.waitFor();
+			
+			// 能下载到最后，下载次数+1
+			file.setDownloadCount(file.getDownloadCount() + 1);
+			file.setUts(new Date());
+			fileDao.update(file);
+			
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+		}finally{
+			BreakPointDownloadContent.downloading.remove(downloadKey);
+			try {
+				if(in!=null)
+				in.close();
+				if(out!=null)
+				{
+				out.flush();
+				out.close();
+				}
+			} catch (IOException ee) {
+				Log.printStackTrace(ee);
+			}
+		}
+
+		Log.logOpt("file-download", id, request);
+	}
+	
+	
+	/**
+	 * 计算文件或者目录tar压缩以后的大小
+	 * @param path
+	 * @param fileName，可以是文件也可以是目录
+	 * @return
+	 * @throws IOException
+	 */
+	private long getTarSize(String path, String fileName) throws IOException {
+		long len = 0;
+		String[] cmd = new String[] { "/bin/sh", "-c",
+				" cd " + path + " && tar -c " + fileName + " | wc -c" };
+		Process process = Runtime.getRuntime().exec(cmd);
+		BufferedReader reader = null;
+		String line;
+		try {
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((line = reader.readLine()) != null) {
+				len = Long.parseLong(line);
+			}
+			process.waitFor();
+		} catch (Exception e) {
+			Log.printStackTrace(e);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+		return len;
+	}
 }

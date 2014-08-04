@@ -16,18 +16,18 @@ import com.santrong.log.Log;
  * @date 2014年7月18日
  * @time 上午9:47:38
  */
-public class UnixNetworkHandle extends AbstractNetworkHandle {
-	private static final String configFile = "/etc/network/interfaces";
+public class WindowsNetworkHandle extends AbstractNetworkHandle {
+	private static final String configFile = "E:\\workspace\\data\\other\\network.txt";
 	private List<String> pro = new ArrayList<String>();
 	
-	private static UnixNetworkHandle instance;
-	private UnixNetworkHandle() {
+	private static WindowsNetworkHandle instance;
+	private WindowsNetworkHandle() {
 		
 	}
 	
-	public static UnixNetworkHandle getInstance() {
+	public static WindowsNetworkHandle getInstance() {
 		if(instance == null) {
-			instance = new UnixNetworkHandle();
+			instance = new WindowsNetworkHandle();
 		}
 		return instance;
 	}
@@ -151,7 +151,7 @@ public class UnixNetworkHandle extends AbstractNetworkHandle {
 	}
 
 	public static void main(String[] args) {
-		UnixNetworkHandle handle = UnixNetworkHandle.getInstance();
+		WindowsNetworkHandle handle = WindowsNetworkHandle.getInstance();
 		NetworkInfo info = handle.getNetworkInfo(0);
 		System.out.println(info.getIndex());
 		System.out.println(info.getIp());

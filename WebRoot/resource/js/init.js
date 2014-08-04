@@ -333,9 +333,9 @@ IndexClass.prototype = {
     	});    	
     	
     	$("#fileDownload").click(function(){
-    		var values = $("input[name=CheckboxGroup1]").checkboxVals();
+    		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
-        		$.simplePost({url : Globals.ctx + "/file/fileDownload.action", data : {ids : values}, tip : false});    			
+    			window.location.href =Globals.ctx + "/file/fileDownload.action?id=" + values;
     		}
     	});
     	

@@ -27,7 +27,7 @@
 <ul class="meeting_vod">
  	<c:forEach items="${fileList}" var="file">
     <li><a href="#" rel="${file.id}"><em></em><span class="guankan_img"><img src="${ctx}/resource/photo/guankan_a.png" ></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
-        <p>${file.showName}</p>
+        <p>${file.courseName}</p>
         <p><fmt:formatDate value="${file.cts}" pattern="yyyy/MM/dd  HH:mm:ss" /></p>
     </li>
     </c:forEach>

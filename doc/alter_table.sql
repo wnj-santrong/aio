@@ -42,12 +42,12 @@ insert into web_menu values('10004', 'systemInfo', '0', 'info/home.action', 400,
 drop table if exists web_file;
 create table web_file(
 	id varchar(32) not null comment 'UUID',
-	showName varchar(256) not null comment '课件显示名称',
 	fileName varchar(256) not null comment '课件存储名称',
 	courseName varchar(256) comment'课程名称',
 	teacher varchar(256) comment '老师',
 	remark varchar(10240) comment '课程概要',
 	fileSize bigint(20) not null default 0 comment '文件大小',
+	tarSize bigint(20) not null default 0 comment 'tar以后的大小，下载时候使用，防止重复计算',
 	duration varchar(32) default '' comment '录制时长',
 	status int(4) not null default 1 comment '课件状态，0正在录制，1录制完成',
 	level int(4) not null default 0 comment '课件级别，0开放，1不开放',
@@ -61,32 +61,32 @@ create table web_file(
 	primary key (id)
 ) engine=InnoDB default charset=utf8 collate=utf8_bin;
 
-insert into web_file values(replace(uuid(), '-', ''), '课件1', 'file1', '课程1', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件2', 'file2', '课程2', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件3', 'file3', '课程3', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件4', 'file4', '课程4', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件5', 'file5', '课程5', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件6', 'file6', '课程6', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件7', 'file7', '课程7', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件8', 'file8', '课程8', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件9', 'file9', '课程9', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件10', 'file10', '课程10', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件11', 'file11', '课程11', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件12', 'file12', '课程12', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件13', 'file13', '课程13', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件14', 'file14', '课程14', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件15', 'file15', '课程15', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件16', 'file16', '课程16', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件17', 'file17', '课程17', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件18', 'file18', '课程18', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件19', 'file19', '课程19', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件20', 'file20', '课程20', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件21', 'file21', '课程21', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件22', 'file22', '课程22', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件23', 'file23', '课程23', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件24', 'file24', '课程24', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件25', 'file25', '课程25', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
-insert into web_file values(replace(uuid(), '-', ''), '课件26', 'file26', '课程26', '','', 1024, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file1', '课程1', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file2', '课程2', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file3', '课程3', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file4', '课程4', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file5', '课程5', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file6', '课程6', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file7', '课程7', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file8', '课程8', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file9', '课程9', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file10', '课程10', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file11', '课程11', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file12', '课程12', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file13', '课程13', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file14', '课程14', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file15', '课程15', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file16', '课程16', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file17', '课程17', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file18', '课程18', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file19', '课程19', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file20', '课程20', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file21', '课程21', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file22', '课程22', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file23', '课程23', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file24', '课程24', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file25', '课程25', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
+insert into web_file values(replace(uuid(), '-', ''), 'file26', '课程26', '','', 1024, 0, '01:28', 1, 0, 1, 768, 1, 1, 1, now(), now());
 
 -- 会议表 ---
 drop table if exists web_meeting;

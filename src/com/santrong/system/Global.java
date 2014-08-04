@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 
 import com.santrong.i18n.Message;
 import com.santrong.log.Log;
-import com.santrong.tcp.TcpDefine;
 import com.santrong.util.CommonTools;
 
 public class Global {

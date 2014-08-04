@@ -15,12 +15,12 @@ public class FileItem {
 	public static final int File_Level_Close = 1;// 未公开的课件
 	
 	private String id;
-	private String showName;
 	private String fileName;
 	private String courseName;
 	private String teacher;
 	private String remark;
 	private long fileSize;
+	private long tarSize;
 	private String duration;
 	private int status;
 	private int level;
@@ -37,12 +37,6 @@ public class FileItem {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getShowName() {
-		return showName;
-	}
-	public void setShowName(String showName) {
-		this.showName = showName;
 	}
 	public int getChannel() {
 		return channel;
@@ -91,6 +85,12 @@ public class FileItem {
 	}
 	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
+	}
+	public long getTarSize() {
+		return tarSize;
+	}
+	public void setTarSize(long tarSize) {
+		this.tarSize = tarSize;
 	}
 	public String getDuration() {
 		return duration;
