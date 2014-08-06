@@ -126,6 +126,10 @@ IndexClass.prototype = {
     	
     	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', afterSubmit : freshCurrentModel});
     	
+    	$(".preview").click(function() {
+    		alert(2);
+    	});
+    	
     	// 获取显示数据源的弹框
     	var dsGet = function(el, id, mid) {
 			Boxy.load(Globals.ctx + "/datasource/dsGet.action?id=" + id + "&meetingId=" + mid, {

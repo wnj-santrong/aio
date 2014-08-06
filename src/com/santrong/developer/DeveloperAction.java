@@ -25,6 +25,11 @@ import com.santrong.system.status.StatusMgr;
 @RequestMapping("/dev")
 public class DeveloperAction extends BaseAction{
 	
+	@RequestMapping("/index")
+	public String index() {
+		return "developer/devmain";
+	}
+	
 	/**
 	 * 获取会议状态
 	 * @return
@@ -49,6 +54,11 @@ public class DeveloperAction extends BaseAction{
 		
 		request.setAttribute("list", list);
 		return "developer/roomStatus";
+	}
+	
+	@RequestMapping("/dsStatus")
+	public String dsStatus() {
+		return "developer/dsStatus";
 	}
 	
 	@RequestMapping("/test")

@@ -153,6 +153,9 @@
 		<c:if test="${meeting.isLive == 1 && meeting.isRecord == 1}">
 			<a href="#" class="stopRecord"><fmt:message key="meeting_stopRecord" /></a>
 		</c:if>
+		<c:if test="${meeting.isLive == 1}">
+			<a href="#" class="preview"><fmt:message key="meeting_preview" /></a>
+		</c:if>
 	</c:if>
 	<c:if test="${meeting.isConnect == 0}">
 		<b><fmt:message key="meeting_controller_disconnect" /></b>
