@@ -10,17 +10,17 @@
     	<a href="#" class="search_btn"><fmt:message key="text_search"/></a>
     </span>
     <!-- 标签 -->
-    <c:set var="isLogin" value="${sessionScope.loginUser != null}"/>
     <span class="tags">
     <c:forEach items="${tagList}" var="item">
-    	<a href="#" class='tag<c:if test="${query.keyword == item.tagName}"> cur_tag</c:if>'>${item.tagName}</a>
-    <c:if test="${isLogin}">
-    	<a href="#" class="tag_del"><fmt:message key="text_del"/></a>
-    </c:if>
+    	<span class="tag" opt="${item.id}">
+    	<span  class="tsd"><a href="#">${item.tagName}</a></span>
+    	<span class="tmd hide">
+            <a href="#" class="tag_edit"><fmt:message key="text_edit"/></a>
+            <a href="#" class="tag_del"><fmt:message key="text_del"/></a>
+        </span>
+    	</span>
     </c:forEach>
-    <c:if test="${isLogin}">
-        <a href="#" class="tag_add"><img src="${ctx}/resource/photo/tag_add.png" width="54" height="20" /></a>
-    </c:if>
+        <a href="#" class="tag_add hide"><img src="${ctx}/resource/photo/tag_add.png" width="54" height="20" /></a>
     </span>
 </div>
 <!-- 列表 -->

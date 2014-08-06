@@ -298,13 +298,7 @@ public class CommonTools {
 	}
 
 	/**
-	 * 转换当前时间，供页面上js进行国际化显示
-	 * 
-	 * 
-	 * document.write(Message.dateString(<%=com.szreach.common.CommonTools.
-	 * nowDateString()%>));
-	 * 
-	 * @return
+	 * 转换当前时间，供页面上js进行国际化显示	 * @return
 	 */
 	public static String nowDateString() {
 		Calendar cal = Calendar.getInstance();
@@ -645,6 +639,21 @@ public class CommonTools {
 			values[i] = Integer.parseInt(strs[i].trim());
 		}
 		return values;
+	}
+	
+	public static int stringToInt(String str) {
+		return stringToInt(str, 0);
+	}
+	
+	public static int stringToInt(String str, int def) {
+		if(str == null || str.equals("")) {
+			return def;
+		}
+		try{
+			return Integer.parseInt(str);
+		}catch(Exception e) {
+			return def;
+		}
 	}
 
 	public static int getNearlyValue(int[] args, int value) {

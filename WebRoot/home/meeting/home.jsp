@@ -5,7 +5,8 @@
 	<input type="hidden" name="id" value='${meeting.id}' />
 	<input type="hidden" name="channel" value='${meeting.channel}' />
 	<ul class="meeting">
-	    <li>
+		<!-- 视频码率 -->
+	    <li class="line">
 	        <span class="tit"><fmt:message key="meeting_bitRate" />:</span>
 	        <span class="cont">
 	        <select name="bitRate" class="rate">
@@ -15,7 +16,9 @@
 	            <option value="4096" <c:if test="${meeting.bitRate == 4096}">selected</c:if> >4096kpbs</option>
 	        </select>
 	        </span> </li>
-	    <li>
+	        
+	    <!-- 视频分辨率 -->
+	    <li class="line">
 	        <span class="tit"><fmt:message key="meeting_resolution" />:</span>
 	        <span class="cont">
 	        <select name="resolution" class="rate">
@@ -25,7 +28,9 @@
 	            <option value="3" <c:if test="${meeting.resolution == 3}">selected</c:if> >1920x1024</option>
 	        </select>
 	        </span></li>
-	    <li>
+	    
+	    <!-- 最大录制时间 -->
+	    <li class="line">
             <span class="tit"><fmt:message key="meeting_maxTime" />:</span>
             <span class="cont">
             <select name="maxTime" class="rate">
@@ -39,82 +44,81 @@
                 <option value="480" <c:if test="${meeting.maxTime == 480}">selected</c:if> >8小时</option>
             </select>
             </span></li>
-	    <li>
+            
+        <!-- 数据源 -->
+	    <li class="line datasource">
 	        <span class="tit"><fmt:message key="meeting_datasource" />:</span>
-	        <span class="cont dsList">
-	        <a href="#" class="add">+</a><br/>
+	        <span class="cont">
+	        
+	        <p><a href="#" class="ds_add"><img src="${ctx}/resource/photo/add.png" onmousemove="this.src='${ctx}/resource/photo/add.png'" onmouseout="this.src='${ctx}/resource/photo/add_hover.png'" /></a></p>
+	        
+	        <ul id="dsList">
 	        <c:forEach items="${meeting.dsList}" var="ds">
-	        
-	        <span class="dsItem">
-	        <input type="hidden" name="dsId" value="${ds.id}"/>
-	        192.168.1.1
-	        <c:if test="${ds.isConnected == 1}">
-	        <img class="rec_img" src="${ctx}/resource/photo/connected.gif" width="12" height="12" />
-	        </c:if>
-	        <c:if test="${ds.isConnected == 0}">
-	        <img class="rec_img" src="${ctx}/resource/photo/disconnected.gif" width="12" height="12" />
-	        </c:if>
-	        <a href="#" class="dsEdit">上移</a>
-	        <a href="#" class="dsEdit">下移</a>
-	        <a href="#" class="dsEdit">修改</a>
-	        <a href="#" class="dsDel">删除</a>
-	        <br/>
-	        </span>
-	        
+	        <li class="dsItem">
+		        <input type="hidden" name="dsId" value="${ds.id}"/>
+		        <input type="hidden" name="addr" value="${ds.addr}"/>
+		        <input type="hidden" name="port" value="${ds.port}"/>
+		        <input type="hidden" name="username" value="${ds.username}"/>
+		        <input type="hidden" name="password" value="${ds.password}"/>
+		        <input type="hidden" name="priority" value="${ds.priority}"/>
+		        <span class="addr">${ds.addr}</span>
+		        <c:if test="${ds.isConnect == 1}">
+		        <img class="status" src="${ctx}/resource/photo/connected.gif" width="12" height="12" />
+		        </c:if>
+		        <c:if test="${ds.isConnect == 0}">
+		        <img class="status" src="${ctx}/resource/photo/disconnected.gif" width="12" height="12" />
+		        </c:if>
+		        <img class="opert hide dsEdit" src="${ctx}/resource/photo/draw-freehand.png" />
+		        <img class="opert hide dsDel" src="${ctx}/resource/photo/syicon_net.png" />
+	        </li>
 	        </c:forEach>
+	        <li class="dsItem">
+	        	<span class="addr">VGA</span>
+	        </li>
+	        </ul>
 	        
 	        </span>
 	    </li>
 	    
-	    <li>
+	    <!-- 是否录制 -->
+	    <li class="line">
 	        <span class="tit"><fmt:message key="meeting_useRecord" />:</span>
 	        <span class="cont"><input name="useRecord" type="checkbox" value="1" <c:if test="${meeting.useRecord == 1}">checked</c:if> /><label><fmt:message key="meeting_record" /></label></span></li>
-	    <li>
-	        <span class="tit"><fmt:message key="meeting_recordMode" />:</span>
-	        <span class="cont" id="layoutContainer">
-	        <input type="hidden" name="recordMode" value="${meeting.recordMode}"/>
-	        <c:if test="${fn:length(meeting.dsList) == 0}">
-	        <!-- 0 + VGA -->
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a1" />
-	        </c:if>
-			
-			<c:if test="${fn:length(meeting.dsList) == 1}">
-	        <!-- 1 + VGA -->
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a2" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a3" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a4" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a5" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a6" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a7" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a8" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a9" />
-	        </c:if>
-			
-			<c:if test="${fn:length(meeting.dsList) == 2}">
-	        <!-- 2 + VGA -->
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a10" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a11" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a12" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a13" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a14" />
-	        <img src="${ctx}/resource/photo/03_68.png" width="71" height="47" id="a15" />
-	        </c:if>
 	        
+	    <!-- 录制模式 -->
+	    <li class="line">
+	        <span class="tit"><fmt:message key="meeting_recordMode" />:</span>
+	        <span class="cont layoutContainer">
+	        <input type="hidden" name="recordMode" value="${meeting.recordMode}"/>
+	        <img src="${ctx}/resource/photo/1-1.png" class="mode1 hide" id="v1"/>
+	        
+			<img src="${ctx}/resource/photo/2-1.png" class="mode2 hide" id="v2"/>
+			<img src="${ctx}/resource/photo/2-2.png" class="mode2 hide" id="v3"/>
+			<img src="${ctx}/resource/photo/2-5.png" class="mode2 hide" id="v6"/>
+			<img src="${ctx}/resource/photo/2-6.png" class="mode2 hide" id="v7"/>
+			<img src="${ctx}/resource/photo/2-7.png" class="mode2 hide" id="v8"/>
+			<img src="${ctx}/resource/photo/2-8.png" class="mode2 hide" id="v9"/>
+			
+			<img src="${ctx}/resource/photo/3-1.png" class="mode3 hide" id="v10"/>
+			<img src="${ctx}/resource/photo/3-2.png" class="mode3 hide" id="v11"/>
+			<img src="${ctx}/resource/photo/3-3.png" class="mode3 hide" id="v12"/>
+			<img src="${ctx}/resource/photo/3-4.png" class="mode3 hide" id="v13"/>
+			<img src="${ctx}/resource/photo/3-5.png" class="mode3 hide" id="v14"/>
+			<img src="${ctx}/resource/photo/3-6.png" class="mode3 hide" id="v15"/>
 			</span>
-	        </li>
-	    <li>
-	        <span class="tit"><fmt:message key="meeting_showName" />:</span>
-	        <span class="cont"><input name="showName" type="text" class="form_text" value="${meeting.showName}" /></span></li>	        
-	    <li>
+	        </li>      
+	    
+	    <!-- 课程名称 -->
+	    <li class="line">
 	        <span class="tit"><fmt:message key="meeting_courseName" />:</span>
 	        <span class="cont"><input name="courseName" type="text" class="form_text" value="${meeting.courseName}" /></span></li>
-	    <li>
+	    <li class="line">
 	        <span class="tit"><fmt:message key="meeting_teacher" />:</span>
 	        <span class="cont"><input name="teacher" type="text" class="form_text" value="${meeting.teacher}" /></span></li>
-	    <li>
+	    <li class="line">
 	        <span class="tit"><fmt:message key="meeting_remark" />:</span>
 	        <span class="cont"><textarea name="remark" cols="30" rows="4" class="form_text">${meeting.remark}</textarea></span></li>
-	    <li>
+	    <li class="line">
 	    	<span class="tit"><fmt:message key="meeting_status" />:</span>
 	        <span class="cont">
 	        <b>
@@ -132,6 +136,8 @@
 	    </li>
 	    <li class="canves"<c:if test="${meeting.isLive == 0}">style="display:none;"</c:if>></li>
 	</ul>
+	
+	<!-- 按钮集合 -->
 	<div class="button_panel">
 	<c:if test="${meeting.isConnect == 1}"><!-- 跟系统调度能连接上才显示 -->
 		<c:if test="${meeting.isLive == 0}">
@@ -149,7 +155,7 @@
 		</c:if>
 	</c:if>
 	<c:if test="${meeting.isConnect == 0}">
-		<b><fmt:message key="MaxBackupIndex" /></b>
+		<b><fmt:message key="meeting_controller_disconnect" /></b>
 	</c:if>
 	</div>
 </form>

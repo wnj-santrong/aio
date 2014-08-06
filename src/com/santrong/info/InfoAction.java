@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.santrong.base.BaseAction;
 import com.santrong.info.entry.SystemInfoView;
 import com.santrong.log.Log;
+import com.santrong.meeting.dao.MeetingDao;
+import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.system.status.RoomStatusEntry;
+import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31009;
 import com.santrong.tcp.client.MainTcp39004;
 import com.santrong.tcp.client.TcpClientService;
@@ -26,15 +30,21 @@ public class InfoAction extends BaseAction{
 		SystemInfoView info = new SystemInfoView();
 		
 		try{
-			TcpClientService client = TcpClientService.getInstance();
-			LocalTcp31009 tcp31009 = new LocalTcp31009();
-			client.request(tcp31009);
+			MeetingDao dao = new MeetingDao();
+			MeetingItem meeting = dao.selectFirst();
+			RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
 			
-			MainTcp39004 tcp39004 = new MainTcp39004();
-			client.request(tcp39004);
-			
-			BeanUtils.copyProperties(tcp31009, info);
-			BeanUtils.copyProperties(tcp39004, info);
+			if(status != null && status.getIsConnect() == 1) {
+				TcpClientService client = TcpClientService.getInstance();
+				LocalTcp31009 tcp31009 = new LocalTcp31009();
+				client.request(tcp31009);
+				
+				MainTcp39004 tcp39004 = new MainTcp39004();
+				client.request(tcp39004);
+				
+				BeanUtils.copyProperties(tcp31009, info);
+				BeanUtils.copyProperties(tcp39004, info);
+			}
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 		}

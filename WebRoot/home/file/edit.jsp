@@ -5,9 +5,9 @@
 	<div class="window">
         <dl>
             <dt><fmt:message key="file_edit"/><a href="#" class="close">&nbsp;&nbsp;&nbsp;</a></dt>
-            <dd><p><fmt:message key="file_courseName"/>:</p><span><input name="courseName" type="text"  class="form_text" value="${file.courseName}"/></span></dd>
-            <dd><p><fmt:message key="file_teacher"/>:</p><span><input name="teacher" type="text"  class="form_text" value="${file.teacher}" /></span></dd>
-            <dd><p><fmt:message key="file_remark"/>:</p><span><textarea name="remark" cols="30" rows="4" class="form_text">${file.remark}</textarea></span></dd>
+            <dd><span class="tit"><fmt:message key="file_courseName"/>:</span><span class="cont"><input name="courseName" type="text"  class="form_text" value="${file.courseName}"/></span></dd>
+            <dd><span class="tit"><fmt:message key="file_teacher"/>:</span><span class="cont"><input name="teacher" type="text"  class="form_text" value="${file.teacher}" /></span></dd>
+            <dd><span class="tit"><fmt:message key="file_remark"/>:</span><span class="cont"><textarea name="remark" cols="30" rows="4" class="form_text">${file.remark}</textarea></span></dd>
         </dl>
 	    <div class="win_save"><a href="#" class="submit"><fmt:message key="text_save"/></a><a href="#" class="close"><fmt:message key="text_cancel"/></a></div>
 	</div>

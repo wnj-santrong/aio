@@ -24,7 +24,7 @@ public class TagDao extends BaseDao {
 	public int update(TagItem item) {
 		TagMapper mapper = this.getMapper(TagMapper.class);
 		if(mapper != null) {
-			return mapper.insert(item);
+			return mapper.update(item);
 		}
 		return 0;
 	}

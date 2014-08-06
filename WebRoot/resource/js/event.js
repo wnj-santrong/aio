@@ -60,11 +60,67 @@ jQuery(function($){
 		return vals;
 	};
 	
+	// 绑定全选
 	$.fn.bindCheckAll = function(obj, options) {
 		var children = $(obj);
 		$(this).click(function() {
 			children.attr("checked", this.checked);
 		});
+	}
+	
+	// 数据校验
+	$.fn.validate = function() {
+		$(this).find(".text_warn").removeClass("text_warn");
+        var isPass = true;
+        
+        // 必填检测
+        $(this).find("[required]").each(function(){
+        	if($(this).val().trim() == "") {
+        		$(this).addClass("text_warn");
+                isPass = false;
+        	}
+        });
+        
+        // 相同检测
+        $(this).find("[equalTo]").each(function(){
+        	var equalTo = $(this).attr("equalTo");
+        	if($(this).val().trim() != $("input[name=" + equalTo + "]").val().trim()) {
+        		$(this).addClass("text_warn");
+                isPass = false;
+        	}
+        });
+        
+        // 必填IP
+        var re_ip = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/ig
+        $(this).find("[required_Ip]").each(function(){
+        	var val = $(this).val().trim();
+        	if(val == "" || !re_ip.test(val) || RegExp.$1 > 256 || RegExp.$2 > 256 || RegExp.$3 > 256 || RegExp.$4 > 256) {
+        		$(this).addClass("text_warn");
+                isPass = false;
+        	}
+        });	
+        
+        // 必填0或正整数
+        var re_number = /^[1-9][0-9]*$/ig
+        $(this).find("[required_Number]").each(function(){
+        	var val = $(this).val().trim();
+        	if(val == "" || !re_ip.test(val)) {
+        		$(this).addClass("text_warn");
+                isPass = false;
+        	}
+        });	
+        
+        // 日期类型检测
+        var re_number = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
+        $(this).find("[required_Number]").each(function(){
+        	var val = $(this).val().trim();
+        	if(val == "" || !re_number.test(val)) {
+        		$(this).addClass("text_warn");
+                isPass = false;
+        	}
+        });           
+        
+        return isPass;
 	}
 	
 	// 让form使用ajax提交
@@ -89,57 +145,7 @@ jQuery(function($){
 	    		form.ajaxSubmit({
 	    			url : options.url,//如果url参数为空，jquery form会调用form的action地址作为url
 		    		beforeSubmit : function(){
-		    			form.find(".text_warn").removeClass("text_warn");
-		    	        var isPass = true;
-		    	        
-		    	        // 必填检测
-		    	        form.find("[required]").each(function(){
-		    	        	if($(this).val().trim() == "") {
-		    	        		$(this).addClass("text_warn");
-		    	                isPass = false;
-		    	        	}
-		    	        });
-		    	        
-		    	        // 相同检测
-		    	        form.find("[equalTo]").each(function(){
-		    	        	var equalTo = $(this).attr("equalTo");
-		    	        	if($(this).val().trim() != $("input[name=" + equalTo + "]").val().trim()) {
-		    	        		$(this).addClass("text_warn");
-		    	                isPass = false;
-		    	        	}
-		    	        });
-		    	        
-		    	        // 必填IP
-		    	        var re_ip = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/ig
-		    	        form.find("[required_Ip]").each(function(){
-		    	        	var val = $(this).val().trim();
-		    	        	if(val == "" || !re_ip.test(val) || RegExp.$1 > 256 || RegExp.$2 > 256 || RegExp.$3 > 256 || RegExp.$4 > 256) {
-		    	        		$(this).addClass("text_warn");
-		    	                isPass = false;
-		    	        	}
-		    	        });	
-		    	        
-		    	        // 必填0或正整数
-		    	        var re_number = /^[1-9][0-9]*$/ig
-		    	        form.find("[required_Number]").each(function(){
-		    	        	var val = $(this).val().trim();
-		    	        	if(val == "" || !re_ip.test(val)) {
-		    	        		$(this).addClass("text_warn");
-		    	                isPass = false;
-		    	        	}
-		    	        });	
-		    	        
-		    	        // 日期类型检测
-		    	        var re_number = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
-		    	        form.find("[required_Number]").each(function(){
-		    	        	var val = $(this).val().trim();
-		    	        	if(val == "" || !re_number.test(val)) {
-		    	        		$(this).addClass("text_warn");
-		    	                isPass = false;
-		    	        	}
-		    	        });           
-		    	        
-		    	        return isPass;
+		    			return form.validate();
 		    		},
 		    		success : function(result) {
 		    			if(options.tip) {

@@ -24,13 +24,13 @@ public class DatasourceItem {
 	private Date cts;
 	private Date uts;
 	
-	private int isConnected;
+	private int isConnect;
 	
-	public int getIsConnected() {
-		return isConnected;
+	public int getIsConnect() {
+		return isConnect;
 	}
-	public void setIsConnected(int isConnected) {
-		this.isConnected = isConnected;
+	public void setIsConnect(int isConnect) {
+		this.isConnect = isConnect;
 	}
 	public String getId() {
 		return id;

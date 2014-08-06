@@ -26,7 +26,7 @@ public interface MeetingMapper {
 	@Select("select * from web_meeting")
 	List<MeetingItem> selectAll();
 	
-	@Update("update web_meeting set showName=#{showName}, courseName=#{courseName}, teacher=#{teacher}, remark=#{remark}, bitRate=#{bitRate}, resolution=#{resolution}, maxTime=#{maxTime}, useRecord=#{useRecord}, recordMode=#{recordMode}, uts=#{uts} where id=#{id}")
+	@Update("update web_meeting set courseName=#{courseName}, teacher=#{teacher}, remark=#{remark}, bitRate=#{bitRate}, resolution=#{resolution}, maxTime=#{maxTime}, useRecord=#{useRecord}, recordMode=#{recordMode}, uts=#{uts} where id=#{id}")
 	int update(MeetingItem meeting);
 	
 }

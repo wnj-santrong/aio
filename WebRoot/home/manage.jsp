@@ -22,6 +22,7 @@ var Globals = {};
 Globals.define = {};
 Globals.ctx = "${ctx}";
 Globals.vedioCount = <%=Global.VedioCount%>;
+Globals.isLogined = <%=request.getSession().getAttribute(Global.loginUser_key) != null%>;
 </script>
 </head>
 <body>

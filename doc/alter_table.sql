@@ -92,7 +92,6 @@ insert into web_file values(replace(uuid(), '-', ''), 'file26', '课程26', '','
 drop table if exists web_meeting;
 create table web_meeting(
 	id varchar(32) not null comment 'UUID',
-	showName varchar(256) comment '课件显示名称',
 	courseName varchar(256) comment'课程名称',
 	teacher varchar(256) comment '老师',
 	remark varchar(10240) comment '课程概要',
@@ -107,7 +106,7 @@ create table web_meeting(
 	primary key (id)
 ) engine=InnoDB default charset=utf8 collate=utf8_bin;
 
-insert into web_meeting values('10000', '', '', '', '', 768, 0, 480, 0, 1, 1, now(), now());
+insert into web_meeting values('10000', '', '', '', 768, 0, 480, 0, 1, 1, now(), now());
 
 -- 数据源表 ---
 drop table if exists web_datasource;

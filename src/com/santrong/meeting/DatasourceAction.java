@@ -145,17 +145,19 @@ public class DatasourceAction extends BaseAction {
 				meeting.setRecordMode(recordMode);
 				
 				if(dsDao.insert(ds) < 1 || meetingDao.update(meeting) < 1) {
+					ThreadUtils.rollbackTranx();
 					return FAIL;
 				}
 			}else{
 				if(dsDao.update(ds) < 1) {
+					ThreadUtils.rollbackTranx();
 					return FAIL;
 				}
 			}
 			ThreadUtils.commitTranx();
 		}catch(Exception e) {
-			Log.printStackTrace(e);
 			ThreadUtils.rollbackTranx();
+			Log.printStackTrace(e);
 			return FAIL;
 		}
 

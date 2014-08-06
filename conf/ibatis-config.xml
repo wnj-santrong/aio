@@ -15,6 +15,8 @@
         <mapper class="com.santrong.home.mapper.MenuMapper"/>
         <mapper class="com.santrong.file.mapper.FileMapper"/>
         <mapper class="com.santrong.play.mapper.TagMapper"/>
+        <mapper class="com.santrong.log.mapper.OptLogMapper"/>
+        <mapper class="com.santrong.log.mapper.RequestLogMapper"/>
         
         <!-- <mapper resource="com/santrong/demo/mapper/demo-sqlmap.xml"/> -->
         

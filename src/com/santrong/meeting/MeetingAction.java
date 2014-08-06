@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
@@ -18,6 +19,7 @@ import com.santrong.meeting.dao.DatasourceDao;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.DatasourceItem;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
@@ -26,6 +28,8 @@ import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.tcp.client.LocalTcp31005;
 import com.santrong.tcp.client.LocalTcp31006;
 import com.santrong.tcp.client.LocalTcp31008;
+import com.santrong.tcp.client.LocalTcp31014;
+import com.santrong.tcp.client.LocalTcp31015;
 import com.santrong.tcp.client.LocalTcp31016;
 import com.santrong.tcp.client.TcpClientService;
 import com.santrong.util.CommonTools;
@@ -51,31 +55,35 @@ public class MeetingAction extends BaseAction{
 		DatasourceDao dsDao = new DatasourceDao();
 		MeetingItem meeting = dao.selectFirst();
 		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
-		if(dsList != null) {
-			//获取状态
-			LocalTcp31016 tcp = new LocalTcp31016();
-			List<String> addrList = new ArrayList<String>();
-			addrList.add("");
-			client.request(tcp);
-			
-			//这里为了能正常显示界面，不处理请求失败，当成连接不上处理
-			if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {
-				//对比转换状态
-				for(int i=0;i<dsList.size();i++) {
-					for(int j=0;j<tcp.getSrcStateList().size();j++){
-						if(dsList.get(i).getAddr().equals(tcp.getSrcStateList().get(j).getAddr())) {
-							dsList.get(i).setIsConnected(tcp.getSrcStateList().get(j).getState());
-							break;
+		RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
+		
+		if(dsList != null) { 
+			if(status != null && status.getIsConnect() == 1) {
+				//获取数据源状态
+				LocalTcp31016 tcp = new LocalTcp31016();
+				List<String> addrList = new ArrayList<String>();
+				for(DatasourceItem ds : dsList) {
+					addrList.add(ds.getAddr());
+				}
+				client.request(tcp);
+				
+				//这里为了能正常显示界面，不处理请求失败，当成连接不上处理
+				if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {
+					//对比转换状态
+					for(int i=0;i<dsList.size();i++) {
+						for(int j=0;j<tcp.getSrcStateList().size();j++){
+							if(dsList.get(i).getAddr().equals(tcp.getSrcStateList().get(j).getAddr())) {
+								dsList.get(i).setIsConnect(tcp.getSrcStateList().get(j).getState());
+								break;
+							}
 						}
 					}
 				}
 			}
-			//TODO 数量不等的时候应该怎么办
-			
+
 			meeting.setDsList(dsList);
 		}
 		
-		RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
 		if(status != null) {
 			meeting.setIsLive(status.getIsLive());
 			meeting.setIsRecord(status.getIsRecord());
@@ -101,8 +109,7 @@ public class MeetingAction extends BaseAction{
 			return FAIL;
 		}
 	}
-	
-	
+
 	/**
 	 * 开启会议
 	 * @param meeting
@@ -137,10 +144,11 @@ public class MeetingAction extends BaseAction{
 			tcp.setLayout(meeting.getRecordMode());
 			tcp.setbScale(MeetingItem.Bscale_Extend);
 			
-			// TODO ds获取
 			List<RecStreamInfo> datasourceList = new ArrayList<RecStreamInfo>();
 			
-			for(DatasourceItem item : meeting.getDsList()) {
+			DatasourceDao dsDao = new DatasourceDao();
+			List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
+			for(DatasourceItem item : dsList) {
 				RecStreamInfo ds = tcp.new RecStreamInfo();
 				ds.setHasAud(0);
 				ds.setStrmAddr(item.getAddr());
@@ -374,23 +382,151 @@ public class MeetingAction extends BaseAction{
 	 * 保存数据
 	 */
 	private String persistence(MeetingItem meeting) throws Exception {
-		
-		LocalTcp31008 tcp = new LocalTcp31008();
-		tcp.setFreeSize(10240);// 默认剩余10G的空间就不给录制了
-		tcp.setMaxTime(meeting.getMaxTime());
-		client.request(tcp);
-		
-		if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
-			return FAIL;// 设置系统录制资源阀值失败
-		}
-		
 		MeetingDao dao = new MeetingDao();
-		meeting.setUts(new Date());
-		if(dao.update(meeting) <= 0) {
-			return FAIL;// 存储数据库失败
+		DatasourceDao dsDao = new DatasourceDao();
+		MeetingItem dbMeeting = dao.selectById(meeting.getId());
+		
+		// 设置系统录制资源阀值
+		if(dbMeeting.getMaxTime() != meeting.getMaxTime()) {
+			LocalTcp31008 tcp = new LocalTcp31008();
+			tcp.setFreeSize(10240);// 默认剩余10G的空间就不给录制了
+			tcp.setMaxTime(meeting.getMaxTime());
+			client.request(tcp);
+			
+			if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
+				return FAIL;
+			}
 		}
 		
-		Log.logOpt("meeting-save", "", request);
+		// 获取数据源，顺序一定是对的
+		String[] ids = request.getParameterValues("dsId");
+		String[] addrs = request.getParameterValues("addr");
+		String[] ports = request.getParameterValues("port");
+		String[] usernames = request.getParameterValues("username");
+		String[] passwords = request.getParameterValues("password");
+		String[] prioritys = request.getParameterValues("priority");		
+		List<DatasourceItem> dsList = new ArrayList<>();
+		for(int i=0;i<ids.length;i++) {
+			DatasourceItem ds = new DatasourceItem();
+			ds.setId(ids[i]);
+			ds.setAddr(addrs[i]);
+			ds.setPort(CommonTools.stringToInt(ports[i], 0));
+			ds.setUsername(usernames[i]);
+			ds.setPassword(passwords[i]);
+			ds.setPriority(CommonTools.stringToInt(prioritys[i], 0));
+			ds.setMeetingId(meeting.getId());
+			ds.setDsType(DatasourceItem.Datasoruce_Type_Camera);
+			ds.setUts(new Date());
+			dsList.add(ds);
+		}
+		List<DatasourceItem> dsDbList = dsDao.selectByMeetingId(meeting.getId());
+		
+		List<DatasourceItem> insertList = new ArrayList<DatasourceItem>();
+		List<DatasourceItem> updateList = new ArrayList<DatasourceItem>();
+		
+		// 算出新增、修改、删除
+		for(int i=0;i<dsList.size();i++) {
+			DatasourceItem item = dsList.get(i);
+			if(StringUtils.isNullOrEmpty(item.getId())) {
+				item.setId(CommonTools.getGUID());
+				item.setCts(new Date());
+				insertList.add(item);
+			}else{
+				for(int j=0;j<dsDbList.size();j++) {
+					DatasourceItem dbItem = dsDbList.get(j);
+					if(dbItem.getId().equals(item.getId())) {
+						if(!item.getAddr().equals(dbItem.getAddr())
+								|| item.getPort() != dbItem.getPort()
+								|| !item.getUsername().equals(dbItem.getUsername())
+								|| !item.getPassword().equals(dbItem.getPassword())
+								|| item.getPriority() != dbItem.getPriority()
+								) {
+							updateList.add(item);
+						}
+						dsDbList.remove(j);j--;
+						break;
+					}
+				}
+			}
+		}
+		
+		// 删除数据源，余下的就是要删除的
+		if(dsDbList.size() > 0 && updateList.size() > 0) {
+			LocalTcp31015 tcp = new LocalTcp31015();
+			for(DatasourceItem ds : dsDbList) {
+				tcp.setSrcAddr(ds.getAddr());
+			}
+			for(DatasourceItem ds : updateList) {// 没有修改数据源的接口，只能先删除再修改了
+				tcp.setSrcAddr(ds.getAddr());
+			}
+			client.request(tcp);
+			if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
+				return FAIL;
+			}
+		}
+		
+		// 新增数据源，没有修改数据源的接口，所以采用新增的方法，修改的数据源一定在新增的前面，在新增或者修改的List里面，顺序一定是对的
+		if(updateList.size() > 0 || insertList.size() > 0) {
+			LocalTcp31014 tcp2 = new LocalTcp31014();
+			List<DatasourceItem> tmpList = new ArrayList<DatasourceItem>();
+			tmpList.addAll(updateList);
+			tmpList.addAll(insertList);
+			for(DatasourceItem ds : tmpList) {
+				tcp2.setSrcAddr(ds.getAddr());
+				tcp2.setSrcPort(ds.getPort());
+				tcp2.setSrcUser(ds.getUsername());
+				tcp2.setSrcPw(ds.getPassword());
+				tcp2.setSrcType(ds.getDsType());
+				client.request(tcp2);
+				
+				if(tcp2.getRespHeader().getReturnCode() == 1 || tcp2.getResultCode() == 1) {
+					return FAIL;
+				}
+			}
+		}
+		
+		try{
+			ThreadUtils.beginTranx();
+			
+			// 存储会议配置
+			meeting.setUts(new Date());
+			if(dao.update(meeting) <= 0) {
+				ThreadUtils.rollbackTranx();
+				return FAIL;// 存储数据库失败
+			}
+			
+			//-----注意多人操作下的安全性(根据现场场景暂时忽略)-----
+			// 存储数据源
+			for(DatasourceItem ds : insertList) {
+				if(dsDao.insert(ds)  <= 0) {
+					ThreadUtils.rollbackTranx();
+					return FAIL;
+				}
+			}
+			// 修改数据源
+			for(DatasourceItem ds : updateList) {
+				if(dsDao.update(ds)  <= 0) {
+					ThreadUtils.rollbackTranx();
+					return FAIL;
+				}
+			}
+			
+			// 删除数据源
+			for(DatasourceItem ds : dsDbList) {
+				if(dsDao.delete(ds.getId()) <= 0) {
+					ThreadUtils.rollbackTranx();
+					return FAIL;
+				}
+			}
+			
+			ThreadUtils.commitTranx();
+			Log.logOpt("meeting-save", "", request);
+			
+		}catch(Exception e) {
+			ThreadUtils.rollbackTranx();
+			Log.printStackTrace(e);
+			return FAIL;
+		}
 		
 		return SUCCESS;
 	}

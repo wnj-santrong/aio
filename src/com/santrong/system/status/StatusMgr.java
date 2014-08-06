@@ -9,6 +9,7 @@ import java.util.Hashtable;
  */
 public class StatusMgr {
 	
+	// confId--entry
 	private static Hashtable<String, RoomStatusEntry> roomlist = new Hashtable<String, RoomStatusEntry>();
 	
 	public static RoomStatusEntry getRoomStatus(String key) {

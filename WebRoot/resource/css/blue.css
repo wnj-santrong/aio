@@ -1,4 +1,4 @@
-]@charset "utf-8";
+@charset "utf-8";
 body {background: url(../photo/bg.gif);}
 .mainbav {width:1280px; height:768px; margin:0 auto; overflow:hidden;}
 
@@ -54,13 +54,18 @@ body {background: url(../photo/bg.gif);}
 /*-------------内容--顶部和搜索---------------*/
 .submenu {float:right;width:1054px;height:700px;}
 .sub_top {height:30px; line-height:30px; margin:0 0 5px 5px; background:#d6ecff; color:#006; font-size:18px; text-indent:5px;}
-.search {line-height:26px; width:100%; display:inline-block; border-bottom:solid 1px #ccc;}
+.search {line-height:26px; width:100%; display:inline-block; border-bottom:solid 1px #86b9e3;}
 .search .search_img {float:left; width:216px; margin-left:22px; background:url(../photo/search_bg.png) no-repeat left top;}
 .search .search_text {width:150px; border:0; background:none; height:26px; line-height:26px; padding:0 0 0 5px;}
 .search .search_img a {color:#333; margin-left:5px; padding-left:15px; line-height:24px; background:url(../photo/search_icon.png) no-repeat left center;}
 .search .search_img a:hover {background:url(../photo/search_icon.png) no-repeat left center;}
-.search .tag_add {float:left; margin-top:3px;}
-.search .tags a {float:left; margin-left:20px;}
+.search .tag_add {float:left; margin-top:3px; margin-left:10px;}
+.search .tags .tag {float:left; margin-left:10px; position:relative;}
+.search .tags .tag .tsd {padding:0 10px; border:solid 1px #fff;}
+.search .tags .tag .tmd {position: absolute; top:20px; left:0; z-index:10; width:100%;}
+.search .tags .tag .tmd a{width:100%; display:inline-block; margin:0; padding:0; line-height:20px; line-height:20px; color:#fff; text-align:center;background:#a0e058;}
+.search .tags .tag .tmd a:hover{background: #3c591a;}
+
 .search .btns a {float:left; margin-left:20px; background:url(../photo/orange70_none.png) no-repeat center center; width:70px; text-align:center; color:#fff;}
 .search .btns a:hover {background:url(../photo/orange_hover.png) no-repeat center center;}
 .search #filePlay {float:right; margin-right:22px; margin-top:3px;}
@@ -92,34 +97,30 @@ body {background: url(../photo/bg.gif);}
 .system_set dd span {float:left;display:block; margin-right:10px;}
 .system_set dd span a {color:#09f; margin-top:5px; margin-right:15px; border:1px #09f solid; padding:1px 10px;}
 .system_set dd span a:hover, .save a:hover {color:#f00;border:1px #f00 solid; background:#eeffed;}
+.system_set .form_text {width:160px;}
 .system_set .single {clear:both; width:490px !important; text-align:center !important; margin:0;}
 .system_set .single_time {width:160px; height:20px;}
 .system_set .list_set {height:150px; overflow:auto; margin-bottom:0px;}
 .system_set .list_set li{line-height:26px; width:100%;}
 .system_set .list_set li span {display:inline-block; width:320px; text-indent:60px;}
 .system_set .list_set li a {margin-right:20px; color:#09f;}
-.system_set .list_set li:hover {background:#ecffca;}
+.system_set .list_set li:hover {background:#e00;}
 
-/*----------------------------------------------------------------------------------*/
 
 /*-------------会议管理&系统信息---------*/
 .meeting {width:1020px; border:1px #86b9e3 solid; margin:10px 0 0 10px; padding-top:10px; background:url(../photo/ph.png) no-repeat right top; position:relative;}
-.meeting li {width:860px; line-height:24px; margin-bottom:10px;}
-.meeting li .tit{width:460px; display:inline-block; margin-right:15px; text-align:right; vertical-align:top; font-weight:500; color:#666; font-size:16px; letter-spacing:2px;}
-.meeting li .cont{margin-right:10px; display:inline-block; }
-/*.meeting li span a {color:#09f; margin-right:15px;border:1px #09f solid; padding:1px 10px;}/* 本行以及以下会议管理独享 */
-/*.meeting li span img {margin-right:10px;}
-.meeting li span a:hover, .save a:hover { color:#f00;border:1px #f00 solid; background:#eeffed;}
-.meeting .rate {width:90px;}
-.meeting .add {color:#09f; margin-left:10px;}
-.meeting .add:hover {color:#F00;}
-.meeting .Data_address {border:0; height:22px; line-height:22px;}
-.meeting input, .meeting textarea {margin:3px 2px;}
-.meeting .rec_img {margin:6px 0 0 0;}*/
 .meeting b {color:#0C0;}
-/*#layoutContainer img {border:solid 2px #fff; cursor:pointer;}
-#layoutContainer img.cur_layout {border:solid 2px red;}*/
-.meeting .canves {position:absolute; width:100%; height:100%; left:0px; top:0px; background-color:#000; opacity: 0.2; filter:Alpha(opacity=20);}
+.meeting .line {width:100%; line-height:24px; margin-bottom:10px;}
+.meeting .line .tit{width:440px; display:inline-block; margin-right:15px; text-align:right; vertical-align:top; font-weight:500; color:#666; font-size:16px; letter-spacing:2px;}
+.meeting .line .cont{margin-right:10px; display:inline-block;}
+.meeting .datasource .dsItem {width:256px; border:solid 1px #fff; height:24px; vertical-align:bottom;}
+.meeting .datasource .dsItem .addr {width:100px; float:left; border-bottom:dashed 1px #86b9e3; line-height:22px;}
+.meeting .datasource .dsItem .status {margin:6px 30px 0 14px; float:left;}
+.meeting .datasource .dsItem .opert {margin-right:12px; float:left; cursor:pointer;}
+.meeting .layoutContainer img {margin-right:9px; width:71px; height:47px; cursor:pointer; border:solid 2px #fff; padding: 2px;}
+.meeting .layoutContainer img:hover {border-color:#FF9C00;}
+.meeting .layoutContainer img.cur_layout {border-color:red;}
+.meeting .canves {position:absolute; width:100%; height:100%; left:0px; top:0px; background-color:#666; opacity: 0.6; filter:Alpha(opacity=60);}
 .button_panel {width:100%; text-align:center; margin-top:20px;}
 .button_panel a {display:inline-block; color:#09f; border:1px #09f solid; padding:6px 10px; margin:0 10px;}
 
@@ -130,8 +131,8 @@ body {background: url(../photo/bg.gif);}
 .window dt a {float:right; width:20px; height:20px; margin-top:4px; margin-right:3px; background:url(../photo/edit-delete.png) no-repeat center center;}
 .window dt a:hover {background:url(../photo/delete-hover.png) no-repeat center center;}
 .window dd {margin-bottom:10px;}
-.window dd p {width:39%; display:inline-block; text-align:right; line-height:22px; vertical-align:top;}
-.window dd span {display:inline-block; margin-left:10px;}
+.window dd .tit {width:39%; display:inline-block; text-align:right; line-height:22px; vertical-align:top;}
+.window dd .cont {display:inline-block; margin-left:10px;}
 .window .win_save {width:100%; text-align:center; margin-top:20px;}
 .window .win_save a {display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin:0 10px; color:#5d9dd2; text-align:center;}
 .window .win_save a:hover {color:#f00;border:1px #f00 solid; background:#eeffed;}
@@ -141,5 +142,5 @@ body {background: url(../photo/bg.gif);}
 .warn {color:#ee0000;}
 .error {color:#ee0000;}
 .notice {color:#ee0000;}
-.text_warn {border:solid 1px #ee0000;}
+.text_warn {border:solid 1px #ff9c00;}
 .radio_warn {}

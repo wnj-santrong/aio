@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.log.Log;
 import com.santrong.play.dao.TagDao;
@@ -23,7 +24,18 @@ import com.santrong.util.CommonTools;
 public class TagAction extends BaseAction{
 	
 	@RequestMapping(value="/tagGet", method=RequestMethod.GET)
-	public String tagGet() {
+	public String tagGet(String id) {
+		
+		TagItem tag;
+		if(StringUtils.isNullOrEmpty(id)) {
+			tag = new TagItem();
+		}else {
+			TagDao dao = new TagDao();
+			tag = dao.selectById(id);
+		}
+		
+		request.setAttribute("tag", tag);
+		
 		return "play/tag";
 	}
 	
@@ -32,12 +44,21 @@ public class TagAction extends BaseAction{
 	@ResponseBody
 	public String tagPost(TagItem tag) {
 		TagDao tagDao = new TagDao();
-		tag.setId(CommonTools.getGUID());
-		tag.setCts(new Date());;
 		tag.setUts(new Date());
-		if(tagDao.insert(tag) < 1) {
-			return FAIL;
+		
+		if(StringUtils.isNullOrEmpty(tag.getId())) {// 新增
+			tag.setId(CommonTools.getGUID());
+			tag.setCts(new Date());;
+			if(tagDao.insert(tag) < 1) {
+				return FAIL;
+			}			
+		}else {
+			if(tagDao.update(tag) < 1) {// 修改
+				return FAIL;
+			}
 		}
+
+
 		
 		Log.logOpt("tag-insert", tag.getTagName(), request);
 		
@@ -47,13 +68,13 @@ public class TagAction extends BaseAction{
 	
 	@RequestMapping(value="/tagDel", method=RequestMethod.POST)
 	@ResponseBody
-	public String tagDel(String tagName) {
+	public String tagDel(String id) {
 		TagDao tagDao = new TagDao();
-		if(tagDao.deleteByTagName(tagName) < 1) {
+		if(tagDao.delete(id) < 1) {
 			return FAIL;
 		}
 		
-		Log.logOpt("tag-delete", tagName, request);
+		Log.logOpt("tag-delete", id, request);
 		
 		return SUCCESS;
 	}

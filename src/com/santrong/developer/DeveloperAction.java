@@ -7,9 +7,12 @@ import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.santrong.base.BaseAction;
 import com.santrong.developer.entry.Dev_RoomInfo;
+import com.santrong.meeting.dao.MeetingDao;
+import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 
@@ -46,5 +49,18 @@ public class DeveloperAction extends BaseAction{
 		
 		request.setAttribute("list", list);
 		return "developer/roomStatus";
+	}
+	
+	@RequestMapping("/test")
+	@ResponseBody
+	public String test() {
+		fk();
+		MeetingDao dao  = new MeetingDao();
+		MeetingItem m = dao.selectFirst();
+		return "123";
+	}
+	private void fk() {
+		MeetingDao dao  = new MeetingDao();
+		MeetingItem m = dao.selectFirst();
 	}
 }
