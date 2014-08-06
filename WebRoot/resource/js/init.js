@@ -96,17 +96,6 @@ IndexClass.prototype = {
     
     // 会议管理
     meeting:function() {
-    	//数据源编辑按钮隐藏显示
-    	var dsBindEvent = function() {
-	    	$(".dsItem").unbind("mouseover").bind("mouseover", function() {
-	    		$(this).find(".opert").show();
-	    	});
-	    	$(".dsItem").unbind("mouseout").bind("mouseout", function() {
-	    		$(this).find(".opert").hide();
-	    	});
-    	};
-    	dsBindEvent();
-    	
     	// 计算数据源顺序，新增和删除后一定要调用重算顺序// 0，1，2-------s1，s2，vga
     	var calDsPriority = function() {
     		$("#dsList .dsItem").each(function(index, e) {
@@ -192,7 +181,6 @@ IndexClass.prototype = {
 						dsItem.find("input[name=password]").val(dsForm.find("input[name=password]").val());
 						
 						$(".close").click();
-						dsBindEvent();
 			    	});
 			    	
 			    	// 绑定取消

@@ -68,8 +68,8 @@
 		        <c:if test="${ds.isConnect == 0}">
 		        <img class="status" src="${ctx}/resource/photo/disconnected.gif" width="12" height="12" />
 		        </c:if>
-		        <img class="opert hide dsEdit" src="${ctx}/resource/photo/draw-freehand.png" />
-		        <img class="opert hide dsDel" src="${ctx}/resource/photo/syicon_net.png" />
+		        <img class="opert dsEdit" src="${ctx}/resource/photo/draw-freehand.png" />
+		        <img class="opert dsDel" src="${ctx}/resource/photo/syicon_net.png" />
 	        </li>
 	        </c:forEach>
 	        <li class="dsItem">
