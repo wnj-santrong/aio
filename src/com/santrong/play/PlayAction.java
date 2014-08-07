@@ -32,27 +32,6 @@ public class PlayAction extends BaseAction{
 			pageNum = 0;
 		}
 		
-		FileDao fileDao = new FileDao();
-		
-		FileQuery query = new FileQuery();
-		query.setKeyword(keyword);
-		query.setPageNum(pageNum);
-		
-		if(this.currentUser() == null) {// 未登录
-			query.setPageSize(15);
-			query.setLevel(FileItem.File_Level_Open);
-		}else {// 已登录
-			query.setPageSize(12);
-		}
-		
-		// 获取课程
-		query.setCount(fileDao.selectByPageCount(query));
-		List<FileItem> fileList = fileDao.selectByPage(query);
-		
-		// 获取标签
-		TagDao tagDao = new TagDao();
-		List<TagItem> tagList = tagDao.selectAll();
-		
 		// 获取直播
 		MeetingDao meetingDao = new MeetingDao();
 		List<MeetingItem> meetingList = meetingDao.selectAll();
@@ -67,10 +46,29 @@ public class PlayAction extends BaseAction{
 			}
 		}
 		
+		// 获取课件
+		FileDao fileDao = new FileDao();
+		FileQuery query = new FileQuery();
+		query.setKeyword(keyword);
+		query.setPageNum(pageNum);
+		query.setPrevInsert(liveList.size());
+		if(this.currentUser() == null) {// 未登录
+			query.setPageSize(15);
+			query.setLevel(FileItem.File_Level_Open);
+		}else {// 已登录
+			query.setPageSize(12);
+		}
+		query.setCount(fileDao.selectByPageCount(query));
+		List<FileItem> fileList = fileDao.selectByPage(query);
+		
+		// 获取标签
+		TagDao tagDao = new TagDao();
+		List<TagItem> tagList = tagDao.selectAll();
+		
 		request.setAttribute("query", query);
+		request.setAttribute("liveList", liveList);
 		request.setAttribute("fileList", fileList);
 		request.setAttribute("tagList", tagList);
-		request.setAttribute("liveList", liveList);
 		request.setAttribute("source", source);
 		return "play/home";
 	}

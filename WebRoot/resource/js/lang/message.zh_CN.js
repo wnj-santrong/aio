@@ -26,6 +26,7 @@ var Message = {
 	notice_must_select_one : "\u8bf7\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	notice_only_one_select : "\u53ea\u80fd\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	notice_only_support_ie : "\u8bf7\u4f7f\u7528IE\u6d4f\u89c8\u5668",
+	notice_file_recording : "\u6587\u4ef6\u6b63\u5728\u5f55\u5236\u4e2d",
 	
 	play_page_prev : "\u4e0a\u4e00\u9875",
 	play_page_next : "\u4e0b\u4e00\u9875",

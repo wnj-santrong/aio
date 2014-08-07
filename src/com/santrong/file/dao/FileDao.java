@@ -159,6 +159,9 @@ public class FileDao extends BaseDao{
 				criteria.where(eq("f.level", "?"));
 				criteria.setIntParam(query.getLevel());
 			}
+			if(!query.isShowRecording()) {
+				criteria.where(ne("f.status", "0"));// status != 0
+			}
 			// 排序
 			if(!StringUtils.isNullOrEmpty(query.getOrderBy())) {
 				if("desc".equalsIgnoreCase(query.getOrderRule())) {
@@ -169,7 +172,7 @@ public class FileDao extends BaseDao{
 			}
 			
 			// 分页
-			criteria.limit(query.getBeginIndex(), query.getPageSize());
+			criteria.limit(query.getLimitBegin(), query.getLimitEnd());
 			
 			Connection conn = ThreadUtils.currentConnection();
 			PreparedStatement stm = criteria.getRealStatement(conn);
@@ -208,6 +211,9 @@ public class FileDao extends BaseDao{
 			if(query.getLevel() != -1) {
 				criteria.where(eq("f.level", "?"));
 				criteria.setIntParam(query.getLevel());
+			}
+			if(!query.isShowRecording()) {
+				criteria.where(ne("f.status", "0"));// status != 0
 			}
 			
 			Connection conn = ThreadUtils.currentConnection();

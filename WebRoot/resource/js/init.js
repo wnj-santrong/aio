@@ -395,18 +395,24 @@ IndexClass.prototype = {
     	$("#filePlay").click(function(){
     		if(!/MSIE/.test(navigator.userAgent)) {
     			Boxy.alert(Message.dynamic('notice_only_support_ie'));
+    			return;
     		}
     		
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
-    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 0}, tip : false, callback : function(result) {
-    				if(result.indexOf('{') != -1) {
-    					var json = eval('(' + result + ')');
-        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
-    				}else {
-    					Boxy.alert(Message.dynamic(result));
-    				}
-    			}});
+    			var status = $("input[value= " + values + "]").attr("st");//0 是正在录制中
+    			if(status != 0) {
+	    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 0}, tip : false, callback : function(result) {
+	    				if(result.indexOf('{') != -1) {
+	    					var json = eval('(' + result + ')');
+	        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+	    				}else {
+	    					Boxy.alert(Message.dynamic(result));
+	    				}
+	    			}});
+    			}else {
+    				Boxy.alert(Message.dynamic("notice_file_recording"));    				
+    			}
     		}
     	});
     	

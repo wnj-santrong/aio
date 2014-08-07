@@ -10,6 +10,7 @@ import com.santrong.opt.PageQuery;
 public class FileQuery extends PageQuery {
 	private String keyword;
 	private int level = -1;
+	private boolean showRecording = false;
 	
 	public String getKeyword() {
 		return keyword;
@@ -23,5 +24,10 @@ public class FileQuery extends PageQuery {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+	public boolean isShowRecording() {
+		return showRecording;
+	}
+	public void setShowRecording(boolean showRecording) {
+		this.showRecording = showRecording;
+	}
 }

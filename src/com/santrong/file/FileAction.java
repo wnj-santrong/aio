@@ -55,6 +55,7 @@ public class FileAction extends BaseAction{
 		FileQuery query = new FileQuery();
 		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
+		query.setShowRecording(true);// 显示录制中的课件
 		query.setCount(fileDao.selectByPageCount(query));
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		

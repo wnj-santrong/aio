@@ -47,7 +47,7 @@
 	    <tbody>
 			<c:forEach items="${fileList}" var="file">
 			<tr>
-			    <td><input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" /></td>
+			    <td><input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" st="${file.status}" /></td>
 			    <td>
 			    <a href="#" class="cdetail">
 			    <c:if test="${file.courseName != '' }">
