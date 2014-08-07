@@ -132,7 +132,7 @@ body {background: url(../photo/bg.gif);}
 .window dt a:hover {background:url(../photo/delete-hover.png) no-repeat center center;}
 .window dd {margin-bottom:10px;}
 .window dd .tit {width:39%; display:inline-block; text-align:right; line-height:22px; vertical-align:top;}
-.window dd .cont {display:inline-block; margin-left:10px;}
+.window dd .cont {display:inline-block; margin-left:10px; line-height:22px; width:58%;}
 .window .win_save {width:100%; text-align:center; margin-top:20px;}
 .window .win_save a {display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin:0 10px; color:#5d9dd2; text-align:center;}
 .window .win_save a:hover {color:#f00;border:1px #f00 solid; background:#eeffed;}

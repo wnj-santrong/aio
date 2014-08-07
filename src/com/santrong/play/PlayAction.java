@@ -1,5 +1,6 @@
 package com.santrong.play;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -9,8 +10,13 @@ import com.santrong.base.BaseAction;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
 import com.santrong.file.entry.FileQuery;
+import com.santrong.meeting.dao.MeetingDao;
+import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.play.dao.TagDao;
+import com.santrong.play.entry.LiveEntry;
 import com.santrong.play.entry.TagItem;
+import com.santrong.system.status.RoomStatusEntry;
+import com.santrong.system.status.StatusMgr;
 
 /**
  * @author weinianjie
@@ -39,15 +45,32 @@ public class PlayAction extends BaseAction{
 			query.setPageSize(12);
 		}
 		
+		// 获取课程
 		query.setCount(fileDao.selectByPageCount(query));
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		
+		// 获取标签
 		TagDao tagDao = new TagDao();
 		List<TagItem> tagList = tagDao.selectAll();
+		
+		// 获取直播
+		MeetingDao meetingDao = new MeetingDao();
+		List<MeetingItem> meetingList = meetingDao.selectAll();
+		List<LiveEntry> liveList = new ArrayList<LiveEntry>();
+		for(MeetingItem m : meetingList) {
+			RoomStatusEntry st = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + m.getChannel());
+			if(st != null && st.getIsConnect() == 1 && st.getIsLive() == 1) {
+				LiveEntry entry = new LiveEntry();
+				entry.setId(m.getId());
+				entry.setCourseName(m.getCourseName());
+				liveList.add(entry);
+			}
+		}
 		
 		request.setAttribute("query", query);
 		request.setAttribute("fileList", fileList);
 		request.setAttribute("tagList", tagList);
+		request.setAttribute("liveList", liveList);
 		request.setAttribute("source", source);
 		return "play/home";
 	}

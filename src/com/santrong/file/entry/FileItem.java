@@ -1,5 +1,6 @@
 package com.santrong.file.entry;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
@@ -10,6 +11,8 @@ import java.util.Date;
 public class FileItem {
 	public static final int File_Status_Recording = 0;// 正在录制中
 	public static final int File_Status_Recorded = 1;// 录制已完成
+	public static final int File_Status_Uploading = 2;// ftp上传中
+	public static final int File_Status_Uploaded = 3;// ftp上传完成
 	
 	public static final int File_Level_Open = 0;// 公开的课件
 	public static final int File_Level_Close = 1;// 未公开的课件
@@ -31,6 +34,28 @@ public class FileItem {
 	private int downloadCount;
 	private Date cts;
 	private Date uts;
+	
+	public String getFileSizeString() {
+		long tmp = this.fileSize;
+		if(tmp >= 1024) {
+			tmp = tmp / 1024;
+			if(tmp >= 1024) {
+				tmp = tmp /1024;
+				if(tmp >= 1024) {
+					tmp = tmp / 1024;
+					double s = ((double)(tmp / 1024));	
+					DecimalFormat df = new DecimalFormat("#.00");
+					return df.format(s) + "G";
+				}else {
+					return tmp + "M";
+				}
+			}else {
+				return tmp + "K";
+			}
+		}else {
+			return tmp + "B";
+		}
+	}
 	
 	public String getId() {
 		return id;

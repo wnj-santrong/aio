@@ -18,4 +18,6 @@ public class HttpDefine {
 	
 	
 	public static final String Basic_Server_HeatBeat 				= "31003";	// 心跳接口
+	
+	public static final String Basic_Server_ConfEvent 				= "99999";	// 事件上报
 }

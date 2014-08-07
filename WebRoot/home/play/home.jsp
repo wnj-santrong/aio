@@ -25,8 +25,14 @@
 </div>
 <!-- 列表 -->
 <ul class="meeting_vod">
+ 	<c:forEach items="${liveList}" var="live">
+    <li><a href="#" rel="${live.id}" type="1"><em></em><span class="guankan_img"><img src="${ctx}/resource/photo/guankan_a.png" ></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
+        <p>${live.courseName}</p>
+        <p><fmt:message key="play_liveing" /></p>
+    </li>
+    </c:forEach>
  	<c:forEach items="${fileList}" var="file">
-    <li><a href="#" rel="${file.id}"><em></em><span class="guankan_img"><img src="${ctx}/resource/photo/guankan_a.png" ></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
+    <li><a href="#" rel="${file.id}" type="0"><em></em><span class="guankan_img"></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
         <p>${file.courseName}</p>
         <p><fmt:formatDate value="${file.cts}" pattern="yyyy/MM/dd  HH:mm:ss" /></p>
     </li>

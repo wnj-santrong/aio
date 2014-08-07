@@ -39,26 +39,40 @@
 	            <th><fmt:message key="file_recordTime"/></th>
 	            <th><fmt:message key="file_duration"/></th>
 	            <th><fmt:message key="file_fileSize"/></th>
+	            <th><fmt:message key="file_playCount"/></th>
 	            <th><fmt:message key="file_level"/></th>
-	            <th><fmt:message key="file_uploadStatus"/></th>
-	            <th><fmt:message key="file_remark"/></th>
+	            <th><fmt:message key="file_status"/></th>
 	        </tr>
 	    </thead>
 	    <tbody>
 			<c:forEach items="${fileList}" var="file">
 			<tr>
 			    <td><input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" /></td>
-			    <td>${file.courseName}</td>
+			    <td>
+			    <a href="#" class="cdetail">
+			    <c:if test="${file.courseName != '' }">
+			    ${file.courseName}
+			    </c:if>
+			    <c:if test="${file.courseName == '' }">
+			    -
+			    </c:if>			    
+			    </a>
+			    </td>
 			    <td>${file.teacher}</td>
 			    <td>${file.cts}</td>
 			    <td>${file.duration}</td>
-			    <td>${file.fileSize}</td>
+			    <td>${file.fileSizeString}</td>
+			    <td>${file.playCount}</td>
 			    <td>
 			    	<c:if test="${file.level == 0}"><fmt:message key="text_yes"/></c:if>
 			    	<c:if test="${file.level == 1}"><fmt:message key="text_no"/></c:if>
 			    </td>
-			    <td>${file.status}</td>
-			    <td>${file.remark}</td>
+			    <td>
+            		<c:if test="${file.status == 0}"><fmt:message key="file_status_recording"/></c:if>
+	            	<c:if test="${file.status == 1}"><fmt:message key="file_status_recorded"/></c:if>
+	            	<c:if test="${file.status == 2}"><fmt:message key="file_status_uploading"/></c:if>
+	            	<c:if test="${file.status == 3}"><fmt:message key="file_status_uploaded"/></c:if>				    
+				</td>
 			</tr>
 			</c:forEach>
 	    </tbody>

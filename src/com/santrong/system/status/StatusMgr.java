@@ -9,6 +9,9 @@ import java.util.Hashtable;
  */
 public class StatusMgr {
 	
+	public static int UniUsrCount = 0;// 正在直播人数
+	public static int VodUsrCount = 0;// 正在点播人数
+	
 	// confId--entry
 	private static Hashtable<String, RoomStatusEntry> roomlist = new Hashtable<String, RoomStatusEntry>();
 	

@@ -49,7 +49,7 @@ create table web_file(
 	fileSize bigint(20) not null default 0 comment '文件大小',
 	tarSize bigint(20) not null default 0 comment 'tar以后的大小，下载时候使用，防止重复计算',
 	duration varchar(32) default '' comment '录制时长',
-	status int(4) not null default 1 comment '课件状态，0正在录制，1录制完成',
+	status int(4) not null default 1 comment '课件状态，0正在录制，1录制完成，2已上传中，3上传完成',
 	level int(4) not null default 0 comment '课件级别，0开放，1不开放',
 	channel int(4) not null default 1 comment '产生课件的会议室通道',
 	bitRate int(4) comment '码率单位kbps',

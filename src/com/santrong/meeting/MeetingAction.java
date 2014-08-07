@@ -410,9 +410,11 @@ public class MeetingAction extends BaseAction{
 			DatasourceItem ds = new DatasourceItem();
 			ds.setId(ids[i]);
 			ds.setAddr(addrs[i]);
-			ds.setPort(CommonTools.stringToInt(ports[i], 0));
-			ds.setUsername(usernames[i]);
-			ds.setPassword(passwords[i]);
+			ds.setPort(CommonTools.stringToInt(ports[i], Global.CameraPort));
+			String username = StringUtils.isNullOrEmpty(usernames[i])? Global.CameraUsername : usernames[i];
+			ds.setUsername(username);
+			String password = StringUtils.isNullOrEmpty(passwords[i])? Global.CameraPassword : passwords[i];
+			ds.setPassword(password);
 			ds.setPriority(CommonTools.stringToInt(prioritys[i], 0));
 			ds.setMeetingId(meeting.getId());
 			ds.setDsType(DatasourceItem.Datasoruce_Type_Camera);

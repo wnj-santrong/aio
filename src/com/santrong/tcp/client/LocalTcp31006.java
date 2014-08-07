@@ -21,9 +21,9 @@ public class LocalTcp31006 extends LocalTcpBase {
 	private int resultCode;
 	private String fileUrl;
 	private String rcdTime;
-	private int rSRCRcdSize;
-	private int mVRcdSize;
-	private int cMPSRcdSize;
+	private int rSRCRcdSize;// 单位MB
+	private int mVRcdSize;// 单位MB
+	private int cMPSRcdSize;// 单位MB
 	private int rcdType;
 
 	public void setConfId(String confId) {

@@ -40,6 +40,10 @@ public class Global {
     public static String RemoteFileUrl = "/D/Rec/";         			// 远程录播服务器url
     public static String RecFilePlayer = "/resource/content.htm";		// 点播课件是url的后缀
     public static String RecFilePlayerPad = "/resource/content_pad.htm";	// 点播课件是url的后缀（平板电脑）
+    
+    public static String CameraUsername = "admin";						// 摄像头默认用户名
+    public static String CameraPassword = "12345";						// 摄像头密码
+    public static int CameraPort = 80;									// 摄像头默认端口
     /*
      * [System]
      */
@@ -122,6 +126,10 @@ public class Global {
             RemoteFileUrl = ini.readString("RecFile", "RemoteFileUrl", RemoteFileUrl);
             RecFilePlayer = ini.readString("RecFile", "RecFilePlayer", RecFilePlayer);
             RecFilePlayerPad = ini.readString("RecFile", "RecFilePlayerPad", RecFilePlayerPad);
+            RecFilePlayerPad = ini.readString("RecFile", "RecFilePlayerPad", RecFilePlayerPad);
+            CameraUsername = ini.readString("RecFile", "CameraUsername", CameraUsername);
+            CameraPassword = ini.readString("RecFile", "CameraPassword", CameraPassword);
+            CameraPort = ini.readInt("RecFile", "CameraPort", CameraPort);
             
             isBeyonsys = ini.readBoolean("System", "isBeyonsys", isBeyonsys);
             isDirector = ini.readBoolean("System", "isDirector", isDirector);

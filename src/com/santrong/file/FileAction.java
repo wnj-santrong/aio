@@ -22,9 +22,12 @@ import com.santrong.file.entry.FileItem;
 import com.santrong.file.entry.FileQuery;
 import com.santrong.file.entry.PlayInfo;
 import com.santrong.log.Log;
+import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
+import com.santrong.system.status.RoomStatusEntry;
+import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31010;
 import com.santrong.tcp.client.TcpClientService;
 import com.santrong.util.CommonTools;
@@ -77,6 +80,22 @@ public class FileAction extends BaseAction{
 	}
 	
 	/*
+	 * 异步获取课件详细
+	 */
+	@RequestMapping(value="/fileDetail", method=RequestMethod.GET)
+	public String fileDetail(String id) {
+		if(StringUtils.isNullOrEmpty(id)){
+			return ERROR_PARAM;
+		}
+		FileDao fileDao = new FileDao();
+		FileItem file = fileDao.selectById(id);
+		
+		request.setAttribute("file", file);
+		
+		return "file/detail";
+	}
+	
+	/*
 	 * 修改课件信息
 	 */
 	@RequestMapping(value="/fileEdit", method=RequestMethod.POST)
@@ -106,36 +125,71 @@ public class FileAction extends BaseAction{
 	 */
 	@RequestMapping("/filePlay")
 	@ResponseBody
-	public String filePlay(String id) {
+	public String filePlay(String id, Integer type) {
 		try{
-			
-			FileDao dao = new FileDao();
-			FileItem file = dao.selectById(id);
-			if(file == null) {
-				return "error_file_not_exists";
+			if(type == null) {
+				type = 0;
 			}
-			
-			UserItem user = this.currentUser();
-			if(file.getLevel() == FileItem.File_Level_Close && user == null) {
-				return "error_access_deny";
-			}
-			
-			String confId = MeetingItem.ConfIdPreview + file.getChannel();
-			String filePath = Global.vedioDir + "/" + confId + "/" + file.getFileName();//全路径		
 			
 			PlayInfo info = new PlayInfo();
-			info.setId(id);
-			info.setType(PlayInfo.Type_Vod);
-			info.setAddr(InetAddress.getLocalHost().getHostAddress());
-			info.setConfId(confId);
-			info.setLiveType(0);
-			info.setFilePath(filePath);
 			
-			// 更新播放次数
-			file.setPlayCount(file.getPlayCount() + 1);
-			dao.update(file);
+			// 0点播
+			if(type == 0) {
+				FileDao dao = new FileDao();
+				FileItem file = dao.selectById(id);
+				if(file == null) {
+					return "error_file_not_exists";
+				}
+				
+				UserItem user = this.currentUser();
+				if(file.getLevel() == FileItem.File_Level_Close && user == null) {
+					return "error_access_deny";
+				}
+				
+				String confId = MeetingItem.ConfIdPreview + file.getChannel();
+				String filePath = Global.vedioDir + "/" + confId + "/" + file.getFileName();//全路径		
+				
+				info.setId(id);
+				info.setType(PlayInfo.Type_Vod);
+				info.setAddr(InetAddress.getLocalHost().getHostAddress());
+				info.setConfId(confId);
+				info.setLiveType(0);
+				info.setFilePath(filePath);
+				
+				// 更新播放次数
+				file.setPlayCount(file.getPlayCount() + 1);
+				dao.update(file);
+				
+				Log.logOpt("file-play", file.getId(), request);
+			}
 			
-			Log.logOpt("file-play", file.getId(), request);
+			// 直播
+			if(type == 1) {
+				MeetingDao dao = new MeetingDao();
+				MeetingItem meeting = dao.selectById(id);
+				if(meeting == null) {
+					return FAIL;
+				}
+				
+				String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
+				RoomStatusEntry status = StatusMgr.getRoomStatus(confId);
+				if(status.getIsConnect() == 0 || status.getIsLive() == 0) {
+					return FAIL;
+				}
+				
+				info.setId(id);
+				if(this.currentUser() != null) {
+					info.setType(PlayInfo.Type_Live_Manager);
+				}else{
+					info.setType(PlayInfo.Type_Live);
+				}
+				info.setAddr(InetAddress.getLocalHost().getHostAddress());
+				info.setConfId(confId);
+				info.setLiveType(PlayInfo.LiveType_MD_CMPS);
+				info.setFilePath("");
+				
+				Log.logOpt("meeting-play", meeting.getId(), request);
+			}
 			
 			Gson gson = new Gson();
 			return gson.toJson(info);

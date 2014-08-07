@@ -127,7 +127,21 @@ IndexClass.prototype = {
     	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', afterSubmit : freshCurrentModel});
     	
     	$(".preview").click(function() {
-    		alert(2);
+    		if(!/MSIE/.test(navigator.userAgent)) {
+    			Boxy.alert(Message.dynamic('notice_only_support_ie'));
+    		}
+    		
+    		var values = $("input[name=id]").val();
+    		if(values) {
+    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 1}, tip : false, callback : function(result) {
+    				if(result.indexOf('{') != -1) {
+    					var json = eval('(' + result + ')');
+        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+    				}else {
+    					Boxy.alert(Message.dynamic(result));
+    				}
+    			}});
+    		}
     	});
     	
     	// 获取显示数据源的弹框
@@ -314,8 +328,9 @@ IndexClass.prototype = {
     		}
     		
     		var values = $(this).attr("rel");
+    		var type = $(this).attr("type");
     		if(values) {
-    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values}, tip : false, callback : function(result) {
+    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : type}, tip : false, callback : function(result) {
     				if(result.indexOf('{') != -1) {
     					var json = eval('(' + result + ')');
         				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
@@ -384,7 +399,7 @@ IndexClass.prototype = {
     		
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
-    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values}, tip : false, callback : function(result) {
+    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 0}, tip : false, callback : function(result) {
     				if(result.indexOf('{') != -1) {
     					var json = eval('(' + result + ')');
         				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
@@ -423,6 +438,18 @@ IndexClass.prototype = {
     		if(values) {
     			window.location.href =Globals.ctx + "/file/fileDownload.action?id=" + values;
     		}
+    	});
+    	
+    	$(".cdetail").click(function() {
+    		var id = $(this).parents("tr").find("input[name=CheckboxGroup1]").val();
+			Boxy.load(Globals.ctx + "/file/fileDetail.action?id=" + id, {
+				modal : true,
+				afterShow : function() {
+			    	// 绑定取消
+			    	$(".close").bindFormClose();
+				}
+			}); 		
+    		
     	});
     	
     	$(".checkAll").bindCheckAll("input[name=CheckboxGroup1]");
