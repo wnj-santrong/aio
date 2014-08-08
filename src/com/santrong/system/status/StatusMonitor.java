@@ -4,6 +4,7 @@ import java.net.InetAddress;
 
 import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.system.Global;
 import com.santrong.tcp.client.LocalTcp31001;
 import com.santrong.tcp.client.LocalTcp31007;
 import com.santrong.tcp.client.TcpClientService;
@@ -15,8 +16,6 @@ public class StatusMonitor implements Runnable {
 	public static boolean isRun = false;
 	
 	public static long lastHeatBeatTime = 0l;// 只有一路，所有先定义一个监听时间
-	
-	private static final int period = 10000; // 10秒
 	
 	@Override
 	public void run() {
@@ -38,7 +37,7 @@ public class StatusMonitor implements Runnable {
 				try{
 					
 					long currentTime = System.currentTimeMillis();
-					if((currentTime - lastHeatBeatTime) > 15000) {// 15秒
+					if((currentTime - lastHeatBeatTime) > Global.HeartTimeout) {
 						
 						String key = MeetingItem.ConfIdPreview + 1;// 该版本只有一路，先写死
 						RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(key);
@@ -54,7 +53,7 @@ public class StatusMonitor implements Runnable {
 						LocalTcp31001 tcp = new LocalTcp31001();
 						tcp.setAddr("http://" + InetAddress.getLocalHost().getHostAddress() + "/http/basic.action");
 						tcp.setPort(80);
-						tcp.setHeartbeat(period);
+						tcp.setHeartbeat(Global.HeartInterval);
 						
 						
 						Log.info("---Connect Controller...");
@@ -92,7 +91,7 @@ public class StatusMonitor implements Runnable {
 				
 				// 休息
 				try {
-					Thread.sleep(period);
+					Thread.sleep(Global.HeartInterval);
 				} catch (InterruptedException e) {
 					Log.printStackTrace(e);
 				}

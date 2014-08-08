@@ -1,5 +1,6 @@
 package com.santrong.tcp.server.base;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -16,13 +17,14 @@ public class TcpServer implements Runnable {
 		if(!isRun) {
 			
 			isRun = true;
+			ServerSocket ss = null;
 			
 			try{
 				Log.info("************Startup TcpServer Thread************");
 			}catch(Exception e) {}			
 			
 			try{
-				ServerSocket ss = new ServerSocket(TcpDefine.Basic_Server_port);
+				ss = new ServerSocket(TcpDefine.Basic_Server_port);
 				while(true)
 				{
 					Socket s = ss.accept();
@@ -34,6 +36,14 @@ public class TcpServer implements Runnable {
 			}catch (Exception e) {
 				isRun = false;
 				Log.printStackTrace(e);
+			}finally {
+				if(ss != null && !ss.isClosed()) {
+					try {
+						ss.close();
+					} catch (IOException e) {
+						Log.printStackTrace(e);
+					}
+				}
 			}
 			
 			isRun = false;

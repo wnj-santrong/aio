@@ -38,7 +38,7 @@ public abstract class BaseAction {
 	}		
 	
 	public final UserItem currentUser() {
-		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.loginUser_key);
+		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.LoginUser_key);
 		return user;
 	}
 	

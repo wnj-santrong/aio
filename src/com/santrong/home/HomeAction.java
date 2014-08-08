@@ -85,7 +85,7 @@ public class HomeAction extends BaseAction{
 			return "error_login_password_wrong";
 		}
 		
-		ThreadUtils.currentHttpSession().setAttribute(Global.loginUser_key, user);
+		ThreadUtils.currentHttpSession().setAttribute(Global.LoginUser_key, user);
 		
 		Log.logOpt("user-login", user.getUsername(), request);
 		
@@ -96,13 +96,13 @@ public class HomeAction extends BaseAction{
 	@ResponseBody
 	public String logout() {
 
-		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.loginUser_key);
+		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.LoginUser_key);
 		if(user == null) {
 			return SUCCESS;
 		}
 		
 		try{
-			ThreadUtils.currentHttpSession().removeAttribute(Global.loginUser_key);
+			ThreadUtils.currentHttpSession().removeAttribute(Global.LoginUser_key);
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;

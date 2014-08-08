@@ -14,6 +14,31 @@ public abstract class Xml {
     protected Document doc;
     protected Element root;
     
+    
+    public int getInt(String xpath, int def) {
+    	return this.getInt(xpath, root, def);
+    }
+    
+    public int getInt(String xpath, Element parent, int def) {
+    	try{
+    		return Integer.parseInt(find(xpath, parent).getText());
+    	}catch(Exception e) {
+    		return def;
+    	}
+    }    
+    
+    public String getString(String xpath, String def) {
+    	return this.getString(xpath, root, def);
+    }
+    
+    public String getString(String xpath, Element parent, String def) {
+    	try{
+    		return this.find(xpath, parent).getText();
+    	}catch(Exception e) {
+    		return def;
+    	}
+    }
+    
     /**
      * 寻找单个元素，目前只支持中间元素唯一，最后一个元素带一个属性值过滤
      * @param xpath  以/分割元素名  例如:/persons/person@id=2

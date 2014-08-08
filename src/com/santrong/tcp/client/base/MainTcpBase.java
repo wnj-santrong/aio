@@ -21,6 +21,6 @@ public abstract class MainTcpBase implements TcpImpl{
 	}
 	
 	public String getHost() {
-		return "192.168.10.10";
+		return TcpDefine.Main_Client_Addr;
 	}
 }

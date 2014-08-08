@@ -16,6 +16,7 @@ import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
+import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
 import com.santrong.system.network.NetworkInfo;
 import com.santrong.system.network.SystemUtils;
@@ -69,7 +70,7 @@ public class SettingAction extends BaseAction{
 			// 把新用户注入session
 			UserItem newuser = userDao.selectByUserName(newname);
 			if(newuser != null) {
-				ThreadUtils.currentHttpSession().setAttribute(Global.loginUser_key, newuser);
+				ThreadUtils.currentHttpSession().setAttribute(Global.LoginUser_key, newuser);
 			}
 			
 			Log.logOpt("user-modify", newname, request);
@@ -90,7 +91,7 @@ public class SettingAction extends BaseAction{
 	public String database() {
 		List<String> nameList = new ArrayList<String>();
 		
-		List<File> dbList = FileUtils.searchFile(Global.dbBackupDir, "sql");
+		List<File> dbList = FileUtils.searchFile(DirDefine.DbBackupDir, "sql");
 		if(dbList != null) {
 			for(File f : dbList) {
 				nameList.add(f.getName());
@@ -109,7 +110,7 @@ public class SettingAction extends BaseAction{
 	@RequestMapping(value="/dbBackup", method=RequestMethod.POST)
 	@ResponseBody
 	public String dbBackup() {
-		String[] cmd = new String[] { "cmd.exe  /c mysqldump -uroot -p1996815 -B aio > " + Global.dbBackupDir + File.separator + "111.sql"};
+		String[] cmd = new String[] { "cmd.exe  /c mysqldump -uroot -p1996815 -B aio > " + DirDefine.DbBackupDir + File.separator + "111.sql"};
 		
 		try {
 			Process ps = Runtime.getRuntime().exec(cmd);
@@ -141,7 +142,7 @@ public class SettingAction extends BaseAction{
 			return "error_param";
 		}
 		
-		if(!FileUtils.delFile(Global.dbBackupDir + File.separator + filename)) {
+		if(!FileUtils.delFile(DirDefine.DbBackupDir + File.separator + filename)) {
 			return FAIL;
 		}
 		

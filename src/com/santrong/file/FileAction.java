@@ -25,6 +25,7 @@ import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.setting.entry.UserItem;
+import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
@@ -148,7 +149,7 @@ public class FileAction extends BaseAction{
 				}
 				
 				String confId = MeetingItem.ConfIdPreview + file.getChannel();
-				String filePath = Global.vedioDir + "/" + confId + "/" + file.getFileName();//全路径		
+				String filePath = DirDefine.VedioDir + "/" + confId + "/" + file.getFileName();//全路径		
 				
 				info.setId(id);
 				info.setType(PlayInfo.Type_Vod);
@@ -227,7 +228,7 @@ public class FileAction extends BaseAction{
 			// 先删除实体文件
 			for(FileItem file : fileList) {
 				String confId = MeetingItem.ConfIdPreview + file.getChannel();
-				String rcdName = Global.vedioDir + "/" + confId + "/" + file.getFileName();//全路径
+				String rcdName = DirDefine.VedioDir + "/" + confId + "/" + file.getFileName();//全路径
 				tcp31010.setConfId(confId);
 				tcp31010.setCourseName(rcdName);
 				client.request(tcp31010);
@@ -338,7 +339,7 @@ public class FileAction extends BaseAction{
 			FileDao fileDao = new FileDao();
 			FileItem file = fileDao.selectById(id);
 
-			String path = Global.vedioDir + "/" + MeetingItem.ConfIdPreview + file.getChannel();
+			String path = DirDefine.VedioDir + "/" + MeetingItem.ConfIdPreview + file.getChannel();
 			
 			// 获取tar压缩后的大小
 			long fileLenth = file.getTarSize();

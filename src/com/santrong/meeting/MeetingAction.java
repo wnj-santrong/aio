@@ -20,6 +20,7 @@ import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.DatasourceItem;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
@@ -547,7 +548,7 @@ public class MeetingAction extends BaseAction{
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//时间作为标致，精确到秒
 		String fileName = sdf.format(new Date());
-		String rcdName = Global.vedioDir + "/" + confId + "/" + fileName;//全路径		
+		String rcdName = DirDefine.VedioDir + "/" + confId + "/" + fileName;//全路径		
 		
 		LocalTcp31006 tcp = new LocalTcp31006();
 		tcp.setConfId(confId);

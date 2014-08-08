@@ -15,14 +15,14 @@ import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.DatasourceItem;
 import com.santrong.meeting.entry.MeetingItem;
-import com.santrong.system.Global;
+import com.santrong.system.DirDefine;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31004;
+import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.tcp.client.LocalTcp31005;
 import com.santrong.tcp.client.LocalTcp31006;
 import com.santrong.tcp.client.TcpClientService;
-import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.util.CommonTools;
 import com.santrong.util.XmlReader;
 
@@ -114,7 +114,7 @@ public class BasicHttpService30004 implements AbstractHttpService{
 	 */
 	private int doRecord(MeetingItem meeting, String confId, int operType, int addOrUpdate) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//时间作为标致，精确到秒
-		String rcdName = Global.vedioDir + "/" + confId + "/" + sdf.format(new Date());//全路径		
+		String rcdName = DirDefine.VedioDir + "/" + confId + "/" + sdf.format(new Date());//全路径		
 		
 		LocalTcp31006 tcp = new LocalTcp31006();
 		tcp.setConfId(confId);

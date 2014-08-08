@@ -18,9 +18,7 @@ import java.util.Map;
 import com.santrong.log.Log;
 
 /**
- * ini文件处理类
-
- */
+ * ini文件处理类 */
 public class Ini {
     
     // 打开ini文件路径
@@ -43,8 +41,7 @@ public class Ini {
     }
     
     /**
-     * 读取所有数据
-     * @param iniFile
+     * 读取所有数据     * @param iniFile
      * @return
      */
     public boolean read(String iniFile) {
@@ -59,8 +56,6 @@ public class Ini {
         
         BufferedReader br = null;
         try {
-//            br = new BufferedReader(new InputStreamReader(new FileInputStream(
-//                    iniFile), encoding));
             br = new BufferedReader(new InputStreamReader(new FileInputStream(
                     iniFile)));
         } catch (Exception e) {
@@ -99,9 +94,7 @@ public class Ini {
                             datas.put(type, typeAtts);
                         }
                         break;
-                    default : // 属性
-                        
-                        if (typeAtts == null) {
+                    default : // 属性                        if (typeAtts == null) {
                             continue;
                         }
                         

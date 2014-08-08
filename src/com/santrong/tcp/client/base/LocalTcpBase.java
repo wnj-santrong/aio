@@ -21,6 +21,6 @@ public abstract class LocalTcpBase implements TcpImpl{
 	}
 	
 	public String getHost() {
-		return "192.168.10.10";
+		return TcpDefine.Basic_Client_Addr;
 	}
 }
