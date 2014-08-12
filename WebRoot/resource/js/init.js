@@ -210,7 +210,7 @@ IndexClass.prototype = {
     	$(".ds_add").click(function() {
     		var index = $("#dsList .dsItem").length;
     		if(index >= 3) {
-    			Boxy.alert(Message.dynamic("warn_datasource_already_max", Globals.vedioCount));
+    			Boxy.alert(Message.dynamic("warn_datasource_already_max", 3));
     			return;
     		}
     		

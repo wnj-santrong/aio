@@ -22,7 +22,6 @@
 var Globals = {};
 Globals.define = {};
 Globals.ctx = "${ctx}";
-Globals.vedioCount = <%=Global.VedioCount%>;
 </script>
 </head>
 <body>
