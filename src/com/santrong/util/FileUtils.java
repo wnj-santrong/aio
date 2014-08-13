@@ -29,6 +29,30 @@ public class FileUtils {
 	}
 	
 	/**
+	 * 获取指定目录下的所有子目录很文件
+	 * @param dirname
+	 * @return
+	 */
+	public static List<File> getAllFileAndDirectory(String dirname) {
+		List<File> fileList = new ArrayList<File>();
+		File dir = new File(dirname);
+		if (null != dir && dir.isDirectory()) {
+			File[] files = dir.listFiles();
+			if (null != files && files.length > 0) {
+				for (File file : files) {
+					if (null != file) {
+						fileList.add(file);
+						if(file.isDirectory()) {
+							fileList.addAll(getAllFileAndDirectory(file.getPath()));
+						}
+					}
+				}
+			}
+		}
+		return fileList;
+	}
+	
+	/**
 	 * 目录下文件查找，不含子目录
 	 * @param dirname
 	 * @param extName

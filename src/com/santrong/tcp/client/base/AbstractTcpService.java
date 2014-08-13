@@ -9,6 +9,6 @@ package com.santrong.tcp.client.base;
 public abstract class AbstractTcpService {
 	
 	
-	protected TcpClientHanlder 			tcpHanlder	 	= new TcpClientHanlder();
+	protected TcpClientHandler 			tcpHanlder	 	= new TcpClientHandler();
 	
 }

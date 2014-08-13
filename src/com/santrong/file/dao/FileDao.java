@@ -69,6 +69,14 @@ public class FileDao extends BaseDao{
 		return null;
 	}
 	
+	public List<FileItem> selectToFtp() {
+		FileMapper mapper = this.getMapper(FileMapper.class);
+		if(mapper != null) {			
+			return mapper.selectToFtp();
+		}
+		return null;
+	}	
+	
 	public FileItem selectRecording(int channel) {
 		FileMapper mapper = this.getMapper(FileMapper.class);
 		if(mapper != null) {

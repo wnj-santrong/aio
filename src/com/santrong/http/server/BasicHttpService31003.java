@@ -3,7 +3,7 @@ package com.santrong.http.server;
 import com.santrong.http.HttpDefine;
 import com.santrong.http.server.base.AbstractHttpService;
 import com.santrong.log.Log;
-import com.santrong.system.status.StatusMonitor;
+import com.santrong.schedule.StatusMonitJob;
 import com.santrong.util.XmlReader;
 
 /**
@@ -21,7 +21,7 @@ public class BasicHttpService31003 implements AbstractHttpService{
 		try{
 			sessionId = xml.find("/MsgHead/SessionId").getText();			
 			// 存储心跳时间
-			StatusMonitor.lastHeatBeatTime = System.currentTimeMillis();
+			StatusMonitJob.lastHeatBeatTime = System.currentTimeMillis();
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);

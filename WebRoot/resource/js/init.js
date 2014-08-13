@@ -495,6 +495,21 @@ IndexClass.prototype = {
     		}
     	});
     	
+    	// 获取ftp
+    	$.ajax({
+    		dataType : "json",
+    		url : Globals.ctx + "/setting/ftp.action",
+    		success : function(result) {
+//    			$("#setting_ftp input[name=ip]").val(result.ip);
+    			$("#setting_ftp input[name=host]").val(result.ftpIp);
+    			$("#setting_ftp input[name=port]").val(result.ftpPort);
+    			$("#setting_ftp input[name=username]").val(result.username);
+    			$("#setting_ftp input[name=password]").val(result.password);
+    			$("#setting_ftp input[name=duration1]").val(result.beginTime);
+    			$("#setting_ftp input[name=duration2]").val(result.endTime);
+    		}
+    	});
+    	
     	// 获取数据库
     	var freshDbList = function() {
     		$.ajax({

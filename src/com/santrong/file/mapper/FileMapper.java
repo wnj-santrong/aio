@@ -31,6 +31,9 @@ public interface FileMapper {
     @Select("select * from web_file where id in (${ids})")
     List<FileItem> selectByIds(@Param("ids") String ids);
     
+    @Select("select * from web_file where status = 1 or status = 2")
+    List<FileItem> selectToFtp();
+    
     
     @Select("select * from web_file where status=0 and channel=#{channel} limit 1")
     FileItem selectRecording(int channel);

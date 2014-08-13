@@ -112,13 +112,23 @@ jQuery(function($){
         
         // 日期类型检测
         var re_number = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
-        $(this).find("[required_Number]").each(function(){
+        $(this).find("[required_Date]").each(function(){
         	var val = $(this).val().trim();
         	if(val == "" || !re_number.test(val)) {
         		$(this).addClass("text_warn");
                 isPass = false;
         	}
-        });           
+        });     
+        
+        // 时间类型检测
+        var re_number = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
+        $(this).find("[required_Time]").each(function(){
+        	var val = $(this).val().trim();
+        	if(val == "" || !re_number.test(val)) {
+        		$(this).addClass("text_warn");
+                isPass = false;
+        	}
+        });         
         
         return isPass;
 	}

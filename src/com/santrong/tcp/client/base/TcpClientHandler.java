@@ -16,9 +16,9 @@ import com.santrong.log.Log;
 import com.santrong.system.Global;
 import com.santrong.util.CommonTools;
 
-public class TcpClientHanlder{
+public class TcpClientHandler{
 	
-	private static final Logger logger = Logger.getLogger(TcpClientHanlder.class);
+	private static final Logger logger = Logger.getLogger(TcpClientHandler.class);
 	
     Socket gsocket = null;
     private static final int TIME_OUT = 10000;		// 连接超时时间

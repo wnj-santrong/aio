@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
+import com.santrong.ftp.FtpConfig;
+import com.santrong.ftp.FtpHandler;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
+import com.santrong.schedule.FtpUploadJob;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.DirDefine;
@@ -221,18 +224,52 @@ public class SettingAction extends BaseAction{
 	}	
 	
 	/*
+	 * ftp配置获取
+	 */
+	@RequestMapping(value="/ftp", method=RequestMethod.GET)
+	@ResponseBody
+	public String getFtp() {
+		FtpConfig config = new FtpConfig();
+		Gson gson = new Gson();
+		
+		return gson.toJson(config);
+	}	
+	
+	/*
 	 * ftp设置
 	 */
 	@RequestMapping(value="/ftp", method=RequestMethod.POST)
 	@ResponseBody
-	public String ftp(int useFtp, String host, String port, String username, String password, String duration1, String duration2) {
-		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(password)) {
+	public String postFtp(int useFtp, String host, String port, String username, String password, String duration1, String duration2) {
+		// 数据校验
+		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(password) || StringUtils.isNullOrEmpty(duration1) || StringUtils.isNullOrEmpty(duration2)) {
 			return "error_param";
 		}
 		
-		Log.logOpt("ftp-save", useFtp + "|" + host + "|" + port + "|" + username + "|" + password, request);
-		
-		return SUCCESS;
+		try{
+			// 持久化
+			FtpConfig config = new FtpConfig();
+			config.setFtpEnable(String.valueOf(useFtp));
+			config.setFtpIp(host);
+			config.setFtpPort(port);
+			config.setUsername(username);
+			config.setPassword(password);
+			config.setBeginTime(duration1);
+			config.setEndTime(duration2);
+			if(config.write()) {
+	
+				// 强行停止，以便job线程重新扫描配置
+				FtpHandler handler = FtpHandler.getInstance();
+				handler.forceStop();
+				FtpUploadJob.uploading = false;
+				
+				Log.logOpt("ftp-save", useFtp + "|" + host + "|" + port + "|" + username + "|" + password, request);
+				return SUCCESS;			
+			}
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+		}
+		return FAIL;
 	}
 	
 	/*
