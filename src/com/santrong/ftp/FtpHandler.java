@@ -14,6 +14,7 @@ import com.enterprisedt.net.ftp.FTPFile;
 import com.enterprisedt.net.ftp.FTPTransferType;
 import com.enterprisedt.net.ftp.FileTransferClient;
 import com.enterprisedt.net.ftp.WriteMode;
+import com.santrong.system.Global;
 import com.santrong.util.FileUtils;
 
 
@@ -38,7 +39,11 @@ public class FtpHandler {
 	private FtpHandler() {
 		ftp = new FileTransferClient();
 		writeMode = WriteMode.RESUME;// 首次连接默认设置为断点续传
-		ftpConnectMode = FTPConnectMode.ACTIVE;
+		if(Global.FTPConnectMode == 0) {
+			ftpConnectMode = FTPConnectMode.ACTIVE;
+		}else if(Global.FTPConnectMode == 1) {
+			ftpConnectMode = FTPConnectMode.PASV;
+		}
 		mapper = new HashMap<String, Object>();
 	}
 	

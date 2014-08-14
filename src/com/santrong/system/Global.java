@@ -36,6 +36,11 @@ public class Global {
     public static int HeartInterval = 10000;							// 心跳时间
     public static int HeartTimeout = 15000;								// 心跳过时时间
     
+    /*
+     * [Ftp]
+     */
+    public static int FTPConnectMode = 0;								// 0主动模式，1被动模式
+    
 
     static {
         String configFile = Global.class.getClassLoader().getResource("") + "Global.ini";
@@ -60,6 +65,8 @@ public class Global {
             DownloadMaxCount =ini.readInt("System", "DownloadMaxCount", DownloadMaxCount);
             HeartInterval =ini.readInt("System", "HeartInterval", HeartInterval);
             HeartTimeout =ini.readInt("System", "HeartTimeout", HeartTimeout);
+            
+            FTPConnectMode =ini.readInt("Ftp", "FTPConnectMode", FTPConnectMode);
         }
         
         

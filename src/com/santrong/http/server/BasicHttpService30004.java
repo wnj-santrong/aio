@@ -12,6 +12,7 @@ import com.santrong.file.entry.FileItem;
 import com.santrong.http.HttpDefine;
 import com.santrong.http.server.base.AbstractHttpService;
 import com.santrong.log.Log;
+import com.santrong.meeting.dao.DatasourceDao;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.DatasourceItem;
 import com.santrong.meeting.entry.MeetingItem;
@@ -197,8 +198,16 @@ public class BasicHttpService30004 implements AbstractHttpService{
 		tcp.setRecordType(MeetingItem.Record_Type_CMPS);
 		tcp.setLayout(meeting.getRecordMode());
 		tcp.setbScale(MeetingItem.Bscale_Extend);
-		//TODO ds获取
+		
+		// ds获取
+		DatasourceDao dsDao = new DatasourceDao();
+		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
+		if(dsList != null) {
+			meeting.setDsList(dsList);
+		}
+		
 		List<RecStreamInfo> datasourceList = new ArrayList<RecStreamInfo>();
+		
 		
 		for(DatasourceItem item : meeting.getDsList()) {
 			RecStreamInfo ds = tcp.new RecStreamInfo();

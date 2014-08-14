@@ -37,6 +37,16 @@ table tr td {text-align:center; color:#666; border:1px #ccc solid; overflow:hidd
 			<th>排序</th>
 			<th>连接状态</th>
 		</tr>
+		<c:forEach items="${dsList}" var="item">
+		<tr>
+			<td>${item.addr}</td>
+			<td>${item.port}</td>
+			<td>${item.username}</td>
+			<td>${item.password}</td>
+			<td>${item.priority}</td>
+			<td>${item.isConnect}</td>
+		</tr>
+		</c:forEach>
 	</table>	
 </body>
 </html>

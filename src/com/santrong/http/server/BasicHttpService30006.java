@@ -1,8 +1,11 @@
 package com.santrong.http.server;
 
+import java.util.List;
+
 import com.santrong.http.HttpDefine;
 import com.santrong.http.server.base.AbstractHttpService;
 import com.santrong.log.Log;
+import com.santrong.meeting.dao.DatasourceDao;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.DatasourceItem;
 import com.santrong.meeting.entry.MeetingItem;
@@ -35,7 +38,13 @@ public class BasicHttpService30006 implements AbstractHttpService{
 			int channel = Integer.parseInt(arr[1]);
 			MeetingDao meetingDao = new MeetingDao();
 			meeting = meetingDao.selectByChannel(channel);
-			//TODO ds获取
+			
+			// ds获取
+			DatasourceDao dsDao = new DatasourceDao();
+			List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
+			if(dsList != null) {
+				meeting.setDsList(dsList);
+			}
 			
 			//强行把VGA塞进去
 			DatasourceItem vga = new DatasourceItem();

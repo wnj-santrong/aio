@@ -25,7 +25,7 @@ public class CriteriaTest {
 	public static void main(String[] args){
 		
 		try {
-			//TODO improve group by,limit
+			// improve group by,limit
 			
 			
 			//~ ------- [mixed test] ----------------------------------------------------------

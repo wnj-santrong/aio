@@ -53,6 +53,14 @@ public class DatasourceDao extends BaseDao {
 		return null;
 	}
 	
+	public List<DatasourceItem> selectAll() {
+		DatasourceMapper mapper = this.getMapper(DatasourceMapper.class);
+		if(mapper != null) {
+			return mapper.selectAll();
+		}
+		return null;
+	}	
+	
 	public int selectCountByMeetingId(String mid) {
 		DatasourceMapper mapper = this.getMapper(DatasourceMapper.class);
 		if(mapper != null) {

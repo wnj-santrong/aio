@@ -317,7 +317,7 @@ public class FileAction extends BaseAction{
 		OutputStream out = null;
 		long readed = 0L;
 		
-		//TODO 代理转发、路由器，是否使用session的key更准确些
+		// 代理转发、路由器，是否使用session的key更准确些
 		String downloadKey = CommonTools.getRequestAddrIp(request, "127.0.0.1") + "-" + id;
 		try{
 			// id不正常

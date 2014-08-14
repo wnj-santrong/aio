@@ -23,7 +23,7 @@ function init() {
             '</select>:<select id="timeRange_b">'+minuteOpts+
             '</select>--<select id="timeRange_c">'+hourOpts+
             '</select>:<select id="timeRange_d">'+minuteOpts+
-            '</select>&nbsp;<input type="button" value="确定" id="timeRange_btn" /></div>')
+            '</select>&nbsp;<input type="button" value="' + Message.dynamic('text_confirm') + '" id="timeRange_btn" /></div>')
             .css({
                 "position": "absolute",
                 "z-index": "9",
@@ -129,6 +129,9 @@ IndexClass.prototype = {
     	$("code#pagename").remove();
     	
     	$(".navigator a").click(function() {
+    		$(".navigator li a").removeClass("current_menu");
+    		$(this).addClass("current_menu");
+    		
     		var pageName = $(this).text();
     		var pageUrl = $(this).attr("rel");
     		

@@ -49,7 +49,8 @@ body {background: url(../photo/bg.gif);}
 .title_sid ul {margin-top:50px; padding-top:100px; background:url(../photo/ul_bg.png) no-repeat 60px 0px;}
 .title_sid ul li {background:url(../photo/ul_bottom.png) no-repeat left bottom;}
 .title_sid ul li a {width:220px; height:40px;line-height:40px;display:inline-block; padding:5px 0; font-size:20px; text-align:center; color:#fff;}
-.title_sid ul li a:hover {background:url(../photo/ul_ahover.jpg) no-repeat left top; color:#333; font-size:22px;}
+.title_sid ul li a:hover {color:#ff9c00;}
+.title_sid ul li .current_menu {background:url(../photo/ul_ahover.jpg) no-repeat left top; color:#333; font-size:22px;}
 
 
 /*-------------内容--顶部和搜索---------------*/
