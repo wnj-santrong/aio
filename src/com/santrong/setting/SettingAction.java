@@ -218,6 +218,8 @@ public class SettingAction extends BaseAction{
 			return FAIL;
 		}
 		
+		// TODO 重启网卡
+		
 		Log.logOpt("net-save", String.valueOf(type), request);
 		
 		return SUCCESS;

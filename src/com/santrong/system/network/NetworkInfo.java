@@ -11,10 +11,17 @@ public class NetworkInfo {
 	public static final int Type_Wan = 1;
 	
 	private int index;
-	private String ip;
-	private String mask;
-	private String gateway;
+	private String ip = "";
+	private String mask = "";
+	private String gateway = "";
+	private String deviceName = "";
 	
+	public String getDeviceName() {
+		return deviceName;
+	}
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
 	public int getIndex() {
 		return index;
 	}

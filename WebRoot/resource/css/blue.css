@@ -19,7 +19,7 @@ body {background: url(../photo/bg.gif);}
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
   -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);}
-.form_text {width:160px;}
+.form_text {width:146px;}
 .layout_form {padding:0px; width:560px; height:300px;}
 .hide {display:none;}
 .relative {position:relative;}
@@ -109,7 +109,7 @@ body {background: url(../photo/bg.gif);}
 .system_set .list_set li span {display:inline-block; width:320px; text-indent:60px;}
 .system_set .list_set li a {margin-right:20px; color:#09f;}
 .system_set .list_set li:hover {background:#ddd;}
-.system_set .dbBackBtn {position:absolute; right:20px; font-size:14px;}
+.system_set .dbBackBtn {position:absolute; right:20px; font-size:14px; color:#09f;}
 
 
 /*-------------会议管理&系统信息---------*/

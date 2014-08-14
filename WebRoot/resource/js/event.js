@@ -91,7 +91,8 @@ jQuery(function($){
         });
         
         // 必填IP
-        var re_ip = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/ig
+        // 正则表达式别用g属性，否则第二次检测的时候会混合第一次结果导致错误
+        var re_ip = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/i
         $(this).find("[required_Ip]").each(function(){
         	var val = $(this).val().trim();
         	if(val == "" || !re_ip.test(val) || RegExp.$1 > 256 || RegExp.$2 > 256 || RegExp.$3 > 256 || RegExp.$4 > 256) {
@@ -101,7 +102,7 @@ jQuery(function($){
         });	
         
         // 必填0或正整数
-        var re_number = /^[1-9][0-9]*$/ig
+        var re_number = /^[1-9][0-9]*$/i
         $(this).find("[required_Number]").each(function(){
         	var val = $(this).val().trim();
         	if(val == "" || !re_number.test(val)) {
@@ -111,7 +112,7 @@ jQuery(function($){
         });	
         
         // 日期类型检测
-        var re_Date = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
+        var re_Date = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/i;
         $(this).find("[required_Date]").each(function(){
         	var val = $(this).val().trim();
         	if(val == "" || !re_Date.test(val)) {
@@ -121,7 +122,7 @@ jQuery(function($){
         });     
         
         // 时间类型检测
-        var re_Time = /[012]{0,1}\d:[0123456]{0,1}\d:[0123456]{0,1}\d$/ig;
+        var re_Time = /[012]{0,1}\d:[0123456]{0,1}\d:[0123456]{0,1}\d$/i;
         $(this).find("[required_Time]").each(function(){
         	var val = $(this).val().trim();
         	if(val == "" || !re_Time.test(val)) {

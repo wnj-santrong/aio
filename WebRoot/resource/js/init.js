@@ -17,7 +17,8 @@ function init() {
         var hourOpts = '';
         for (i=0;i<10;i++) hourOpts += '<option>0'+i+'</option>';
         for (i=10;i<24;i++) hourOpts += '<option>'+i+'</option>';
-        var minuteOpts = '<option>00</option><option>10</option><option>20</option><option>30</option><option>40</option><option>50</option>';
+        var minuteOpts = '<option>00</option><option>05</option>';
+        for (i=10;i<60;i+=5) minuteOpts += '<option>'+i+'</option>';
          
         var html = $('<div id="timeRange_div"><select id="timeRange_a">'+hourOpts+
             '</select>:<select id="timeRange_b">'+minuteOpts+

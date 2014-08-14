@@ -28,10 +28,8 @@ public class Global {
      */
     public static String Title = "三简课程直播录制系统";
     public static String Language = "zh_CN";
-    public static int WanIndex = 1;										// wan网口的索引
-    public static int LanIndex = 0;										// lan网口的索引
-    public static String LanDeviceName = "";							// lan网口的网口名
-    public static String WanDeviceName = "";							// wan网口的网口名
+    public static String LanDeviceName = "eth0";							// lan网口的网口名
+    public static String WanDeviceName = "eth1";							// wan网口的网口名
     public static int DownloadMaxCount = 10;                            // 控制前台下载人数
     public static int HeartInterval = 10000;							// 心跳时间
     public static int HeartTimeout = 15000;								// 心跳过时时间
@@ -58,8 +56,6 @@ public class Global {
 
             Title = ini.readString("System", "Title", Title);
             Language = ini.readString("System", "Language", Language);
-            WanIndex = ini.readInt("System", "WanIndex", WanIndex);
-            LanIndex = ini.readInt("System", "LanIndex", LanIndex);
             WanDeviceName = ini.readString("System", "WanDeviceName", WanDeviceName);
             LanDeviceName = ini.readString("System", "LanDeviceName", LanDeviceName);
             DownloadMaxCount =ini.readInt("System", "DownloadMaxCount", DownloadMaxCount);

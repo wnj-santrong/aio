@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.santrong.log.Log;
+import com.santrong.system.Global;
 
 /**
  * @author weinianjie
@@ -35,19 +36,34 @@ public class WindowsNetworkHandle extends AbstractNetworkHandle {
 	@Override
 	public synchronized boolean setNetworkInfo(NetworkInfo vo) {
 		try{
-			readFile();
 			
-			for(int i=0;i<pro.size();i++) {
-				if(pro.get(i).indexOf("eth" + vo.getIndex()) != -1) {// 必须是eth0这类的
-					
-					pro.set(i + 2, "address " + vo.getIp());
-					pro.set(i + 3, "network " + vo.getGateway());
-					pro.set(i + 4, "netmask " + vo.getMask());
-					
-					break;
-				}
+			NetworkInfo otherInfo = this.getNetworkInfo(vo.getIndex() == 0? 1 : 0);// 获取另一块网卡信息
+			
+			String deviceName = getDeviceName(vo.getIndex());
+			if(deviceName == null) {
+				return false;
 			}
 			
+			// 全覆盖式写入
+			pro = new ArrayList<String>();
+			pro.add("# interfaces(5) file used by ifup(8) and ifdown(8)");
+			pro.add("auto lo");
+			pro.add("iface lo inet loopback");
+			// 先后顺序不影响
+			if(otherInfo != null) {
+				pro.add("");	
+				pro.add("auto " + otherInfo.getDeviceName());	
+				pro.add("iface " + otherInfo.getDeviceName() + " inet static");	
+				pro.add("address " + otherInfo.getIp());	
+				pro.add("netmask " + otherInfo.getMask());	
+				pro.add("gatewary " + otherInfo.getGateway());
+			}
+			pro.add("");
+			pro.add("auto " + deviceName);	
+			pro.add("iface " + deviceName + " inet static");	
+			pro.add("address " + vo.getIp());	
+			pro.add("netmask " + vo.getMask());	
+			pro.add("gatewary " + vo.getGateway());
 			writeFile();
 		}catch(Exception e) {
 			return false;
@@ -67,28 +83,57 @@ public class WindowsNetworkHandle extends AbstractNetworkHandle {
 	public synchronized NetworkInfo getNetworkInfo(int index) {
 		NetworkInfo info = null;
 		this.readFile();
+		
+		String deviceName = getDeviceName(index);
+		if(deviceName == null) {
+			return info;
+		}		
+		
 		for(int i=0;i<pro.size();i++) {
-			if(pro.get(i).indexOf("eth" + index) != -1) {// 必须是eth0这类的
+			if(pro.get(i).indexOf(deviceName) != -1) {
 				HashMap<String, String> map = new HashMap<String, String>();
 				
-				for(int j = 2; j<5; j++) {
-					String line = pro.get(i + j);
-					if(line != null && line != "" && line.indexOf(" ") != -1) {
-						String[] arr = line.split("\\s+");
-						map.put(arr[0], arr[1]);
+				for(int j = i+2; j<pro.size(); j++) {// 识别到网卡后的下两行开始读
+					String line = pro.get(j);
+					if(line == null || line.equals("")){// 读到空行就停止
+						break;
+					}else {
+						if(line.indexOf(" ") != -1) {
+							String[] arr = line.split("\\s+");
+							if(map.get(arr[0]) == null) {// 确保是第一次读到的值，防止网卡配置粘不用空行隔开粘在一起的情况
+								map.put(arr[0], arr[1]);
+							}
+						}
 					}
 				}
 				
 				info = new NetworkInfo();
+				info.setDeviceName(deviceName);
 				info.setIndex(index);
-				info.setIp(map.get("address"));
-				info.setMask(map.get("netmask"));
-				info.setGateway(map.get("network"));
+				String tmp = map.get("address");
+				info.setIp(tmp == null? "" : tmp);
+				tmp = map.get("netmask");
+				info.setMask(tmp == null? "" : tmp);
+				tmp = map.get("gateway");
+				info.setGateway(tmp == null? "" : tmp);
 				break;
 			}
 		}
 		
 		return info;
+	}
+	
+	private String getDeviceName(int index) {
+		String deviceName = null;
+		switch(index) {
+		case 0 :
+			deviceName = Global.LanDeviceName;
+			break;
+		case 1 :
+			deviceName = Global.WanDeviceName;
+			break;
+		}
+		return deviceName;
 	}
 	
 	/*
@@ -151,7 +196,7 @@ public class WindowsNetworkHandle extends AbstractNetworkHandle {
 	}
 
 	public static void main(String[] args) {
-		WindowsNetworkHandle handle = WindowsNetworkHandle.getInstance();
+		UnixNetworkHandle handle = UnixNetworkHandle.getInstance();
 		NetworkInfo info = handle.getNetworkInfo(0);
 		System.out.println(info.getIndex());
 		System.out.println(info.getIp());
