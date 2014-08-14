@@ -31,7 +31,7 @@ Globals.ctx = "${ctx}";
     <div class="topnav_logo">
         <p><img src="${ctx}/resource/photo/logo.png" /></p>
         <h2><%=Global.Title%></h2>
-        <span><a href="#" class="user_login"><fmt:message key="index_admin_login"/></a></span>
+        <span><a href="javascript:void(0);" class="user_login"><fmt:message key="index_admin_login"/></a></span>
 	</div>
 </div>
 <div class="column">

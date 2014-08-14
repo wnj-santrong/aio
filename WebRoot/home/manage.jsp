@@ -31,7 +31,7 @@ Globals.isLogined = <%=request.getSession().getAttribute(Global.LoginUser_key) !
     <div class="topnav_logo">
         <p><img src="${ctx}/resource/photo/logo.png" /></p>
         <h2><%=Global.Title%></h2>
-        <span><fmt:message key="index_welcome"/>${sessionScope.loginUser.username}<a href="#" class="logout_submit"><fmt:message key="index_logout"/></a></span>
+        <span><fmt:message key="index_welcome"/>${sessionScope.loginUser.username}<a href="javascript:void(0);" class="logout_submit"><fmt:message key="index_logout"/></a></span>
 	</div>
 </div>
 <div class="column">

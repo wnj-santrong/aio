@@ -5,17 +5,17 @@
 <div class="search">
 	<!-- 关键字 -->
     <span class="search_img"><input type="text" name="keywork" class="search_text" value="${query.keyword}" />
-    	<a href="#" class="search_btn"><fmt:message key="text_search"/></a>
+    	<a href="javascript:void(0);" class="search_btn"><fmt:message key="text_search"/></a>
     </span>
    <!-- 按钮 -->
    <span class="btns">
-	   <a href="#" id="fileEdit"><fmt:message key="text_edit"/></a>
-	   <a href="#" id="fileDownload"><fmt:message key="text_download"/></a>
-	   <a href="#" id="fileOpen"><fmt:message key="file_open"/></a>
-	   <a href="#" id="fileClose"><fmt:message key="file_close"/></a>
-	   <a href="#" id="fileDel"><fmt:message key="text_del"/></a>
+	   <a href="javascript:void(0);" id="fileEdit"><fmt:message key="text_edit"/></a>
+	   <a href="javascript:void(0);" id="fileDownload"><fmt:message key="text_download"/></a>
+	   <a href="javascript:void(0);" id="fileOpen"><fmt:message key="file_open"/></a>
+	   <a href="javascript:void(0);" id="fileClose"><fmt:message key="file_close"/></a>
+	   <a href="javascript:void(0);" id="fileDel"><fmt:message key="text_del"/></a>
    </span>
-   <a href="#" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a>
+   <a href="javascript:void(0);" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a>
 </div>
 <!-- 列表 -->
 <div class="file_list">
@@ -49,7 +49,7 @@
 			<tr>
 			    <td><input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" st="${file.status}" /></td>
 			    <td>
-			    <a href="#" class="cdetail">
+			    <a href="javascript:void(0);" class="cdetail">
 			    <c:if test="${file.courseName != '' }">
 			    ${file.courseName}
 			    </c:if>

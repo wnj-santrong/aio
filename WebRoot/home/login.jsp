@@ -45,7 +45,7 @@ Globals.ctx = "${ctx}";
 	            <input type="text" name="username" class="login_text" required /></p>
 	            <p><label><fmt:message key="index_login_password"/>：</label>
 	            <input type="password" name="password" class="login_text" required /></p>
-	            <p class="login_a"><a href="#" class="login_submit"><fmt:message key="index_login_login"/></a></p>
+	            <p class="login_a"><a href="javascript:void(0);" class="login_submit"><fmt:message key="index_login_login"/></a></p>
 	        </div>
 	    </div>
 	</div>

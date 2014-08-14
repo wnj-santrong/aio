@@ -50,7 +50,7 @@
 	        <span class="tit"><fmt:message key="meeting_datasource" />:</span>
 	        <span class="cont">
 	        
-	        <p><a href="#" class="ds_add"><img src="${ctx}/resource/photo/add.png" onmousemove="this.src='${ctx}/resource/photo/add.png'" onmouseout="this.src='${ctx}/resource/photo/add_hover.png'" title='<fmt:message key="text_add" />' /></a></p>
+	        <p><a href="javascript:void(0);" class="ds_add"><img src="${ctx}/resource/photo/add.png" onmousemove="this.src='${ctx}/resource/photo/add.png'" onmouseout="this.src='${ctx}/resource/photo/add_hover.png'" title='<fmt:message key="text_add" />' /></a></p>
 	        
 	        <ul id="dsList">
 	        <c:forEach items="${meeting.dsList}" var="ds">
@@ -141,20 +141,20 @@
 	<div class="button_panel">
 	<c:if test="${meeting.isConnect == 1}"><!-- 跟系统调度能连接上才显示 -->
 		<c:if test="${meeting.isLive == 0}">
-			<a href="#" class="save"><fmt:message key="text_save" /></a>
-			<a href="#" class="openLive"><fmt:message key="meeting_openLive" /></a>
+			<a href="javascript:void(0);" class="save"><fmt:message key="text_save" /></a>
+			<a href="javascript:void(0);" class="openLive"><fmt:message key="meeting_openLive" /></a>
 		</c:if>
 		<c:if test="${meeting.isLive == 1}">
-			<a href="#" class="closeLive"><fmt:message key="meeting_closeLive" /></a>
+			<a href="javascript:void(0);" class="closeLive"><fmt:message key="meeting_closeLive" /></a>
 		</c:if>
 		<c:if test="${meeting.isLive == 1 && meeting.isRecord == 0}">
-			<a href="#" class="startRecord"><fmt:message key="meeting_startRecord" /></a>
+			<a href="javascript:void(0);" class="startRecord"><fmt:message key="meeting_startRecord" /></a>
 		</c:if>
 		<c:if test="${meeting.isLive == 1 && meeting.isRecord == 1}">
-			<a href="#" class="stopRecord"><fmt:message key="meeting_stopRecord" /></a>
+			<a href="javascript:void(0);" class="stopRecord"><fmt:message key="meeting_stopRecord" /></a>
 		</c:if>
 		<c:if test="${meeting.isLive == 1}">
-			<a href="#" class="preview"><fmt:message key="meeting_preview" /></a>
+			<a href="javascript:void(0);" class="preview"><fmt:message key="meeting_preview" /></a>
 		</c:if>
 	</c:if>
 	<c:if test="${meeting.isConnect == 0}">

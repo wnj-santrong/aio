@@ -4,7 +4,7 @@
 	<input type="hidden" name="id" value="${file.id}"/>
 	<div class="window" style="height:600px;">
         <dl>
-            <dt><fmt:message key="file_detail"/><a href="#" class="close">&nbsp;&nbsp;&nbsp;</a></dt>
+            <dt><fmt:message key="file_detail"/><a href="javascript:void(0);" class="close">&nbsp;&nbsp;&nbsp;</a></dt>
             <dd><span class="tit"><fmt:message key="file_fileName"/>:</span><span class="cont">${file.fileName}</span></dd>
             <dd><span class="tit"><fmt:message key="file_courseName"/>:</span><span class="cont">${file.courseName}</span></dd>
             <dd><span class="tit"><fmt:message key="file_teacher"/>:</span><span class="cont">${file.teacher}</span></dd>
