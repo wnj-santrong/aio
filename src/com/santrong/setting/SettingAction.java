@@ -113,25 +113,24 @@ public class SettingAction extends BaseAction{
 	@RequestMapping(value="/dbBackup", method=RequestMethod.POST)
 	@ResponseBody
 	public String dbBackup() {
-		String[] cmd = new String[] { "cmd.exe  /c mysqldump -uroot -p1996815 -B aio > " + DirDefine.DbBackupDir + File.separator + "111.sql"};
+		String[] cmd = new String[] { "/bin/sh", "-c", " /opt/AIO/Service/webservice/shell/dbBackup.sh " };
 		
 		try {
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
 			if (ps.waitFor() == 0) {
-				//SUCCESS
 				Log.debug("----------- db back success");
+				Log.logOpt("db-backup", "", request);
+				return SUCCESS;
 			} else {
 				Log.debug("----------- db back fail");
 			}
 			
-			Log.logOpt("db-backup", "", request);
-			
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.printStackTrace(e);
 		}		
 		
-		return SUCCESS;
+		return FAIL;
 	}
 	
 	
@@ -165,25 +164,26 @@ public class SettingAction extends BaseAction{
 			return "error_param";
 		}
 		
-		String[] cmd = new String[] { "/bin/sh", "-c", " /opt/MysqlBackup/mysqlRestore " + filename };
+		String[] cmd = new String[] { "/bin/sh", "-c", " /opt/AIO/Service/webservice/shell/dbRestore.sh " + filename };
 		
 		try {
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
 			if (ps.waitFor() == 0) {
-				//SUCCESS
-				
+				Log.debug("----------- db restore success");
+				Log.logOpt("db-restore", "", request);
+				return SUCCESS;
 			} else {
-				
+				Log.debug("----------- db restore fail");
 			}
 			
 		} catch (Exception e) {
-			
+			Log.printStackTrace(e);
 		}
 		
 		Log.logOpt("db-restore", filename, request);
 		
-		return SUCCESS;
+		return FAIL;
 	}	
 	
 	/*
