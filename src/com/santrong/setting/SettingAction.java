@@ -240,22 +240,29 @@ public class SettingAction extends BaseAction{
 	 */
 	@RequestMapping(value="/ftp", method=RequestMethod.POST)
 	@ResponseBody
-	public String postFtp(int useFtp, String host, String port, String username, String password, String duration1, String duration2) {
+	public String postFtp(Integer useFtp, String host, String port, String username, String password, String duration) {
 		// 数据校验
-		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(password) || StringUtils.isNullOrEmpty(duration1) || StringUtils.isNullOrEmpty(duration2)) {
+		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(password) || StringUtils.isNullOrEmpty(duration)) {
 			return "error_param";
 		}
 		
 		try{
 			// 持久化
 			FtpConfig config = new FtpConfig();
-			config.setFtpEnable(String.valueOf(useFtp));
+			if(useFtp != null && useFtp == 1) {
+				config.setFtpEnable("1");
+			}else{
+				config.setFtpEnable("0");
+			}
+			String[] arr = duration.split("--");
+			if(arr.length == 2) {
+				config.setBeginTime(arr[0]);
+				config.setEndTime(arr[1]);
+			}
 			config.setFtpIp(host);
 			config.setFtpPort(port);
 			config.setUsername(username);
 			config.setPassword(password);
-			config.setBeginTime(duration1);
-			config.setEndTime(duration2);
 			if(config.write()) {
 	
 				// 强行停止，以便job线程重新扫描配置

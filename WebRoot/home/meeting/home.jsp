@@ -117,7 +117,7 @@
 	        <span class="cont"><input name="teacher" type="text" class="form_text" value="${meeting.teacher}" /></span></li>
 	    <li class="line">
 	        <span class="tit"><fmt:message key="meeting_remark" />:</span>
-	        <span class="cont"><textarea name="remark" cols="30" rows="4" class="form_text">${meeting.remark}</textarea></span></li>
+	        <span class="cont"><textarea name="remark" cols="30" rows="4" class="form_area">${meeting.remark}</textarea></span></li>
 	    <li class="line">
 	    	<span class="tit"><fmt:message key="meeting_status" />:</span>
 	        <span class="cont">

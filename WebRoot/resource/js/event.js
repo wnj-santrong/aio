@@ -104,27 +104,27 @@ jQuery(function($){
         var re_number = /^[1-9][0-9]*$/ig
         $(this).find("[required_Number]").each(function(){
         	var val = $(this).val().trim();
-        	if(val == "" || !re_ip.test(val)) {
+        	if(val == "" || !re_number.test(val)) {
         		$(this).addClass("text_warn");
                 isPass = false;
         	}
         });	
         
         // 日期类型检测
-        var re_number = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
+        var re_Date = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
         $(this).find("[required_Date]").each(function(){
         	var val = $(this).val().trim();
-        	if(val == "" || !re_number.test(val)) {
+        	if(val == "" || !re_Date.test(val)) {
         		$(this).addClass("text_warn");
                 isPass = false;
         	}
         });     
         
         // 时间类型检测
-        var re_number = /^[2]\d{3}\-[01]{0,1}\d\-[0123]{0,1}\d$/ig;
+        var re_Time = /[012]{0,1}\d:[0123456]{0,1}\d:[0123456]{0,1}\d$/ig;
         $(this).find("[required_Time]").each(function(){
         	var val = $(this).val().trim();
-        	if(val == "" || !re_number.test(val)) {
+        	if(val == "" || !re_Time.test(val)) {
         		$(this).addClass("text_warn");
                 isPass = false;
         	}
@@ -207,7 +207,6 @@ jQuery(function($){
             if (response == Message.dynamic("text_confirm")) callback();
 		});
 	};
-	
 });
 
 //--------------------以下开始格式化页面----------------------------

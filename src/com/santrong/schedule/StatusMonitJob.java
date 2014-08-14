@@ -81,7 +81,7 @@ public class StatusMonitJob implements JobImpl {
 				
 				Log.info("---Connect Controller...");
 				client.request(tcp);
-				Log.info("---Controller Return ReturnCode=" + tcp.getRespHeader().getReturnCode() + ":ResultCode=" + tcp.getResultCode() + ":IsReboot=" + tcp.getIsReboot());
+				Log.info("---Controller Return ReturnCode=" + tcp.getRespHeader().getReturnCode() + " : ResultCode=" + tcp.getResultCode() + " : IsReboot=" + tcp.getIsReboot());
 				
 				// 连接状态置为已连接
 				if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {

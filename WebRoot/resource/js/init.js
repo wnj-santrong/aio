@@ -1,6 +1,6 @@
 // 全局初始化
 function init() {  
-	//页面竖直居中
+	// 页面竖直居中
 	$(window).unbind("resize").resize(function() {
 		var b_height = $(this).height();
 		var m_height = $(".mainbav").height();
@@ -9,6 +9,65 @@ function init() {
 		$(".mainbav").css({"margin-top" : height + "px"});
 	});
 	$(window).resize();
+	
+	 // 时间选择器
+    $('.clock').unbind("click").click(function(){
+        $('#timeRange_div').remove();
+         
+        var hourOpts = '';
+        for (i=0;i<10;i++) hourOpts += '<option>0'+i+'</option>';
+        for (i=10;i<24;i++) hourOpts += '<option>'+i+'</option>';
+        var minuteOpts = '<option>00</option><option>10</option><option>20</option><option>30</option><option>40</option><option>50</option>';
+         
+        var html = $('<div id="timeRange_div"><select id="timeRange_a">'+hourOpts+
+            '</select>:<select id="timeRange_b">'+minuteOpts+
+            '</select>--<select id="timeRange_c">'+hourOpts+
+            '</select>:<select id="timeRange_d">'+minuteOpts+
+            '</select>&nbsp;<input type="button" value="确定" id="timeRange_btn" /></div>')
+            .css({
+                "position": "absolute",
+                "z-index": "9",
+                "padding": "5px",
+                "border": "1px solid #AAA",
+                "background-color": "#FFF",
+                "box-shadow": "1px 1px 3px rgba(0,0,0,.4)",
+                "left": "0px",
+                "top" : "27px",
+                "width" : "230px"
+            })
+            .click(function(){return false});
+        
+        var to = $(this).attr("to");
+        var target = $("input[name=" + to + "]");
+        // 点击确定的时候
+        html.find('#timeRange_btn').click(function(){
+            var str = html.find('#timeRange_a').val()+':'
+                +html.find('#timeRange_b').val()+'--'
+                +html.find('#timeRange_c').val()+':'
+                +html.find('#timeRange_d').val();
+            target.val(str);
+            $('#timeRange_div').remove();
+        });
+         
+        $(this).after(html);
+        
+        // 还原值
+		var curVal = target.val();
+		var arr = curVal.split("--");
+		if(arr.length == 2) {
+			var arr1 = arr[0].split(":");
+			var arr2 = arr[1].split(":");
+			$("#timeRange_a").val(arr1[0]);
+			$("#timeRange_b").val(arr1[1]);
+			$("#timeRange_c").val(arr2[0]);
+			$("#timeRange_d").val(arr2[1]);
+		}        
+        
+        return false;
+    });
+    $(document).click(function(){
+        $('#timeRange_div').remove();
+    });
 }
 // index模块初始化
 function IndexClass() {
@@ -500,13 +559,16 @@ IndexClass.prototype = {
     		dataType : "json",
     		url : Globals.ctx + "/setting/ftp.action",
     		success : function(result) {
-//    			$("#setting_ftp input[name=ip]").val(result.ip);
+    			if(result.ftpEnable == 1) {
+    				$("#setting_ftp input[name=useFtp]").attr("checked", "checked");
+    			}
+    			if(result.beginTime != '' && result.endTime != '') {
+    				$("#setting_ftp input[name=duration]").val(result.beginTime + '--' + result.endTime);
+    			}
     			$("#setting_ftp input[name=host]").val(result.ftpIp);
     			$("#setting_ftp input[name=port]").val(result.ftpPort);
     			$("#setting_ftp input[name=username]").val(result.username);
     			$("#setting_ftp input[name=password]").val(result.password);
-    			$("#setting_ftp input[name=duration1]").val(result.beginTime);
-    			$("#setting_ftp input[name=duration2]").val(result.endTime);
     		}
     	});
     	
