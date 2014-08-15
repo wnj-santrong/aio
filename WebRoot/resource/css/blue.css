@@ -116,11 +116,17 @@ body {background: url(../photo/bg.gif);}
 .meeting {width:1020px; border:1px #86b9e3 solid; margin:10px 0 0 10px; padding-top:10px; background:url(../photo/ph.png) no-repeat right top; position:relative;}
 .meeting b {color:#0C0;}
 .meeting .line {width:100%; line-height:24px; margin-bottom:10px;}
-.meeting .line .tit{width:440px; display:inline-block; margin-right:15px; text-align:right; vertical-align:top; font-weight:500; color:#666; font-size:16px; letter-spacing:2px;}
+.meeting .line .tit{width:415px; display:inline-block; margin-right:15px; text-align:right; vertical-align:top; font-weight:500; color:#666; font-size:16px; letter-spacing:2px;}
 .meeting .line .cont{margin-right:10px; display:inline-block;}
-.meeting .datasource .dsItem {width:256px; border:solid 1px #fff; height:24px; vertical-align:bottom;}
-.meeting .datasource .dsItem .addr {width:100px; float:left; border-bottom:dashed 1px #86b9e3; line-height:22px;}
+.meeting .datasource .dsItem {border:solid 1px #fff; height:24px; vertical-align:bottom;}
+.meeting .datasource .edit {border-bottom:dashed 1px #86b9e3;}
+.meeting .datasource .dsItem .addr {width:140px; float:left; border-bottom:dashed 1px #86b9e3; line-height:22px;}
 .meeting .datasource .dsItem .status {margin:6px 30px 0 14px; float:left;}
+.meeting .datasource .dsItem .filed {float:left;}
+.meeting .datasource .dsItem .addr_input {float:left; width:100px; margin: 0px 10px 0px 1px;}
+.meeting .datasource .dsItem .port_input {float:left; width:28px; margin: 0px 10px 0px 1px;}
+.meeting .datasource .dsItem .username_input {float:left; width:84px; margin: 0px 10px 0px 1px;}
+.meeting .datasource .dsItem .password_input {float:left; width:88px; margin: 0px 10px 0px 1px;}
 .meeting .datasource .dsItem .opert {margin-right:12px; float:left; cursor:pointer;}
 .meeting .layoutContainer img {margin-right:9px; width:71px; height:47px; cursor:pointer; border:solid 2px #fff; padding: 2px;}
 .meeting .layoutContainer img:hover {border-color:#FF9C00;}

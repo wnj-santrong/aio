@@ -27,12 +27,20 @@ var Message = {
 	notice_only_one_select : "\u53ea\u80fd\u9009\u62e9\u4e00\u6761\u8bb0\u5f55",
 	notice_only_support_ie : "\u8bf7\u4f7f\u7528IE\u6d4f\u89c8\u5668",
 	notice_file_recording : "\u6587\u4ef6\u6b63\u5728\u5f55\u5236\u4e2d",
+	notice_datasource_edit : "\u6570\u636e\u6e90\u5904\u4e8e\u7f16\u8f91\u72b6\u6001",
 	
 	play_page_prev : "\u4e0a\u4e00\u9875",
 	play_page_next : "\u4e0b\u4e00\u9875",
 	
 	text_confirm : "\u786e\u8ba4",
 	text_cancel : "\u53d6\u6d88",
+	text_edit : "\u7f16\u8f91",
+	text_del : "\u5220\u9664",
+	text_addr : "\u5730\u5740",
+	text_port : "\u7aef\u53e3",
+	text_username : "\u7528\u6237\u540d",
+	text_password : "\u5bc6\u7801",
+	text_disconnected : "\u672a\u8fde\u63a5",
 	
 	dynamic : function(key, value) {
 		if (key == "") {

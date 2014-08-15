@@ -61,15 +61,17 @@
 		        <input type="hidden" name="username" value="${ds.username}"/>
 		        <input type="hidden" name="password" value="${ds.password}"/>
 		        <input type="hidden" name="priority" value="${ds.priority}"/>
-		        <span class="addr">${ds.addr}</span>
-		        <c:if test="${ds.isConnect == 1}">
-		        <img class="status" src="${ctx}/resource/photo/connected.gif" width="12" height="12" title='<fmt:message key="meeting_connected" />' />
-		        </c:if>
-		        <c:if test="${ds.isConnect == 0}">
-		        <img class="status" src="${ctx}/resource/photo/disconnected.gif" width="12" height="12" title='<fmt:message key="meeting_disconnected" />' />
-		        </c:if>
-		        <img class="opert dsEdit" src="${ctx}/resource/photo/draw-freehand.png" title='<fmt:message key="text_edit" />' />
-		        <img class="opert dsDel" src="${ctx}/resource/photo/syicon_net.png" title='<fmt:message key="text_del" />' />
+		        <div class="dynamic">
+			        <span class="addr">${ds.addr}</span>
+			        <c:if test="${ds.isConnect == 1}">
+			        <img class="status" src="${ctx}/resource/photo/connected.gif" width="12" height="12" title='<fmt:message key="meeting_connected" />' />
+			        </c:if>
+			        <c:if test="${ds.isConnect == 0}">
+			        <img class="status" src="${ctx}/resource/photo/disconnected.gif" width="12" height="12" title='<fmt:message key="meeting_disconnected" />' />
+			        </c:if>
+			        <img class="opert dsEdit" src="${ctx}/resource/photo/draw-freehand.png" title='<fmt:message key="text_edit" />' />
+			        <img class="opert dsDel" src="${ctx}/resource/photo/syicon_net.png" title='<fmt:message key="text_del" />' />
+		        </div>
 	        </li>
 	        </c:forEach>
 	        <li class="dsItem">

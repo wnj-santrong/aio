@@ -183,16 +183,23 @@ IndexClass.prototype = {
     	recordModeSetting();
     	
     	var freshCurrentModel = function() {$(".navigator a:first").click();}
+    	var preValidate = function() {
+    		if($(".dsList .edit").size() != 0) {
+    			Boxy.alert(Message.dynamic("notice_datasource_edit"));
+    			return false;
+    		}
+    		return true;
+    	}
     	
-    	$(".save").bindFormClick({url : Globals.ctx + '/meeting/save.action'});
+    	$(".save").bindFormClick({url : Globals.ctx + '/meeting/save.action', beforeSubmit : preValidate});
     	
-    	$(".openLive").bindFormClick({url : Globals.ctx + '/meeting/openLive.action', afterSubmit : freshCurrentModel});
+    	$(".openLive").bindFormClick({url : Globals.ctx + '/meeting/openLive.action', beforeSubmit : preValidate, afterSubmit : freshCurrentModel});
     	
-    	$(".closeLive").bindFormClick({url : Globals.ctx + '/meeting/closeLive.action', afterSubmit : freshCurrentModel});
+    	$(".closeLive").bindFormClick({url : Globals.ctx + '/meeting/closeLive.action', beforeSubmit : preValidate, afterSubmit : freshCurrentModel});
     	
-    	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action', afterSubmit : freshCurrentModel});
+    	$(".startRecord").bindFormClick({url : Globals.ctx + '/meeting/startRecord.action', beforeSubmit : preValidate, afterSubmit : freshCurrentModel});
     	
-    	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', afterSubmit : freshCurrentModel});
+    	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', beforeSubmit : preValidate, afterSubmit : freshCurrentModel});
     	
     	$(".preview").click(function() {
     		if(!/MSIE/.test(navigator.userAgent)) {
@@ -212,67 +219,43 @@ IndexClass.prototype = {
     		}
     	});
     	
-    	// 获取显示数据源的弹框
+    	// 显示新增或者修改的输入框
     	var dsGet = function(el, id, mid) {
-			Boxy.load(Globals.ctx + "/datasource/dsGet.action?id=" + id + "&meetingId=" + mid, {
-				modal : true,
-				afterShow : function() {
-		    		var dsItem = null;
-					var dsForm = $("#datasource_dsPost");
-					
-					// 如果是修改，则从页面转移值
-					if($(el).hasClass("dsEdit")) {
-						dsItem = $(el).parents(".dsItem");
-						dsForm.find("input[name=addr]").val(dsItem.find("input[name=addr]").val());
-						dsForm.find("input[name=port]").val(dsItem.find("input[name=port]").val());
-						dsForm.find("input[name=username]").val(dsItem.find("input[name=username]").val());
-						dsForm.find("input[name=password]").val(dsItem.find("input[name=password]").val());
-					}
-					// 点击保存，先暂存在页面里
-			    	$(".submit").click(function() {
-			    		// 数据校验
-			    		if(!dsForm.validate()) {
-			    			return;
-			    		}
-			    		
-			    		if($(el).hasClass("ds_add")) {
-			    			var html = '<li class="dsItem">';
-					        html += '<input type="hidden" name="dsId" value=""/>';
-					        html += '<input type="hidden" name="addr" value=""/>';
-					        html += '<input type="hidden" name="port" value=""/>';
-					        html += '<input type="hidden" name="username" value=""/>';
-					        html += '<input type="hidden" name="password" value=""/>';
-					        html += '<input type="hidden" name="priority" value=""/>';
-					        html += '<span class="addr"></span>';
-					        html += '<img class="status" src="' + Globals.ctx + '/resource/photo/connected.gif" width="12" height="12" />';
-					        html += '<img class="opert hide dsEdit" src="' + Globals.ctx + '/resource/photo/draw-freehand.png" />';
-					        html += '<img class="opert hide dsDel" src="' + Globals.ctx + '/resource/photo/syicon_net.png" />';
-					        html += '</li>';
-			    			$("#dsList .dsItem:last").before(html);
-			    			var count = $("#dsList .dsItem").length;
-			    			dsItem = $("#dsList").find(".dsItem").eq(count-2);
-			    			calDsPriority();
-			    			
-			    			var count = $("#dsList .dsItem").length;
-			    			var val = $(".layoutContainer .mode" + count).eq(0).attr("id").substr(1);
-			    			$("input[name=recordMode]").val(val);
-			    			recordModeSetting();
-			    		}else{
-			    			dsItem = $(el).parents(".dsItem");
-			    		}
-			    		dsItem.find(".addr").text(dsForm.find("input[name=addr]").val());
-						dsItem.find("input[name=addr]").val(dsForm.find("input[name=addr]").val());
-						dsItem.find("input[name=port]").val(dsForm.find("input[name=port]").val());
-						dsItem.find("input[name=username]").val(dsForm.find("input[name=username]").val());
-						dsItem.find("input[name=password]").val(dsForm.find("input[name=password]").val());
-						
-						$(".close").click();
-			    	});
-			    	
-			    	// 绑定取消
-			    	$(".close").bindFormClose();
-				}
-			});
+	        var dynamicHtml = '<span class="filed">' + Message.dynamic("text_addr") + ':</span><input type="text" class="addr_input" required />';
+	        dynamicHtml += '<span class="filed">' + Message.dynamic("text_port") + ':</span><input type="text" class="port_input" />';
+	        dynamicHtml += '<span class="filed">' + Message.dynamic("text_username") + ':</span><input type="text" class="username_input" />';
+	        dynamicHtml += '<span class="filed">' + Message.dynamic("text_password") + ':</span><input type="text" class="password_input" />';
+	        dynamicHtml += '<img class="opert dsSave" src="' + Globals.ctx + '/resource/photo/draw-freehand.png" title="' + Message.dynamic("text_confirm") + '" />';
+	        dynamicHtml += '<img class="opert dsDel" src="' + Globals.ctx + '/resource/photo/syicon_net.png" title="' + Message.dynamic("text_del") + '" />';
+	        
+	        if($(el).hasClass("ds_add")) {// 新增
+				var html = '<li class="dsItem edit">';
+		        html += '<input type="hidden" name="dsId" value=""/>';
+		        html += '<input type="hidden" name="addr" value=""/>';
+		        html += '<input type="hidden" name="port" value=""/>';
+		        html += '<input type="hidden" name="username" value=""/>';
+		        html += '<input type="hidden" name="password" value=""/>';
+		        html += '<input type="hidden" name="priority" value=""/>';
+		        html += '<div class="dynamic">';
+		        html += dynamicHtml;
+		        html += '</div>';
+		        html += '</li>';
+	        	$("#dsList .dsItem:last").before(html);
+	        	
+	        	
+	        	
+	        }else{// 修改
+	        	var dsItem = $(el).parents(".dsItem");
+	        	var dynamic = $(el).parents(".dynamic");
+	        	dynamic.html(dynamicHtml);
+	        	dsItem.addClass("edit");
+	        	
+	        	// 值转移
+	        	dsItem.find(".addr_input").val(dsItem.find("input[name=addr]").val());
+	        	dsItem.find(".port_input").val(dsItem.find("input[name=port]").val());
+	        	dsItem.find(".username_input").val(dsItem.find("input[name=username]").val());
+	        	dsItem.find(".password_input").val(dsItem.find("input[name=password]").val());
+    		}
     	};
     	
     	$(".ds_add").click(function() {
@@ -291,13 +274,13 @@ IndexClass.prototype = {
     	$("#dsList").click(function(e) {
     		var target = $(e.target);
     		
-    		if(target.hasClass("dsEdit")) {
+    		if(target.hasClass("dsEdit")) {// 修改
     			
         		var id = target.parent().find("input[name=dsId]").val();
         		var mid = $(".sub_content input[name=id]").val();
         		dsGet(target, id, mid);
         		
-    		}else if(target.hasClass("dsDel")) {
+    		}else if(target.hasClass("dsDel")) {// 删除
     			
     			target.parents(".dsItem").remove();
     			calDsPriority();
@@ -307,6 +290,29 @@ IndexClass.prototype = {
     			$("input[name=recordMode]").val(val);
     			recordModeSetting();
     			
+    		}else if(target.hasClass("dsSave")) {// 保存
+    			var dsItem = target.parents(".dsItem");
+    			var dynamic = target.parents(".dynamic");
+    			
+        		// 数据校验
+        		if(!dynamic.validate()) {
+        			return;
+        		}
+    			
+	        	// 值转移
+	        	dsItem.find("input[name=addr]").val(dsItem.find(".addr_input").val());
+	        	dsItem.find("input[name=port]").val(dsItem.find(".port_input").val());
+	        	dsItem.find("input[name=username]").val(dsItem.find(".username_input").val());
+	        	dsItem.find("input[name=password]").val(dsItem.find(".password_input").val());
+    			
+    			var dynamicHtml = '<span class="addr">' + dsItem.find(".addr_input").val() + '</span>';
+    			dynamicHtml += '<img class="status" src="' + Globals.ctx + '/resource/photo/disconnected.gif" width="12" height="12" title="' + Message.dynamic("text_disconnected") + '" />';
+    			dynamicHtml += '<img class="opert dsEdit" src="' + Globals.ctx + '/resource/photo/draw-freehand.png" title="' + Message.dynamic("text_edit") + '" />';
+    			dynamicHtml += '<img class="opert dsDel" src="' + Globals.ctx + '/resource/photo/syicon_net.png" title="' + Message.dynamic("text_del") + '" />';
+    			dynamic.html(dynamicHtml);
+    			dsItem.removeClass("edit");
+    			
+    			calDsPriority();
     		}
     	});
     	
