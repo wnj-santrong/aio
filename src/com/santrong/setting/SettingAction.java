@@ -114,7 +114,7 @@ public class SettingAction extends BaseAction{
 	@RequestMapping(value="/dbBackup", method=RequestMethod.POST)
 	@ResponseBody
 	public String dbBackup() {
-		String[] cmd = new String[] { "/bin/sh", "-c", " /opt/AIO/Service/webservice/shell/dbBackup.sh " };
+		String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/dbBackup.sh " };
 		
 		try {
 			Process ps = Runtime.getRuntime().exec(cmd);
@@ -165,14 +165,14 @@ public class SettingAction extends BaseAction{
 			return "error_param";
 		}
 		
-		String[] cmd = new String[] { "/bin/sh", "-c", " /opt/AIO/Service/webservice/shell/dbRestore.sh " + filename };
+		String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/dbRestore.sh " + filename };
 		
 		try {
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
 			if (ps.waitFor() == 0) {
 				Log.debug("----------- db restore success");
-				Log.logOpt("db-restore", "", request);
+				Log.logOpt("db-restore", filename, request);
 				return SUCCESS;
 			} else {
 				Log.debug("----------- db restore fail");
@@ -181,8 +181,6 @@ public class SettingAction extends BaseAction{
 		} catch (Exception e) {
 			Log.printStackTrace(e);
 		}
-		
-		Log.logOpt("db-restore", filename, request);
 		
 		return FAIL;
 	}	
@@ -219,11 +217,27 @@ public class SettingAction extends BaseAction{
 			return FAIL;
 		}
 		
-		// TODO 重启网卡
+		// 重启网卡
+		String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/networkRestart.sh " };
 		
-		Log.logOpt("net-save", String.valueOf(type), request);
+		try {
+			Process ps = Runtime.getRuntime().exec(cmd);
+			
+			if (ps.waitFor() == 0) {
+				Log.debug("----------- restart network success");
+				Log.logOpt("net-save", String.valueOf(type), request);
+				return SUCCESS;
+			} else {
+				Log.debug("----------- restart network fail");
+			}
+			
+		} catch (Exception e) {
+			Log.printStackTrace(e);
+		}			
 		
-		return SUCCESS;
+		
+		
+		return FAIL;
 	}	
 	
 	/*
