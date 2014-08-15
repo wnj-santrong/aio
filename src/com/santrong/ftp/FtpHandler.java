@@ -272,8 +272,12 @@ public class FtpHandler {
 			}
 			
 	        ftp.setRemoteHost(ip);  
-	        ftp.setRemotePort(port);  
-	        ftp.setUserName(username);  
+	        ftp.setRemotePort(port);
+	        if(username == null || username.equals("")) {
+	        	ftp.setUserName("anonymous");	
+	        }else {
+	        	ftp.setUserName(username);
+	        }
 	        ftp.setPassword(password);
 	        ftp.setContentType(FTPTransferType.BINARY);//设置二进制方式上传   
 	        ftp.connect();

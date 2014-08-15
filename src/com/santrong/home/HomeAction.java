@@ -108,9 +108,9 @@ public class HomeAction extends BaseAction{
 			return FAIL;
 		}
 		
-		ThreadUtils.currentHttpSession().invalidate();
-		
 		Log.logOpt("user-out", user.getUsername(), request);
+		
+		ThreadUtils.currentHttpSession().invalidate();
 		
 		return SUCCESS;
 	}

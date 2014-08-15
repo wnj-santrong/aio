@@ -94,7 +94,12 @@ IndexClass.prototype = {
     	// 回车登录
     	$(document).keydown(function(e){
     		if(e.keyCode==13){
-    			$(".login_submit").click();
+    			var answerBtn = $(".answers .boxy-btn1");
+    			if(answerBtn.size() > 0) {
+    				answerBtn.click();
+    			}else {
+    				$(".login_submit").click();
+    			}
     		}
     	});
 	},
