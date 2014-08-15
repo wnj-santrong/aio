@@ -33,15 +33,20 @@ public class FtpUploadJob implements JobImpl {
 	public String getJobName() {
 		return "FtpUpload";
 	}
-
-	@Override
-	public String getTriggerName() {
-		return "basicTrigger";
-	}
-
+	
 	@Override
 	public String getGroupName() {
 		return "BasicGroup";
+	}
+
+	@Override
+	public String getTriggerName() {
+		return "FtpUploadTrigger";
+	}
+
+	@Override
+	public String getTriggerGroupName() {
+		return "BasicTriggerGroup";
 	}
 
 	@Override
@@ -67,7 +72,7 @@ public class FtpUploadJob implements JobImpl {
 			Calendar end = Calendar.getInstance();
 			
 			try{
-				String nowDateString = CommonTools.nowDateString();
+				String nowDateString = CommonTools.dateToString(new Date(), CommonTools.DF_DATE_PATTERN);
 				
 				begin.setTime(sdf.parse(nowDateString + " " + config.getBeginTime() + ":00"));//config里面的时间应该是12:30这样的
 				

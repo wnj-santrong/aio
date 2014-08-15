@@ -50,20 +50,20 @@ public class UnixNetworkHandle extends AbstractNetworkHandle {
 			pro.add("auto lo");
 			pro.add("iface lo inet loopback");
 			// 先后顺序不影响
-			if(otherInfo != null) {
+			if(otherInfo != null && !otherInfo.getIp().equals("")) {
 				pro.add("");	
 				pro.add("auto " + otherInfo.getDeviceName());	
 				pro.add("iface " + otherInfo.getDeviceName() + " inet static");	
 				pro.add("address " + otherInfo.getIp());	
 				pro.add("netmask " + otherInfo.getMask());	
-				pro.add("gatewary " + otherInfo.getGateway());
+				pro.add("gateway " + otherInfo.getGateway());
 			}
 			pro.add("");
 			pro.add("auto " + deviceName);	
 			pro.add("iface " + deviceName + " inet static");	
 			pro.add("address " + vo.getIp());	
 			pro.add("netmask " + vo.getMask());	
-			pro.add("gatewary " + vo.getGateway());
+			pro.add("gateway " + vo.getGateway());
 			writeFile();
 		}catch(Exception e) {
 			return false;
@@ -81,7 +81,7 @@ public class UnixNetworkHandle extends AbstractNetworkHandle {
 //	netmask 255.255.255.0
 	@Override
 	public synchronized NetworkInfo getNetworkInfo(int index) {
-		NetworkInfo info = null;
+		NetworkInfo info =  new NetworkInfo();
 		this.readFile();
 		
 		String deviceName = getDeviceName(index);
@@ -107,7 +107,6 @@ public class UnixNetworkHandle extends AbstractNetworkHandle {
 					}
 				}
 				
-				info = new NetworkInfo();
 				info.setDeviceName(deviceName);
 				info.setIndex(index);
 				String tmp = map.get("address");

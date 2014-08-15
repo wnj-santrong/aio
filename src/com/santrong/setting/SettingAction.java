@@ -17,6 +17,7 @@ import com.santrong.ftp.FtpHandler;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.schedule.FtpUploadJob;
+import com.santrong.schedule.ScheduleManager;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.DirDefine;
@@ -267,10 +268,28 @@ public class SettingAction extends BaseAction{
 			config.setPassword(password);
 			if(config.write()) {
 	
-				// 强行停止，以便job线程重新扫描配置
+				// 强行停止ftp，无论是禁用了还是修改了配置，都需要停止再说
 				FtpHandler handler = FtpHandler.getInstance();
 				handler.forceStop();
 				FtpUploadJob.uploading = false;
+				
+				ScheduleManager scheManager = new ScheduleManager();
+				FtpUploadJob job = new FtpUploadJob();
+				if("1".equals(config.getFtpEnable())) {
+					// 如果原来没有运行调度，启动调度
+					if(!scheManager.existsCron(job)) {
+						if(!scheManager.startCron(job)) {
+							return FAIL;
+						}
+					}
+				}else {
+					// 如果原来有运行调度，停止掉
+					if(scheManager.existsCron(job)) {
+						if(!scheManager.removeCron(job)) {
+							return FAIL;
+						}
+					}
+				}
 				
 				Log.logOpt("ftp-save", useFtp + "|" + host + "|" + port + "|" + username + "|" + password, request);
 				return SUCCESS;			

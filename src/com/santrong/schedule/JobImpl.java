@@ -13,9 +13,11 @@ public interface JobImpl extends Job {
 	
 	String getJobName();
 	
+	String getGroupName();
+	
 	String getTriggerName();
 	
-	String getGroupName(); 
+	String getTriggerGroupName(); 
 	
 	String getCronExp();
 	

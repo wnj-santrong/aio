@@ -27,17 +27,22 @@ public class StatusMonitJob implements JobImpl {
 	
 	@Override
 	public String getJobName() {
-		return "statusMonit";
+		return "StatusMonit";
+	}
+	
+	@Override
+	public String getGroupName() {
+		return "BasicGroup";
 	}
 
 	@Override
 	public String getTriggerName() {
-		return "basicTrigger";
+		return "StatusMonitTrigger";
 	}
 
 	@Override
-	public String getGroupName() {
-		return "basicGroup";
+	public String getTriggerGroupName() {
+		return "BasicTriggerGroup";
 	}
 
 	@Override
