@@ -62,20 +62,47 @@ public class MeetingAction extends BaseAction{
 			if(status != null && status.getIsConnect() == 1) {
 				//获取数据源状态
 				LocalTcp31016 tcp = new LocalTcp31016();
-				List<String> addrList = new ArrayList<String>();
-				for(DatasourceItem ds : dsList) {
-					addrList.add(ds.getAddr());
-				}
 				client.request(tcp);
 				
 				//这里为了能正常显示界面，不处理请求失败，当成连接不上处理
 				if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {
-					//对比转换状态
-					for(int i=0;i<dsList.size();i++) {
-						for(int j=0;j<tcp.getSrcStateList().size();j++){
-							if(dsList.get(i).getAddr().equals(tcp.getSrcStateList().get(j).getAddr())) {
-								dsList.get(i).setIsConnect(tcp.getSrcStateList().get(j).getState());
-								break;
+					// 校验数据源个数---是否需要全部校验个数和IP完全对应？
+					if(dsList.size() == tcp.getSrcStateList().size()) {
+						//对比转换状态
+						for(int i=0;i<dsList.size();i++) {
+							for(int j=0;j<tcp.getSrcStateList().size();j++){
+								if(dsList.get(i).getAddr().equals(tcp.getSrcStateList().get(j).getAddr())) {
+									dsList.get(i).setIsConnect(tcp.getSrcStateList().get(j).getState());
+									break;
+								}
+							}
+						}
+					}else {// 如果因为未知的异常导致个数不相等，以web为标准，更新控制层数据库
+						// 删除
+						if(tcp.getSrcStateList().size() > 0) {
+							LocalTcp31015 tcp31015 = new LocalTcp31015();
+							for(int i=0;i<tcp.getSrcStateList().size();i++) {
+								tcp31015.setSrcAddr(tcp.getSrcStateList().get(i).getAddr());
+							}
+							client.request(tcp31015);
+							if(tcp31015.getRespHeader().getReturnCode() == 1 || tcp31015.getResultCode() == 1) {
+								return FAIL;
+							}
+						}
+						// 新增
+						if(dsList.size() > 0) {
+							LocalTcp31014 tcp31014 = new LocalTcp31014();
+							for(DatasourceItem ds : dsList) {
+								tcp31014.setSrcAddr(ds.getAddr());
+								tcp31014.setSrcPort(ds.getPort());
+								tcp31014.setSrcUser(ds.getUsername());
+								tcp31014.setSrcPw(ds.getPassword());
+								tcp31014.setSrcType(ds.getDsType());
+								client.request(tcp31014);
+								
+								if(tcp31014.getRespHeader().getReturnCode() == 1 || tcp31014.getResultCode() == 1) {
+									return FAIL;
+								}
 							}
 						}
 					}
@@ -383,6 +410,19 @@ public class MeetingAction extends BaseAction{
 	 * 保存数据
 	 */
 	private String persistence(MeetingItem meeting) throws Exception {
+		// 获取数据源，顺序一定是对的
+		String[] ids = request.getParameterValues("dsId");
+		String[] addrs = request.getParameterValues("addr");
+		String[] ports = request.getParameterValues("port");
+		String[] usernames = request.getParameterValues("username");
+		String[] passwords = request.getParameterValues("password");
+		String[] prioritys = request.getParameterValues("priority");
+		for(String ad : addrs) {
+			if(StringUtils.isNullOrEmpty(ad)) {
+				return super.ERROR_PARAM;
+			}
+		}
+		
 		MeetingDao dao = new MeetingDao();
 		DatasourceDao dsDao = new DatasourceDao();
 		MeetingItem dbMeeting = dao.selectById(meeting.getId());
@@ -399,13 +439,7 @@ public class MeetingAction extends BaseAction{
 			}
 		}
 		
-		// 获取数据源，顺序一定是对的
-		String[] ids = request.getParameterValues("dsId");
-		String[] addrs = request.getParameterValues("addr");
-		String[] ports = request.getParameterValues("port");
-		String[] usernames = request.getParameterValues("username");
-		String[] passwords = request.getParameterValues("password");
-		String[] prioritys = request.getParameterValues("priority");		
+		// 持久化数据源
 		List<DatasourceItem> dsList = new ArrayList<>();
 		for(int i=0;i<ids.length;i++) {
 			DatasourceItem ds = new DatasourceItem();

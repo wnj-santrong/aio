@@ -23,7 +23,7 @@ import com.santrong.tcp.client.TcpClientService;
  */
 public class StatusMonitJob implements JobImpl {
 	
-	public static long lastHeatBeatTime = 0l;// 只有一路，先定义一个监听时间
+	public static long lastHeatBeatTime;// 只有一路，先定义一个监听时间
 	
 	@Override
 	public String getJobName() {

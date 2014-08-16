@@ -27,7 +27,7 @@ import com.santrong.util.CommonTools;
  */
 public class FtpUploadJob implements JobImpl {
 	
-	public static boolean uploading; 
+	public static boolean uploading;
 	
 	@Override
 	public String getJobName() {

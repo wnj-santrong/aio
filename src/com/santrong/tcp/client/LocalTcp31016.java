@@ -16,16 +16,9 @@ import com.santrong.util.XmlReader;
  * @time 下午5:37:06
  */
 public class LocalTcp31016 extends LocalTcpBase {
-	private List<String> srcAddrList = new ArrayList<String>();
-	
 	// 返回值
 	private int resultCode;
 	private List<SrcState> srcStateList = new ArrayList<SrcState>();
-
-	
-	public void setSrcAddrList(List<String> srcAddrList) {
-		this.srcAddrList = srcAddrList;
-	}
 
 	public int getResultCode() {
 		return resultCode;
@@ -47,11 +40,6 @@ public class LocalTcp31016 extends LocalTcpBase {
 			sb.append("</MsgHead>");
 			sb.append("<MsgBody>");
 				sb.append("<GetSrcStateReq>");
-					sb.append("<SrcArray>");
-						for(String s : srcAddrList) {
-						sb.append("<SrcAddr type=\"string\">").append(s).append("</SrcAddr>");
-						}
-					sb.append("</SrcArray>");
 				sb.append("</GetSrcStateReq>");
 			sb.append("</MsgBody>");
 		sb.append("</ReqMsg>");

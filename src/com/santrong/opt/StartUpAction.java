@@ -5,12 +5,12 @@ import javax.servlet.http.HttpServlet;
 
 import com.santrong.ftp.FtpConfig;
 import com.santrong.log.Log;
-import com.santrong.meeting.dao.DatasourceDao;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.ScheduleManager;
 import com.santrong.schedule.StatusMonitJob;
+import com.santrong.system.DirDefine;
 import com.santrong.tcp.client.LocalTcp31008;
 import com.santrong.tcp.client.TcpClientService;
 
@@ -40,14 +40,29 @@ public class StartUpAction extends HttpServlet {
 			Log.printStackTrace(e);
 		}
 		
+		
+		
+		// 给shell目录添加权限
+		try {
+			String[] cmd = new String[] { "/bin/sh", "-c", " chmod 777 " + DirDefine.ShellDir + "/* " };
+			Process ps = Runtime.getRuntime().exec(cmd);
+			ps.waitFor();
+		} catch (Exception e) {
+			Log.printStackTrace(e);
+		}
+		
+		
+		
 		// 启动会议室状态监听线程
 		scheManager.startCron(new StatusMonitJob());
+		
 		
 		// 启动ftp上传扫描线程
 		FtpConfig ftpConfig = new FtpConfig();
 		if("1".equals(ftpConfig.getFtpEnable())) {
 			scheManager.startCron(new FtpUploadJob());
 		}
+		
 		
 		// 启动TCP服务监听线程
 //		new Thread(new TcpServer(), "---TcpServer").start();

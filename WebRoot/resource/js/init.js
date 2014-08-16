@@ -183,8 +183,9 @@ IndexClass.prototype = {
     	recordModeSetting();
     	
     	var freshCurrentModel = function() {$(".navigator a:first").click();}
+    	
     	var preValidate = function() {
-    		if($(".dsList .edit").size() != 0) {
+    		if($("#dsList .edit").size() != 0) {
     			Boxy.alert(Message.dynamic("notice_datasource_edit"));
     			return false;
     		}
@@ -242,7 +243,8 @@ IndexClass.prototype = {
 		        html += '</li>';
 	        	$("#dsList .dsItem:last").before(html);
 	        	
-	        	
+    			var val = $(".layoutContainer .mode" + count).eq(0).attr("id").substr(1);
+    			$("input[name=recordMode]").val(val);
 	        	
 	        }else{// 修改
 	        	var dsItem = $(el).parents(".dsItem");
@@ -268,7 +270,7 @@ IndexClass.prototype = {
     		var id = '';
     		var mid = $(".sub_content input[name=id]").val();
     		dsGet(this, id, mid);
-
+    		recordModeSetting();
     	});
     	
     	$("#dsList").click(function(e) {
