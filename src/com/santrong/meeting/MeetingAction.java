@@ -188,20 +188,7 @@ public class MeetingAction extends BaseAction{
 				ds.setStrmFmt(meeting.getResolution());
 				ds.setStrmFRate(25);
 				datasourceList.add(ds);
-			}
-			
-			//强行把VGA塞进去
-			RecStreamInfo vga = tcp.new RecStreamInfo();
-			vga.setHasAud(0);
-			vga.setStrmAddr("0");
-			vga.setStrmPort(0);
-			vga.setStrmUser("0");
-			vga.setStrmPw("0");
-			vga.setStrmType(DatasourceItem.Datasoruce_Type_VGA);
-			vga.setStrmBandwidth(0);
-			vga.setStrmFmt(0);
-			vga.setStrmFRate(0);
-			datasourceList.add(vga);
+			}		
 			
 			// 第一路附加声音属性
 			datasourceList.get(0).setHasAud(1);// 标识为带声音的

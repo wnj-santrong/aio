@@ -46,15 +46,6 @@ public class BasicHttpService30006 implements AbstractHttpService{
 				meeting.setDsList(dsList);
 			}
 			
-			//强行把VGA塞进去
-			DatasourceItem vga = new DatasourceItem();
-			vga.setAddr("0");
-			vga.setPort(0);
-			vga.setUsername("0");
-			vga.setPassword("0");
-			vga.setDsType(DatasourceItem.Datasoruce_Type_VGA);
-			meeting.getDsList().add(vga);
-			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			rt = 1;
