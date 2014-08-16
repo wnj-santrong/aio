@@ -212,7 +212,7 @@ IndexClass.prototype = {
     			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 1}, tip : false, callback : function(result) {
     				if(result.indexOf('{') != -1) {
     					var json = eval('(' + result + ')');
-        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+        				SantrongPlayer.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
     				}else {
     					Boxy.alert(Message.dynamic(result));
     				}
@@ -409,7 +409,7 @@ IndexClass.prototype = {
     			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : type}, tip : false, callback : function(result) {
     				if(result.indexOf('{') != -1) {
     					var json = eval('(' + result + ')');
-        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+        				SantrongPlayer.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
     				}else {
     					Boxy.alert(Message.dynamic(result));
     				}
@@ -477,11 +477,12 @@ IndexClass.prototype = {
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
     			var status = $("input[value= " + values + "]").attr("st");//0 是正在录制中
+    			alert(status);
     			if(status != 0) {
 	    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 0}, tip : false, callback : function(result) {
 	    				if(result.indexOf('{') != -1) {
 	    					var json = eval('(' + result + ')');
-	        				RecCtrl1.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+	        				SantrongPlayer.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
 	    				}else {
 	    					Boxy.alert(Message.dynamic(result));
 	    				}

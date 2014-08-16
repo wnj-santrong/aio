@@ -10,8 +10,9 @@
 	        <span class="tit"><fmt:message key="meeting_bitRate" />:</span>
 	        <span class="cont">
 	        <select name="bitRate" class="rate">
-	            <option value="768" <c:if test="${meeting.bitRate == 768}">selected</c:if> >768kpbs</option>
-	            <option value="1024" <c:if test="${meeting.bitRate == 1024}">selected</c:if> >1024kpbs</option>
+	            <option value="2048" <c:if test="${meeting.bitRate == 512}">selected</c:if> >512kpbs</option>
+	            <option value="2048" <c:if test="${meeting.bitRate == 768}">selected</c:if> >768kpbs</option>
+	            <option value="2048" <c:if test="${meeting.bitRate == 1024}">selected</c:if> >1024kpbs</option>
 	            <option value="2048" <c:if test="${meeting.bitRate == 2048}">selected</c:if> >2048kpbs</option>
 	            <option value="4096" <c:if test="${meeting.bitRate == 4096}">selected</c:if> >4096kpbs</option>
 	        </select>
@@ -22,10 +23,11 @@
 	        <span class="tit"><fmt:message key="meeting_resolution" />:</span>
 	        <span class="cont">
 	        <select name="resolution" class="rate">
-	            <option value="0" <c:if test="${meeting.resolution == 0}">selected</c:if> >720x480</option>
-	            <option value="1" <c:if test="${meeting.resolution == 1}">selected</c:if> >1024x768</option>
-	            <option value="2" <c:if test="${meeting.resolution == 2}">selected</c:if> >1280x720</option>
-	            <option value="3" <c:if test="${meeting.resolution == 3}">selected</c:if> >1920x1024</option>
+	            <option value="0" <c:if test="${meeting.resolution == 3}">selected</c:if> >352*288</option>
+	            <option value="1" <c:if test="${meeting.resolution == 4}">selected</c:if> >704*576</option>
+	            <option value="2" <c:if test="${meeting.resolution == 22}">selected</c:if> >1280*720</option>
+	            <option value="3" <c:if test="${meeting.resolution == 25}">selected</c:if> >1920*1080</option>
+	            <option value="3" <c:if test="${meeting.resolution == 35}">selected</c:if> >1280*1024</option>
 	        </select>
 	        </span></li>
 	    

@@ -26,6 +26,7 @@ Globals.isLogined = <%=request.getSession().getAttribute(Global.LoginUser_key) !
 </head>
 <body>
 <code id="pagename" style="display:none">c:index_a:manage</code>
+<object id="SantrongPlayer" classid="clsid:27671653-7A2D-4F23-92CF-76C7984F2CD5" class="hide" VIEWASTEXT></object>
 <div class="mainbav">
 <div class="topnav">
     <div class="topnav_logo">

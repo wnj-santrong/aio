@@ -76,9 +76,22 @@ public class LocalTcp31007 extends LocalTcpBase {
 				entry.strmBandwidth = Integer.parseInt(xml.find("/StrmBandwidth", ee).getText());
 				entry.strmFmt = Integer.parseInt(xml.find("/StrmFmt", ee).getText());
 				entry.strmFRate = Integer.parseInt(xml.find("/StrmFRate", ee).getText());
-				entry.audSmpRate = Integer.parseInt(xml.find("/AudSmpRate", ee).getText());
-				entry.audCh = Integer.parseInt(xml.find("/AudCh", ee).getText());
-				entry.audBitrate = Integer.parseInt(xml.find("/AudBitrate", ee).getText());
+				
+				// 有可能不存在的
+				Element e_audSmpRate = xml.find("/AudSmpRate", ee);
+				if(e_audSmpRate != null) {
+					entry.audSmpRate = Integer.parseInt(e_audSmpRate.getText());
+				}
+				
+				Element e_audCh = xml.find("/AudCh", ee);
+				if(e_audCh != null) {
+					entry.audCh = Integer.parseInt(e_audCh.getText());
+				}
+				
+				Element e_audBitrate = xml.find("/AudBitrate", ee);
+				if(e_audBitrate != null) {
+					entry.audBitrate = Integer.parseInt(e_audBitrate.getText());
+				}	
 				
 				item.recStreamInfoList.add(entry);
 			}

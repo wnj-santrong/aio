@@ -5,7 +5,10 @@
 	<dl class="system_set fr">
 	    <dt><fmt:message key="setting_update" /></dt>
 	    <dd>
-	        <p><fmt:message key="setting_selectFile" />:</p><span><input name="file" type="text" class="form_text" required /></span><span class="notice">*</span>
+	        <p><fmt:message key="setting_localUpdate" />:</p><span><input name="localfile" type="file" /></span>
+	    </dd>
+	    <dd>
+	        <p><fmt:message key="setting_onlineUpdate" />:</p><span><input name="file" type="text" class="form_text" required /></span>
 	    </dd>
 	    <dd>
 	        <p>&nbsp;</p>

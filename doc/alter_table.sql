@@ -106,7 +106,7 @@ create table web_meeting(
 	primary key (id)
 ) engine=InnoDB default charset=utf8 collate=utf8_bin;
 
-insert into web_meeting values('10000', '', '', '', 768, 0, 480, 0, 1, 1, now(), now());
+insert into web_meeting values('10000', '', '', '', 1024, 22, 480, 0, 1, 1, now(), now());
 
 -- 数据源表 ---
 drop table if exists web_datasource;

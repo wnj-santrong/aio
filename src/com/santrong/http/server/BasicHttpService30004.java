@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
+import com.mysql.jdbc.StringUtils;
 import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
 import com.santrong.http.HttpDefine;
@@ -115,12 +116,17 @@ public class BasicHttpService30004 implements AbstractHttpService{
 	 */
 	private int doRecord(MeetingItem meeting, String confId, int operType, int addOrUpdate) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//时间作为标致，精确到秒
-		String rcdName = DirDefine.VedioDir + "/" + confId + "/" + sdf.format(new Date());//全路径		
+		String fileName = sdf.format(new Date());
+		String rcdName = DirDefine.VedioDir + "/" + confId + "/" + fileName;//全路径		
 		
 		LocalTcp31006 tcp = new LocalTcp31006();
 		tcp.setConfId(confId);
 		tcp.setOperType(operType);
-		tcp.setCourseName(meeting.getCourseName());
+		if(StringUtils.isNullOrEmpty(meeting.getCourseName())) {
+			tcp.setCourseName(fileName);
+		}else{
+			tcp.setCourseName(meeting.getCourseName());
+		}
 		tcp.setCourseAbs(meeting.getRemark());
 		tcp.setTeacher(meeting.getTeacher());
 		tcp.setRcdName(rcdName);

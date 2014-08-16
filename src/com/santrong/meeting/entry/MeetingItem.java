@@ -31,9 +31,17 @@ public class MeetingItem {
 	public static final int Bscale_Not_Extend			= 0; // 不拉伸
 	
 	// 录制模式recordType
-	public static final int Record_Type_RSRC			= 1; // 资源模式
+	public static final int Record_Type_RSRC			= 4; // 资源模式
 	public static final int Record_Type_MV				= 2; // 电影模式
-	public static final int Record_Type_CMPS			= 4; // 合成模式
+	public static final int Record_Type_CMPS			= 1; // 合成模式
+	
+	
+	// 分辨率
+	public static final int Resolution_emCif			= 3; // 352*288
+	public static final int Resolution_em4Cif			= 4; // 704*576
+	public static final int Resolution_em720P			= 22; // 1280*720
+	public static final int Resolution_em1080P			= 25; // 1920*1080
+	public static final int Resolution_em12801024		= 35; // 1280*1024
 	
 	// 系统低层教室名称
 	public static final String ConfIdPreview = "CLSRM_";// 教室ID：CLSRM_*，*代表1——N，N为服务器所支持的最大教室数量

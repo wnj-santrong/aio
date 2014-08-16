@@ -417,7 +417,7 @@ public class MeetingAction extends BaseAction{
 		// 设置系统录制资源阀值
 		if(dbMeeting.getMaxTime() != meeting.getMaxTime()) {
 			LocalTcp31008 tcp = new LocalTcp31008();
-			tcp.setFreeSize(10240);// 默认剩余10G的空间就不给录制了
+			tcp.setFreeSize(5120);// 默认剩余10G的空间就不给录制了,接口单位为M
 			tcp.setMaxTime(meeting.getMaxTime());
 			client.request(tcp);
 			
@@ -574,7 +574,11 @@ public class MeetingAction extends BaseAction{
 		LocalTcp31006 tcp = new LocalTcp31006();
 		tcp.setConfId(confId);
 		tcp.setOperType(1);
-		tcp.setCourseName(meeting.getCourseName());
+		if(StringUtils.isNullOrEmpty(meeting.getCourseName())) {
+			tcp.setCourseName(fileName);
+		}else{
+			tcp.setCourseName(meeting.getCourseName());
+		}
 		tcp.setCourseAbs(meeting.getRemark());
 		tcp.setTeacher(meeting.getTeacher());
 		tcp.setRcdName(rcdName);

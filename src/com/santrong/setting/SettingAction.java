@@ -4,6 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +31,7 @@ import com.santrong.system.network.NetworkInfo;
 import com.santrong.system.network.SystemUtils;
 import com.santrong.util.CommonTools;
 import com.santrong.util.FileUtils;
+import com.scand.fileupload.ProgressMonitorFileItemFactory;
 
 /**
  * @author weinianjie
@@ -328,11 +334,80 @@ public class SettingAction extends BaseAction{
 	}
 	
 	/*
-	 * 系统升级
+	 * 系统升级-本地
 	 */
-	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@RequestMapping(value="/updateLocal", method=RequestMethod.POST)
 	@ResponseBody
-	public String update(String file) {
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	public String updateLocal() {
+		
+		boolean isMultipart = FileUpload.isMultipartContent(request);
+		// 判断请求是否包含文件
+        if (!isMultipart) {
+            return "";
+        }
+        
+        FileItemFactory factory = new ProgressMonitorFileItemFactory(request, "");
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        List<FileItem> items = null;
+        
+        try {
+        	// 从request中获取文件列表（注意，该工具类会将http头中file类型的表单字段和文本类型的表单字段都封装成FileItem，不过文本类型的字段封装时候内容和名称都设置为空值）
+			items = upload.parseRequest(request);
+		} catch (FileUploadException e1) {
+			
+		}
+        
+        String fileName = null;
+        if (items != null) {
+        	for(FileItem item : items) {
+        		// 如果是普通文本类型封装成的FileItem（其实根本就不是一个文件），则跳过
+        		if (item.isFormField()) {
+        			continue;
+        		}
+        		
+        		fileName = item.getName();// 获取文件名称，不含路径
+                if (fileName.indexOf("\\") != -1) {//IE提交的时候，fileName拿到的是全路径，这里进行修复
+                	fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+                }
+                fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+                
+                // 检查文件后缀
+                if(!fileName.endsWith("tgz")) {
+                	return "";
+                }
+                
+                // 检查文件大小 TODO tomcat级别前置检测一次
+                if(fileName.getBytes().length < 0) {
+                	ThreadUtils.currentHttpSession().setAttribute("FileUpload.Progress." + "", "-1");
+                	return "";
+                }
+                
+                try {
+                	
+                	File uploadFile = new File("", fileName);
+                    item.write(uploadFile);
+                } catch (Exception e) {
+                    return "";
+                }
+                ThreadUtils.currentHttpSession().setAttribute("FileUpload.Progress." + "", "-1");
+//                count ++;
+        		
+                // 升级文件只有一个
+                break;
+        	}
+        }
+		Log.logOpt("system-update", "", request);
+		
+		return SUCCESS;
+	}
+	
+	/*
+	 * 系统升级-在线
+	 */
+	@RequestMapping(value="/updateOnline", method=RequestMethod.POST)
+	@ResponseBody
+	public String updateOnline(String file) {
 		if(StringUtils.isNullOrEmpty(file)) {
 			return "error_param";
 		}
