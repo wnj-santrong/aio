@@ -8,6 +8,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="0" />
+<title><%=Global.Title%></title>
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/reset.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/boxy.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/blue.css" />
@@ -32,7 +33,10 @@ Globals.ctx = "${ctx}";
     <div class="topnav_logo">
         <p><img src="${ctx}/resource/photo/logo.png" /></p>
         <h2><%=Global.Title%></h2>
-        <span><a href="javascript:void(0);" class="user_login"><fmt:message key="index_admin_login"/></a></span>
+        <span class="message">
+        <a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a>
+        <a href="javascript:void(0);" class="user_login"><fmt:message key="index_admin_login"/></a>
+        </span>
 	</div>
 </div>
 <div class="column">

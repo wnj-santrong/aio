@@ -114,6 +114,7 @@ IndexClass.prototype = {
 	// 首页
 	index:function() {
 		var _this = this;
+		
 		$("code#pagename").remove();
 		
 		var pageUrl = 'play/homeAnonymous.action';
@@ -129,7 +130,7 @@ IndexClass.prototype = {
 				modal : true,
 				afterShow : _this._bindLogin
 			});
-		});	
+		});
 	},
 	
 	// 管理页面主框架
@@ -214,7 +215,7 @@ IndexClass.prototype = {
     			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 1}, tip : false, callback : function(result) {
     				if(result.indexOf('{') != -1) {
     					var json = eval('(' + result + ')');
-        				SantrongPlayer.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+        				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);    					
     				}else {
     					Boxy.alert(Message.dynamic(result));
     				}
@@ -411,7 +412,7 @@ IndexClass.prototype = {
     			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : type}, tip : false, callback : function(result) {
     				if(result.indexOf('{') != -1) {
     					var json = eval('(' + result + ')');
-        				SantrongPlayer.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+        				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);    					
     				}else {
     					Boxy.alert(Message.dynamic(result));
     				}
@@ -484,7 +485,7 @@ IndexClass.prototype = {
 	    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 0}, tip : false, callback : function(result) {
 	    				if(result.indexOf('{') != -1) {
 	    					var json = eval('(' + result + ')');
-	        				SantrongPlayer.StartPlayEX(json.type, json.addr, json.confId, json.filePath, json.liveType);    					
+	        				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);    					
 	    				}else {
 	    					Boxy.alert(Message.dynamic(result));
 	    				}

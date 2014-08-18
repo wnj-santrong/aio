@@ -115,6 +115,7 @@ public class HomeAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	
 	@RequestMapping("/404")
 	public String page404() {
 		return "404";

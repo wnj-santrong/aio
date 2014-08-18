@@ -7,6 +7,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="0" />
+<title><%=Global.Title%></title>
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/reset.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/boxy.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/blue.css" />
@@ -32,7 +33,12 @@ Globals.isLogined = <%=request.getSession().getAttribute(Global.LoginUser_key) !
     <div class="topnav_logo">
         <p><img src="${ctx}/resource/photo/logo.png" /></p>
         <h2><%=Global.Title%></h2>
-        <span><fmt:message key="index_welcome"/>${sessionScope.loginUser.username}<a href="javascript:void(0);" class="logout_submit"><fmt:message key="index_logout"/></a></span>
+        <span class="message">
+        <%-- <a href="javascript:void(0);" class="system_warn"><fmt:message key="index_warn"/></a> --%>
+        <a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a>
+        <span><fmt:message key="index_welcome"/>${sessionScope.loginUser.username}</span>
+        <a href="javascript:void(0);" class="logout_submit"><fmt:message key="index_logout"/></a>
+        </span>
 	</div>
 </div>
 <div class="column">
