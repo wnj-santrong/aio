@@ -480,7 +480,6 @@ IndexClass.prototype = {
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
     			var status = $("input[value= " + values + "]").attr("st");//0 是正在录制中
-    			alert(status);
     			if(status != 0) {
 	    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 0}, tip : false, callback : function(result) {
 	    				if(result.indexOf('{') != -1) {
@@ -491,7 +490,7 @@ IndexClass.prototype = {
 	    				}
 	    			}});
     			}else {
-    				Boxy.alert(Message.dynamic("notice_file_recording"));    				
+    				Boxy.alert(Message.dynamic("notice_file_recording"));
     			}
     		}
     	});
