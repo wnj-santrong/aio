@@ -18,6 +18,7 @@ import com.santrong.util.XmlReader;
 public class MainTcp39004 extends MainTcpBase{
 	
 	private int resultCode;
+	private String systemVersion;
 	private List<ModuleStatus> moduleList = new ArrayList<ModuleStatus>();
 	
 	public List<ModuleStatus> getModuleList() {
@@ -28,13 +29,17 @@ public class MainTcp39004 extends MainTcpBase{
 		return resultCode;
 	}
 
+	public String getSystemVersion() {
+		return systemVersion;
+	}
+
 	@Override
 	public String toXml() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(TcpDefine.Xml_Header);
 		sb.append("<ReqMsg>");
 			sb.append("<MsgHead>");
-				sb.append("<MsgCode>").append(TcpDefine.Basic_Client_GetModInfo).append("</MsgCode>");
+				sb.append("<MsgCode>").append(TcpDefine.Main_Client_GetModInfo).append("</MsgCode>");
 				sb.append("<ModId>").append(Global.Module_Sign).append("</ModId>");
 				sb.append("<SessionId>1</SessionId>");
 			sb.append("</MsgHead>");
@@ -49,6 +54,7 @@ public class MainTcp39004 extends MainTcpBase{
 	public void resolveXml(XmlReader xml) {
 
 		this.resultCode = Integer.parseInt(xml.find("/MsgBody/GetModInfoResp/ResultCode").getText());
+		this.systemVersion = xml.find("/MsgBody/GetModInfoResp/Version/SystemVer").getText();
 		List<Element> version = xml.find("/MsgBody/GetModInfoResp/Version").getChildren();
 		for(Element e : version) {
 			ModuleStatus module = new ModuleStatus();

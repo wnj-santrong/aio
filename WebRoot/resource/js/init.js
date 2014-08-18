@@ -78,6 +78,8 @@ function IndexClass() {
 IndexClass.prototype = {
 	// 公共方法，绑定登录
 	_bindLogin:function() {
+		$("#index_login input[name=username]").focus();
+		
     	$(".login_submit").bindFormClick({tip : false, isGoodCall : false, afterSubmit : 
     		function(form, result) {
     			if(result != "success") {
@@ -226,7 +228,7 @@ IndexClass.prototype = {
 	        dynamicHtml += '<span class="filed">' + Message.dynamic("text_port") + ':</span><input type="text" class="port_input" />';
 	        dynamicHtml += '<span class="filed">' + Message.dynamic("text_username") + ':</span><input type="text" class="username_input" />';
 	        dynamicHtml += '<span class="filed">' + Message.dynamic("text_password") + ':</span><input type="text" class="password_input" />';
-	        dynamicHtml += '<img class="opert dsSave" src="' + Globals.ctx + '/resource/photo/draw-freehand.png" title="' + Message.dynamic("text_confirm") + '" />';
+	        dynamicHtml += '<img class="opert dsSave" src="' + Globals.ctx + '/resource/photo/save.png" title="' + Message.dynamic("text_confirm") + '" />';
 	        dynamicHtml += '<img class="opert dsDel" src="' + Globals.ctx + '/resource/photo/syicon_net.png" title="' + Message.dynamic("text_del") + '" />';
 	        
 	        if($(el).hasClass("ds_add")) {// 新增
@@ -542,11 +544,33 @@ IndexClass.prototype = {
     setting:function() {
     	
     	// 绑定所有form提交
-    	$(".submit").bindFormClick({afterSubmit : function(form){
-    		if(form.attr("id") == "setting_user") {
-    			form.clearForm();
+    	$(".submit").bindFormClick({
+    		beforeSubmit : function(form, options){
+    			// 上传升级文件开始弹出蒙层
+    			if(form.attr("action").indexOf("updateLocal") != -1) {
+    				options.isGoodCall = false;
+        			$.showfloatExcuting();
+        		}
+    		},
+    		afterSubmit : function(form){
+    			// 用户修改后清空表单
+	    		if(form.attr("id") == "setting_user") {
+	    			form.clearForm();
+	    		}
+    			// 上传升级文件完毕关闭蒙层
+    			if(form.attr("action").indexOf("updateLocal") != -1) {
+        			$.hideFloatExcuting();
+        		}
     		}
-    	}});
+    	});
+    	
+    	// 系统升级--立刻检测升级（这个比较特殊）
+    	$(".updateNow").click(function() {
+    		$.showfloatExcuting();
+    		$.simplePost({url : Globals.ctx + "/setting/updateOnlineNow.action", callback : function() {
+    			$.hideFloatExcuting();
+    		}});
+    	});
     	
     	// 获取wan
     	$.ajax({
@@ -633,6 +657,23 @@ IndexClass.prototype = {
 	            }
 			});
 		});
+		
+		// 获取升级配置
+    	$.ajax({
+    		dataType : "json",
+    		url : Globals.ctx + "/setting/updateOnlineGet.action",
+    		success : function(result) {
+    			if(result.autoUpdate == 1) {
+    				$("#online_update input[name=autoUpdate]").attr("checked", "checked");
+    			}
+    			if(result.updateTime) {
+    				var arr = result.updateTime.split(":")
+    			}
+    			$("#online_update select[name=hours]").val(arr[0]);
+    			$("#online_update select[name=minutes]").val(arr[1]);
+    		}
+    	});
+		
     	
 		freshDbList();
 		

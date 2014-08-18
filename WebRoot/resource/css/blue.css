@@ -110,6 +110,7 @@ body {background: url(../photo/bg.gif);}
 .system_set .list_set li a {margin-right:20px; color:#09f;}
 .system_set .list_set li:hover {background:#ddd;}
 .system_set .dbBackBtn {position:absolute; right:20px; font-size:14px; color:#09f;}
+.system_set .file_update {width:177px;}
 
 
 /*-------------会议管理&系统信息---------*/

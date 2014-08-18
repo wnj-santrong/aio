@@ -17,6 +17,9 @@ var Message = {
 	error_login_user_not_exists : "\u7528\u6237\u4e0d\u5b58\u5728",
 	error_login_password_wrong : "\u5bc6\u7801\u9519\u8bef",
 	error_access_deny : "\u6ca1\u6709\u6743\u9650",
+	error_system_updating : "\u7cfb\u7edf\u6b63\u5728\u5347\u7ea7\u4e2d\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5",
+	error_update_no_file : "\u65e0\u6cd5\u83b7\u53d6\u5347\u7ea7\u6587\u4ef6\uff0c\u5347\u7ea7\u6587\u4ef6\u6269\u5c55\u540d\u5fc5\u987b\u662ftar.gz",
+	error_update_error_file_large : "\u5347\u7ea7\u6587\u4ef6\u5927\u5c0f\u8d85\u8fc7\u9650\u5236\uff0c\u8bf7\u8054\u7cfb\u7ba1\u7406\u5458",
 	
 	warn_del_confirm : "\u786e\u5b9a\u8981\u5220\u9664\u5417", 
 	warn_db_backup_confirm : "\u786e\u5b9a\u8981\u5907\u4efd\u6570\u636e\u5e93\u5417",
@@ -28,6 +31,9 @@ var Message = {
 	notice_only_support_ie : "\u8bf7\u4f7f\u7528IE\u6d4f\u89c8\u5668",
 	notice_file_recording : "\u6587\u4ef6\u6b63\u5728\u5f55\u5236\u4e2d",
 	notice_datasource_edit : "\u6570\u636e\u6e90\u5904\u4e8e\u7f16\u8f91\u72b6\u6001",
+	notice_last_version : "\u5f53\u524d\u7248\u672c\u5df2\u7ecf\u662f\u6700\u65b0\u7248\u672c",
+	notice_meeting_is_open : "\u5f53\u524d\u6b63\u5728\u5f00\u4f1a\uff0c\u65e0\u6cd5\u5347\u7ea7",
+	notice_update_success : "\u5347\u7ea7\u6210\u529f",	
 	
 	play_page_prev : "\u4e0a\u4e00\u9875",
 	play_page_next : "\u4e0b\u4e00\u9875",

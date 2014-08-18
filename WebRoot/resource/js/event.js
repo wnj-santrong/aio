@@ -148,7 +148,7 @@ jQuery(function($){
 	    	var form = $(this).closest("form");
 	    	if(form.length > 0){
 	    		
-    			var rs = options.beforeSubmit(form);
+    			var rs = options.beforeSubmit(form, options);
     			if(rs == false) {
     				return;
     			}
@@ -207,6 +207,20 @@ jQuery(function($){
 		Boxy.ask(Message.dynamic("warn_del_confirm"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
             if (response == Message.dynamic("text_confirm")) callback();
 		});
+	};
+	
+	// 弹出进行中
+	$.showfloatExcuting = function() {
+        var options = {modal: true, closeable: false, show: true, unloadOnHide: true};
+		new Boxy('<img id="floatExcuting" src="' + Globals.ctx + '/resource/photo/excuting.gif" />', options);
+	};
+	
+	// 取消进行中
+	$.hideFloatExcuting = function() {
+		var float = $("#floatExcuting");
+		if(float.size() > 0) {
+			Boxy.get(float).hideAndUnload();
+		}
 	};
 });
 

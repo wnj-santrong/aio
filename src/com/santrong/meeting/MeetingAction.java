@@ -417,7 +417,7 @@ public class MeetingAction extends BaseAction{
 		// 设置系统录制资源阀值
 		if(dbMeeting.getMaxTime() != meeting.getMaxTime()) {
 			LocalTcp31008 tcp = new LocalTcp31008();
-			tcp.setFreeSize(5120);// 默认剩余10G的空间就不给录制了,接口单位为M
+			tcp.setFreeSize(Global.DiskErrorSize);
 			tcp.setMaxTime(meeting.getMaxTime());
 			client.request(tcp);
 			

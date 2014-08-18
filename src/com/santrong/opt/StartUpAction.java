@@ -10,7 +10,9 @@ import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.ScheduleManager;
 import com.santrong.schedule.StatusMonitJob;
+import com.santrong.schedule.SystemUpdateJob;
 import com.santrong.system.DirDefine;
+import com.santrong.system.UpdateConfig;
 import com.santrong.tcp.client.LocalTcp31008;
 import com.santrong.tcp.client.TcpClientService;
 
@@ -61,6 +63,12 @@ public class StartUpAction extends HttpServlet {
 		FtpConfig ftpConfig = new FtpConfig();
 		if("1".equals(ftpConfig.getFtpEnable())) {
 			scheManager.startCron(new FtpUploadJob());
+		}
+		
+		// 启动在线升级扫描线程
+		UpdateConfig updateConfig = new UpdateConfig();
+		if("1".equals(updateConfig.getAutoUpdate())) {
+			scheManager.startCron(new SystemUpdateJob());
 		}
 		
 		

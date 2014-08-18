@@ -3,11 +3,13 @@ package com.santrong.setting;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +25,13 @@ import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.ScheduleManager;
+import com.santrong.schedule.SystemUpdateJob;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
+import com.santrong.system.SystemUpdateService;
+import com.santrong.system.UpdateConfig;
 import com.santrong.system.network.NetworkInfo;
 import com.santrong.system.network.SystemUtils;
 import com.santrong.util.CommonTools;
@@ -334,88 +339,175 @@ public class SettingAction extends BaseAction{
 	}
 	
 	/*
-	 * 系统升级-本地
+	 * 	 本地升级
 	 */
 	@RequestMapping(value="/updateLocal", method=RequestMethod.POST)
 	@ResponseBody
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	public String updateLocal() {
-		
-		boolean isMultipart = FileUpload.isMultipartContent(request);
-		// 判断请求是否包含文件
-        if (!isMultipart) {
-            return "";
-        }
+		try {
+    		// 系统正在升级
+    		if(SystemUpdateJob.updating) {
+    			return "error_system_updating";
+    		}
+    		SystemUpdateJob.updating = true;
+    		
+    		// 判断请求是否包含文件
+    		boolean isMultipart = FileUpload.isMultipartContent(request);
+            if (!isMultipart) {
+                return "error_update_no_file";
+            }
+        	
+        	// 获取所有文件和输入
+        	FileItem remoteFile = null;
+        	List<FileItem> files = null;
+            FileItemFactory factory = new ProgressMonitorFileItemFactory(request, CommonTools.getGUID());
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            upload.setSizeMax(Global.UploadFileSizeLimit * 1024 * 1024);// 设置允许的最大值
+            files = upload.parseRequest(request);// 注意，该工具类会将http头中file类型的表单字段和文本类型的表单字段都封装成FileItem，不过文本类型的字段封装时候内容和名称都设置为空值
+	        if (files == null) {
+	        	return "error_update_no_file";
+	        }
+	        
+	        // 辨别出升级文件
+	        for(FileItem file : files) {
+	    		if (!file.isFormField()) {// 如果是不是普通文本类型封装成的FileItem
+	    			String fileName = file.getName();
+	    			if(!StringUtils.isNullOrEmpty(fileName) && fileName.endsWith("tar.gz")) {
+	    		        fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+			            remoteFile = file;
+			            break;
+	    			}
+	    		}
+	        }
         
-        FileItemFactory factory = new ProgressMonitorFileItemFactory(request, "");
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        List<FileItem> items = null;
-        
-        try {
-        	// 从request中获取文件列表（注意，该工具类会将http头中file类型的表单字段和文本类型的表单字段都封装成FileItem，不过文本类型的字段封装时候内容和名称都设置为空值）
-			items = upload.parseRequest(request);
-		} catch (FileUploadException e1) {
-			
-		}
-        
-        String fileName = null;
-        if (items != null) {
-        	for(FileItem item : items) {
-        		// 如果是普通文本类型封装成的FileItem（其实根本就不是一个文件），则跳过
-        		if (item.isFormField()) {
-        			continue;
-        		}
-        		
-        		fileName = item.getName();// 获取文件名称，不含路径
-                if (fileName.indexOf("\\") != -1) {//IE提交的时候，fileName拿到的是全路径，这里进行修复
-                	fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-                }
-                fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-                
-                // 检查文件后缀
-                if(!fileName.endsWith("tgz")) {
-                	return "";
-                }
-                
-                // 检查文件大小 TODO tomcat级别前置检测一次
-                if(fileName.getBytes().length < 0) {
-                	ThreadUtils.currentHttpSession().setAttribute("FileUpload.Progress." + "", "-1");
-                	return "";
-                }
-                
-                try {
-                	
-                	File uploadFile = new File("", fileName);
-                    item.write(uploadFile);
-                } catch (Exception e) {
-                    return "";
-                }
-                ThreadUtils.currentHttpSession().setAttribute("FileUpload.Progress." + "", "-1");
-//                count ++;
-        		
-                // 升级文件只有一个
-                break;
+	        // 取不到升级文件
+	        if(remoteFile == null){
+	        	return "error_update_no_file";
+	        }
+	        
+        	// 远程文件存储到本地
+        	File uploadFile = new File(DirDefine.updateFileDir, "update.tar.gz");
+        	remoteFile.write(uploadFile);
+        	
+        	// 发送升级指令
+        	SystemUpdateService service = new SystemUpdateService();
+        	if(!service.cmdUpdate()) {
+        		return FAIL;
         	}
+        	
+        	Log.logOpt("system-update", "local", request);
+        	return "notice_update_success";
+        	
+        }catch(SizeLimitExceededException e) {
+			Log.printStackTrace(e);
+			return "error_update_error_file_large";
+			
+        }catch(Exception e) {
+			Log.printStackTrace(e);
+        }finally{
+        	SystemUpdateJob.updating = false;
         }
-		Log.logOpt("system-update", "", request);
 		
-		return SUCCESS;
+		return FAIL;
 	}
 	
-	/*
-	 * 系统升级-在线
+	
+	/**
+	 * 在线升级Get
+	 * @return
 	 */
-	@RequestMapping(value="/updateOnline", method=RequestMethod.POST)
+	@RequestMapping(value="/updateOnlineGet", method=RequestMethod.GET)
 	@ResponseBody
-	public String updateOnline(String file) {
-		if(StringUtils.isNullOrEmpty(file)) {
-			return "error_param";
+	public String updateOnlineGet() {
+		UpdateConfig config = new UpdateConfig();
+		Gson gson = new Gson();
+		return gson.toJson(config);
+	}
+	
+	/**
+	 * 在线升级Post
+	 * @return
+	 */
+	@RequestMapping(value="/updateOnlinePost", method=RequestMethod.POST)
+	@ResponseBody
+	public String updateOnlinePost(Integer autoUpdate, String hours, String minutes) {
+		
+		try{
+			UpdateConfig config = new UpdateConfig();
+			
+			// 参数校验
+			
+			if (StringUtils.isNullOrEmpty(hours) || StringUtils.isNullOrEmpty(minutes) || !Pattern.matches("\\d\\d:\\d\\d", hours + ":" + minutes)) {
+				return super.ERROR_PARAM;
+			}
+			
+			if(autoUpdate != null && autoUpdate == 1) {
+				config.setAutoUpdate("1");
+			}else {
+				config.setAutoUpdate("0");
+			}
+			config.setUpdateTime(hours + ":" + minutes);
+			
+			
+			if(config.write()) {
+				
+				ScheduleManager scheManager = new ScheduleManager();
+				SystemUpdateJob job = new SystemUpdateJob();
+				
+				// 如果原来有运行调度，停止掉
+				if(scheManager.existsCron(job)) {
+					if(!scheManager.removeCron(job)) {
+						return FAIL;
+					}
+				}
+				
+				if("1".equals(config.getAutoUpdate())) {
+					// 启动新调度
+					if(!scheManager.startCron(job)) {
+						return FAIL;
+					}
+				}
+				
+				return SUCCESS;
+			}
+		
+		}catch(Exception e) {
+			Log.printStackTrace(e);
 		}
 		
-		Log.logOpt("system-update", file, request);
-		
-		return SUCCESS;
+		return FAIL;
 	}
+	
+	
+	/**
+	 * 立刻在线升级
+	 * @return
+	 */
+	@RequestMapping(value="/updateOnlineNow", method=RequestMethod.POST)
+	@ResponseBody
+	public String updateOnlineNow() {
+		SystemUpdateJob.updating = true;
+		
+		try{
+			SystemUpdateService service = new SystemUpdateService();
+	        String rt = service.update();
+	        
+	        // 打日志
+	        if("notice_update_success".equals(rt)){
+	        	Log.logOpt("system-update", "online-now", request);
+	        }
+	        
+	        return rt;
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+		}finally {
+        	SystemUpdateJob.updating = false;
+		}
+		
+		return FAIL;
+	}	
+	
 	
 	/*
 	 * 语言设置
