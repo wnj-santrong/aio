@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configure>
+	<record count="3">
+		<program id="1">/opt/AIO/Server/recorder/recorder</program>
+		<program id="2">/opt/AIO/Server/recorder/recorder</program>
+		<program id="4">/opt/AIO/Server/recorder/recorder</program>
+	</record>
+	<sources count="3">
+		<program id="100">/opt/AIO/Server/sources/cmps-source</program>
+		<program id="1">/opt/AIO/Server/sources/onvif-source</program>
+		<program id="2">/opt/AIO/Server/sources/vga-source</program>
+	</sources>
+</configure>

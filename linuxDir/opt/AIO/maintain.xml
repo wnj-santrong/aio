@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+   <Software>
+	<SoftName>AIO_Control</SoftName>
+	<SoftPath>/opt/AIO/Server/control</SoftPath>
+       	<StopScript>/opt/AIO/Server/control/Stop.sh</StopScript>
+       	<StartScript>/opt/AIO/Server/control/Start.sh</StartScript>
+   </Software>
+   <Software>
+       	<SoftName>lcd</SoftName>
+	<SoftPath>/opt/AIO/Server/lcd</SoftPath>
+       	<StopScript>/opt/AIO/Server/lcd/Stop.sh</StopScript>
+       	<StartScript>/opt/AIO/Server/lcd/Start.sh</StartScript>
+   </Software>
+   <UpdateMode>
+	<Mode>1</Mode>
+	<AutoUpdate>1</AutoUpdate>
+	<Time>1</Time>
+	<HttpUrl>http://www.santrong.com/update</HttpUrl>
+   </UpdateMode>
+</config>

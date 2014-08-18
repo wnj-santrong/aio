@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configure>
+	<loglevel></loglevel>
+	<heartbeat-time type="int">5</heartbeat-time>
+	<control>
+		<addr type="string">192.168.10.10</addr>
+		<port type="int">30000</port>
+	</control>
+	<maintain>
+		<addr type="string">192.168.10.10</addr>
+		<port type="int">30001</port>
+	</maintain>
+	<uniserver>
+		<addr type="string">127.0.0.1</addr>
+		<port type="int">30002</port>
+	</uniserver>
+	<vodserver>
+		<addr type="string">127.0.0.1</addr>
+		<port type="int">30003</port>
+	</vodserver>
+	<Lcd>
+		<addr type="string">127.0.0.1</addr>
+		<port type="int">30004</port>
+	</Lcd>
+	<modid>
+		<webservice>id_web_conn</webservice>
+		<control>id_ctrl_conn</control>
+		<sources>id_src_conn</sources>
+		<recorder>id_rcd_conn</recorder>
+		<uniserver>id_uni_conn</uniserver>
+		<vodserver>id_vod_conn</vodserver>
+		<maintain>id_main_conn</maintain>
+		<lcd>id_lcd_conn</lcd>
+		<cmpssrc>id_cmpssrc_conn</cmpssrc>
+	</modid>
+	<cmpsparam>
+		<StrmBandwidth>2000</StrmBandwidth>
+		<StrmFmt>22</StrmFmt>
+		<StrmFRate>25</StrmFRate>
+		<AudSmpRate>48000</AudSmpRate>
+		<AudCh>2</AudCh>
+		<AudBitrate>128</AudBitrate>
+	</cmpsparam>
+	<portMan>
+		<control count="100">30100</control>
+		<vodserver count="100">30200</vodserver>
+		<source count="500">30300</source>
+		<recorder count="500">31000</recorder>
+		<uniserver count="1000">32000</uniserver>
+	</portMan>
+</configure>
