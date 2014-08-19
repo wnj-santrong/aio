@@ -27,6 +27,7 @@ public class Global {
      * [System]
      */
     public static String Title = "三简课程直播录制系统";
+    public static String Version = "1.0.0.0";
     public static String Language = "zh_CN";
     public static String LanDeviceName = "eth0";								// lan网口的网口名
     public static String WanDeviceName = "eth1";								// wan网口的网口名

@@ -29,7 +29,7 @@ public class TcpClientService extends AbstractTcpService{
 	public void request(TcpImpl service) {
 		
 		// 发送TCP
-		String msgRsp = tcpHanlder.sendMsgOnce(service.getHost(), service.getPort(), service.toXml());
+		String msgRsp = tcpHanlder.sendMsgOnce(service.getHost(), service.getPort(), service.toXml().replaceAll(">((?i)null)<", "><"));
 		
 		// 解析返回XML
 		if(msgRsp != null) {
