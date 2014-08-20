@@ -31,9 +31,13 @@ public class MeetingItem {
 	public static final int Bscale_Not_Extend			= 0; // 不拉伸
 	
 	// 录制模式recordType
-	public static final int Record_Type_RSRC			= 4; // 资源模式
+	public static final int Record_Type_RSRC			= 1; // 资源模式
 	public static final int Record_Type_MV				= 2; // 电影模式
-	public static final int Record_Type_CMPS			= 1; // 合成模式
+	public static final int Record_Type_CMPS			= 4; // 合成模式
+	
+	public static final String Record_Type_RSRC_Dir			= "rsrc"; // 资源模式
+	public static final String Record_Type_MV_Dir			= "mv"; // 电影模式
+	public static final String Record_Type_CMPS_Dir			= "cmps"; // 合成模式
 	
 	
 	// 分辨率
@@ -56,6 +60,7 @@ public class MeetingItem {
 	private int maxTime;
 	private int useRecord;
 	private int recordMode;
+	private int recordType;
 	private int channel;
 	private Date cts;
 	private Date uts;
@@ -168,6 +173,14 @@ public class MeetingItem {
 	public void setRecordMode(int recordMode) {
 		this.recordMode = recordMode;
 	}
+	public int getRecordType() {
+		return recordType;
+	}
+
+	public void setRecordType(int recordType) {
+		this.recordType = recordType;
+	}
+
 	public Date getCts() {
 		return cts;
 	}

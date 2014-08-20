@@ -123,7 +123,7 @@ public class FileAction extends BaseAction{
 	}
 	
 	/*
-	 * 播放课件
+	 * 播放课件，直播课程
 	 */
 	@RequestMapping("/filePlay")
 	@ResponseBody
@@ -149,13 +149,24 @@ public class FileAction extends BaseAction{
 				}
 				
 				String confId = MeetingItem.ConfIdPreview + file.getChannel();
-				String filePath = DirDefine.VedioDir + "/" + confId + "/" + file.getFileName();//全路径		
+				String srcPath = null;
+				if(file.getRecordType() == MeetingItem.Record_Type_RSRC) {
+					srcPath = MeetingItem.Record_Type_RSRC_Dir;
+				}else if(file.getRecordType() == MeetingItem.Record_Type_MV) {
+					srcPath = MeetingItem.Record_Type_MV_Dir;
+				}else if(file.getRecordType() == MeetingItem.Record_Type_CMPS) {
+					srcPath = MeetingItem.Record_Type_CMPS_Dir;
+				}
+				if(srcPath == null) {
+					return "error_file_not_exists";
+				}
+				String filePath = DirDefine.VedioDir + "/" + confId + "/" + file.getFileName() + "/" + srcPath;//全路径		
 				
 				info.setId(id);
 				info.setType(PlayInfo.Type_Vod);
 				info.setAddr(InetAddress.getLocalHost().getHostAddress());
 				info.setConfId(confId);
-				info.setLiveType(0);
+				info.setLiveType(file.getRecordType());
 				info.setFilePath(filePath);
 				
 				// 更新播放次数
@@ -187,7 +198,7 @@ public class FileAction extends BaseAction{
 				}
 				info.setAddr(InetAddress.getLocalHost().getHostAddress());
 				info.setConfId(confId);
-				info.setLiveType(PlayInfo.LiveType_MD_CMPS);
+				info.setLiveType(meeting.getRecordType());
 				info.setFilePath("");
 				
 				Log.logOpt("meeting-play", meeting.getId(), request);

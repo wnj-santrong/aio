@@ -18,9 +18,9 @@ import com.santrong.file.entry.FileItem;
 public interface FileMapper {
     
 	@Insert("insert into web_file "
-			+ "(id,fileName,courseName,teacher,remark,fileSize,tarSize,duration,status,level,channel,bitRate,resolution,playCount,downloadCount,cts,uts)"
+			+ "(id,fileName,courseName,teacher,remark,fileSize,tarSize,duration,recordType,status,level,channel,bitRate,resolution,playCount,downloadCount,cts,uts)"
 			+ "values"
-			+ "(#{id},#{fileName},#{courseName},#{teacher},#{remark},#{fileSize},#{tarSize},#{duration},#{status},#{level},#{channel},#{bitRate},#{resolution},#{playCount},#{downloadCount},#{cts},#{uts})")
+			+ "(#{id},#{fileName},#{courseName},#{teacher},#{remark},#{fileSize},#{tarSize},#{duration},#{recordType},#{status},#{level},#{channel},#{bitRate},#{resolution},#{playCount},#{downloadCount},#{cts},#{uts})")
 	int insert(FileItem file);
 	
 	
@@ -59,6 +59,6 @@ public interface FileMapper {
     int closeByIds(@Param("ids") String ids);
     
     
-    @Update("update web_file set fileName=#{fileName},courseName=#{courseName},teacher=#{teacher},remark=#{remark},fileSize=#{fileSize},tarSize=#{tarSize},duration=#{duration},status=#{status},level=#{level},channel=#{channel},bitRate=#{bitRate},resolution=#{resolution},playCount=#{playCount},downloadCount=#{downloadCount},uts=#{uts} where id=#{id}")
+    @Update("update web_file set fileName=#{fileName},courseName=#{courseName},teacher=#{teacher},remark=#{remark},fileSize=#{fileSize},tarSize=#{tarSize},duration=#{duration},recordType=#{recordType},status=#{status},level=#{level},channel=#{channel},bitRate=#{bitRate},resolution=#{resolution},playCount=#{playCount},downloadCount=#{downloadCount},uts=#{uts} where id=#{id}")
     int update(FileItem file);
 }

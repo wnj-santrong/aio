@@ -69,7 +69,7 @@ public class HttpServiceAction {
 			String xmlMsg = new String(requestData, Global.Default_Encoding);
 			
 			String uuid = CommonTools.getGUID();
-			
+			Log.debug("----------http-xml-request-from:" + CommonTools.getIpAddr(request));
 			logger.info("getXmlMsg  [HTTP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			String retMsg = dispatch(xmlMsg);
 			logger.info("sendXmlMsg [HTTP_END  (" + uuid + ")] : " + retMsg);

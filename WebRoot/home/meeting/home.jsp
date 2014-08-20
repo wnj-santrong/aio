@@ -3,6 +3,7 @@
 <code id="pagename" style="display:none">c:index_a:meeting</code>
 <form action="" method="post" id="meeting_config">
 	<input type="hidden" name="id" value='${meeting.id}' />
+	<input type="hidden" name="recordType" value='${meeting.recordType}' />
 	<input type="hidden" name="channel" value='${meeting.channel}' />
 	<ul class="meeting">
 		<!-- 视频码率 -->

@@ -9,6 +9,7 @@ import com.santrong.info.entry.SystemInfoView;
 import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31009;
@@ -44,7 +45,12 @@ public class InfoAction extends BaseAction{
 				
 				BeanUtils.copyProperties(tcp31009, info);
 				BeanUtils.copyProperties(tcp39004, info);
+				
+				info.setSystemVersion(tcp39004.getSystemVersion());
 			}
+			
+			info.setWebVersion(Global.Version);
+			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 		}

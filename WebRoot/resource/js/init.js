@@ -1,5 +1,6 @@
 // 全局初始化
-function init() {  
+function init() {
+	
 	// 页面竖直居中
 	$(window).unbind("resize").resize(function() {
 		var b_height = $(this).height();
@@ -106,6 +107,25 @@ IndexClass.prototype = {
     	});
 	},
 	
+	// 直播点播函数
+	_santrongPlay:function(options) {
+//		if(!/MSIE/.test(navigator.userAgent)) {// IE11不兼容
+		if(!$.isIE()) {
+			Boxy.alert(Message.dynamic('notice_only_support_ie'));
+		}
+		
+		if(options.id) {
+			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : options.id, type : options.type}, tip : false, callback : function(result) {
+				if(result.indexOf('{') != -1) {
+					var json = eval('(' + result + ')');
+    				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);
+				}else {
+					Boxy.alert(Message.dynamic(result));
+				}
+			}});
+		}
+	},
+	
 	// 登录页
 	login:function() {
 		this._bindLogin();
@@ -145,10 +165,20 @@ IndexClass.prototype = {
     		var pageUrl = $(this).attr("rel");
     		
     		$(".sub_top").html(pageName);
+    		Globals.pageName = pageName;
+    		$(".sub_content").html("");
+    		setTimeout(function() {
+    			if($(".sub_content").text() == "") {
+    				$(".sub_content").html('<img id="floatExcuting" style="margin:292px 0 0 500px;" src="' + Globals.ctx + '/resource/photo/loading.gif" />');// 设置载入状态
+    			}
+    		}, 500);
+    		
     		$.get(pageUrl, null, function(result){
-    		    $(".sub_content").html(result);
-    		    parsePageName();
-    		    $("code#pagename").remove();
+    			if(pageName == Globals.pageName) {// 在异步的情况下，用户最后一次点击的页面才具有载入权
+	    		    $(".sub_content").html(result);
+	    		    parsePageName();
+	    		    $("code#pagename").remove();
+    			}
     		  });
     	});
     	
@@ -167,6 +197,7 @@ IndexClass.prototype = {
     
     // 会议管理
     meeting:function() {
+    	var _this = this;
     	// 计算数据源顺序，新增和删除后一定要调用重算顺序// 0，1，2-------s1，s2，vga
     	var calDsPriority = function() {
     		$("#dsList .dsItem").each(function(index, e) {
@@ -206,21 +237,7 @@ IndexClass.prototype = {
     	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', beforeSubmit : preValidate, afterSubmit : freshCurrentModel});
     	
     	$(".preview").click(function() {
-    		if(!/MSIE/.test(navigator.userAgent)) {
-    			Boxy.alert(Message.dynamic('notice_only_support_ie'));
-    		}
-    		
-    		var values = $("input[name=id]").val();
-    		if(values) {
-    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 1}, tip : false, callback : function(result) {
-    				if(result.indexOf('{') != -1) {
-    					var json = eval('(' + result + ')');
-        				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);    					
-    				}else {
-    					Boxy.alert(Message.dynamic(result));
-    				}
-    			}});
-    		}
+    		_this._santrongPlay({id : $("input[name=id]").val(), type : 1});
     	});
     	
     	// 显示新增或者修改的输入框
@@ -330,6 +347,7 @@ IndexClass.prototype = {
     
     // 视频播放
     play:function() {
+    	var _this = this;
     	// 标签修改删除显示切换
     	if(Globals.isLogined) {
     		$(".tag_add").show();
@@ -402,27 +420,13 @@ IndexClass.prototype = {
     	});
     	
 	    $(".meeting_vod li a").click(function() {
-    		if(!/MSIE/.test(navigator.userAgent)) {
-    			Boxy.alert(Message.dynamic('notice_only_support_ie'));
-    		}
-    		
-    		var values = $(this).attr("rel");
-    		var type = $(this).attr("type");
-    		if(values) {
-    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : type}, tip : false, callback : function(result) {
-    				if(result.indexOf('{') != -1) {
-    					var json = eval('(' + result + ')');
-        				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);    					
-    				}else {
-    					Boxy.alert(Message.dynamic(result));
-    				}
-    			}});
-    		}
+	    	_this._santrongPlay({id : $(this).attr("rel"), type : $(this).attr("type")});
 	    }); 
     },
     
     // 文件管理
     file:function() {
+    	var _this = this;
     	var freshPage = function(opts) {
     		opts = $.extend({
     			keyword : keyword,
@@ -472,23 +476,11 @@ IndexClass.prototype = {
     	});
     	
     	$("#filePlay").click(function(){
-    		if(!/MSIE/.test(navigator.userAgent)) {
-    			Boxy.alert(Message.dynamic('notice_only_support_ie'));
-    			return;
-    		}
-    		
     		var values = $("input[name=CheckboxGroup1]").checkboxVals({single : true});
     		if(values) {
     			var status = $("input[value= " + values + "]").attr("st");//0 是正在录制中
     			if(status != 0) {
-	    			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : values, type : 0}, tip : false, callback : function(result) {
-	    				if(result.indexOf('{') != -1) {
-	    					var json = eval('(' + result + ')');
-	        				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);    					
-	    				}else {
-	    					Boxy.alert(Message.dynamic(result));
-	    				}
-	    			}});
+    				_this._santrongPlay({id : values, type : 0});
     			}else {
     				Boxy.alert(Message.dynamic("notice_file_recording"));
     			}

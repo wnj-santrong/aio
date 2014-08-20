@@ -168,7 +168,7 @@ public class MeetingAction extends BaseAction{
 			LocalTcp31004 tcp = new LocalTcp31004();
 			tcp.setConfId(confId);
 			tcp.setIsLive(1);//固定值
-			tcp.setRecordType(MeetingItem.Record_Type_CMPS);
+			tcp.setRecordType(meeting.getRecordType());
 			tcp.setLayout(meeting.getRecordMode());
 			tcp.setbScale(MeetingItem.Bscale_Extend);
 			

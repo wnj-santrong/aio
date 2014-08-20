@@ -25,6 +25,7 @@ public class FileItem {
 	private long fileSize;
 	private long tarSize;
 	private String duration;
+	private int recordType;
 	private int status;
 	private int level;
 	private int channel;
@@ -57,6 +58,12 @@ public class FileItem {
 		}
 	}
 	
+	public int getRecordType() {
+		return recordType;
+	}
+	public void setRecordType(int recordType) {
+		this.recordType = recordType;
+	}
 	public String getId() {
 		return id;
 	}

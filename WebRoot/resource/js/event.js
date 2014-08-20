@@ -11,7 +11,7 @@ jQuery(function($){
 	*/
 	
 	 // 备份jquery的ajax方法  
-    var _ajax=$.ajax;  
+    var _ajax=$.ajax;
       
     // 重写ajax方法，先判断登录在执行success函数 
     $.ajax=function(opt){
@@ -183,6 +183,14 @@ jQuery(function($){
 	    });
 	};
 	
+	// 判断是否是IE，包括11
+	$.isIE = function isIE() {
+	    if (!!window.ActiveXObject || "ActiveXObject" in window)
+	        return true;
+	    else
+	        return false;
+	};
+	
 	// 简单的发送post
 	$.simplePost = function(options) {
 		if(!options.url) {
@@ -211,16 +219,19 @@ jQuery(function($){
 	
 	// 弹出进行中
 	$.showfloatExcuting = function() {
-        var options = {modal: true, closeable: false, show: true, unloadOnHide: true};
-		new Boxy('<img id="floatExcuting" src="' + Globals.ctx + '/resource/photo/excuting.gif" />', options);
+		var w_width = $(window).width();
+		var w_height = $(window).height();
+		var html = '<img id="floatExcuting" src="/resource/photo/excuting.gif" class="boxy-content" style="position:fixed; left:' + w_width/2 + 'px; top:' + w_height/2 + 'px;">';
+		html += '<div id="floatExcuting_layer" class="boxy-modal-blackout" style="z-index: 1996; opacity: 0.2; width: ' + w_width + 'px; height: ' + w_height + 'px;"></div>';
+		if($("#floatExcuting").size() < 1) {
+			$('body').append(html);
+		}
 	};
 	
 	// 取消进行中
 	$.hideFloatExcuting = function() {
-		var float = $("#floatExcuting");
-		if(float.size() > 0) {
-			Boxy.get(float).hideAndUnload();
-		}
+		$("#floatExcuting").remove();
+		$("#floatExcuting_layer").remove();
 	};
 });
 

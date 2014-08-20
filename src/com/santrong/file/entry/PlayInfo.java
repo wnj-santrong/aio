@@ -17,10 +17,6 @@ public class PlayInfo {
 	public static final int Type_Live = 2;
 	public static final int Type_Vod = 3;
 	
-	public static final int LiveType_MD_RSRC = 1;
-	public static final int LiveType_MD_MV = 2;
-	public static final int LiveType_MD_CMPS = 4;
-	
 	private String id;
 	private int type;
 	private String addr;

@@ -19,6 +19,8 @@ public class SystemInfoView {
 	private int vodCur;
 	private int freePcent;
 	private int freeSize;
+	private String systemVersion;
+	private String webVersion;
 	private List<ModuleStatus> moduleList = new ArrayList<ModuleStatus>();
 	
 	/*
@@ -31,6 +33,26 @@ public class SystemInfoView {
 		return "unknown";
 	}
 	
+	
+	public String getSystemVersion() {
+		return systemVersion;
+	}
+
+	public void setSystemVersion(String systemVersion) {
+		this.systemVersion = systemVersion;
+	}
+
+	public String getWebVersion() {
+		return webVersion;
+	}
+
+
+	public void setWebVersion(String webVersion) {
+		this.webVersion = webVersion;
+	}
+
+
+
 	public String getModel() {
 		return model;
 	}
