@@ -14,7 +14,7 @@ import com.santrong.system.UpdateConfig;
  * @date 2014年8月13日
  * @time 下午3:06:20
  */
-public class SystemUpdateJob implements JobImpl {
+public class SystemUpdateJob extends JobImpl {
 	
 	public static boolean updating;
 	
@@ -22,20 +22,10 @@ public class SystemUpdateJob implements JobImpl {
 	public String getJobName() {
 		return "SystemUpdate";
 	}
-	
-	@Override
-	public String getGroupName() {
-		return "BasicGroup";
-	}
 
 	@Override
 	public String getTriggerName() {
 		return "SystemUpdateTrigger";
-	}
-
-	@Override
-	public String getTriggerGroupName() {
-		return "BasicTriggerGroup";
 	}
 
 	@Override

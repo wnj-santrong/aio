@@ -118,7 +118,11 @@ IndexClass.prototype = {
 			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : options.id, type : options.type}, tip : false, callback : function(result) {
 				if(result.indexOf('{') != -1) {
 					var json = eval('(' + result + ')');
-    				SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);
+					if(SantrongPlayer && SantrongPlayer.StartPlayEX) {
+						SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);
+					}else{
+						Boxy.alert(Message.dynamic("notice_download_player"));
+					}
 				}else {
 					Boxy.alert(Message.dynamic(result));
 				}

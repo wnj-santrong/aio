@@ -9,17 +9,24 @@ import org.quartz.Job;
  * @date 2014年8月13日
  * @time 下午2:31:11
  */
-public interface JobImpl extends Job {
+public abstract class JobImpl implements Job {
 	
-	String getJobName();
+	public static String BasicGroup = "BasicGroup";
+	public static String BasicTriggerGroup = "BasicTriggerGroup";
 	
-	String getGroupName();
+	abstract String getJobName();
 	
-	String getTriggerName();
+	public String getGroupName() {
+		return BasicGroup;
+	}
 	
-	String getTriggerGroupName(); 
+	abstract String getTriggerName();
 	
-	String getCronExp();
+	public String getTriggerGroupName() {
+		return BasicTriggerGroup;
+	}
 	
-	Date getDateTime();
+	abstract String getCronExp();
+	
+	abstract Date getDateTime();
 }

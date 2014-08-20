@@ -3,11 +3,11 @@
 	<loglevel></loglevel>
 	<heartbeat-time type="int">5</heartbeat-time>
 	<control>
-		<addr type="string">192.168.10.163</addr>
+		<addr type="string">192.168.10.10</addr>
 		<port type="int">30000</port>
 	</control>
 	<maintain>
-		<addr type="string">192.168.10.163</addr>
+		<addr type="string">192.168.10.10</addr>
 		<port type="int">30001</port>
 	</maintain>
 	<uniserver>

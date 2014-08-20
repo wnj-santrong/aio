@@ -21,7 +21,7 @@ import com.santrong.tcp.client.TcpClientService;
  * @date 2014年8月13日
  * @time 下午2:14:28
  */
-public class StatusMonitJob implements JobImpl {
+public class StatusMonitJob extends JobImpl {
 	
 	public static long lastHeatBeatTime;// 只有一路，先定义一个监听时间
 	public static boolean moreOnce;// 是否至少运行过一次，如果control层启动的时候已经发送http过来修改了lastHeatTime，可能导致会议室状态没有被初始化，初始化工作至少运行一次
@@ -30,20 +30,10 @@ public class StatusMonitJob implements JobImpl {
 	public String getJobName() {
 		return "StatusMonit";
 	}
-	
-	@Override
-	public String getGroupName() {
-		return "BasicGroup";
-	}
 
 	@Override
 	public String getTriggerName() {
 		return "StatusMonitTrigger";
-	}
-
-	@Override
-	public String getTriggerGroupName() {
-		return "BasicTriggerGroup";
 	}
 
 	@Override

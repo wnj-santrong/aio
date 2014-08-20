@@ -25,7 +25,7 @@ import com.santrong.util.CommonTools;
  * @date 2014年8月13日
  * @time 下午3:06:20
  */
-public class FtpUploadJob implements JobImpl {
+public class FtpUploadJob extends JobImpl {
 	
 	public static boolean uploading;
 	
@@ -33,20 +33,10 @@ public class FtpUploadJob implements JobImpl {
 	public String getJobName() {
 		return "FtpUpload";
 	}
-	
-	@Override
-	public String getGroupName() {
-		return "BasicGroup";
-	}
 
 	@Override
 	public String getTriggerName() {
 		return "FtpUploadTrigger";
-	}
-
-	@Override
-	public String getTriggerGroupName() {
-		return "BasicTriggerGroup";
 	}
 
 	@Override
