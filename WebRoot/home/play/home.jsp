@@ -27,7 +27,16 @@
 	<c:if test="${query.pageNum == 0}" >
  	<c:forEach items="${liveList}" var="live">
     <li><a href="javascript:void(0);" rel="${live.id}" type="1"><em></em><span class="guankan_img"><img src="${ctx}/resource/photo/guankan_a.png" ></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
-        <p>${live.courseName}</p>
+        <p>
+      	<c:choose>
+		    <c:when test="${fn:length(live.courseName) > 15}">  
+		        <c:out value="${fn:substring(live.courseName, 0, 15)}..." />  
+		    </c:when>  
+		   <c:otherwise>  
+		      <c:out value="${live.courseName}" />  
+		    </c:otherwise>  
+		</c:choose>
+        </p>
         <p><fmt:message key="play_liveing" /></p>
     </li>
     </c:forEach>
@@ -35,8 +44,17 @@
     
  	<c:forEach items="${fileList}" var="file">
     <li><a href="javascript:void(0);" rel="${file.id}" type="0"><em></em><span class="guankan_img"></span><img src="${ctx}/resource/photo/Class_pictures13.jpg" width="230" height="130" alt="img"></a>
-        <p>${file.courseName}</p>
-        <p><fmt:formatDate value="${file.cts}" pattern="yyyy/MM/dd  HH:mm:ss" /></p>
+        <p>
+      	<c:choose>  
+		    <c:when test="${fn:length(file.courseName) > 15}">  
+		        <c:out value="${fn:substring(file.courseName, 0, 15)}..." />  
+		    </c:when>  
+		   <c:otherwise>  
+		      <c:out value="${file.courseName}" />  
+		    </c:otherwise>  
+		</c:choose>
+		</p>
+        <p><fmt:formatDate value="${file.cts}" pattern="yyyy-MM-dd HH:mm" /></p>
     </li>
     </c:forEach>
 </ul>

@@ -21,13 +21,13 @@
 	<table>
 	    <colgroup>
 	    <col width="4%" />
-	    <col width="25%" />
+	    <col width="23%" />
+	    <col width="10%" />
+	    <col width="17%" />
 	    <col width="10%" />
 	    <col width="10%" />
 	    <col width="10%" />
-	    <col width="10%" />
-	    <col width="10%" />
-	    <col width="10%" />
+	    <col width="5%" />
 	    <col width="10%" />
 	    </colgroup>
 	    <thead>
@@ -48,17 +48,19 @@
 			<tr>
 			    <td><input type="checkbox" name="CheckboxGroup1" value="${file.id}" id="CheckboxGroup1_0" st="${file.status}" /></td>
 			    <td>
-			    <a href="javascript:void(0);" class="cdetail">
-			    <c:if test="${file.courseName != '' }">
-			    ${file.courseName}
-			    </c:if>
-			    <c:if test="${file.courseName == '' }">
-			    -
-			    </c:if>			    
+			    <a href="javascript:void(0);" class="cdetail" title="${file.courseName}">
+				<c:choose>  
+				    <c:when test="${fn:length(file.courseName) > 15}">  
+				        <c:out value="${fn:substring(file.courseName, 0, 15)}..." />  
+				    </c:when>  
+				   <c:otherwise>  
+				      <c:out value="${file.courseName}" />  
+				    </c:otherwise>  
+				</c:choose>
 			    </a>
 			    </td>
 			    <td>${file.teacher}</td>
-			    <td>${file.cts}</td>
+			    <td><fmt:formatDate value="${file.cts}" pattern="yyyy-MM-dd HH:mm" /></td>
 			    <td>${file.duration}</td>
 			    <td>${file.fileSizeString}</td>
 			    <td>${file.playCount}</td>

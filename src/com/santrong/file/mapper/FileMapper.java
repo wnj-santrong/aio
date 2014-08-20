@@ -50,6 +50,9 @@ public interface FileMapper {
     @Delete("delete from web_file where id in (${ids})")
     int deleteByIds(@Param("ids") String ids);
     
+    @Delete("select count(*) from web_file where status = 0 and id in (${ids})")
+    int hasFileRecording(@Param("ids") String ids);
+    
     
     @Delete("update web_file set level = 0 where id in (${ids})")
     int openByIds(@Param("ids") String ids);

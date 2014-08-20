@@ -240,6 +240,11 @@ public class FileAction extends BaseAction{
 				return FAIL;
 			}
 			
+			// 校验有没有正在录制的课件
+			if(fileDao.hasFileRecording(idArr)) {
+				return "notice_file_recording";
+			}
+			
 			// 先删除实体文件
 			for(FileItem file : fileList) {
 				String confId = MeetingItem.ConfIdPreview + file.getChannel();

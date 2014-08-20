@@ -112,6 +112,17 @@ public class FileDao extends BaseDao{
 		return 0;
 	}
 	
+	public boolean hasFileRecording(String[] ids) {
+		String _ids = consistIds(ids);
+		if(_ids != null) {
+			FileMapper mapper = this.getMapper(FileMapper.class);
+			if(mapper != null) {			
+				return mapper.hasFileRecording(_ids) > 0;
+			}
+		}
+		return false;
+	}
+	
 	public int openByIds(String[] ids) {
 		String _ids = consistIds(ids);
 		if(_ids != null) {

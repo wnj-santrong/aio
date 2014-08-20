@@ -13,6 +13,7 @@ public class FileItem {
 	public static final int File_Status_Recorded = 1;// 录制已完成
 	public static final int File_Status_Uploading = 2;// ftp上传中
 	public static final int File_Status_Uploaded = 3;// ftp上传完成
+	public static final int File_Status_ERROR = 10;// 异常课件
 	
 	public static final int File_Level_Open = 0;// 公开的课件
 	public static final int File_Level_Close = 1;// 未公开的课件

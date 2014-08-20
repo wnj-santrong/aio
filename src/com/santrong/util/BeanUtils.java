@@ -5,6 +5,9 @@ import java.util.Date;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 
+import com.mysql.jdbc.StringUtils;
+import com.santrong.log.Log;
+
 /**
  * @author weinianjie
  * @date 2014年7月18日
@@ -41,7 +44,7 @@ public class BeanUtils {
 					}					
 					else if(returnType.equals(Date.class)) {
 						try{
-							m.invoke(obj, rs.getDate(field));
+							m.invoke(obj, rs.getTimestamp(field));
 						} catch (Exception e) {}// 当没有错误处理
 					}
 				}

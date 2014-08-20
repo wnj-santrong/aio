@@ -495,6 +495,14 @@ IndexClass.prototype = {
     	$("#fileDel").click(function(){
     		var values = $("input[name=CheckboxGroup1]").checkboxVals();
     		if(values) {
+    			var arr = values.split(",");
+    			for(var i=0;i<arr.length;i++){
+        			var status = $("input[value= " + arr[i] + "]").attr("st");//0 是正在录制中
+        			if(status == 0) {
+        				Boxy.alert(Message.dynamic("notice_file_recording"));
+        				return;
+        			}
+    			}
     			$.delConfirm(function(){
     				$.simplePost({url : Globals.ctx + "/file/fileDel.action", data : {ids : values}, callback : freshPage});
     			});
