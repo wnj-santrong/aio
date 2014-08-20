@@ -35,11 +35,11 @@ Globals.isLogined = <%=request.getSession().getAttribute(Global.SessionKey_Login
         <p><img src="${ctx}/resource/photo/logo.png" /></p>
         <h2><%=Global.Title%></h2>
         <span class="message">
-        <%-- <a href="javascript:void(0);" class="system_warn"><fmt:message key="index_warn"/></a> --%>
-        <a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a>
         <span><fmt:message key="index_welcome"/>${sessionScope.loginUser.username}</span>
         <a href="javascript:void(0);" class="logout_submit"><fmt:message key="index_logout"/></a>
+        <a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a>
         </span>
+        <%-- <a class="tip" href="javascript:void(0);" class="system_warn"><fmt:message key="index_warn"/></a> --%>
 	</div>
 </div>
 <div class="column">

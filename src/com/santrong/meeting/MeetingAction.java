@@ -598,6 +598,11 @@ public class MeetingAction extends BaseAction{
 		BeanUtils.copyProperties(meeting, file);
 		file.setId(CommonTools.getGUID());
 		file.setFileName(fileName);
+		if(StringUtils.isNullOrEmpty(meeting.getCourseName())) {
+			file.setCourseName(fileName);
+		}else{
+			file.setCourseName(meeting.getCourseName());
+		}
 		file.setFileSize(0);
 		file.setDuration("");
 		file.setStatus(FileItem.File_Status_Recording);

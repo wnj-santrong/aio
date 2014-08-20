@@ -159,6 +159,7 @@ jQuery(function($){
 		    			return form.validate();
 		    		},
 		    		success : function(result) {
+		    			$.hideFloatExcuting();
 		    			if(options.tip) {
 		    				Boxy.alert(Message.dynamic(result));
 		    			}

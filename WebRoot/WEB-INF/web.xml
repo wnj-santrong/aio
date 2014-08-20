@@ -16,10 +16,10 @@
 	</filter>
 	<filter-mapping>  
 		<filter-name>EncodingFilter</filter-name>  
-		<url-pattern>*.action</url-pattern>		
+		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
-	<filter-mapping>  
-		<filter-name>EncodingFilter</filter-name>  
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 	

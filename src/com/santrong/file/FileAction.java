@@ -187,8 +187,11 @@ public class FileAction extends BaseAction{
 				
 				String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
 				RoomStatusEntry status = StatusMgr.getRoomStatus(confId);
-				if(status.getIsConnect() == 0 || status.getIsLive() == 0) {
-					return FAIL;
+				if(status.getIsConnect() == 0) {
+					return "error_meeting_connecte_error";
+				}
+				if(status.getIsLive() == 0) {
+					return "error_meeting_other_close";
 				}
 				
 				info.setId(id);
@@ -246,7 +249,9 @@ public class FileAction extends BaseAction{
 				client.request(tcp31010);
 				
 				if(tcp31010.getRespHeader().getReturnCode() == 1 || tcp31010.getResultCode() == 1) {
-					return FAIL;
+//					return FAIL;
+					// 做个警告，不当成失败处理
+					Log.mark("--delete file but really file detele fail, fileName:" + file.getFileName());
 				}
 			}
 			

@@ -22,6 +22,7 @@ public class Log {
 	
 	private static final Logger logger = Logger.getLogger("");
 	private static final Logger logger_request = Logger.getLogger("request");
+	private static final Logger logger_mark = Logger.getLogger("mark");
 	
 	public static void debug(Object obj) {
 		logger.debug(obj);
@@ -86,6 +87,10 @@ public class Log {
 		// 日志文件
 		logger_request.info(request.getRequestURI() + " --- "  + request.getQueryString() + " --- " + request.getMethod() + " --- " + CommonTools.getRequestAddrIp(request, "127.0.0.1"));
 	}	
+	
+	public static void mark(Object obj) {
+		logger_mark.info(obj);
+	}
 	
 	
 	public static void printStackTrace(Throwable e){

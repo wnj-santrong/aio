@@ -36,12 +36,13 @@ body {background: url(../photo/bg.gif);}
 
 /*-------------页面顶部--------*/
 .topnav {width:100%; height:84px; background:url(../photo/bj_bg.jpg) no-repeat left top;}
-.topnav_logo {width:1280px; height:84px; margin:0 auto; color:#fff;}
+.topnav_logo {width:1280px; height:84px; margin:0 auto; color:#fff; position:relative;}
 .topnav_logo p {float:left; width:auto; padding:0 10px; margin:10px 10px 0 0;}
 .topnav_logo h2 {float:left; color:#fff; font-size:26px; line-height:80px;}
 .topnav_logo .message {float:right; display:block; margin-top:50px; margin-right:20px;}
 .topnav_logo .message a {margin:0 17px; color:#fff;}
 .topnav_logo .message a:hover {color:#CF6;}
+.topnav_logo .tip {position:absolute; right:75px; top:25px; color:#cc0000; font-weight:bolder;}
 
 
 /*-------------左边菜单----------------*/

@@ -223,6 +223,7 @@ IndexClass.prototype = {
     	var freshCurrentModel = function() {$(".navigator a:first").click();}
     	
     	var preValidate = function() {
+    		$.showfloatExcuting();
     		if($("#dsList .edit").size() != 0) {
     			Boxy.alert(Message.dynamic("notice_datasource_edit"));
     			return false;
