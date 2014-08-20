@@ -11,7 +11,7 @@ public class Global {
 	 */
 	public static final String Default_Encoding = "UTF-8";
 	public static final String Module_Sign = "id_web_conn";
-	public static final String LoginUser_key = "loginUser";
+	public static final String SessionKey_LoginUser = "loginUser";
     
 	
     /*

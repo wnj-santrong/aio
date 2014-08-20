@@ -171,7 +171,7 @@ IndexClass.prototype = {
     			if($(".sub_content").text() == "") {
     				$(".sub_content").html('<img id="floatExcuting" style="margin:292px 0 0 500px;" src="' + Globals.ctx + '/resource/photo/loading.gif" />');// 设置载入状态
     			}
-    		}, 500);
+    		}, 500);//500ms没有拿到新页面则显示loading
     		
     		$.get(pageUrl, null, function(result){
     			if(pageName == Globals.pageName) {// 在异步的情况下，用户最后一次点击的页面才具有载入权
@@ -180,6 +180,9 @@ IndexClass.prototype = {
 	    		    $("code#pagename").remove();
     			}
     		  });
+    		
+    		// 设置cookie，用户刷新后依然能标识本页面
+    		$.cookie('managePage', $(this).parent().index());
     	});
     	
 		$(".logout_submit").click(function() {
@@ -192,7 +195,8 @@ IndexClass.prototype = {
 			}});
 		});
     	
-    	$(".navigator a:first").click();
+		var pageIndex = $.cookie('managePage') || 0;
+		$(".navigator a").eq(pageIndex).click();
     },
     
     // 会议管理

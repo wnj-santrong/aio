@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/blue.css" />
 <script type="text/javascript" src="${ctx}/resource/js/lang/message.zh_CN.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.pagination.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.form.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.boxy.js"></script>
@@ -22,7 +23,7 @@
 var Globals = {};
 Globals.define = {};
 Globals.ctx = "${ctx}";
-Globals.isLogined = <%=request.getSession().getAttribute(Global.LoginUser_key) != null%>;
+Globals.isLogined = <%=request.getSession().getAttribute(Global.SessionKey_LoginUser) != null%>;
 </script>
 </head>
 <body>

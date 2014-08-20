@@ -74,7 +74,7 @@ public class CommonFilter implements Filter{
 			
 			// 不是免登录的页面，开始校验登录状态
 			if (!pass) {
-				UserItem loginUser = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.LoginUser_key);
+				UserItem loginUser = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.SessionKey_LoginUser);
 				if(loginUser == null) {
 					response.sendRedirect("/login.action");
 				}

@@ -56,7 +56,7 @@ public class Log {
 	public static void logOpt(String title, String content, HttpServletRequest request) {
 		OptLogDao dao = new OptLogDao();
 		OptLogItem item = new OptLogItem();
-		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.LoginUser_key);
+		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.SessionKey_LoginUser);
 		if(user != null) {
 			item.setUsername(user.getUsername());
 		}else{

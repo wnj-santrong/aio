@@ -85,7 +85,7 @@ public class SettingAction extends BaseAction{
 			// 把新用户注入session
 			UserItem newuser = userDao.selectByUserName(newname);
 			if(newuser != null) {
-				ThreadUtils.currentHttpSession().setAttribute(Global.LoginUser_key, newuser);
+				ThreadUtils.currentHttpSession().setAttribute(Global.SessionKey_LoginUser, newuser);
 			}
 			
 			Log.logOpt("user-modify", newname, request);
