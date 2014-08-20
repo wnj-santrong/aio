@@ -18,12 +18,13 @@ import com.santrong.util.XmlReader;
  * @time 下午8:35:02
  */
 public class BasicHttpService99999 implements AbstractHttpService{
-//	public static final int  EVENT_RCDFINISH			=	66001; // 录制完成
+//	public static final int  EVENT_RCDOVER				=	66001; // 单路录制结束，发生异常才会接收到这个消息
 //	public static final int  EVENT_SPACEINFO 			=	66002; // 磁盘空间
 //	public static final int  EVENT_RESINFO 				=	66003; // 资源使用情况
 //	public static final int  EVENT_VODUSR 				=	66004; // 点播用户数
 //	public static final int  EVENT_UNIUSR 				=	66005; // 直播用户数
 //	public static final int  EVENT_SRCSTATE 			=	66006; // 连接状态
+//	public static final int  EVENT_RCDFINISH 			=	66007; // 正常录制结束，会接收到这个消息
 	
 	//接收参数
 	private Event66001 event66001;
@@ -32,11 +33,15 @@ public class BasicHttpService99999 implements AbstractHttpService{
 	private Event66004 event66004;
 	private Event66005 event66005;
 	private Event66006 event66006;
+	private Event66007 event66007;
 
 	@Override
 	public String excute(XmlReader xml) {
 		int rt = 0;
 		String sessionId = "";
+		RoomStatusEntry roomStatus = null;
+		FileDao fileDao = null;
+		FileItem file = null;
 		
 		try{
 			sessionId = xml.find("/MsgHead/SessionId").getText();
@@ -44,6 +49,7 @@ public class BasicHttpService99999 implements AbstractHttpService{
 			
 			switch(eventId) {
 			case 66001 :
+				// 目前一期只有一路，肯定收不到66001，指挥收到66007
 				this.event66001 = new Event66001();
 				this.event66001.confId = xml.find("/MsgBody/ConfEvent/RcdFinish/ConfId").getText();
 				this.event66001.reasonId = xml.find("/MsgBody/ConfEvent/RcdFinish/ReasonId").getText();
@@ -51,35 +57,6 @@ public class BasicHttpService99999 implements AbstractHttpService{
 				this.event66001.rcdTime = xml.find("/MsgBody/ConfEvent/RcdFinish/RcdTime").getText();
 				this.event66001.rcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/RcdFinish/RcdSize").getText());
 				this.event66001.rcdType = Integer.parseInt(xml.find("/MsgBody/ConfEvent/RcdFinish/RcdType").getText());
-				
-				// 更新内存状态
-				RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(this.event66001.confId);
-				roomStatus.setIsRecord(0);
-				StatusMgr.setRoomStatus(this.event66001.confId, roomStatus);
-				
-				// 更新课件状态
-				FileDao fileDao = new FileDao();
-				
-				String[] arr = this.event66001.fileUrl.split("/");
-				FileItem file = fileDao.selectByFileName(arr[arr.length - 1]);
-				file.setDuration(this.event66001.rcdTime);
-				file.setUts(new Date());
-				file.setStatus(FileItem.File_Status_Recorded);
-				if(this.event66001.rcdType == MeetingItem.Record_Type_CMPS) {
-					file.setFileSize(this.event66001.rcdSize * 1024 * 1024);
-				}else if(this.event66001.rcdType == MeetingItem.Record_Type_RSRC) {
-					file.setFileSize(this.event66001.rcdSize * 1024 * 1024);
-				}else if(this.event66001.rcdType == MeetingItem.Record_Type_MV) {
-					file.setFileSize(this.event66001.rcdSize * 1024 * 1024);
-				}
-				
-				if(fileDao.update(file) <= 0) {
-					Log.warn("");
-					rt = 1;
-				}
-				
-				Log.logOpt("meeting-record", "stop", "event99999", "127.0.0.1");	
-				
 				break;
 				
 			case 66002 :
@@ -112,6 +89,47 @@ public class BasicHttpService99999 implements AbstractHttpService{
 			case 66006 :
 				this.event66006 = new Event66006();
 				this.event66006.connState = xml.find("/MsgBody/ConfEvent/SrcConnState/ConnState").getText();
+				break;
+				
+			case 66007 : 
+				this.event66007 = new Event66007();
+				this.event66007.confId = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/ConfId").getText();
+				this.event66007.reasonId = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/ReasonId").getText();
+				this.event66007.fileUrl = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/FileUrl").getText();
+				this.event66007.rcdTime = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RcdTime").getText();
+				this.event66007.RSRCRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RSRCRcdSize").getText());
+				this.event66007.MVRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/MVRcdSize").getText());
+				this.event66007.CMPSRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/CMPSRcdSize").getText());
+				this.event66007.rcdType = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RcdType").getText());
+				
+				// 更新内存状态
+				roomStatus = StatusMgr.getRoomStatus(this.event66007.confId);
+				roomStatus.setIsRecord(0);
+				StatusMgr.setRoomStatus(this.event66007.confId, roomStatus);
+				
+				// 更新课件状态
+				fileDao = new FileDao();
+				
+				String[] arr2 = this.event66007.fileUrl.split("/");
+				file = fileDao.selectByFileName(arr2[arr2.length - 1]);
+				file.setDuration(this.event66007.rcdTime);
+				file.setUts(new Date());
+				file.setStatus(FileItem.File_Status_Recorded);
+				if(this.event66007.rcdType == MeetingItem.Record_Type_CMPS) {
+					file.setFileSize(this.event66007.CMPSRcdSize * 1024 * 1024);
+				}else if(this.event66007.rcdType == MeetingItem.Record_Type_RSRC) {
+					file.setFileSize(this.event66007.RSRCRcdSize * 1024 * 1024);
+				}else if(this.event66007.rcdType == MeetingItem.Record_Type_MV) {
+					file.setFileSize(this.event66007.MVRcdSize * 1024 * 1024);
+				}
+				
+				if(fileDao.update(file) <= 0) {
+					Log.mark("--update file status to finish fail, fileName:" + file.getFileName());
+					rt = 1;
+				}
+				
+				Log.logOpt("meeting-record", "stop", "event99999", "127.0.0.1");	
+			
 				break;
 			}
 			
@@ -172,6 +190,18 @@ public class BasicHttpService99999 implements AbstractHttpService{
 	@SuppressWarnings("unused")
 	private class Event66006 {
 		private String connState;// 1连接，0断开
+	}
+	
+	@SuppressWarnings("unused")
+	private class Event66007 {
+		private String confId;
+		private String reasonId;
+		private String fileUrl;
+		private String rcdTime;
+		private int RSRCRcdSize;// 单位MB
+		private int MVRcdSize;// 单位MB
+		private int CMPSRcdSize;// 单位MB
+		private int rcdType;
 	}
 
 }

@@ -44,7 +44,7 @@ import com.santrong.util.CommonTools;
 @RequestMapping("/meeting")
 public class MeetingAction extends BaseAction{
 	
-	TcpClientService client = TcpClientService.getInstance();	
+	TcpClientService client = TcpClientService.getInstance();
 	
 	/**
 	 * 会议管理主页面
@@ -67,6 +67,7 @@ public class MeetingAction extends BaseAction{
 				//这里为了能正常显示界面，不处理请求失败，当成连接不上处理
 				if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {
 					// 校验数据源个数---是否需要全部校验个数和IP完全对应？
+					Log.debug("------------:sheepsheep:" + dsList.size() + "|" + tcp.getSrcStateList().size());
 					if(dsList.size() == tcp.getSrcStateList().size()) {
 						//对比转换状态
 						for(int i=0;i<dsList.size();i++) {
