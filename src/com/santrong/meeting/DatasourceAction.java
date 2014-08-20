@@ -1,5 +1,6 @@
 package com.santrong.meeting;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -103,7 +104,9 @@ public class DatasourceAction extends BaseAction {
 		
 		if(needDel) {
 			LocalTcp31015 tcp = new LocalTcp31015();
-			tcp.setSrcAddr(delAddr);
+			List<String> srcList = new ArrayList<String>();
+			srcList.add(delAddr);
+			tcp.setSrcAddrList(srcList);
 			client.request(tcp);
 			
 			if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
@@ -186,7 +189,9 @@ public class DatasourceAction extends BaseAction {
 		
 		// 发送tcp
 		LocalTcp31015 tcp = new LocalTcp31015();
-		tcp.setSrcAddr(item.getAddr());
+		List<String> srcList = new ArrayList<String>();	
+		srcList.add(item.getAddr());
+		tcp.setSrcAddrList(srcList);
 		client.request(tcp);
 		
 		if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {

@@ -50,6 +50,11 @@ public class BasicHttpService30004 implements AbstractHttpService{
 			
 			// 状态校验
 			RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
+			
+			if(roomStatus.getIsConnect() == 0) {
+				rt = 1;//连接不上服务器
+			}
+			
 			if(roomStatus.getIsRecord() == 1 && operType == 1) {
 				rt = 1;//已经有课件正在录制中,不能开启录制和继续录制
 			}

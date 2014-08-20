@@ -67,7 +67,6 @@ public class MeetingAction extends BaseAction{
 				//这里为了能正常显示界面，不处理请求失败，当成连接不上处理
 				if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {
 					// 校验数据源个数---是否需要全部校验个数和IP完全对应？
-					Log.debug("------------:sheepsheep:" + dsList.size() + "|" + tcp.getSrcStateList().size());
 					if(dsList.size() == tcp.getSrcStateList().size()) {
 						//对比转换状态
 						for(int i=0;i<dsList.size();i++) {
@@ -82,12 +81,20 @@ public class MeetingAction extends BaseAction{
 						// 删除
 						if(tcp.getSrcStateList().size() > 0) {
 							LocalTcp31015 tcp31015 = new LocalTcp31015();
+							List<String> srcList = new ArrayList<String>();
 							for(int i=0;i<tcp.getSrcStateList().size();i++) {
-								tcp31015.setSrcAddr(tcp.getSrcStateList().get(i).getAddr());
+								srcList.add(tcp.getSrcStateList().get(i).getAddr());
 							}
+							tcp31015.setSrcAddrList(srcList);
 							client.request(tcp31015);
 							if(tcp31015.getRespHeader().getReturnCode() == 1 || tcp31015.getResultCode() == 1) {
-								return FAIL;
+								// 标记错误，不干扰使用
+								String dsxxstr = "";
+								for(String s : srcList) {
+									dsxxstr += ("," + s);
+								}
+								dsxxstr.substring(1);
+								Log.mark("--meetingPage find the datasource size is not equals, remove datasource in control fail:" + dsxxstr);
 							}
 						}
 						// 新增
@@ -102,7 +109,8 @@ public class MeetingAction extends BaseAction{
 								client.request(tcp31014);
 								
 								if(tcp31014.getRespHeader().getReturnCode() == 1 || tcp31014.getResultCode() == 1) {
-									return FAIL;
+									// 标记错误，不干扰使用
+									Log.mark("--meetingPage find the datasource size is not equals, add datasource in control fail:" + ds.getAddr());
 								}
 							}
 						}
@@ -148,13 +156,6 @@ public class MeetingAction extends BaseAction{
 	@ResponseBody
 	public String openLive(MeetingItem meeting) {
 		try{
-			//持久化配置
-			String rs = persistence(meeting);
-			if(rs != SUCCESS) {
-				return rs;
-			}
-			
-
 			String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
 			RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
 			
@@ -164,6 +165,12 @@ public class MeetingAction extends BaseAction{
 			
 			if(roomStatus.getIsRecord() == 1 && meeting.getUseRecord() == 1) {
 				return "error_record_already_begin";//已经有课件正在录制中，请先停止录制
+			}
+			
+			//持久化配置
+			String rs = persistence(meeting);
+			if(rs != SUCCESS) {
+				return rs;
 			}
 			
 			LocalTcp31004 tcp = new LocalTcp31004();
@@ -247,6 +254,14 @@ public class MeetingAction extends BaseAction{
 			RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
 			int isRecord = roomStatus.getIsRecord();
 			
+			if(roomStatus.getIsConnect() == 0) {
+				return "error_meeting_connecte_error";//连接不上服务器
+			}
+			
+			if(roomStatus.getIsLive() == 0) {
+				return "error_meeting_other_close";//会议没有开启
+			}
+			
 			if(roomStatus.getIsLive() == 0) {
 				return "error_meeting_already_close";//会议已经被关闭，不可重复操作
 			}
@@ -312,14 +327,8 @@ public class MeetingAction extends BaseAction{
 	@ResponseBody
 	public String startRecord(MeetingItem meeting) {
 		try{
-			// 持久化
-			String rs = persistence(meeting);
-			if(rs != SUCCESS) {
-				return rs;
-			}
-		
 			// 发送录制指令
-			rs = doRecord(meeting);
+			String rs = doRecord(meeting);
 			if(rs != SUCCESS) {
 				return rs;
 			}
@@ -346,6 +355,14 @@ public class MeetingAction extends BaseAction{
 		try{
 			String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
 			RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
+			
+			if(roomStatus.getIsConnect() == 0) {
+				return "error_meeting_connecte_error";//连接不上服务器
+			}
+			
+			if(roomStatus.getIsLive() == 0) {
+				return "error_meeting_other_close";//会议没有开启
+			}			
 			
 			if(roomStatus.getIsRecord() == 0) {
 				return "error_record_already_close";//录制已经停止，不可重复操作
@@ -410,6 +427,12 @@ public class MeetingAction extends BaseAction{
 				return super.ERROR_PARAM;
 			}
 		}
+		
+		String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
+		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
+		if(roomStatus.getIsLive() == 1) {
+			return "error_meeting_is_begin_not_save";//已经开会不能持久化
+		}		
 		
 		MeetingDao dao = new MeetingDao();
 		DatasourceDao dsDao = new DatasourceDao();
@@ -478,12 +501,14 @@ public class MeetingAction extends BaseAction{
 		// 删除数据源，余下的就是要删除的
 		if(dsDbList.size() > 0 && updateList.size() > 0) {
 			LocalTcp31015 tcp = new LocalTcp31015();
+			List<String> srcList = new ArrayList<String>();			
 			for(DatasourceItem ds : dsDbList) {
-				tcp.setSrcAddr(ds.getAddr());
+				srcList.add(ds.getAddr());
 			}
 			for(DatasourceItem ds : updateList) {// 没有修改数据源的接口，只能先删除再修改了
-				tcp.setSrcAddr(ds.getAddr());
+				srcList.add(ds.getAddr());
 			}
+			tcp.setSrcAddrList(srcList);
 			client.request(tcp);
 			if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
 				return FAIL;
@@ -563,6 +588,14 @@ public class MeetingAction extends BaseAction{
 		
 		String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
 		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
+		
+		if(roomStatus.getIsConnect() == 0) {
+			return "error_meeting_connecte_error";//连接不上服务器
+		}
+		
+		if(roomStatus.getIsLive() == 0) {
+			return "error_meeting_other_close";//会议没有开启
+		}
 		
 		if(roomStatus.getIsRecord() == 1) {
 			return "error_record_already_begin";//已经有课件正在录制中，请先停止录制

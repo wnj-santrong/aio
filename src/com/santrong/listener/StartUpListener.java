@@ -101,7 +101,7 @@ public class StartUpListener implements ServletContextListener {
 			SchedulerFactory factory = new StdSchedulerFactory();
 			Scheduler scheduler = factory.getScheduler();
             scheduler.shutdown(true);
-            Thread.sleep(1000);// Sleep for a bit so that we don't get any errors
+            Thread.sleep(100);// Sleep for a bit so that we don't get any errors
         } catch (Exception e){
             Log.printStackTrace(e);
         }
