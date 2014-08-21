@@ -1,7 +1,14 @@
 package com.santrong.file.entry;
 
+import java.io.File;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.system.DirDefine;
+import com.santrong.util.FileUtils;
 
 /**
  * @author weinianjie
@@ -56,6 +63,47 @@ public class FileItem {
 			}
 		}else {
 			return tmp + "B";
+		}
+	}
+	
+	// 获取缩略图
+	public List<String> getThumbnail() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("/CLSRM_").append(this.channel).append("/").append(this.fileName).append("/");
+		if(this.recordType == MeetingItem.Record_Type_RSRC) {
+			sb.append(MeetingItem.Record_Type_RSRC_Dir);
+		}else if(this.recordType == MeetingItem.Record_Type_MV) {
+			sb.append(MeetingItem.Record_Type_MV_Dir);
+		}else if(this.recordType == MeetingItem.Record_Type_CMPS) {
+			sb.append(MeetingItem.Record_Type_CMPS_Dir);
+		}
+		sb.append("/resource/thumbnail");
+		List<File> files = FileUtils.getAllFileAndDirectory(DirDefine.VedioDir + sb.toString());// 获取目录下的所有缩略图，默认名称排序
+		List<String> fileList = new ArrayList<String>();
+		for(File f:files) {
+			fileList.add(f.getPath());
+		}
+		if(fileList.size() == 0) {
+			fileList.add("/resource/photo/video01.jpg");
+		}
+		return fileList;
+	}
+	
+	// 获取分辨率
+	public String getResolutionString() {
+		switch(this.getResolution()) {
+			case MeetingItem.Resolution_emCif :
+				return "352*288";
+			case MeetingItem.Resolution_em4Cif :
+				return "704*576";
+			case MeetingItem.Resolution_em720P :
+				return "1280*720";
+			case MeetingItem.Resolution_em1080P :
+				return "1920*1080";
+			case MeetingItem.Resolution_em12801024 :
+				return "1280*1024";
+			default :
+				return "";
 		}
 	}
 	

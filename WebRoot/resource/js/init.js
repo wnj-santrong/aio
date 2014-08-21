@@ -105,6 +105,7 @@ IndexClass.prototype = {
     			}
     		}
     	});
+    	$.cookie('managePage', 0);
 	},
 	
 	// 直播点播函数
@@ -112,13 +113,15 @@ IndexClass.prototype = {
 //		if(!/MSIE/.test(navigator.userAgent)) {// IE11不兼容
 		if(!$.isIE()) {
 			Boxy.alert(Message.dynamic('notice_only_support_ie'));
+			return;
 		}
 		
 		if(options.id) {
 			$.simplePost({url : Globals.ctx + "/file/filePlay.action", data : {id : options.id, type : options.type}, tip : false, callback : function(result) {
 				if(result.indexOf('{') != -1) {
 					var json = eval('(' + result + ')');
-					if(SantrongPlayer && SantrongPlayer.StartPlayEX) {
+//					if(SantrongPlayer && SantrongPlayer.StartPlayEX) {
+					if(SantrongPlayer) {
 						SantrongPlayer.StartPlayEX(json.type, window.location.host, json.confId, json.filePath, json.liveType);
 					}else{
 						Boxy.alert(Message.dynamic("notice_download_player"));
@@ -539,6 +542,10 @@ IndexClass.prototype = {
 			Boxy.load(Globals.ctx + "/file/fileDetail.action?id=" + id, {
 				modal : true,
 				afterShow : function() {
+					// 播放
+					$(".cplay").click(function() {
+						_this._santrongPlay({id : $("input[name=id]").val(), type : 0});
+					});
 			    	// 绑定取消
 			    	$(".close").bindFormClose();
 				}

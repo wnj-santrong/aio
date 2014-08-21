@@ -27,12 +27,15 @@
 			    </span>
 			</dd>
             <dd><span class="tit"><fmt:message key="file_bitRate"/>:</span><span class="cont">${file.bitRate}</span></dd>
-            <dd><span class="tit"><fmt:message key="file_resolution"/>:</span><span class="cont">${file.resolution}</span></dd>
+            <dd><span class="tit"><fmt:message key="file_resolution"/>:</span><span class="cont">${file.resolutionString}</span></dd>
             <dd><span class="tit"><fmt:message key="file_playCount"/>:</span><span class="cont">${file.playCount}</span></dd>
             <dd><span class="tit"><fmt:message key="file_downloadCount"/>:</span><span class="cont">${file.downloadCount}</span></dd>
-            <dd><span class="tit"><fmt:message key="file_recordTime"/>:</span><span class="cont"><fmt:formatDate value="${file.cts}" pattern="yyyy/MM/dd  HH:mm:ss" /></span></dd>
-            <dd><span class="tit"><fmt:message key="file_modifyTime"/>:</span><span class="cont"><fmt:formatDate value="${file.uts}" pattern="yyyy/MM/dd  HH:mm:ss" /></span></dd>
+            <dd><span class="tit"><fmt:message key="file_recordTime"/>:</span><span class="cont"><fmt:formatDate value="${file.cts}" pattern="yyyy-MM-dd  HH:mm:ss" /></span></dd>
+            <dd><span class="tit"><fmt:message key="file_modifyTime"/>:</span><span class="cont"><fmt:formatDate value="${file.uts}" pattern="yyyy-MM-dd  HH:mm:ss" /></span></dd>
             <dd><span class="tit"><fmt:message key="file_remark"/>:</span><span class="cont">${file.remark}</span></dd>
+            <c:if test="${file.status != 0}">
+            <dd><span class="tit"></span><span class="cont"><a href="javascript:void(0);" class="cplay"><fmt:message key="text_play"/></a></span></dd>
+            </c:if>
         </dl>    	    
 	</div>
 </form>

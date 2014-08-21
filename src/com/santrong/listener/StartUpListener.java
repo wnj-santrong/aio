@@ -1,26 +1,20 @@
 package com.santrong.listener;
 
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.logicalcobwebs.proxool.configuration.PropertyConfigurator;
-import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
-import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.impl.matchers.GroupMatcher;
 
 import com.santrong.ftp.FtpConfig;
 import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.schedule.FtpUploadJob;
-import com.santrong.schedule.JobImpl;
 import com.santrong.schedule.ScheduleManager;
 import com.santrong.schedule.StatusMonitJob;
 import com.santrong.schedule.SystemUpdateJob;
@@ -100,7 +94,6 @@ public class StartUpListener implements ServletContextListener {
 	}
 	
 	// 销毁执行
-	@SuppressWarnings("unchecked")
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		try {
@@ -110,16 +103,18 @@ public class StartUpListener implements ServletContextListener {
 			SchedulerFactory factory = new StdSchedulerFactory();
 			Scheduler scheduler = factory.getScheduler();
 			
-			Set<TriggerKey> triggers = scheduler.getTriggerKeys(GroupMatcher.groupEquals(JobImpl.BasicTriggerGroup));
-			Set<JobKey> jobs = scheduler.getJobKeys(GroupMatcher.groupEquals(JobImpl.BasicGroup));
-			
-			for(Iterator<TriggerKey> t=triggers.iterator(); t.hasNext();) {
-				scheduler.pauseTrigger(t.next());//停止触发器  
-				scheduler.unscheduleJob(t.next());//移除触发器 
-			}
-			for(Iterator<JobKey> j=jobs.iterator(); j.hasNext();) {
-				scheduler.deleteJob(j.next());//删除任务
-			}
+//			@SuppressWarnings("unchecked")
+//			Set<TriggerKey> triggers = scheduler.getTriggerKeys(GroupMatcher.groupEquals(JobImpl.BasicTriggerGroup));
+//			@SuppressWarnings("unchecked")
+//			Set<JobKey> jobs = scheduler.getJobKeys(GroupMatcher.groupEquals(JobImpl.BasicGroup));
+//			
+//			for(Iterator<TriggerKey> t=triggers.iterator(); t.hasNext();) {
+//				scheduler.pauseTrigger(t.next());//停止触发器  
+//				scheduler.unscheduleJob(t.next());//移除触发器 
+//			}
+//			for(Iterator<JobKey> j=jobs.iterator(); j.hasNext();) {
+//				scheduler.deleteJob(j.next());//删除任务
+//			}
  
             scheduler.shutdown(true);
             Thread.sleep(100);// Sleep for a bit so that we don't get any errors
