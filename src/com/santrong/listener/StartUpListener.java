@@ -15,6 +15,7 @@ import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.schedule.FtpUploadJob;
+import com.santrong.schedule.LogClearJob;
 import com.santrong.schedule.ScheduleManager;
 import com.santrong.schedule.StatusMonitJob;
 import com.santrong.schedule.SystemUpdateJob;
@@ -74,6 +75,9 @@ public class StartUpListener implements ServletContextListener {
 		
 		// 启动会议室状态监听线程
 		scheManager.startCron(new StatusMonitJob());
+		
+		// 启动日志清理线程
+		scheManager.startCron(new LogClearJob());
 		
 		
 		// 启动ftp上传扫描线程

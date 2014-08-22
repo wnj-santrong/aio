@@ -1,13 +1,24 @@
 // 全局初始化
 function init() {
-	
 	// 页面竖直居中
 	$(window).unbind("resize").resize(function() {
+		var b_width = $(this).width();
 		var b_height = $(this).height();
 		var m_height = $(".mainbav").height();
 		var height = b_height - m_height;
 		height = height > 0? height/2 : 0;
 		$(".mainbav").css({"margin-top" : height + "px"});
+		
+		// 如果有浮动层，则居中
+		if($(".boxy-wrapper").size() > 0) {
+			var x_width = $(".boxy-wrapper").width();
+			var x_height = $(".boxy-wrapper").height();
+			var left = b_width - x_width;
+			left = left > 0? left/2 : 0;
+			var top = b_height - x_height;
+			top = top > 0? top/2 : 0;
+			$(".boxy-wrapper").css({"left" : left + "px", "top" : top + "px"});
+		}
 	});
 	$(window).resize();
 	
@@ -178,7 +189,7 @@ IndexClass.prototype = {
     			if($(".sub_content").text() == "") {
     				$(".sub_content").html('<img id="floatExcuting" style="margin:292px 0 0 500px;" src="' + Globals.ctx + '/resource/photo/loading.gif" />');// 设置载入状态
     			}
-    		}, 500);//500ms没有拿到新页面则显示loading
+    		}, 360);//360ms没有拿到新页面则显示loading
     		
     		$.get(pageUrl, null, function(result){
     			if(pageName == Globals.pageName) {// 在异步的情况下，用户最后一次点击的页面才具有载入权
@@ -230,7 +241,6 @@ IndexClass.prototype = {
     	var freshCurrentModel = function() {$(".navigator a:first").click();}
     	
     	var preValidate = function() {
-    		$.showfloatExcuting();
     		if($("#dsList .edit").size() != 0) {
     			Boxy.alert(Message.dynamic("notice_datasource_edit"));
     			return false;
@@ -562,30 +572,18 @@ IndexClass.prototype = {
     	// 绑定所有form提交
     	$(".submit").bindFormClick({
     		beforeSubmit : function(form, options){
-    			// 上传升级文件开始弹出蒙层
-    			if(form.attr("action").indexOf("updateLocal") != -1) {
-    				options.isGoodCall = false;
-        			$.showfloatExcuting();
-        		}
     		},
     		afterSubmit : function(form){
     			// 用户修改后清空表单
 	    		if(form.attr("id") == "setting_user") {
 	    			form.clearForm();
 	    		}
-    			// 上传升级文件完毕关闭蒙层
-    			if(form.attr("action").indexOf("updateLocal") != -1) {
-        			$.hideFloatExcuting();
-        		}
     		}
     	});
     	
     	// 系统升级--立刻检测升级（这个比较特殊）
     	$(".updateNow").click(function() {
-    		$.showfloatExcuting();
-    		$.simplePost({url : Globals.ctx + "/setting/updateOnlineNow.action", callback : function() {
-    			$.hideFloatExcuting();
-    		}});
+    		$.simplePost({url : Globals.ctx + "/setting/updateOnlineNow.action"});
     	});
     	
     	// 获取wan
@@ -654,9 +652,9 @@ IndexClass.prototype = {
 					
 					// 恢复数据库
 					$(".dbRestore").click(function(){
-						var filename = $(this).parent().find("span").text();
 						Boxy.ask(Message.dynamic("warn_db_restore_confirm"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
 				            if (response == Message.dynamic("text_confirm")) {
+				            	var filename = $(this).parent().find("span").text();
 								$.simplePost({url : Globals.ctx + "/setting/dbRestore.action", data : {"filename" : filename}});
 				            }
 						});							

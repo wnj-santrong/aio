@@ -232,10 +232,8 @@ public class FileAction extends BaseAction{
 			String[] idArr = ids.split(",");
 			
 			FileDao fileDao = new FileDao();
-			TcpClientService client = TcpClientService.getInstance();
-			LocalTcp31010 tcp31010 = new LocalTcp31010();
 	
-			List<FileItem> fileList = fileDao.selectByIds(idArr);
+			final List<FileItem> fileList = fileDao.selectByIds(idArr);
 			if(fileList == null || fileList.size() == 0) {
 				return FAIL;
 			}
@@ -245,25 +243,34 @@ public class FileAction extends BaseAction{
 				return "notice_file_recording";
 			}
 			
-			// 先删除实体文件
-			for(FileItem file : fileList) {
-				String confId = MeetingItem.ConfIdPreview + file.getChannel();
-				String rcdName = DirDefine.VedioDir + "/" + confId + "/" + file.getFileName();//全路径
-				tcp31010.setConfId(confId);
-				tcp31010.setCourseName(rcdName);
-				client.request(tcp31010);
-				
-				if(tcp31010.getRespHeader().getReturnCode() == 1 || tcp31010.getResultCode() == 1) {
-//					return FAIL;
-					// 做个警告，不当成失败处理
-					Log.mark("--delete file but really file detele fail, fileName:" + file.getFileName());
-				}
-			}
-			
-			// 再删除数据库
+			// 删除数据库
 			if(fileDao.deleteByIds(idArr) <= 0) {
 				return FAIL;
 			}
+			
+			// 删除实体文件，开新线程来删除，防止页面卡顿
+			new Thread() {
+				public void run() {
+					try{
+						TcpClientService client = TcpClientService.getInstance();
+						LocalTcp31010 tcp31010 = new LocalTcp31010();
+						for(FileItem file : fileList) {
+							String confId = MeetingItem.ConfIdPreview + file.getChannel();
+							String rcdName = DirDefine.VedioDir + "/" + confId + "/" + file.getFileName();//全路径
+							tcp31010.setConfId(confId);
+							tcp31010.setCourseName(rcdName);
+							client.request(tcp31010);
+							
+							if(tcp31010.getRespHeader().getReturnCode() == 1 || tcp31010.getResultCode() == 1) {
+								// 做个警告，不当成失败处理
+								Log.mark("--delete file but really file detele fail, fileName:" + file.getFileName());
+							}
+						}
+					}catch(Exception e) {
+						Log.printStackTrace(e);
+					}
+				}
+			}.start();
 			
 			Log.logOpt("file-delete", ids, request);
 			

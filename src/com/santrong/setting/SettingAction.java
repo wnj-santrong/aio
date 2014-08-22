@@ -3,7 +3,6 @@ package com.santrong.setting;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.fileupload.FileItem;
@@ -46,6 +45,8 @@ import com.scand.fileupload.ProgressMonitorFileItemFactory;
 @Controller
 @RequestMapping("/setting")
 public class SettingAction extends BaseAction{
+	
+	public static boolean isDatabaseDoing;// 数据库是否正则备份或者恢复
 	
 	/*
 	 * 主页面
@@ -128,6 +129,10 @@ public class SettingAction extends BaseAction{
 		String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/dbBackup.sh " };
 		
 		try {
+			if(isDatabaseDoing) {
+				return "error_setting_dbdoing";
+			}
+			isDatabaseDoing = true;
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
 			if (ps.waitFor() == 0) {
@@ -140,7 +145,9 @@ public class SettingAction extends BaseAction{
 			
 		} catch (Exception e) {
 			Log.printStackTrace(e);
-		}		
+		}finally{
+			isDatabaseDoing = false;
+		}
 		
 		return FAIL;
 	}
@@ -179,6 +186,10 @@ public class SettingAction extends BaseAction{
 		String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/dbRestore.sh " + filename };
 		
 		try {
+			if(isDatabaseDoing) {
+				return "error_setting_dbdoing";
+			}
+			isDatabaseDoing = true;
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
 			if (ps.waitFor() == 0) {
@@ -191,6 +202,8 @@ public class SettingAction extends BaseAction{
 			
 		} catch (Exception e) {
 			Log.printStackTrace(e);
+		}finally {
+			isDatabaseDoing = false;
 		}
 		
 		return FAIL;
