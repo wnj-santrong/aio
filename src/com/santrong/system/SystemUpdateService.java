@@ -22,12 +22,14 @@ import com.santrong.util.XmlReader;
  * @time 下午3:41:50
  */
 public class SystemUpdateService {
+	
+	public static String OnlineUpdateAddr = "http://www.santrong.com/update";	// 在线升级地址
 
 	public String update() {
 		BufferedReader in = null;
 		try{
 			String xmlStr = "";
-			URL url = new URL(Global.OnlineUpdateAddr);
+			URL url = new URL(OnlineUpdateAddr);
 			URLConnection conn = url.openConnection();
 	        // 设置通用的请求属性
 	        conn.setRequestProperty("accept", "*/*");

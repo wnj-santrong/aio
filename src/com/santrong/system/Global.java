@@ -31,12 +31,13 @@ public class Global {
     public static String Language = "zh_CN";
     public static String LanDeviceName = "eth0";								// lan网口的网口名
     public static String WanDeviceName = "eth1";								// wan网口的网口名
-    public static String OnlineUpdateAddr = "http://www.santrong.com/update";	// 在线升级地址
     public static int DownloadMaxCount = 10;                            		// 控制下载人数
     public static int HeartInterval = 10000;									// 心跳时间
-    public static int HeartTimeout = 15000;										// 心跳过时时间
+    public static int HeartTimeout = 15000;										// 心跳过期时间
     public static int DiskErrorSize = 2048;										// 禁止录制的磁盘空间剩余量，单位M
+    public static int DiskErrorSizeCancel = 3072;								// 禁止录制解除的磁盘空间剩余量，单位M
     public static int DiskWainSize = 10240;										// 磁盘剩余空间不足的提醒值，单位M
+    public static int DiskWainSizeCancel = 11264;								// 磁盘剩余空间不足的提醒解除值，单位M
     public static int UploadFileSizeLimit = 150;								// 升级文件大小限制，单位M----请确保tomcat限制大小不小于用户配置大小
     
     /*
@@ -64,12 +65,13 @@ public class Global {
             Language = ini.readString("System", "Language", Language);
             WanDeviceName = ini.readString("System", "WanDeviceName", WanDeviceName);
             LanDeviceName = ini.readString("System", "LanDeviceName", LanDeviceName);
-            OnlineUpdateAddr = ini.readString("System", "OnlineUpdateAddr", OnlineUpdateAddr);
             DownloadMaxCount =ini.readInt("System", "DownloadMaxCount", DownloadMaxCount);
             HeartInterval =ini.readInt("System", "HeartInterval", HeartInterval);
             HeartTimeout =ini.readInt("System", "HeartTimeout", HeartTimeout);
             DiskErrorSize =ini.readInt("System", "DiskErrorSize", DiskErrorSize);
+            DiskErrorSizeCancel =ini.readInt("System", "DiskErrorSizeCancel", DiskErrorSizeCancel);
             DiskWainSize =ini.readInt("System", "DiskWainSize", DiskWainSize);
+            DiskWainSizeCancel =ini.readInt("System", "DiskWainSizeCancel", DiskWainSizeCancel);
             UploadFileSizeLimit =ini.readInt("System", "UploadFileSizeLimit", UploadFileSizeLimit);
             
             FTPConnectMode =ini.readInt("Ftp", "FTPConnectMode", FTPConnectMode);
@@ -78,16 +80,15 @@ public class Global {
         
         // 读取共享的配置文件
         XmlReader xml = new XmlReader();
-        xml.open(DirDefine.SysConfigDir + "/aio-cfg.xml");
         
+        xml.open(DirDefine.SysConfigDir + "/aio-cfg.xml");
         TcpDefine.Basic_Client_Addr = xml.getString("/control/addr", TcpDefine.Basic_Client_Addr);
         TcpDefine.Basic_Client_Port = xml.getInt("/control/port", TcpDefine.Basic_Client_Port);
         TcpDefine.Main_Client_Addr = xml.getString("/maintain/addr", TcpDefine.Main_Client_Addr);
         TcpDefine.Main_Client_Port = xml.getInt("/maintain/port", TcpDefine.Main_Client_Port);
         
         xml.open(DirDefine.SysConfigDir + "/maintain.xml");
-        
-        TcpDefine.Main_Client_Addr = xml.getString("/UpdateMode/HttpUrl", TcpDefine.Main_Client_Addr);
+        SystemUpdateService.OnlineUpdateAddr = xml.getString("/UpdateMode/HttpUrl", SystemUpdateService.OnlineUpdateAddr);
     }
     
 }

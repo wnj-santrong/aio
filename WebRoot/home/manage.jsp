@@ -39,7 +39,9 @@ Globals.isLogined = <%=request.getSession().getAttribute(Global.SessionKey_Login
         <a href="javascript:void(0);" class="logout_submit"><fmt:message key="index_logout"/></a>
         <a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a>
         </span>
-        <%-- <a class="tip" href="javascript:void(0);" class="system_warn"><fmt:message key="index_warn"/></a> --%>
+        <c:if test="${fn:length(tipList) > 0}">
+        <%-- <a class="tip" href="javascript:void(0);" class="system_warn"><fmt:message key="index_warn"/>(${fn:length(tipList)})</a> --%>
+        </c:if>
 	</div>
 </div>
 <div class="column">

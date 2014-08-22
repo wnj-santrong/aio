@@ -20,7 +20,7 @@ public class LocalTcp31009 extends LocalTcpBase {
 	private int uniCur;
 	private int vodCur;
 	private int freePcent;
-	private int freeSize;
+	private int freeSize;// 单位MB
 	private String model;
 	private String serialNo;
 	

@@ -1,13 +1,13 @@
 package com.santrong.file.entry;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.DirDefine;
+import com.santrong.util.CommonTools;
 import com.santrong.util.FileUtils;
 
 /**
@@ -45,25 +45,7 @@ public class FileItem {
 	private Date uts;
 	
 	public String getFileSizeString() {
-		long tmp = this.fileSize;
-		if(tmp >= 1024) {
-			tmp = tmp / 1024;
-			if(tmp >= 1024) {
-				tmp = tmp /1024;
-				if(tmp >= 1024) {
-					tmp = tmp / 1024;
-					double s = ((double)(tmp / 1024));	
-					DecimalFormat df = new DecimalFormat("#.00");
-					return df.format(s) + "G";
-				}else {
-					return tmp + "M";
-				}
-			}else {
-				return tmp + "K";
-			}
-		}else {
-			return tmp + "B";
-		}
+		return CommonTools.formatDiskSize(this.fileSize);
 	}
 	
 	// 获取缩略图

@@ -10,6 +10,8 @@ import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
+import com.santrong.system.tip.TipItem;
+import com.santrong.system.tip.TipService;
 import com.santrong.util.XmlReader;
 
 /**
@@ -62,7 +64,13 @@ public class BasicHttpService99999 implements AbstractHttpService{
 			case 66002 :
 				this.event66002 = new Event66002();
 				this.event66002.freePercent = Integer.parseInt(xml.find("/MsgBody/ConfEvent/SpaceInfo/FreePercent").getText());
-				this.event66002.freeSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/SpaceInfo/FreeSize").getText());
+				this.event66002.freeSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/SpaceInfo/FreeSize").getText());// 单位MB
+				TipItem tip = new TipItem();
+				tip.setTitle("tip_disk_lack_title");
+				tip.setContent("tip_disk_lack_content");
+				tip.setOther(1);//0是少，1是不足
+				TipService tipService = new TipService();
+				tipService.setTip(TipService.Disk_Lack, tip);
 				break;
 				
 			case 66003 :

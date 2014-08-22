@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.santrong.tcp.client.MainTcp39004.ModuleStatus;
+import com.santrong.util.CommonTools;
 
 /**
  * @author weinianjie
@@ -26,9 +27,19 @@ public class SystemInfoView {
 	/*
 	 * 根据百分比和空闲算出磁盘总容量
 	 */
-	public String getTotalSize() {
-		if(this.freePcent != 0){
-			return String.valueOf(this.freeSize * 100 / this.freePcent); 
+	public String getTotalSizeString() {
+		if(this.freeSize != 0 && this.freePcent != 0){
+			return CommonTools.formatDiskSize(this.freeSize * 1024 * 1024 * 100 / this.freePcent);// 先获取总字节然后格式化
+		}
+		return "unknown";
+	}
+	
+	/*
+	 * 获取剩余空间
+	 */
+	public String getFreeSizeString() {
+		if(this.freeSize != 0) {
+			return CommonTools.formatDiskSize(this.freeSize * 1024 * 1024);// M先转成字节
 		}
 		return "unknown";
 	}

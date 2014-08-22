@@ -1238,4 +1238,30 @@ public class CommonTools {
 		}
 		return false;
 	}
+	
+	/**
+	 * 把字节类型转换为自适应类型
+	 * @param size
+	 * @return
+	 */
+	public static String formatDiskSize(long size) {
+		if(size >= 1024) {
+			size = size / 1024;
+			if(size >= 1024) {
+				size = size /1024;
+				if(size >= 1024) {
+					size = size / 1024;
+					double s = ((double)(size / 1024));	
+					DecimalFormat df = new DecimalFormat("#.00");
+					return df.format(s) + "G";
+				}else {
+					return size + "M";
+				}
+			}else {
+				return size + "K";
+			}
+		}else {
+			return size + "B";
+		}
+	}
 }

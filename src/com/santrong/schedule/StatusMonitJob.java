@@ -24,7 +24,7 @@ import com.santrong.tcp.client.TcpClientService;
 public class StatusMonitJob extends JobImpl {
 	
 	public static long lastHeatBeatTime;// 只有一路，先定义一个监听时间
-	public static boolean moreOnce;// 是否至少运行过一次，如果control层启动的时候已经发送http过来修改了lastHeatTime，可能导致会议室状态没有被初始化，初始化工作至少运行一次
+	private static boolean moreOnce;// 是否至少运行过一次，如果control层启动的时候已经发送http过来修改了lastHeatTime，可能导致会议室状态没有被初始化，初始化工作至少运行一次
 	
 	@Override
 	public String getJobName() {
@@ -73,6 +73,8 @@ public class StatusMonitJob extends JobImpl {
 				tcp.setPort(80);
 				tcp.setHeartbeat(Global.HeartInterval);
 				
+				// 确保失败或者失联后一旦重连至少能执行一次内存修正。
+				moreOnce = false;
 				
 				Log.info("---Connect Controller...");
 				client.request(tcp);

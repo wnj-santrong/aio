@@ -7,8 +7,8 @@
 	<li class="line"><span class="tit"><fmt:message key="info_maxPlay"/>:</span><span class="cont">${info.uniVodMax}</span></li>
 	<li class="line"><span class="tit"><fmt:message key="info_uniCur"/>:</span><span class="cont">${info.uniCur}</span></li>
 	<li class="line"><span class="tit"><fmt:message key="info_vodCur"/>:</span><span class="cont">${info.vodCur}</span></li>
-	<li class="line"><span class="tit"><fmt:message key="info_diskSize"/>:</span><span class="cont">${info.totalSize}</span></li>
-	<li class="line"><span class="tit"><fmt:message key="info_diskFree"/>:</span><span class="cont">${info.freeSize}</span></li>
+	<li class="line"><span class="tit"><fmt:message key="info_diskSize"/>:</span><span class="cont">${info.totalSizeString}</span></li>
+	<li class="line"><span class="tit"><fmt:message key="info_diskFree"/>:</span><span class="cont">${info.freeSizeString}</span></li>
 	<li class="line"><span class="tit"><fmt:message key="info_systemVersion"/>:</span><span class="cont">${info.systemVersion}</span></li>
 	<li class="line"><span class="tit"><fmt:message key="info_webVersion"/>:</span><span class="cont">${info.webVersion}</span></li>
 	<c:forEach items="${info.moduleList}" var="item">

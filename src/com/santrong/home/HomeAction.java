@@ -1,6 +1,7 @@
 package com.santrong.home;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
+import com.santrong.system.tip.TipItem;
+import com.santrong.system.tip.TipService;
 import com.santrong.util.CommonTools;
 
 /**
@@ -30,12 +33,13 @@ public class HomeAction extends BaseAction{
 	@RequestMapping("/index")
 	public String index(){
 		
-		if(this.currentUser() == null){
-			//未登录
+		if(this.currentUser() == null){//未登录
+			
 			return "index";
 			
-		}else{
-			//已登录
+		}else{//已登录
+			
+			// 获取菜单
 			MenuDao menuDao = new MenuDao();
 			List<MenuItem> navigator = null;
 			
@@ -45,7 +49,12 @@ public class HomeAction extends BaseAction{
 				navigator = new ArrayList<MenuItem>();
 			}
 			
+			// 获取提醒
+			TipService tipService = new TipService();
+			List<TipItem> tipList = tipService.getList();
+			
 			request.setAttribute("navigator", navigator);
+			request.setAttribute("tipList", tipList);
 			
 			return "manage";
 			

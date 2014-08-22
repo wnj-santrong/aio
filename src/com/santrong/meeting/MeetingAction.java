@@ -24,6 +24,8 @@ import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
+import com.santrong.system.tip.TipItem;
+import com.santrong.system.tip.TipService;
 import com.santrong.tcp.client.LocalTcp31004;
 import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.tcp.client.LocalTcp31005;
@@ -219,7 +221,10 @@ public class MeetingAction extends BaseAction{
 			roomStatus.setIsLive(tcp.getDoUni());
 			StatusMgr.setRoomStatus(confId, roomStatus);
 			
-			// 如果要求录制
+			// 到这里开会就算成功了
+			Log.logOpt("meeting-open", "", request);
+			
+			// 如果要求录制，有可能磁盘不足，在子方法中判断，结果不影响开会成功，但是会给出提示
 			if(meeting.getUseRecord() == 1) {
 				
 				// 发送录制指令
@@ -230,7 +235,7 @@ public class MeetingAction extends BaseAction{
 				
 			}
 			
-			Log.logOpt("meeting-open", "", request);
+			
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -332,8 +337,6 @@ public class MeetingAction extends BaseAction{
 			if(rs != SUCCESS) {
 				return rs;
 			}
-			
-			Log.logOpt("meeting-record", "start", request);
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -586,6 +589,13 @@ public class MeetingAction extends BaseAction{
 	 */
 	private String doRecord(MeetingItem meeting) throws Exception {
 		
+		// 磁盘容量判断
+		TipService tipService = new TipService();
+		TipItem tip = tipService.getTip(TipService.Disk_Lack);
+		if(tip != null && tip.getOther() == 1) {//0是磁盘少需要注意，1是磁盘不足拒绝录制
+			return "error_disk_lack";
+		}
+		
 		String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
 		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
 		
@@ -650,6 +660,9 @@ public class MeetingAction extends BaseAction{
 		if(fileDao.insert(file) <= 0) {
 			return FAIL;
 		}
+		
+		Log.logOpt("meeting-record", "start", request);
+		
 		return SUCCESS;
 	}
 	
