@@ -22,6 +22,39 @@ function init() {
 	});
 	$(window).resize();
 	
+	// 回车和esc
+	$(document).unbind("keydown").keydown(function(e){
+		if(e.keyCode==13){// 回车
+			var el;			
+			// 浮动对话框
+			el = $(".answers .boxy-btn1");
+			if(el.size() > 0) {
+				el.click();
+				return;
+			}
+			
+			// 登录
+			el = $(".login_submit");
+			if(el.size() > 0) {
+				el.click();
+				return;
+			}
+			
+			// 搜索
+			el = $(".search_btn");
+			if(el.size() > 0) {
+				el.click();
+				return;
+			}
+		}else if(e.keyCode==27) {// ESC
+			// 清除所有浮动层---一次性移除，不一层层移除了，麻烦
+			$(".boxy-wrapper").remove();
+			$(".boxy-modal-blackout").remove();
+			
+		}
+	});
+	
+	
 	 // 时间选择器
     $('.clock').unbind("click").click(function(){
         $('#timeRange_div').remove();
@@ -104,18 +137,6 @@ IndexClass.prototype = {
     	});
     	// 绑定取消
     	$(".close").bindFormClose();
-    	
-    	// 回车登录
-    	$(document).keydown(function(e){
-    		if(e.keyCode==13){
-    			var answerBtn = $(".answers .boxy-btn1");
-    			if(answerBtn.size() > 0) {
-    				answerBtn.click();
-    			}else {
-    				$(".login_submit").click();
-    			}
-    		}
-    	});
     	$.cookie('managePage', 0);
 	},
 	
@@ -370,6 +391,8 @@ IndexClass.prototype = {
     // 视频播放
     play:function() {
     	var _this = this;
+    	$("input[name=keywork]").focus();
+    	
     	// 标签修改删除显示切换
     	if(Globals.isLogined) {
     		$(".tag_add").show();
@@ -449,6 +472,8 @@ IndexClass.prototype = {
     // 文件管理
     file:function() {
     	var _this = this;
+    	$("input[name=keywork]").focus();
+    	
     	var freshPage = function(opts) {
     		opts = $.extend({
     			keyword : keyword,

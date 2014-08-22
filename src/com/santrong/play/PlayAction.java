@@ -42,6 +42,7 @@ public class PlayAction extends BaseAction{
 				LiveEntry entry = new LiveEntry();
 				entry.setId(m.getId());
 				entry.setCourseName(m.getCourseName());
+				entry.setTeacher(m.getTeacher());
 				liveList.add(entry);
 			}
 		}

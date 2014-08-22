@@ -2,9 +2,11 @@ package com.santrong.file.entry;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.DirDefine;
 import com.santrong.util.CommonTools;
@@ -67,7 +69,10 @@ public class FileItem {
 		}
 		if(fileList.size() == 0) {
 			fileList.add("/resource/photo/video01.jpg");
+		}else {
+			Collections.sort(fileList); // 自然顺序排序
 		}
+		
 		return fileList;
 	}
 	

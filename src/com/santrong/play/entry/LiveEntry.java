@@ -8,6 +8,7 @@ package com.santrong.play.entry;
 public class LiveEntry {
 	private String id;
 	private String courseName;
+	private String teacher;
 	public String getId() {
 		return id;
 	}
@@ -19,6 +20,12 @@ public class LiveEntry {
 	}
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+	public String getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(String teacher) {
+		this.teacher = teacher;
 	}
 	
 }
