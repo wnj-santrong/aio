@@ -16,48 +16,25 @@ table tr td {text-align:center; color:#666; border:1px #ccc solid; overflow:hidd
 </style>
 </head>
 <body>
-	<h3>控制层</h3>
 	<table>
 		<tr>
-			<th>IP</th>
-			<th>端口</th>
-			<th>用户名</th>
-			<th>密码</th>
-			<th>排序</th>
-			<th>连接状态</th>
+			<th>job名称</th>
+			<th>job组名</th>
+			<th>job状态</th>
+			<th>触发器列表</th>
 		</tr>
-		<c:forEach items="${ctrlList}" var="item">
+		<c:forEach items="${jobList}" var="item">
 		<tr>
-			<td>${item.addr}</td>
-			<td>-</td>
-			<td>-</td>
-			<td>-</td>
-			<td>-</td>
-			<td>${item.state}</td>
+			<td>${item.jobName}</td>
+			<td>${item.jobGroupName}</td>
+			<td>${item.status}</td>
+			<td>
+				<c:forEach items="${item.triggerList}" var="trigger">
+				<p>${trigger.triggerName}&nbsp;---&nbsp;${trigger.triggerGroupName}&nbsp;---&nbsp;${trigger.runtime}</p>
+				</c:forEach>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
-	
-	<h3>数据库</h3>
-	<table>
-		<tr>
-			<th>IP</th>
-			<th>端口</th>
-			<th>用户名</th>
-			<th>密码</th>
-			<th>排序</th>
-			<th>连接状态</th>
-		</tr>
-		<c:forEach items="${dsList}" var="item">
-		<tr>
-			<td>${item.addr}</td>
-			<td>${item.port}</td>
-			<td>${item.username}</td>
-			<td>${item.password}</td>
-			<td>${item.priority}</td>
-			<td>${item.isConnect}</td>
-		</tr>
-		</c:forEach>
-	</table>	
 </body>
 </html>
