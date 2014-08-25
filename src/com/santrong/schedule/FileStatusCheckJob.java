@@ -57,8 +57,11 @@ public class FileStatusCheckJob extends JobImpl {
 					if(separat/1000/60 >= meeting.getMaxTime()) {
 						file.setStatus(FileItem.File_Status_ERROR);
 						file.setUts(now);
-						dao.update(file);
-						Log.mark("---fix file status with file id " + file.getId());
+						if(dao.update(file) > 0) {
+							Log.mark("---fix file status success with file id " + file.getId());
+						}else {
+							Log.mark("---fix file status fail with file id " + file.getId());
+						}
 					}
 				}
 			}
@@ -67,7 +70,7 @@ public class FileStatusCheckJob extends JobImpl {
 			Log.printStackTrace(e);
 		}finally{
 			// 在quartz里面线程永远不会结束，需要手动关闭数据库连接
-			ThreadUtils.closeConnection();
+			ThreadUtils.closeAll();
 		}		
 		
 	}

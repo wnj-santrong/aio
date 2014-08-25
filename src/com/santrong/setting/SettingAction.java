@@ -283,7 +283,7 @@ public class SettingAction extends BaseAction{
 	@ResponseBody
 	public String postFtp(Integer useFtp, String host, String port, String username, String password, String duration) {
 		// 数据校验
-		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(password) || StringUtils.isNullOrEmpty(duration)) {
+		if(StringUtils.isNullOrEmpty(host) || StringUtils.isNullOrEmpty(port) || StringUtils.isNullOrEmpty(duration)) {
 			return "error_param";
 		}
 		

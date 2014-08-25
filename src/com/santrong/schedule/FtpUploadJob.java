@@ -73,7 +73,7 @@ public class FtpUploadJob extends JobImpl {
 				return;
 			}
 			
-			if(now.compareTo(begin) > 0 && now.compareTo(end) > 0) {// 时间范围内
+			if(now.compareTo(begin) > 0 && now.compareTo(end) < 0) {// 时间范围内
 				
 				if(!uploading) {
 					
@@ -93,18 +93,32 @@ public class FtpUploadJob extends JobImpl {
 							
 							uploading = true;
 							for(FileItem file : fileList) {
+								// 更新文件状态为正在上传
+								file.setCts(new Date());
+								file.setStatus(FileItem.File_Status_Uploading);
+								if(fileDao.update(file) < 0) {
+									Log.mark("---set file status to uploading fail with fileId " + file.getId());
+								}								
+								
 								String confId = MeetingItem.ConfIdPreview + file.getChannel();
 								map.put("fileId", file.getId());
 								handler.setMapper(map);
 								handler.uploadDirectory(DirDefine.VedioDir + "/" + confId, file.getFileName(), listener);// /data/CLSRM_*/filename/cmps以/data/CLSRM_*为根
 //								handler.uploadDirectory(DirDefine.VedioDir, confId + "/" + file.getFileName(), listener);// /data/CLSRM_*/filename/cmps以/data为根
+								
+								// 更新文件状态为上传完成
+								file.setCts(new Date());
+								file.setStatus(FileItem.File_Status_Uploaded);
+								if(fileDao.update(file) < 0) {
+									Log.mark("---set file status to uploaded fail with fileId " + file.getId());
+								}
 							}
 						}
 					}catch(Exception e) {
 						Log.printStackTrace(e);
 					}finally{
 						// 在quartz里面线程永远不会结束，需要手动关闭数据库连接
-						ThreadUtils.closeConnection();
+						ThreadUtils.closeAll();
 						uploading = false;
 					}
 				}
