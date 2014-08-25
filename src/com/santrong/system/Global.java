@@ -34,10 +34,10 @@ public class Global {
     public static int DownloadMaxCount = 10;                            		// 控制下载人数
     public static int HeartInterval = 10000;									// 心跳时间
     public static int HeartTimeout = 15000;										// 心跳过期时间
-    public static int DiskErrorSize = 2048;										// 禁止录制的磁盘空间剩余量，单位M
-    public static int DiskErrorSizeCancel = 3072;								// 禁止录制解除的磁盘空间剩余量，单位M
-    public static int DiskWainSize = 10240;										// 磁盘剩余空间不足的提醒值，单位M
-    public static int DiskWainSizeCancel = 11264;								// 磁盘剩余空间不足的提醒解除值，单位M
+    public static long DiskErrorSize = 2048;									// 禁止录制的磁盘空间剩余量，单位M
+    public static long DiskErrorSizeCancel = 3072;								// 禁止录制解除的磁盘空间剩余量，单位M
+    public static long DiskWainSize = 10240;									// 磁盘剩余空间不足的提醒值，单位M
+    public static long DiskWainSizeCancel = 11264;								// 磁盘剩余空间不足的提醒解除值，单位M
     public static int UploadFileSizeLimit = 150;								// 升级文件大小限制，单位M----请确保tomcat限制大小不小于用户配置大小
     
     /*
@@ -68,10 +68,10 @@ public class Global {
             DownloadMaxCount =ini.readInt("System", "DownloadMaxCount", DownloadMaxCount);
             HeartInterval =ini.readInt("System", "HeartInterval", HeartInterval);
             HeartTimeout =ini.readInt("System", "HeartTimeout", HeartTimeout);
-            DiskErrorSize =ini.readInt("System", "DiskErrorSize", DiskErrorSize);
-            DiskErrorSizeCancel =ini.readInt("System", "DiskErrorSizeCancel", DiskErrorSizeCancel);
-            DiskWainSize =ini.readInt("System", "DiskWainSize", DiskWainSize);
-            DiskWainSizeCancel =ini.readInt("System", "DiskWainSizeCancel", DiskWainSizeCancel);
+            DiskErrorSize =ini.readLong("System", "DiskErrorSize", DiskErrorSize);
+            DiskErrorSizeCancel =ini.readLong("System", "DiskErrorSizeCancel", DiskErrorSizeCancel);
+            DiskWainSize =ini.readLong("System", "DiskWainSize", DiskWainSize);
+            DiskWainSizeCancel =ini.readLong("System", "DiskWainSizeCancel", DiskWainSizeCancel);
             UploadFileSizeLimit =ini.readInt("System", "UploadFileSizeLimit", UploadFileSizeLimit);
             
             FTPConnectMode =ini.readInt("Ftp", "FTPConnectMode", FTPConnectMode);

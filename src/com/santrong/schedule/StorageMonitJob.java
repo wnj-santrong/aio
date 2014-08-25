@@ -68,7 +68,7 @@ public class StorageMonitJob extends JobImpl {
 			TcpClientService client = TcpClientService.getInstance();
 			LocalTcp31009 tcp31009 = new LocalTcp31009();
 			client.request(tcp31009);
-			int freeSize = tcp31009.getFreeSize();
+			long freeSize = tcp31009.getFreeSize();
 			if(freeSize > Global.DiskErrorSizeCancel) {// 大于取消提醒的设定值
 				tipService.removeTip(TipService.Disk_Lack);// 移除磁盘空间不足提示
 			}else{

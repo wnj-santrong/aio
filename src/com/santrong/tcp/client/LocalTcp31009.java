@@ -20,45 +20,37 @@ public class LocalTcp31009 extends LocalTcpBase {
 	private int uniCur;
 	private int vodCur;
 	private int freePcent;
-	private int freeSize;// 单位MB
+	private long freeSize;// 单位MB
 	private String model;
 	private String serialNo;
 	
 	public int getResultCode() {
 		return resultCode;
 	}
-
 	public int getConfMax() {
 		return confMax;
 	}
-
 	public int getConfInUse() {
 		return confInUse;
 	}
-
 	public int getUniVodMax() {
 		return uniVodMax;
 	}
-
 	public int getUniCur() {
 		return uniCur;
 	}
-
 	public int getVodCur() {
 		return vodCur;
 	}
-
 	public int getFreePcent() {
 		return freePcent;
 	}
-
-	public int getFreeSize() {
+	public long getFreeSize() {
 		return freeSize;
 	}
 	public String getModel() {
 		return model;
 	}
-
 	public String getSerialNo() {
 		return serialNo;
 	}
@@ -88,7 +80,7 @@ public class LocalTcp31009 extends LocalTcpBase {
 		this.uniCur = Integer.parseInt(xml.find("/MsgBody/GetResResp/UniCur").getText());
 		this.vodCur = Integer.parseInt(xml.find("/MsgBody/GetResResp/VodCur").getText());
 		this.freePcent = Integer.parseInt(xml.find("/MsgBody/GetResResp/SpaceInfo/FreePcent").getText());
-		this.freeSize = Integer.parseInt(xml.find("/MsgBody/GetResResp/SpaceInfo/FreeSize").getText());
+		this.freeSize = Long.parseLong(xml.find("/MsgBody/GetResResp/SpaceInfo/FreeSize").getText());
 		this.model = xml.find("/MsgBody/GetResResp/Model").getText();
 		this.serialNo = xml.find("/MsgBody/GetResResp/SerialNo").getText();
 	}

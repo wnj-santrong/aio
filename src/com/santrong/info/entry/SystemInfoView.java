@@ -19,7 +19,7 @@ public class SystemInfoView {
 	private int uniCur;
 	private int vodCur;
 	private int freePcent;
-	private int freeSize;
+	private long freeSize;
 	private String systemVersion;
 	private String webVersion;
 	private List<ModuleStatus> moduleList = new ArrayList<ModuleStatus>();
@@ -108,10 +108,10 @@ public class SystemInfoView {
 	public void setFreePcent(int freePcent) {
 		this.freePcent = freePcent;
 	}
-	public int getFreeSize() {
+	public long getFreeSize() {
 		return freeSize;
 	}
-	public void setFreeSize(int freeSize) {
+	public void setFreeSize(long freeSize) {
 		this.freeSize = freeSize;
 	}
 	public List<ModuleStatus> getModuleList() {

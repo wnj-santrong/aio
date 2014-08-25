@@ -57,14 +57,14 @@ public class BasicHttpService99999 implements AbstractHttpService{
 				this.event66001.reasonId = xml.find("/MsgBody/ConfEvent/RcdFinish/ReasonID").getText();
 				this.event66001.fileUrl = xml.find("/MsgBody/ConfEvent/RcdFinish/FileURL").getText();
 				this.event66001.rcdTime = xml.find("/MsgBody/ConfEvent/RcdFinish/RcdTime").getText();
-				this.event66001.rcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/RcdFinish/RcdSize").getText());
+				this.event66001.rcdSize = Long.parseLong(xml.find("/MsgBody/ConfEvent/RcdFinish/RcdSize").getText());
 				this.event66001.rcdType = Integer.parseInt(xml.find("/MsgBody/ConfEvent/RcdFinish/RcdType").getText());
 				break;
 				
 			case 66002 :
 				this.event66002 = new Event66002();
 				this.event66002.freePercent = Integer.parseInt(xml.find("/MsgBody/ConfEvent/SpaceInfo/FreePercent").getText());
-				this.event66002.freeSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/SpaceInfo/FreeSize").getText());// 单位MB
+				this.event66002.freeSize = Long.parseLong(xml.find("/MsgBody/ConfEvent/SpaceInfo/FreeSize").getText());// 单位MB
 				TipItem tip = new TipItem();
 				tip.setTitle("tip_disk_lack_title");
 				tip.setContent("tip_disk_lack_content");
@@ -105,9 +105,9 @@ public class BasicHttpService99999 implements AbstractHttpService{
 				this.event66007.reasonId = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/ReasonID").getText();
 				this.event66007.fileUrl = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/FileURL").getText();
 				this.event66007.rcdTime = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RcdTime").getText();
-				this.event66007.RSRCRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RSRCRcdSize").getText());
-				this.event66007.MVRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/MVRcdSize").getText());
-				this.event66007.CMPSRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/CMPSRcdSize").getText());
+				this.event66007.RSRCRcdSize = Long.parseLong(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RSRCRcdSize").getText());
+				this.event66007.MVRcdSize = Long.parseLong(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/MVRcdSize").getText());
+				this.event66007.CMPSRcdSize = Long.parseLong(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/CMPSRcdSize").getText());
 				this.event66007.rcdType = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RcdType").getText());
 				
 				// 更新内存状态
@@ -168,14 +168,14 @@ public class BasicHttpService99999 implements AbstractHttpService{
 		private String reasonId;
 		private String fileUrl;
 		private String rcdTime;
-		private int rcdSize;// 单位MB
+		private long rcdSize;// 单位MB
 		private int rcdType;
 	}
 	
 	@SuppressWarnings("unused")
 	private class Event66002 {
 		private int freePercent;
-		private int freeSize;// 单位MB
+		private long freeSize;// 单位MB
 	}
 	
 	@SuppressWarnings("unused")
@@ -206,9 +206,9 @@ public class BasicHttpService99999 implements AbstractHttpService{
 		private String reasonId;
 		private String fileUrl;
 		private String rcdTime;
-		private int RSRCRcdSize;// 单位MB
-		private int MVRcdSize;// 单位MB
-		private int CMPSRcdSize;// 单位MB
+		private long RSRCRcdSize;// 单位MB
+		private long MVRcdSize;// 单位MB
+		private long CMPSRcdSize;// 单位MB
 		private int rcdType;
 	}
 

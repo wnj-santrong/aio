@@ -19,9 +19,9 @@ public class LocalTcp31005 extends LocalTcpBase {
 	private int rcdResult;
 	private String fileUrl;
 	private String rcdTime;
-	private int rSRCRcdSize;
-	private int mVRcdSize;
-	private int cMPSRcdSize;
+	private long rSRCRcdSize;
+	private long mVRcdSize;
+	private long cMPSRcdSize;
 	private int rcdType;
 	
 	public void setConfId(String confId) {
@@ -38,7 +38,17 @@ public class LocalTcp31005 extends LocalTcpBase {
 		return _confId;
 	}
 
+	public long getrSRCRcdSize() {
+		return rSRCRcdSize;
+	}
 
+	public long getmVRcdSize() {
+		return mVRcdSize;
+	}
+
+	public long getcMPSRcdSize() {
+		return cMPSRcdSize;
+	}
 
 	public int getRcdResult() {
 		return rcdResult;
@@ -55,26 +65,7 @@ public class LocalTcp31005 extends LocalTcpBase {
 	public String getRcdTime() {
 		return rcdTime;
 	}
-
-
-
-	public int getrSRCRcdSize() {
-		return rSRCRcdSize;
-	}
-
-
-
-	public int getmVRcdSize() {
-		return mVRcdSize;
-	}
-
-
-
-	public int getcMPSRcdSize() {
-		return cMPSRcdSize;
-	}
-
-
+	
 
 	public int getRcdType() {
 		return rcdType;
@@ -105,9 +96,9 @@ public class LocalTcp31005 extends LocalTcpBase {
 	public void resolveXml(XmlReader xml) {
 		this.resultCode = Integer.parseInt(xml.find("/MsgBody/StopConfRcdResp/ResultCode").getText());
 		this.rcdResult = Integer.parseInt(xml.find("/MsgBody/StopConfRcdResp/RcdResult").getText());
-		this.rSRCRcdSize = Integer.parseInt(xml.find("/MsgBody/StopConfRcdResp/RSRCRcdSize").getText());
-		this.mVRcdSize = Integer.parseInt(xml.find("/MsgBody/StopConfRcdResp/MVRcdSize").getText());
-		this.cMPSRcdSize = Integer.parseInt(xml.find("/MsgBody/StopConfRcdResp/CMPSRcdSize").getText());
+		this.rSRCRcdSize = Long.parseLong(xml.find("/MsgBody/StopConfRcdResp/RSRCRcdSize").getText());
+		this.mVRcdSize = Long.parseLong(xml.find("/MsgBody/StopConfRcdResp/MVRcdSize").getText());
+		this.cMPSRcdSize = Long.parseLong(xml.find("/MsgBody/StopConfRcdResp/CMPSRcdSize").getText());
 		this.rcdType = Integer.parseInt(xml.find("/MsgBody/StopConfRcdResp/RcdType").getText());
 		this._confId = xml.find("/MsgBody/StopConfRcdResp/ConfID").getText();
 		this.fileUrl = xml.find("/MsgBody/StopConfRcdResp/FileURL").getText();

@@ -21,9 +21,9 @@ public class LocalTcp31006 extends LocalTcpBase {
 	private int resultCode;
 	private String fileUrl;
 	private String rcdTime;
-	private int rSRCRcdSize;// 单位MB
-	private int mVRcdSize;// 单位MB
-	private int cMPSRcdSize;// 单位MB
+	private long rSRCRcdSize;// 单位MB
+	private long mVRcdSize;// 单位MB
+	private long cMPSRcdSize;// 单位MB
 	private int rcdType;
 
 	public void setConfId(String confId) {
@@ -62,15 +62,15 @@ public class LocalTcp31006 extends LocalTcpBase {
 		return rcdTime;
 	}
 
-	public int getrSRCRcdSize() {
+	public long getrSRCRcdSize() {
 		return rSRCRcdSize;
 	}
 
-	public int getmVRcdSize() {
+	public long getmVRcdSize() {
 		return mVRcdSize;
 	}
 
-	public int getcMPSRcdSize() {
+	public long getcMPSRcdSize() {
 		return cMPSRcdSize;
 	}
 
@@ -105,9 +105,9 @@ public class LocalTcp31006 extends LocalTcpBase {
 	@Override
 	public void resolveXml(XmlReader xml) {
 		this.resultCode = Integer.parseInt(xml.find("/MsgBody/RcdCtlResp/ResultCode").getText());
-		this.rSRCRcdSize = Integer.parseInt(xml.find("/MsgBody/RcdCtlResp/RSRCRcdSize").getText());
-		this.mVRcdSize = Integer.parseInt(xml.find("/MsgBody/RcdCtlResp/MVRcdSize").getText());
-		this.cMPSRcdSize = Integer.parseInt(xml.find("/MsgBody/RcdCtlResp/CMPSRcdSize").getText());
+		this.rSRCRcdSize = Long.parseLong(xml.find("/MsgBody/RcdCtlResp/RSRCRcdSize").getText());
+		this.mVRcdSize = Long.parseLong(xml.find("/MsgBody/RcdCtlResp/MVRcdSize").getText());
+		this.cMPSRcdSize = Long.parseLong(xml.find("/MsgBody/RcdCtlResp/CMPSRcdSize").getText());
 		this.rcdType = Integer.parseInt(xml.find("/MsgBody/RcdCtlResp/RcdType").getText());
 		this.fileUrl = xml.find("/MsgBody/RcdCtlResp/FileURL").getText();
 		this.rcdTime = xml.find("/MsgBody/RcdCtlResp/RcdTime").getText();
