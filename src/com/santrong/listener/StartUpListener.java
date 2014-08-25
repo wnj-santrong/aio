@@ -14,6 +14,7 @@ import com.santrong.ftp.FtpConfig;
 import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.schedule.FileStatusCheckJob;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.LogClearJob;
 import com.santrong.schedule.ScheduleManager;
@@ -21,6 +22,7 @@ import com.santrong.schedule.StatusMonitJob;
 import com.santrong.schedule.StorageMonitJob;
 import com.santrong.schedule.SystemUpdateJob;
 import com.santrong.system.DirDefine;
+import com.santrong.system.Global;
 import com.santrong.system.UpdateConfig;
 import com.santrong.tcp.client.LocalTcp31008;
 import com.santrong.tcp.client.TcpClientService;
@@ -53,7 +55,7 @@ public class StartUpListener implements ServletContextListener {
 			MeetingItem dbMeeting = dao.selectFirst();
 			if(dbMeeting != null) {
 				LocalTcp31008 tcp = new LocalTcp31008();
-				tcp.setFreeSize(10240);// 默认剩余10G的空间就不给录制了
+				tcp.setFreeSize(Global.DiskErrorSize);
 				tcp.setMaxTime(dbMeeting.getMaxTime());
 				client.request(tcp);
 			}
@@ -82,6 +84,9 @@ public class StartUpListener implements ServletContextListener {
 		
 		// 启动磁盘空间监控线程
 		scheManager.startCron(new StorageMonitJob());
+		
+		// 启动文件状态检测修复任务
+		scheManager.startCron(new FileStatusCheckJob());
 		
 		
 		// 启动ftp上传扫描线程

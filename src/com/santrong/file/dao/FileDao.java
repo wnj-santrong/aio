@@ -77,10 +77,10 @@ public class FileDao extends BaseDao{
 		return null;
 	}	
 	
-	public FileItem selectRecording(int channel) {
+	public List<FileItem> selectByStatus(int status) {
 		FileMapper mapper = this.getMapper(FileMapper.class);
 		if(mapper != null) {
-			return mapper.selectRecording(channel);
+			return mapper.selectByStatus(status);
 		}
 		return null;		
 	}
@@ -179,8 +179,9 @@ public class FileDao extends BaseDao{
 				criteria.setIntParam(query.getLevel());
 			}
 			if(!query.isShowRecording()) {
-				criteria.where(ne("f.status", "0"));// status != 0
+				criteria.where(ne("f.status", FileItem.File_Status_Recording));// status != 0
 			}
+			criteria.where(ne("f.status", FileItem.File_Status_ERROR));// 异常课件不显示
 			// 排序
 			if(!StringUtils.isNullOrEmpty(query.getOrderBy())) {
 				if("desc".equalsIgnoreCase(query.getOrderRule())) {
@@ -232,8 +233,9 @@ public class FileDao extends BaseDao{
 				criteria.setIntParam(query.getLevel());
 			}
 			if(!query.isShowRecording()) {
-				criteria.where(ne("f.status", "0"));// status != 0
+				criteria.where(ne("f.status", FileItem.File_Status_Recording));// status != 0
 			}
+			criteria.where(ne("f.status", FileItem.File_Status_ERROR));// 异常课件不显示
 			
 			Connection conn = ThreadUtils.currentConnection();
 			PreparedStatement stm = criteria.getRealStatement(conn);

@@ -20,6 +20,8 @@ import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.DirDefine;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
+import com.santrong.system.tip.TipItem;
+import com.santrong.system.tip.TipService;
 import com.santrong.tcp.client.LocalTcp31004;
 import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.tcp.client.LocalTcp31005;
@@ -47,6 +49,15 @@ public class BasicHttpService30004 implements AbstractHttpService{
 			String confId = xml.find("/MsgBody/RecordCtlReq/ConfID").getText();
 			int operType = Integer.parseInt(xml.find("/MsgBody/RecordCtlReq/OperType").getText());// <!-- 0：停止录制; 1：开始录制||继续录制; 2：暂停录制; -->
 			int addOrUpdate = 0;//0不操作数据库，1数据库新增文件，2数据库更新文件
+			
+			// 磁盘容量判断
+			if(operType == 1) {// 开始录制和继续录制都需要判断磁盘空间
+				TipService tipService = new TipService();
+				TipItem tip = tipService.getTip(TipService.Disk_Lack);
+				if(tip != null && tip.getOther() == 1) {//0是磁盘少需要注意，1是磁盘不足拒绝录制
+					rt = 1;
+				}
+			}
 			
 			// 状态校验
 			RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);

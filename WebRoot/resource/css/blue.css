@@ -64,12 +64,10 @@ body {background: url(../photo/bg.gif);}
 .search .search_img a {color:#333; margin-left:5px; padding-left:15px; line-height:24px; background:url(../photo/search_icon.png) no-repeat left center;}
 .search .search_img a:hover {background:url(../photo/search_icon.png) no-repeat left center;}
 .search .tag_add {float:left; margin-top:3px; margin-left:10px;}
-.search .tags .tag {float:left; margin-left:10px; position:relative;}
-.search .tags .tag .tsd {padding:0 10px; border:solid 1px #fff;}
-.search .tags .tag .tmd {position: absolute; top:20px; left:0; z-index:10; width:100%;}
-.search .tags .tag .tmd a{width:100%; display:inline-block; margin:0; padding:0; line-height:20px; line-height:20px; color:#fff; text-align:center;background:#a0e058;}
-.search .tags .tag .tmd a:hover{background: #3c591a;}
-
+.search .tags .tag {float:left; margin-left:10px; position:relative; border:solid 1px #fff;}
+.search .tags .tag .tsd {padding:0 10px;}
+.search .tags .tag .tmd {position: absolute; top:23px; left:-1px; z-index:10; width:100%; border:solid 1px #86b9e3; border-top:none;}
+.search .tags .tag .tmd a{width:100%; display:inline-block; margin:0; padding:0; line-height:20px; line-height:20px; text-align:center; background:#fff;}
 .search .btns a {float:left; margin-left:20px; background:url(../photo/orange70_none.png) no-repeat center center; width:70px; text-align:center; color:#fff;}
 .search .btns a:hover {background:url(../photo/orange_hover.png) no-repeat center center;}
 .search #filePlay {float:right; margin-right:22px; margin-top:3px;}

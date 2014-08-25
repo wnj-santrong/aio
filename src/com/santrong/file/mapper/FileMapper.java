@@ -35,8 +35,8 @@ public interface FileMapper {
     List<FileItem> selectToFtp();
     
     
-    @Select("select * from web_file where status=0 and channel=#{channel} limit 1")
-    FileItem selectRecording(int channel);
+    @Select("select * from web_file where status=0 and status=#{status}")
+    List<FileItem> selectByStatus(int status);
     
     
     @Select("select * from web_file where fileName=#{fileName}")

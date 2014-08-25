@@ -398,11 +398,11 @@ IndexClass.prototype = {
     		$(".tag_add").show();
     		$(".tag").mouseover(function() {
     			$(this).find(".tmd").show();
-    			$(this).find(".tsd").css({"border-top" : "solid 1px #86b9e3", "border-left" : "solid 1px #86b9e3", "border-right" : "solid 1px #86b9e3"});
+    			$(this).css({"border-top" : "solid 1px #86b9e3", "border-left" : "solid 1px #86b9e3", "border-right" : "solid 1px #86b9e3"});
     		});
     		$(".tag").mouseout(function() {
     			$(this).find(".tmd").hide();
-    			$(this).find(".tsd").css({"border" : "solid 1px #fff"});
+    			$(this).css({"border" : "solid 1px #fff"});
     		});
     	}
     	

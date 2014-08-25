@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.DirDefine;
 import com.santrong.util.CommonTools;

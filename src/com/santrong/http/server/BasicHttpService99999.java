@@ -53,9 +53,9 @@ public class BasicHttpService99999 implements AbstractHttpService{
 			case 66001 :
 				// 目前一期只有一路，肯定收不到66001，指挥收到66007
 				this.event66001 = new Event66001();
-				this.event66001.confId = xml.find("/MsgBody/ConfEvent/RcdFinish/ConfId").getText();
-				this.event66001.reasonId = xml.find("/MsgBody/ConfEvent/RcdFinish/ReasonId").getText();
-				this.event66001.fileUrl = xml.find("/MsgBody/ConfEvent/RcdFinish/FileUrl").getText();
+				this.event66001.confId = xml.find("/MsgBody/ConfEvent/RcdFinish/ConfID").getText();
+				this.event66001.reasonId = xml.find("/MsgBody/ConfEvent/RcdFinish/ReasonID").getText();
+				this.event66001.fileUrl = xml.find("/MsgBody/ConfEvent/RcdFinish/FileURL").getText();
 				this.event66001.rcdTime = xml.find("/MsgBody/ConfEvent/RcdFinish/RcdTime").getText();
 				this.event66001.rcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/RcdFinish/RcdSize").getText());
 				this.event66001.rcdType = Integer.parseInt(xml.find("/MsgBody/ConfEvent/RcdFinish/RcdType").getText());
@@ -101,9 +101,9 @@ public class BasicHttpService99999 implements AbstractHttpService{
 				
 			case 66007 : 
 				this.event66007 = new Event66007();
-				this.event66007.confId = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/ConfId").getText();
-				this.event66007.reasonId = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/ReasonId").getText();
-				this.event66007.fileUrl = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/FileUrl").getText();
+				this.event66007.confId = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/ConfID").getText();
+				this.event66007.reasonId = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/ReasonID").getText();
+				this.event66007.fileUrl = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/FileURL").getText();
 				this.event66007.rcdTime = xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RcdTime").getText();
 				this.event66007.RSRCRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/RSRCRcdSize").getText());
 				this.event66007.MVRcdSize = Integer.parseInt(xml.find("/MsgBody/ConfEvent/ConfRcdFinish/MVRcdSize").getText());
