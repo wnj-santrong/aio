@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/reset.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/boxy.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/blue.css" />
-<script type="text/javascript" src="${ctx}/resource/js/lang/message.zh_CN.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/lang/message.<%=Global.Language%>.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.pagination.js"></script>
@@ -35,7 +35,7 @@ Globals.isLogined = <%=request.getSession().getAttribute(Global.SessionKey_Login
         <p><img src="${ctx}/resource/photo/logo.png" /></p>
         <h2><%=Global.Title%></h2>
         <span class="message">
-        <span><fmt:message key="index_welcome"/>${sessionScope.loginUser.username}</span>
+        <span><fmt:message key="index_welcome"/>&nbsp;${sessionScope.loginUser.username}</span>
         <a href="javascript:void(0);" class="logout_submit"><fmt:message key="index_logout"/></a>
         <a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a>
         </span>

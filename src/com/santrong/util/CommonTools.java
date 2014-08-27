@@ -1250,11 +1250,13 @@ public class CommonTools {
 			if(size >= 1024) {
 				size = size /1024;
 				if(size >= 1024) {
-					size = size / 1024;
-//					double s = ((double)(size));	
-//					DecimalFormat df = new DecimalFormat("#.00");
-//					return df.format(s) + "G";
-					return size + "G";
+
+					double s = (double)size / 1024;	
+					DecimalFormat df = new DecimalFormat("#.00");
+					return df.format(s) + "G";
+					
+//					size = size / 1024;					
+//					return size + "G";
 				}else {
 					return size + "M";
 				}

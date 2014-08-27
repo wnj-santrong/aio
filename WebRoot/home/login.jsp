@@ -10,7 +10,7 @@
 <meta http-equiv="expires" content="0" />
 <title><fmt:message key="index_userLogin"/></title>
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/boxy.css" />
-<script type="text/javascript" src="${ctx}/resource/js/lang/message.zh_CN.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/lang/message.<%=Global.Language%>.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.form.js"></script>

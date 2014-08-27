@@ -662,7 +662,7 @@ IndexClass.prototype = {
 				success : function(result){
 					var html = "";
 					for(var i=0;i<result.length;i++){
-						html += "<li><span>" + result[i] + "</span><a href=\"#\" class=\"dbRestore\">还原</a><a href=\"#\" class=\"dbDel\">删除</a></li>";
+						html += "<li><span>" + result[i] + "</span><a href=\"#\" class=\"dbRestore\">" + Message.dynamic("text_restore") + "</a><a href=\"#\" class=\"dbDel\">" + Message.dynamic("text_del") + "</a></li>";
 					}
 					$("#dbList").html(html);
 					

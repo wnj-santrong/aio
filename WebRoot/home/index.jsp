@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/reset.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/boxy.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/blue.css" />
-<script type="text/javascript" src="${ctx}/resource/js/lang/message.zh_CN.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/lang/message.<%=Global.Language%>.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.pagination.js"></script>

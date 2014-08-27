@@ -37,14 +37,14 @@
             <span class="tit"><fmt:message key="meeting_maxTime" />:</span>
             <span class="cont">
             <select name="maxTime" class="rate">
-                <option value="60" <c:if test="${meeting.maxTime == 60}">selected</c:if> >1小时</option>
-                <option value="120" <c:if test="${meeting.maxTime == 120}">selected</c:if> >2小时</option>
-                <option value="180" <c:if test="${meeting.maxTime == 180}">selected</c:if> >3小时</option>
-                <option value="240" <c:if test="${meeting.maxTime == 240}">selected</c:if> >4小时</option>
-                <option value="300" <c:if test="${meeting.maxTime == 300}">selected</c:if> >5小时</option>
-                <option value="360" <c:if test="${meeting.maxTime == 360}">selected</c:if> >6小时</option>
-                <option value="420" <c:if test="${meeting.maxTime == 420}">selected</c:if> >7小时</option>
-                <option value="480" <c:if test="${meeting.maxTime == 480}">selected</c:if> >8小时</option>
+                <option value="60" <c:if test="${meeting.maxTime == 60}">selected</c:if> >1<fmt:message key="text_hours2" /></option>
+                <option value="120" <c:if test="${meeting.maxTime == 120}">selected</c:if> >2<fmt:message key="text_hours2" /></option>
+                <option value="180" <c:if test="${meeting.maxTime == 180}">selected</c:if> >3<fmt:message key="text_hours2" /></option>
+                <option value="240" <c:if test="${meeting.maxTime == 240}">selected</c:if> >4<fmt:message key="text_hours2" /></option>
+                <option value="300" <c:if test="${meeting.maxTime == 300}">selected</c:if> >5<fmt:message key="text_hours2" /></option>
+                <option value="360" <c:if test="${meeting.maxTime == 360}">selected</c:if> >6<fmt:message key="text_hours2" /></option>
+                <option value="420" <c:if test="${meeting.maxTime == 420}">selected</c:if> >7<fmt:message key="text_hours2" /></option>
+                <option value="480" <c:if test="${meeting.maxTime == 480}">selected</c:if> >8<fmt:message key="text_hours2" /></option>
             </select>
             </span></li>
             
