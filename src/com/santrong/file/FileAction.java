@@ -9,6 +9,9 @@ import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,16 +45,18 @@ import com.santrong.util.CommonTools;
 @RequestMapping("/file")
 public class FileAction extends BaseAction{
 	
-	private static final Integer READER_BUFFER_SIZE = 8192;
+	static final Integer READER_BUFFER_SIZE = 8192;
+	
+	FileDao fileDao = new FileDao();
+	MeetingDao meetingDao = new MeetingDao();
 	
 	
 	@RequestMapping("/home")
 	public String home(String keyword, Integer pageNum){
+		HttpServletRequest request = getRequest();
 		if(pageNum == null) {
 			pageNum = 0;
 		}
-		
-		FileDao fileDao = new FileDao();
 		
 		FileQuery query = new FileQuery();
 		query.setKeyword(keyword);
@@ -71,11 +76,11 @@ public class FileAction extends BaseAction{
 	 */
 	@RequestMapping(value="/fileEdit", method=RequestMethod.GET)
 	public String fileInput(String id) {
+		HttpServletRequest request = getRequest();
 		if(StringUtils.isNullOrEmpty(id)){
 			return ERROR_PARAM;
 		}
 		
-		FileDao fileDao = new FileDao();
 		FileItem file = fileDao.selectById(id);
 		request.setAttribute("file", file);
 		
@@ -87,10 +92,10 @@ public class FileAction extends BaseAction{
 	 */
 	@RequestMapping(value="/fileDetail", method=RequestMethod.GET)
 	public String fileDetail(String id) {
+		HttpServletRequest request = getRequest();
 		if(StringUtils.isNullOrEmpty(id)){
 			return ERROR_PARAM;
 		}
-		FileDao fileDao = new FileDao();
 		FileItem file = fileDao.selectById(id);
 		
 		request.setAttribute("file", file);
@@ -104,7 +109,6 @@ public class FileAction extends BaseAction{
 	@RequestMapping(value="/fileEdit", method=RequestMethod.POST)
 	@ResponseBody
 	public String fileEdit(FileItem file) {
-		FileDao fileDao = new FileDao();
 		FileItem dbFile = fileDao.selectById(file.getId());
 		
 		if(dbFile == null) {
@@ -118,7 +122,7 @@ public class FileAction extends BaseAction{
 		
 		fileDao.update(dbFile);
 		
-		Log.logOpt("file-modify", dbFile.getId(), request);
+		Log.logOpt("file-modify", dbFile.getId(), getRequest());
 		
 		return SUCCESS;
 	}
@@ -143,8 +147,7 @@ public class FileAction extends BaseAction{
 			
 			// 0点播
 			if(type == 0) {
-				FileDao dao = new FileDao();
-				FileItem file = dao.selectById(id);
+				FileItem file = fileDao.selectById(id);
 				if(file == null) {
 					return "error_file_not_exists";
 				}
@@ -177,15 +180,14 @@ public class FileAction extends BaseAction{
 				
 				// 更新播放次数
 				file.setPlayCount(file.getPlayCount() + 1);
-				dao.update(file);
+				fileDao.update(file);
 				
-				Log.logOpt("file-play", file.getId(), request);
+				Log.logOpt("file-play", file.getId(), getRequest());
 			}
 			
 			// 直播
 			if(type == 1) {
-				MeetingDao dao = new MeetingDao();
-				MeetingItem meeting = dao.selectById(id);
+				MeetingItem meeting = meetingDao.selectById(id);
 				if(meeting == null) {
 					return FAIL;
 				}
@@ -210,7 +212,7 @@ public class FileAction extends BaseAction{
 				info.setLiveType(meeting.getRecordType());
 				info.setFilePath("");
 				
-				Log.logOpt("meeting-play", meeting.getId(), request);
+				Log.logOpt("meeting-play", meeting.getId(), getRequest());
 			}
 			
 			Gson gson = new Gson();
@@ -236,8 +238,6 @@ public class FileAction extends BaseAction{
 			
 			String[] idArr = ids.split(",");
 			
-			FileDao fileDao = new FileDao();
-	
 			final List<FileItem> fileList = fileDao.selectByIds(idArr);
 			if(fileList == null || fileList.size() == 0) {
 				return FAIL;
@@ -277,7 +277,7 @@ public class FileAction extends BaseAction{
 				}
 			}.start();
 			
-			Log.logOpt("file-delete", ids, request);
+			Log.logOpt("file-delete", ids, getRequest());
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -298,14 +298,13 @@ public class FileAction extends BaseAction{
 		}
 		
 		try{
-			FileDao fileDao = new FileDao();
 			String[] idArr = ids.split(",");
 			
 			if(fileDao.openByIds(idArr) <= 0) {
 				return FAIL;
 			}
 			
-			Log.logOpt("file-open", ids, request);
+			Log.logOpt("file-open", ids, getRequest());
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -325,14 +324,13 @@ public class FileAction extends BaseAction{
 		}
 		
 		try{
-			FileDao fileDao = new FileDao();
 			String[] idArr = ids.split(",");
 			
 			if(fileDao.closeByIds(idArr) <= 0) {
 				return FAIL;
 			}
 			
-			Log.logOpt("file-close", ids, request);
+			Log.logOpt("file-close", ids, getRequest());
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -347,6 +345,8 @@ public class FileAction extends BaseAction{
 	 */
 	@RequestMapping(value="/fileDownload")
 	public void fileDownload(String id) {
+		HttpServletRequest request = getRequest();
+		HttpServletResponse response = getResponse();
 		InputStream in = null;
 		OutputStream out = null;
 		long readed = 0L;
@@ -359,7 +359,6 @@ public class FileAction extends BaseAction{
 				return;
 			}
 			
-			FileDao fileDao = new FileDao();
 			FileItem file = fileDao.selectById(id);
 			
 			// 录制中不让下载

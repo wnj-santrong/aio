@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,9 @@ import com.santrong.util.CommonTools;
 public class MeetingAction extends BaseAction{
 	
 	TcpClientService client = TcpClientService.getInstance();
+	MeetingDao meetingDao = new MeetingDao();
+	DatasourceDao dsDao = new DatasourceDao();
+	FileDao fileDao = new FileDao();
 	
 	/**
 	 * 会议管理主页面
@@ -54,9 +59,7 @@ public class MeetingAction extends BaseAction{
 	 */
 	@RequestMapping("/home")
 	public String home(){
-		MeetingDao dao = new MeetingDao();
-		DatasourceDao dsDao = new DatasourceDao();
-		MeetingItem meeting = dao.selectFirst();
+		MeetingItem meeting = meetingDao.selectFirst();
 		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
 		RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
 		
@@ -128,7 +131,7 @@ public class MeetingAction extends BaseAction{
 			meeting.setIsRecord(status.getIsRecord());
 			meeting.setIsConnect(status.getIsConnect());
 		}
-		request.setAttribute("meeting", meeting);
+		getRequest().setAttribute("meeting", meeting);
 		return "meeting/home";
 	}
 	
@@ -184,7 +187,6 @@ public class MeetingAction extends BaseAction{
 			
 			List<RecStreamInfo> datasourceList = new ArrayList<RecStreamInfo>();
 			
-			DatasourceDao dsDao = new DatasourceDao();
 			List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
 			for(DatasourceItem item : dsList) {
 				RecStreamInfo ds = tcp.new RecStreamInfo();
@@ -222,7 +224,7 @@ public class MeetingAction extends BaseAction{
 			StatusMgr.setRoomStatus(confId, roomStatus);
 			
 			// 到这里开会就算成功了
-			Log.logOpt("meeting-open", "", request);
+			Log.logOpt("meeting-open", "", getRequest());
 			
 			// 如果要求录制，有可能磁盘不足，在子方法中判断，结果不影响开会成功，但是会给出提示
 			if(meeting.getUseRecord() == 1) {
@@ -292,7 +294,6 @@ public class MeetingAction extends BaseAction{
 				if(tcp.getRcdResult() == 0) {
 					return FAIL;
 				}
-				FileDao fileDao = new FileDao();
 				
 				String[] arr = tcp.getFileUrl().split("/");
 				FileItem file = fileDao.selectByFileName(arr[arr.length - 1]);
@@ -312,7 +313,7 @@ public class MeetingAction extends BaseAction{
 				}
 			}
 			
-			Log.logOpt("meeting-close", "", request);
+			Log.logOpt("meeting-close", "", getRequest());
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -385,8 +386,6 @@ public class MeetingAction extends BaseAction{
 			StatusMgr.setRoomStatus(confId, roomStatus);
 			
 			// 更新课件状态
-			FileDao fileDao = new FileDao();
-			
 			String[] arr = tcp.getFileUrl().split("/");
 			FileItem file = fileDao.selectByFileName(arr[arr.length - 1]);
 			file.setDuration(tcp.getRcdTime());
@@ -404,7 +403,7 @@ public class MeetingAction extends BaseAction{
 				return FAIL;
 			}
 			
-			Log.logOpt("meeting-record", "stop", request);
+			Log.logOpt("meeting-record", "stop", getRequest());
 			
 		}catch(Exception e) {
 			Log.printStackTrace(e);
@@ -418,6 +417,7 @@ public class MeetingAction extends BaseAction{
 	 * 保存数据
 	 */
 	private String persistence(MeetingItem meeting) throws Exception {
+		HttpServletRequest request = getRequest();
 		// 获取数据源，顺序一定是对的
 		String[] ids = request.getParameterValues("dsId");
 		String[] addrs = request.getParameterValues("addr");
@@ -437,9 +437,7 @@ public class MeetingAction extends BaseAction{
 			return "error_meeting_is_begin_not_save";//已经开会不能持久化
 		}		
 		
-		MeetingDao dao = new MeetingDao();
-		DatasourceDao dsDao = new DatasourceDao();
-		MeetingItem dbMeeting = dao.selectById(meeting.getId());
+		MeetingItem dbMeeting = meetingDao.selectById(meeting.getId());
 		
 		// 设置系统录制资源阀值
 		if(dbMeeting.getMaxTime() != meeting.getMaxTime()) {
@@ -543,7 +541,7 @@ public class MeetingAction extends BaseAction{
 			
 			// 存储会议配置
 			meeting.setUts(new Date());
-			if(dao.update(meeting) <= 0) {
+			if(meetingDao.update(meeting) <= 0) {
 				ThreadUtils.rollbackTranx();
 				return FAIL;// 存储数据库失败
 			}
@@ -637,7 +635,6 @@ public class MeetingAction extends BaseAction{
 		StatusMgr.setRoomStatus(confId, roomStatus);
 		
 		// 新增文件
-		FileDao fileDao = new FileDao();
 		FileItem file = new FileItem();
 		BeanUtils.copyProperties(meeting, file);
 		file.setId(CommonTools.getGUID());
@@ -661,7 +658,7 @@ public class MeetingAction extends BaseAction{
 			return FAIL;
 		}
 		
-		Log.logOpt("meeting-record", "start", request);
+		Log.logOpt("meeting-record", "start", getRequest());
 		
 		return SUCCESS;
 	}

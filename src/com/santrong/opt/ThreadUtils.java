@@ -4,7 +4,8 @@ package com.santrong.opt;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -23,8 +24,11 @@ public class ThreadUtils{
     // 绑定线程的ibatis会话
     private static final ThreadLocal<SqlSession> _sqlsession = new ThreadLocal<SqlSession>();
     
-    // 绑定线程的http会话
-    private static final ThreadLocal<HttpSession> _hsession = new ThreadLocal<HttpSession>();
+    // 绑定线程的http的request
+    private static final ThreadLocal<HttpServletRequest> _hrequest = new ThreadLocal<HttpServletRequest>();
+    
+    // 绑定线程的http的response
+    private static final ThreadLocal<HttpServletResponse> _hresponse = new ThreadLocal<HttpServletResponse>();
     
 
 	public static Connection currentConnection() throws SQLException {
@@ -38,9 +42,13 @@ public class ThreadUtils{
         }
 		return conn;
 	}
-
-	public static HttpSession currentHttpSession() {
-		return _hsession.get();
+	
+	public static HttpServletRequest currentHttpRequest() {
+		return _hrequest.get();
+	}
+	
+	public static HttpServletResponse currentHttpResponse() {
+		return _hresponse.get();
 	}
 
     public static SqlSession currentSqlSession() throws SQLException {
@@ -54,10 +62,13 @@ public class ThreadUtils{
         }
         return session;
     }
-    
-    
-	public static void setHttpSession(HttpSession hs) {
-		_hsession.set(hs);
+	
+	public static void setHttpRequest(HttpServletRequest hreq) {
+		_hrequest.set(hreq);
+	}
+	
+	public static void setHttpResponse(HttpServletResponse hresp) {
+		_hresponse.set(hresp);
 	}
     
 	public static void closeConnection(){
@@ -81,14 +92,19 @@ public class ThreadUtils{
         	session.close();
         }
     }
-    
-	public static void clearHttpSession() {
-		_hsession.set(null);
+	
+	public static void clearHttpRequest() {
+		_hrequest.set(null);
+	}
+	
+	public static void clearHttpResponse() {
+		_hresponse.set(null);
 	}
 
     public static void closeAll(){
         closeSqlSession();
-        clearHttpSession();        
+        clearHttpRequest();
+        clearHttpResponse();
         closeConnection();
     }
     

@@ -33,6 +33,8 @@ import com.santrong.util.CommonTools;
 public class DatasourceAction extends BaseAction {
 	
 	TcpClientService client = TcpClientService.getInstance();
+	DatasourceDao dsDao = new DatasourceDao();
+	MeetingDao meetingDao = new MeetingDao();
 	
 	/**
 	 * 数据源GET
@@ -47,14 +49,13 @@ public class DatasourceAction extends BaseAction {
 		
 		DatasourceItem ds;
 		if(!StringUtils.isNullOrEmpty(id)){
-			DatasourceDao dsDao = new DatasourceDao();
 			ds = dsDao.selectById(id);
 		}else{
 			ds = new DatasourceItem();
 			ds.setMeetingId(meetingId);
 		}
 
-		request.setAttribute("ds", ds);
+		getRequest().setAttribute("ds", ds);
 		
 		return "meeting/datasource";
 	}
@@ -67,8 +68,6 @@ public class DatasourceAction extends BaseAction {
 	@RequestMapping(value="/dsPost", method=RequestMethod.POST)
 	@ResponseBody
 	public String dsPost(DatasourceItem ds) {
-		DatasourceDao dsDao = new DatasourceDao();
-		
 		ds.setUts(new Date());
 		ds.setDsType(DatasourceItem.Datasoruce_Type_Camera);
 		
@@ -180,8 +179,6 @@ public class DatasourceAction extends BaseAction {
 			return FAIL;
 		}
 		
-		DatasourceDao dsDao = new DatasourceDao();
-		
 		DatasourceItem item = dsDao.selectById(id);
 		if(item == null) {
 			return FAIL;
@@ -200,7 +197,6 @@ public class DatasourceAction extends BaseAction {
 		
 		ThreadUtils.beginTranx();
 		try{
-			MeetingDao meetingDao = new MeetingDao();
 			int dsCount = dsDao.selectCountByMeetingId(item.getMeetingId());
 			MeetingItem meeting = meetingDao.selectById(item.getMeetingId());
 			meeting.setUts(new Date());

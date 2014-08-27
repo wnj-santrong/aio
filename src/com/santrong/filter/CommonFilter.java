@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.entry.UserItem;
-import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
 
 /**
@@ -38,7 +37,8 @@ public class CommonFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		
-		ThreadUtils.setHttpSession(request.getSession());
+		ThreadUtils.setHttpRequest(request);
+		ThreadUtils.setHttpResponse(response);
 		
 		String url = request.getRequestURI();
 		if (url != null) {
@@ -75,7 +75,7 @@ public class CommonFilter implements Filter{
 			
 			// 不是免登录的页面，开始校验登录状态
 			if (!pass) {
-				UserItem loginUser = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.SessionKey_LoginUser);
+				UserItem loginUser = (UserItem)request.getSession().getAttribute(Global.SessionKey_LoginUser);
 				if(loginUser == null) {
 					response.sendRedirect("/login.action");
 				}

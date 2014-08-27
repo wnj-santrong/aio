@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.ProxoolFacade;
 import org.logicalcobwebs.proxool.admin.SnapshotIF;
@@ -42,6 +44,8 @@ import com.santrong.tcp.client.TcpClientService;
 @RequestMapping("/dev")
 public class DeveloperAction extends BaseAction{
 	
+	DatasourceDao dsDao = new DatasourceDao();
+	
 	@RequestMapping("/index")
 	public String index() {
 		return "developer/devmain";
@@ -69,14 +73,13 @@ public class DeveloperAction extends BaseAction{
 			}
 		}
 		
-		request.setAttribute("list", list);
+		getRequest().setAttribute("list", list);
 		return "developer/roomStatus";
 	}
 	
 	@RequestMapping("/dsStatus")
-	public String dsStatus() {
+	public String dsStatus(HttpServletRequest request) {
 		TcpClientService client = TcpClientService.getInstance();
-		DatasourceDao dsDao = new DatasourceDao();
 		List<DatasourceItem> dsList = dsDao.selectAll();
 		request.setAttribute("dsList", dsList);
 		
@@ -142,12 +145,12 @@ public class DeveloperAction extends BaseAction{
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 		}
-		request.setAttribute("jobList", jobList);
+		getRequest().setAttribute("jobList", jobList);
 		return "developer/job";
 	}
 	
 	@RequestMapping("/proxool")
-	public String proxool() {
+	public String proxool(HttpServletRequest request) {
 		try {  
             SnapshotIF snapshot = ProxoolFacade.getSnapshot("santrong", true);  
             int curActiveCount = snapshot.getActiveConnectionCount();// 获得活动连接数  

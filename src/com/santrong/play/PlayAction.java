@@ -3,6 +3,8 @@ package com.santrong.play;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,13 +29,17 @@ import com.santrong.system.status.StatusMgr;
 @RequestMapping("/play")
 public class PlayAction extends BaseAction{
 	
+	MeetingDao meetingDao = new MeetingDao();
+	FileDao fileDao = new FileDao();
+	TagDao tagDao = new TagDao();
+	
 	private String doHome(String keyword, Integer pageNum, String source) {
+		HttpServletRequest request = getRequest();
 		if(pageNum == null) {
 			pageNum = 0;
 		}
 		
 		// 获取直播
-		MeetingDao meetingDao = new MeetingDao();
 		List<MeetingItem> meetingList = meetingDao.selectAll();
 		List<LiveEntry> liveList = new ArrayList<LiveEntry>();
 		for(MeetingItem m : meetingList) {
@@ -48,7 +54,6 @@ public class PlayAction extends BaseAction{
 		}
 		
 		// 获取课件
-		FileDao fileDao = new FileDao();
 		FileQuery query = new FileQuery();
 		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
@@ -63,7 +68,6 @@ public class PlayAction extends BaseAction{
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		
 		// 获取标签
-		TagDao tagDao = new TagDao();
 		List<TagItem> tagList = tagDao.selectAll();
 		
 		request.setAttribute("query", query);

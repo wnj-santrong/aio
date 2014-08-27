@@ -23,6 +23,8 @@ import com.santrong.util.CommonTools;
 @RequestMapping("/tag")
 public class TagAction extends BaseAction{
 	
+	TagDao tagDao = new TagDao();
+	
 	@RequestMapping(value="/tagGet", method=RequestMethod.GET)
 	public String tagGet(String id) {
 		
@@ -30,11 +32,10 @@ public class TagAction extends BaseAction{
 		if(StringUtils.isNullOrEmpty(id)) {
 			tag = new TagItem();
 		}else {
-			TagDao dao = new TagDao();
-			tag = dao.selectById(id);
+			tag = tagDao.selectById(id);
 		}
 		
-		request.setAttribute("tag", tag);
+		getRequest().setAttribute("tag", tag);
 		
 		return "play/tag";
 	}
@@ -43,7 +44,7 @@ public class TagAction extends BaseAction{
 	@RequestMapping(value="/tagPost", method=RequestMethod.POST)
 	@ResponseBody
 	public String tagPost(TagItem tag) {
-		TagDao tagDao = new TagDao();
+		
 		tag.setUts(new Date());
 		
 		if(StringUtils.isNullOrEmpty(tag.getId())) {// 新增
@@ -60,7 +61,7 @@ public class TagAction extends BaseAction{
 
 
 		
-		Log.logOpt("tag-insert", tag.getTagName(), request);
+		Log.logOpt("tag-insert", tag.getTagName(), getRequest());
 		
 		return SUCCESS;
 	}
@@ -69,12 +70,11 @@ public class TagAction extends BaseAction{
 	@RequestMapping(value="/tagDel", method=RequestMethod.POST)
 	@ResponseBody
 	public String tagDel(String id) {
-		TagDao tagDao = new TagDao();
 		if(tagDao.delete(id) < 1) {
 			return FAIL;
 		}
 		
-		Log.logOpt("tag-delete", id, request);
+		Log.logOpt("tag-delete", id, getRequest());
 		
 		return SUCCESS;
 	}

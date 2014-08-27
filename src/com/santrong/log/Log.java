@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import com.santrong.log.dao.OptLogDao;
 import com.santrong.log.entry.OptLogItem;
-import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
 import com.santrong.util.CommonTools;
@@ -57,7 +56,10 @@ public class Log {
 	public static void logOpt(String title, String content, HttpServletRequest request) {
 		OptLogDao dao = new OptLogDao();
 		OptLogItem item = new OptLogItem();
-		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.SessionKey_LoginUser);
+		UserItem user = null;
+		if(request != null) {
+			user = (UserItem)request.getSession().getAttribute(Global.SessionKey_LoginUser);
+		}
 		if(user != null) {
 			item.setUsername(user.getUsername());
 		}else{

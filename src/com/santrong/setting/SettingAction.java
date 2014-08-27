@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUpload;
@@ -21,7 +23,6 @@ import com.santrong.base.BaseAction;
 import com.santrong.ftp.FtpConfig;
 import com.santrong.ftp.FtpHandler;
 import com.santrong.log.Log;
-import com.santrong.opt.ThreadUtils;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.ScheduleManager;
 import com.santrong.schedule.SystemUpdateJob;
@@ -47,6 +48,7 @@ import com.scand.fileupload.ProgressMonitorFileItemFactory;
 public class SettingAction extends BaseAction{
 	
 	public static boolean isDatabaseDoing;// 数据库是否正则备份或者恢复
+	UserDao userDao = new UserDao();
 	
 	/*
 	 * 主页面
@@ -62,7 +64,7 @@ public class SettingAction extends BaseAction{
 	 */
 	@RequestMapping(value="/user", method=RequestMethod.POST)
 	@ResponseBody
-	public String userUpdate(String newname, String newpwd, String oldpwd) {
+	public String userUpdate(HttpServletRequest request, String newname, String newpwd, String oldpwd) {
 		if(StringUtils.isNullOrEmpty(newname) || StringUtils.isNullOrEmpty(newpwd) || StringUtils.isNullOrEmpty(oldpwd)) {
 			return "error_param";
 		}
@@ -70,7 +72,6 @@ public class SettingAction extends BaseAction{
 		newpwd = CommonTools.getMD5(newpwd);
 		oldpwd = CommonTools.getMD5(oldpwd);
 		try{
-			UserDao userDao = new UserDao();
 			UserItem user = userDao.selectByUserName(this.currentUser().getUsername());
 			if(user.getPassword().equals(oldpwd)){
 				user.setShowName(newname);
@@ -86,7 +87,7 @@ public class SettingAction extends BaseAction{
 			// 把新用户注入session
 			UserItem newuser = userDao.selectByUserName(newname);
 			if(newuser != null) {
-				ThreadUtils.currentHttpSession().setAttribute(Global.SessionKey_LoginUser, newuser);
+				request.getSession().setAttribute(Global.SessionKey_LoginUser, newuser);
 			}
 			
 			Log.logOpt("user-modify", newname, request);
@@ -137,7 +138,7 @@ public class SettingAction extends BaseAction{
 			
 			if (ps.waitFor() == 0) {
 				Log.debug("----------- db back success");
-				Log.logOpt("db-backup", "", request);
+				Log.logOpt("db-backup", "", getRequest());
 				return SUCCESS;
 			} else {
 				Log.debug("----------- db back fail");
@@ -167,7 +168,7 @@ public class SettingAction extends BaseAction{
 			return FAIL;
 		}
 		
-		Log.logOpt("db-delete", filename, request);
+		Log.logOpt("db-delete", filename, getRequest());
 		
 		return SUCCESS;
 	}
@@ -194,7 +195,7 @@ public class SettingAction extends BaseAction{
 			
 			if (ps.waitFor() == 0) {
 				Log.debug("----------- db restore success");
-				Log.logOpt("db-restore", filename, request);
+				Log.logOpt("db-restore", filename, getRequest());
 				return SUCCESS;
 			} else {
 				Log.debug("----------- db restore fail");
@@ -249,7 +250,7 @@ public class SettingAction extends BaseAction{
 			
 			if (ps.waitFor() == 0) {
 				Log.debug("----------- restart network success");
-				Log.logOpt("net-save", String.valueOf(type), request);
+				Log.logOpt("net-save", String.valueOf(type), getRequest());
 				return SUCCESS;
 			} else {
 				Log.debug("----------- restart network fail");
@@ -329,7 +330,7 @@ public class SettingAction extends BaseAction{
 					}
 				}
 				
-				Log.logOpt("ftp-save", useFtp + "|" + host + "|" + port + "|" + username + "|" + password, request);
+				Log.logOpt("ftp-save", useFtp + "|" + host + "|" + port + "|" + username + "|" + password, getRequest());
 				return SUCCESS;			
 			}
 		}catch(Exception e) {
@@ -357,7 +358,7 @@ public class SettingAction extends BaseAction{
 	@RequestMapping(value="/updateLocal", method=RequestMethod.POST)
 	@ResponseBody
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public String updateLocal() {
+	public String updateLocal(HttpServletRequest request) {
 		try {
     		// 系统正在升级
     		if(SystemUpdateJob.updating) {
@@ -499,7 +500,7 @@ public class SettingAction extends BaseAction{
 	 */
 	@RequestMapping(value="/updateOnlineNow", method=RequestMethod.POST)
 	@ResponseBody
-	public String updateOnlineNow() {
+	public String updateOnlineNow(HttpServletRequest request) {
 		SystemUpdateJob.updating = true;
 		
 		try{

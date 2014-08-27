@@ -1,8 +1,9 @@
 package com.santrong.home;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,6 @@ import com.santrong.base.BaseAction;
 import com.santrong.home.dao.MenuDao;
 import com.santrong.home.entry.MenuItem;
 import com.santrong.log.Log;
-import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
@@ -30,6 +30,9 @@ import com.santrong.util.CommonTools;
 @Controller
 public class HomeAction extends BaseAction{
 	
+	MenuDao menuDao = new MenuDao();
+	UserDao userDao = new UserDao();
+	
 	@RequestMapping("/index")
 	public String index(){
 		
@@ -40,7 +43,6 @@ public class HomeAction extends BaseAction{
 		}else{//已登录
 			
 			// 获取菜单
-			MenuDao menuDao = new MenuDao();
 			List<MenuItem> navigator = null;
 			
 			navigator = menuDao.selectByParentId("0");
@@ -53,8 +55,8 @@ public class HomeAction extends BaseAction{
 			TipService tipService = new TipService();
 			List<TipItem> tipList = tipService.getList();
 			
-			request.setAttribute("navigator", navigator);
-			request.setAttribute("tipList", tipList);
+			getRequest().setAttribute("navigator", navigator);
+			getRequest().setAttribute("tipList", tipList);
 			
 			return "manage";
 			
@@ -83,7 +85,6 @@ public class HomeAction extends BaseAction{
 			return "error_login_nullInput";
 		}
 		
-		UserDao userDao = new UserDao();
 		UserItem user = userDao.selectByUserName(username);
 		
 		if(user == null) {
@@ -94,9 +95,9 @@ public class HomeAction extends BaseAction{
 			return "error_login_password_wrong";
 		}
 		
-		ThreadUtils.currentHttpSession().setAttribute(Global.SessionKey_LoginUser, user);
+		getRequest().getSession().setAttribute(Global.SessionKey_LoginUser, user);
 		
-		Log.logOpt("user-login", user.getUsername(), request);
+		Log.logOpt("user-login", user.getUsername(), getRequest());
 		
 		return SUCCESS;
 	}
@@ -104,14 +105,15 @@ public class HomeAction extends BaseAction{
 	@RequestMapping(value="/logout", method=RequestMethod.POST)
 	@ResponseBody
 	public String logout() {
+		HttpServletRequest request = getRequest();
 
-		UserItem user = (UserItem)ThreadUtils.currentHttpSession().getAttribute(Global.SessionKey_LoginUser);
+		UserItem user = (UserItem)request.getSession().getAttribute(Global.SessionKey_LoginUser);
 		if(user == null) {
 			return SUCCESS;
 		}
 		
 		try{
-			ThreadUtils.currentHttpSession().removeAttribute(Global.SessionKey_LoginUser);
+			request.getSession().removeAttribute(Global.SessionKey_LoginUser);
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 			return FAIL;
@@ -119,7 +121,7 @@ public class HomeAction extends BaseAction{
 		
 		Log.logOpt("user-out", user.getUsername(), request);
 		
-		ThreadUtils.currentHttpSession().invalidate();
+		request.getSession().invalidate();
 		
 		return SUCCESS;
 	}
