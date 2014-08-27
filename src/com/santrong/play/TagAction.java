@@ -23,11 +23,9 @@ import com.santrong.util.CommonTools;
 @RequestMapping("/tag")
 public class TagAction extends BaseAction{
 	
-	TagDao tagDao = new TagDao();
-	
 	@RequestMapping(value="/tagGet", method=RequestMethod.GET)
 	public String tagGet(String id) {
-		
+		TagDao tagDao = new TagDao();
 		TagItem tag;
 		if(StringUtils.isNullOrEmpty(id)) {
 			tag = new TagItem();
@@ -44,7 +42,7 @@ public class TagAction extends BaseAction{
 	@RequestMapping(value="/tagPost", method=RequestMethod.POST)
 	@ResponseBody
 	public String tagPost(TagItem tag) {
-		
+		TagDao tagDao = new TagDao();
 		tag.setUts(new Date());
 		
 		if(StringUtils.isNullOrEmpty(tag.getId())) {// 新增
@@ -70,6 +68,7 @@ public class TagAction extends BaseAction{
 	@RequestMapping(value="/tagDel", method=RequestMethod.POST)
 	@ResponseBody
 	public String tagDel(String id) {
+		TagDao tagDao = new TagDao();
 		if(tagDao.delete(id) < 1) {
 			return FAIL;
 		}

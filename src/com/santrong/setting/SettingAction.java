@@ -48,7 +48,6 @@ import com.scand.fileupload.ProgressMonitorFileItemFactory;
 public class SettingAction extends BaseAction{
 	
 	public static boolean isDatabaseDoing;// 数据库是否正则备份或者恢复
-	UserDao userDao = new UserDao();
 	
 	/*
 	 * 主页面
@@ -72,6 +71,7 @@ public class SettingAction extends BaseAction{
 		newpwd = CommonTools.getMD5(newpwd);
 		oldpwd = CommonTools.getMD5(oldpwd);
 		try{
+			UserDao userDao = new UserDao();
 			UserItem user = userDao.selectByUserName(this.currentUser().getUsername());
 			if(user.getPassword().equals(oldpwd)){
 				user.setShowName(newname);

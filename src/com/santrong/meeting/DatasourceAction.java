@@ -33,8 +33,6 @@ import com.santrong.util.CommonTools;
 public class DatasourceAction extends BaseAction {
 	
 	TcpClientService client = TcpClientService.getInstance();
-	DatasourceDao dsDao = new DatasourceDao();
-	MeetingDao meetingDao = new MeetingDao();
 	
 	/**
 	 * 数据源GET
@@ -49,6 +47,7 @@ public class DatasourceAction extends BaseAction {
 		
 		DatasourceItem ds;
 		if(!StringUtils.isNullOrEmpty(id)){
+			DatasourceDao dsDao = new DatasourceDao();
 			ds = dsDao.selectById(id);
 		}else{
 			ds = new DatasourceItem();
@@ -72,6 +71,7 @@ public class DatasourceAction extends BaseAction {
 		ds.setDsType(DatasourceItem.Datasoruce_Type_Camera);
 		
 		// 校验数量，多人操作可能引发的问题
+		DatasourceDao dsDao = new DatasourceDao();
 		int dsCount = 0;
 		if(StringUtils.isNullOrEmpty(ds.getId())) {
 			dsCount = dsDao.selectCountByMeetingId(ds.getMeetingId());
@@ -179,6 +179,7 @@ public class DatasourceAction extends BaseAction {
 			return FAIL;
 		}
 		
+		DatasourceDao dsDao = new DatasourceDao();
 		DatasourceItem item = dsDao.selectById(id);
 		if(item == null) {
 			return FAIL;
@@ -197,6 +198,7 @@ public class DatasourceAction extends BaseAction {
 		
 		ThreadUtils.beginTranx();
 		try{
+			MeetingDao meetingDao = new MeetingDao();
 			int dsCount = dsDao.selectCountByMeetingId(item.getMeetingId());
 			MeetingItem meeting = meetingDao.selectById(item.getMeetingId());
 			meeting.setUts(new Date());

@@ -49,9 +49,6 @@ import com.santrong.util.CommonTools;
 public class MeetingAction extends BaseAction{
 	
 	TcpClientService client = TcpClientService.getInstance();
-	MeetingDao meetingDao = new MeetingDao();
-	DatasourceDao dsDao = new DatasourceDao();
-	FileDao fileDao = new FileDao();
 	
 	/**
 	 * 会议管理主页面
@@ -59,6 +56,8 @@ public class MeetingAction extends BaseAction{
 	 */
 	@RequestMapping("/home")
 	public String home(){
+		MeetingDao meetingDao = new MeetingDao();
+		DatasourceDao dsDao = new DatasourceDao();
 		MeetingItem meeting = meetingDao.selectFirst();
 		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
 		RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
@@ -187,6 +186,7 @@ public class MeetingAction extends BaseAction{
 			
 			List<RecStreamInfo> datasourceList = new ArrayList<RecStreamInfo>();
 			
+			DatasourceDao dsDao = new DatasourceDao();
 			List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
 			for(DatasourceItem item : dsList) {
 				RecStreamInfo ds = tcp.new RecStreamInfo();
@@ -296,6 +296,7 @@ public class MeetingAction extends BaseAction{
 				}
 				
 				String[] arr = tcp.getFileUrl().split("/");
+				FileDao fileDao = new FileDao();
 				FileItem file = fileDao.selectByFileName(arr[arr.length - 1]);
 				file.setDuration(tcp.getRcdTime());
 				file.setUts(new Date());
@@ -387,6 +388,7 @@ public class MeetingAction extends BaseAction{
 			
 			// 更新课件状态
 			String[] arr = tcp.getFileUrl().split("/");
+			FileDao fileDao = new FileDao();
 			FileItem file = fileDao.selectByFileName(arr[arr.length - 1]);
 			file.setDuration(tcp.getRcdTime());
 			file.setUts(new Date());
@@ -437,6 +439,7 @@ public class MeetingAction extends BaseAction{
 			return "error_meeting_is_begin_not_save";//已经开会不能持久化
 		}		
 		
+		MeetingDao meetingDao = new MeetingDao();
 		MeetingItem dbMeeting = meetingDao.selectById(meeting.getId());
 		
 		// 设置系统录制资源阀值
@@ -468,6 +471,7 @@ public class MeetingAction extends BaseAction{
 			ds.setUts(new Date());
 			dsList.add(ds);
 		}
+		DatasourceDao dsDao = new DatasourceDao();
 		List<DatasourceItem> dsDbList = dsDao.selectByMeetingId(meeting.getId());
 		
 		List<DatasourceItem> insertList = new ArrayList<DatasourceItem>();
@@ -654,6 +658,7 @@ public class MeetingAction extends BaseAction{
 		file.setCts(new Date());
 		file.setUts(new Date());
 		
+		FileDao fileDao = new FileDao();
 		if(fileDao.insert(file) <= 0) {
 			return FAIL;
 		}

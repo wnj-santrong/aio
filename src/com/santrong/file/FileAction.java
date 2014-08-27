@@ -47,10 +47,6 @@ public class FileAction extends BaseAction{
 	
 	static final Integer READER_BUFFER_SIZE = 8192;
 	
-	FileDao fileDao = new FileDao();
-	MeetingDao meetingDao = new MeetingDao();
-	
-	
 	@RequestMapping("/home")
 	public String home(String keyword, Integer pageNum){
 		HttpServletRequest request = getRequest();
@@ -58,6 +54,7 @@ public class FileAction extends BaseAction{
 			pageNum = 0;
 		}
 		
+		FileDao fileDao = new FileDao();
 		FileQuery query = new FileQuery();
 		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
@@ -81,6 +78,7 @@ public class FileAction extends BaseAction{
 			return ERROR_PARAM;
 		}
 		
+		FileDao fileDao = new FileDao();
 		FileItem file = fileDao.selectById(id);
 		request.setAttribute("file", file);
 		
@@ -96,6 +94,7 @@ public class FileAction extends BaseAction{
 		if(StringUtils.isNullOrEmpty(id)){
 			return ERROR_PARAM;
 		}
+		FileDao fileDao = new FileDao();
 		FileItem file = fileDao.selectById(id);
 		
 		request.setAttribute("file", file);
@@ -109,6 +108,7 @@ public class FileAction extends BaseAction{
 	@RequestMapping(value="/fileEdit", method=RequestMethod.POST)
 	@ResponseBody
 	public String fileEdit(FileItem file) {
+		FileDao fileDao = new FileDao();
 		FileItem dbFile = fileDao.selectById(file.getId());
 		
 		if(dbFile == null) {
@@ -147,6 +147,7 @@ public class FileAction extends BaseAction{
 			
 			// 0点播
 			if(type == 0) {
+				FileDao fileDao = new FileDao();
 				FileItem file = fileDao.selectById(id);
 				if(file == null) {
 					return "error_file_not_exists";
@@ -187,6 +188,7 @@ public class FileAction extends BaseAction{
 			
 			// 直播
 			if(type == 1) {
+				MeetingDao meetingDao = new MeetingDao();
 				MeetingItem meeting = meetingDao.selectById(id);
 				if(meeting == null) {
 					return FAIL;
@@ -238,6 +240,7 @@ public class FileAction extends BaseAction{
 			
 			String[] idArr = ids.split(",");
 			
+			FileDao fileDao = new FileDao();
 			final List<FileItem> fileList = fileDao.selectByIds(idArr);
 			if(fileList == null || fileList.size() == 0) {
 				return FAIL;
@@ -300,6 +303,7 @@ public class FileAction extends BaseAction{
 		try{
 			String[] idArr = ids.split(",");
 			
+			FileDao fileDao = new FileDao();
 			if(fileDao.openByIds(idArr) <= 0) {
 				return FAIL;
 			}
@@ -326,6 +330,7 @@ public class FileAction extends BaseAction{
 		try{
 			String[] idArr = ids.split(",");
 			
+			FileDao fileDao = new FileDao();
 			if(fileDao.closeByIds(idArr) <= 0) {
 				return FAIL;
 			}
@@ -359,6 +364,7 @@ public class FileAction extends BaseAction{
 				return;
 			}
 			
+			FileDao fileDao = new FileDao();
 			FileItem file = fileDao.selectById(id);
 			
 			// 录制中不让下载

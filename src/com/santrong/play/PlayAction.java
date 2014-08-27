@@ -29,10 +29,6 @@ import com.santrong.system.status.StatusMgr;
 @RequestMapping("/play")
 public class PlayAction extends BaseAction{
 	
-	MeetingDao meetingDao = new MeetingDao();
-	FileDao fileDao = new FileDao();
-	TagDao tagDao = new TagDao();
-	
 	private String doHome(String keyword, Integer pageNum, String source) {
 		HttpServletRequest request = getRequest();
 		if(pageNum == null) {
@@ -40,6 +36,7 @@ public class PlayAction extends BaseAction{
 		}
 		
 		// 获取直播
+		MeetingDao meetingDao = new MeetingDao();
 		List<MeetingItem> meetingList = meetingDao.selectAll();
 		List<LiveEntry> liveList = new ArrayList<LiveEntry>();
 		for(MeetingItem m : meetingList) {
@@ -64,10 +61,13 @@ public class PlayAction extends BaseAction{
 		}else {// 已登录
 			query.setPageSize(12);
 		}
+		
+		FileDao fileDao = new FileDao();
 		query.setCount(fileDao.selectByPageCount(query));
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		
 		// 获取标签
+		TagDao tagDao = new TagDao();
 		List<TagItem> tagList = tagDao.selectAll();
 		
 		request.setAttribute("query", query);

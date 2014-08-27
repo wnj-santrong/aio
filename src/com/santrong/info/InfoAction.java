@@ -25,15 +25,13 @@ import com.santrong.tcp.client.TcpClientService;
 @RequestMapping("/info")
 public class InfoAction extends BaseAction{
 
-	MeetingDao meetingDao = new MeetingDao();
-	
 	@RequestMapping("/home")
 	public String home() {
 		
 		SystemInfoView info = new SystemInfoView();
 		
 		try{
-			
+			MeetingDao meetingDao = new MeetingDao();
 			MeetingItem meeting = meetingDao.selectFirst();
 			RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
 			

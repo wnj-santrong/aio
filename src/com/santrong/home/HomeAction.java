@@ -30,9 +30,6 @@ import com.santrong.util.CommonTools;
 @Controller
 public class HomeAction extends BaseAction{
 	
-	MenuDao menuDao = new MenuDao();
-	UserDao userDao = new UserDao();
-	
 	@RequestMapping("/index")
 	public String index(){
 		
@@ -44,7 +41,7 @@ public class HomeAction extends BaseAction{
 			
 			// 获取菜单
 			List<MenuItem> navigator = null;
-			
+			MenuDao menuDao = new MenuDao();
 			navigator = menuDao.selectByParentId("0");
 			
 			if(navigator == null) {
@@ -85,6 +82,7 @@ public class HomeAction extends BaseAction{
 			return "error_login_nullInput";
 		}
 		
+		UserDao userDao = new UserDao();
 		UserItem user = userDao.selectByUserName(username);
 		
 		if(user == null) {

@@ -44,8 +44,6 @@ import com.santrong.tcp.client.TcpClientService;
 @RequestMapping("/dev")
 public class DeveloperAction extends BaseAction{
 	
-	DatasourceDao dsDao = new DatasourceDao();
-	
 	@RequestMapping("/index")
 	public String index() {
 		return "developer/devmain";
@@ -80,6 +78,7 @@ public class DeveloperAction extends BaseAction{
 	@RequestMapping("/dsStatus")
 	public String dsStatus(HttpServletRequest request) {
 		TcpClientService client = TcpClientService.getInstance();
+		DatasourceDao dsDao = new DatasourceDao();
 		List<DatasourceItem> dsList = dsDao.selectAll();
 		request.setAttribute("dsList", dsList);
 		
