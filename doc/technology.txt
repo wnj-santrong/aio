@@ -1,0 +1,89 @@
+一：目录结构
+/opt/AIO/Service/
+	|___/webservice/
+	|___/control/
+	|___/sources/
+	|___/recorder/
+	|___/uniserver/
+	|___/vodserver
+	|___/maintain/
+	|___/update/
+	|___/lcd/
+	|___其他公共配置文件
+/data/
+|___/教室ID1
+   /___/录制名1			//录制指令指定的录制路径到此层
+		|___/rsrc		//资源模式课件
+		|___/mv			//电影模式课件
+		|___/cmps		//合成模式课件
+   /___/录制名2
+|___/教室ID2
+   /___/录制名1
+   /___/录制名2
+
+1、webservice，系统管理和业务管理。包括系统设置、用户管理、日志管理、会议管理、资源管理、系统状态展示等功能。
+2、control，协议层和调度层。包括协议解析、任务分发、模块调度、总体资源控制。
+3、sources，数据源服务。数据源连接、数据分发等功能。每个进程负责一个数据的连接
+4、recorder，录制服务。录制功能，每个进程负责一个会议或教室的录制。
+5、uniserver，直播服务。对外提供直播服务，
+6、vodserver，点播服务。负责对外提供点播服务，一台设备有且仅有一个点播服务，负责所有文件的对外点播。
+7、maintain，监控进程。负责系统中所有服务的守护，出现异常时及时恢复现场。
+
+二：webservice结构
+.../webservice/
+	|___/jdk1.7.0_60/				//jdk目录
+	|___/apache-tomcat-7.0.54/		//tomcat目录
+	|___/webapp/					//应用目录
+		|___/shell/					//应用中用到的shell脚本目录
+	|___/appbackup/					//应用备份目录
+	|___/dbbackup/					//数据库备份目录
+	|___/upload/					//用户上传数据目录
+
+三：webservice层使用的技术版本
+
+spring-framework-3.2.9.RELEASE
+mybatis-3.2.2
+tomcat-7.0.54
+jdk-7u60-x64
+mysql5.6
+Quartz Scheduler (v2.0.1)
+log4jdbc4-1.2
+proxool-0.9.1
+edtftpj2.4.0
+nginx1.7.4
+
+
+四：global.ini配置
+
+    /*
+     * [System]
+     */
+    public static String Version = "";
+    public static String Title = "三简课程直播录制系统";
+    public static String Language = "zh_CN";
+    public static String LanDeviceName = "eth0";								// lan网口的网口名
+    public static String WanDeviceName = "eth1";								// wan网口的网口名
+    public static int DownloadMaxCount = 10;                            		// 控制下载人数
+    public static int HeartInterval = 10000;									// 心跳时间
+    public static int HeartTimeout = 15000;										// 心跳过期时间
+    public static long DiskErrorSize = 2048;									// 禁止录制的磁盘空间剩余量，单位M
+    public static long DiskErrorSizeCancel = 3072;								// 禁止录制解除的磁盘空间剩余量，单位M
+    public static long DiskWainSize = 10240;									// 磁盘剩余空间不足的提醒值，单位M
+    public static long DiskWainSizeCancel = 11264;								// 磁盘剩余空间不足的提醒解除值，单位M
+    public static int UploadFileSizeLimit = 150;								// 升级文件大小限制，单位M----请确保tomcat限制大小不小于用户配置大小
+    
+    /*
+     * [DataSource]
+     */
+    public static String CameraUsername = "admin";						// 摄像头默认用户名
+    public static String CameraPassword = "12345";						// 摄像头密码
+    public static int CameraPort = 80;									// 摄像头默认端口
+    public static int VedioCount = 3;									// 视频路数，VGA + Camera    
+    
+    /*
+     * [Ftp]
+     */
+    public static int FTPConnectMode = 0;								// 0主动模式，1被动模式
+    
+    
+ 

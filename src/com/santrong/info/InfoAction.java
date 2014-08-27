@@ -47,6 +47,11 @@ public class InfoAction extends BaseAction{
 				BeanUtils.copyProperties(tcp39004, info);
 				
 				info.setSystemVersion(tcp39004.getSystemVersion());
+				
+				// 顺便同步直播点播数
+				StatusMgr.VodUsrCount = tcp31009.getVodCur();
+				StatusMgr.UniUsrCount = tcp31009.getUniCur();
+				StatusMgr.uniVodMax = tcp31009.getUniVodMax();
 			}
 			
 			info.setWebVersion(Global.Version);

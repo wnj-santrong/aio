@@ -72,7 +72,8 @@
             		<c:if test="${file.status == 0}"><fmt:message key="file_status_recording"/></c:if>
 	            	<c:if test="${file.status == 1}"><fmt:message key="file_status_recorded"/></c:if>
 	            	<c:if test="${file.status == 2}"><fmt:message key="file_status_uploading"/></c:if>
-	            	<c:if test="${file.status == 3}"><fmt:message key="file_status_uploaded"/></c:if>				    
+	            	<c:if test="${file.status == 3}"><fmt:message key="file_status_uploaded"/></c:if>	    
+	            	<c:if test="${file.status == 10}"><fmt:message key="file_status_error"/></c:if>	    
 				</td>
 			</tr>
 			</c:forEach>

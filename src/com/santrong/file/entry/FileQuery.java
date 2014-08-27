@@ -10,7 +10,8 @@ import com.santrong.opt.PageQuery;
 public class FileQuery extends PageQuery {
 	private String keyword;
 	private int level = -1;
-	private boolean showRecording = false;
+	private boolean showRecording = false;// 是否显示录制中课件
+	private boolean showError = false;// 是否显示异常课件
 	
 	public String getKeyword() {
 		return keyword;
@@ -29,5 +30,11 @@ public class FileQuery extends PageQuery {
 	}
 	public void setShowRecording(boolean showRecording) {
 		this.showRecording = showRecording;
+	}
+	public boolean isShowError() {
+		return showError;
+	}
+	public void setShowError(boolean showError) {
+		this.showError = showError;
 	}
 }

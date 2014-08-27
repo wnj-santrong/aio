@@ -9,6 +9,7 @@ import java.util.Hashtable;
  */
 public class StatusMgr {
 	
+	public static int uniVodMax = 0;// 最大直播点播数
 	public static int UniUsrCount = 0;// 正在直播人数
 	public static int VodUsrCount = 0;// 正在点播人数
 	

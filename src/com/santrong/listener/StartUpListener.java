@@ -14,6 +14,7 @@ import com.santrong.ftp.FtpConfig;
 import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.schedule.FileStatusCheckJob;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.LogClearJob;
@@ -39,71 +40,73 @@ public class StartUpListener implements ServletContextListener {
 	// 启动执行
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		// 把proxool配置载入环境
 		try{
-			Properties dbProps = new Properties();
-			dbProps.load(StartUpListener.class.getResourceAsStream("/datasource.properties"));
-			PropertyConfigurator.configure(dbProps);
-		}catch(Exception e) {
-			Log.printStackTrace(e);
-		}
-		
-		// 给control层发送一次配置值，防止状态不一致
-		try {
-			TcpClientService client = TcpClientService.getInstance();
-			MeetingDao dao = new MeetingDao();
-			MeetingItem dbMeeting = dao.selectFirst();
-			if(dbMeeting != null) {
-				LocalTcp31008 tcp = new LocalTcp31008();
-				tcp.setFreeSize(Global.DiskErrorSize);
-				tcp.setMaxTime(dbMeeting.getMaxTime());
-				client.request(tcp);
+			// 把proxool配置载入环境
+			try{
+				Properties dbProps = new Properties();
+				dbProps.load(StartUpListener.class.getResourceAsStream("/datasource.properties"));
+				PropertyConfigurator.configure(dbProps);
+			}catch(Exception e) {
+				Log.printStackTrace(e);
 			}
+			
+			// 给shell目录添加权限
+			try {
+				String[] cmd = new String[] { "/bin/sh", "-c", " chmod 777 " + DirDefine.ShellDir + "/* " };
+				Process ps = Runtime.getRuntime().exec(cmd);
+				ps.waitFor();
+			} catch (Exception e) {
+				Log.printStackTrace(e);
+			}
+			
+			// 给control层发送一次配置值，防止状态不一致
+			try {
+				TcpClientService client = TcpClientService.getInstance();
+				MeetingDao dao = new MeetingDao();
+				MeetingItem dbMeeting = dao.selectFirst();
+				if(dbMeeting != null) {
+					LocalTcp31008 tcp = new LocalTcp31008();
+					tcp.setFreeSize(Global.DiskErrorSize);
+					tcp.setMaxTime(dbMeeting.getMaxTime());
+					client.request(tcp);
+				}
+			}catch(Exception e) {
+				Log.printStackTrace(e);
+			}
+			
+			// 启动会议室状态监听线程
+			scheManager.startCron(new StatusMonitJob());
+			
+			// 启动日志清理线程
+			scheManager.startCron(new LogClearJob());
+			
+			// 启动磁盘空间监控线程
+			scheManager.startCron(new StorageMonitJob());
+			
+			// 启动文件状态检测修复任务
+			scheManager.startCron(new FileStatusCheckJob());
+			
+			
+			// 启动ftp上传扫描线程
+			FtpConfig ftpConfig = new FtpConfig();
+			if("1".equals(ftpConfig.getFtpEnable())) {
+				scheManager.startCron(new FtpUploadJob());
+			}
+			
+			// 启动在线升级扫描线程
+			UpdateConfig updateConfig = new UpdateConfig();
+			if("1".equals(updateConfig.getAutoUpdate())) {
+				scheManager.startCron(new SystemUpdateJob());
+			}
+			
+			
+			// 启动TCP服务监听线程
+	//		new Thread(new TcpServer(), "---TcpServer").start();
 		}catch(Exception e) {
 			Log.printStackTrace(e);
+		}finally{
+			ThreadUtils.closeAll();
 		}
-		
-		
-		
-		// 给shell目录添加权限
-		try {
-			String[] cmd = new String[] { "/bin/sh", "-c", " chmod 777 " + DirDefine.ShellDir + "/* " };
-			Process ps = Runtime.getRuntime().exec(cmd);
-			ps.waitFor();
-		} catch (Exception e) {
-			Log.printStackTrace(e);
-		}
-		
-		
-		
-		// 启动会议室状态监听线程
-		scheManager.startCron(new StatusMonitJob());
-		
-		// 启动日志清理线程
-		scheManager.startCron(new LogClearJob());
-		
-		// 启动磁盘空间监控线程
-		scheManager.startCron(new StorageMonitJob());
-		
-		// 启动文件状态检测修复任务
-		scheManager.startCron(new FileStatusCheckJob());
-		
-		
-		// 启动ftp上传扫描线程
-		FtpConfig ftpConfig = new FtpConfig();
-		if("1".equals(ftpConfig.getFtpEnable())) {
-			scheManager.startCron(new FtpUploadJob());
-		}
-		
-		// 启动在线升级扫描线程
-		UpdateConfig updateConfig = new UpdateConfig();
-		if("1".equals(updateConfig.getAutoUpdate())) {
-			scheManager.startCron(new SystemUpdateJob());
-		}
-		
-		
-		// 启动TCP服务监听线程
-//		new Thread(new TcpServer(), "---TcpServer").start();
 	}
 	
 	// 销毁执行

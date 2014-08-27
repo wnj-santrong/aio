@@ -24,7 +24,6 @@ import com.santrong.file.entry.PlayInfo;
 import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
-import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
@@ -58,6 +57,7 @@ public class FileAction extends BaseAction{
 		query.setKeyword(keyword);
 		query.setPageNum(pageNum);
 		query.setShowRecording(true);// 显示录制中的课件
+		query.setShowError(true);// 显示异常课件
 		query.setCount(fileDao.selectByPageCount(query));
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		
@@ -132,6 +132,11 @@ public class FileAction extends BaseAction{
 		try{
 			if(type == null) {
 				type = 0;
+			}
+			
+			// 直播点播数判断
+			if((StatusMgr.VodUsrCount + StatusMgr.UniUsrCount) >= StatusMgr.uniVodMax) {
+				return "notice_over_max_play";
 			}
 			
 			PlayInfo info = new PlayInfo();
@@ -353,6 +358,15 @@ public class FileAction extends BaseAction{
 			if(StringUtils.isNullOrEmpty(id)) {
 				return;
 			}
+			
+			FileDao fileDao = new FileDao();
+			FileItem file = fileDao.selectById(id);
+			
+			// 录制中不让下载
+			if(file.getStatus() == FileItem.File_Status_Recording) {
+				return;
+			}
+			
 			// 超过服务器配置最大下载值
 			if(BreakPointDownloadContent.downloading.size() >= Global.DownloadMaxCount) {
 				return;
@@ -364,10 +378,6 @@ public class FileAction extends BaseAction{
 			// 标记用户下载
 			BreakPointDownloadContent.downloading.add(downloadKey);
 			
-			
-			FileDao fileDao = new FileDao();
-			FileItem file = fileDao.selectById(id);
-
 			String path = DirDefine.VedioDir + "/" + MeetingItem.ConfIdPreview + file.getChannel();
 			
 			// 获取tar压缩后的大小

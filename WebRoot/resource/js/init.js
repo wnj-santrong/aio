@@ -677,9 +677,9 @@ IndexClass.prototype = {
 					
 					// 恢复数据库
 					$(".dbRestore").click(function(){
+						var filename = $(this).parent().find("span").text();
 						Boxy.ask(Message.dynamic("warn_db_restore_confirm"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
 				            if (response == Message.dynamic("text_confirm")) {
-				            	var filename = $(this).parent().find("span").text();
 								$.simplePost({url : Globals.ctx + "/setting/dbRestore.action", data : {"filename" : filename}});
 				            }
 						});							

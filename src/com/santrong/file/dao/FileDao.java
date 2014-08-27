@@ -179,9 +179,11 @@ public class FileDao extends BaseDao{
 				criteria.setIntParam(query.getLevel());
 			}
 			if(!query.isShowRecording()) {
-				criteria.where(ne("f.status", FileItem.File_Status_Recording));// status != 0
+				criteria.where(ne("f.status", FileItem.File_Status_Recording));// 录制中课件不显示
 			}
-			criteria.where(ne("f.status", FileItem.File_Status_ERROR));// 异常课件不显示
+			if(!query.isShowError()) {
+				criteria.where(ne("f.status", FileItem.File_Status_ERROR));// 异常课件不显示
+			}
 			// 排序
 			if(!StringUtils.isNullOrEmpty(query.getOrderBy())) {
 				if("desc".equalsIgnoreCase(query.getOrderRule())) {
@@ -233,9 +235,11 @@ public class FileDao extends BaseDao{
 				criteria.setIntParam(query.getLevel());
 			}
 			if(!query.isShowRecording()) {
-				criteria.where(ne("f.status", FileItem.File_Status_Recording));// status != 0
+				criteria.where(ne("f.status", FileItem.File_Status_Recording));// 显示录制中课件
 			}
-			criteria.where(ne("f.status", FileItem.File_Status_ERROR));// 异常课件不显示
+			if(!query.isShowError()) {
+				criteria.where(ne("f.status", FileItem.File_Status_ERROR));// 异常课件不显示
+			}
 			
 			Connection conn = ThreadUtils.currentConnection();
 			PreparedStatement stm = criteria.getRealStatement(conn);

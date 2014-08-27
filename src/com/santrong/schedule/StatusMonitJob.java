@@ -13,6 +13,7 @@ import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31001;
 import com.santrong.tcp.client.LocalTcp31007;
+import com.santrong.tcp.client.LocalTcp31009;
 import com.santrong.tcp.client.LocalTcp31007.ConfInfo;
 import com.santrong.tcp.client.TcpClientService;
 
@@ -67,14 +68,15 @@ public class StatusMonitJob extends JobImpl {
 				StatusMgr.setRoomStatus(key, roomStatus);
 				
 				
+				// 确保失败或者失联后一旦重连至少能执行一次内存修正。
+				moreOnce = false;
+				
+				// --------------------------同步教室状态begin------------------------------------------
 				TcpClientService client = TcpClientService.getInstance();
 				LocalTcp31001 tcp = new LocalTcp31001();
 				tcp.setAddr("http://" + InetAddress.getLocalHost().getHostAddress() + "/http/basic.action");
 				tcp.setPort(80);
 				tcp.setHeartbeat(Global.HeartInterval);
-				
-				// 确保失败或者失联后一旦重连至少能执行一次内存修正。
-				moreOnce = false;
 				
 				Log.info("---Connect Controller...");
 				client.request(tcp);
@@ -101,6 +103,17 @@ public class StatusMonitJob extends JobImpl {
 						}
 					}
 				}
+				// --------------------------同步教室状态end------------------------------------------				
+				
+				// --------------------------同步直播点播数begin------------------------------------------
+				LocalTcp31009 tcp31009 = new LocalTcp31009();
+				client.request(tcp31009);
+				if(tcp31009.getResultCode() == 0 && tcp31009.getRespHeader().getReturnCode() == 0) {
+					StatusMgr.VodUsrCount = tcp31009.getVodCur();
+					StatusMgr.UniUsrCount = tcp31009.getUniCur();
+					StatusMgr.uniVodMax = tcp31009.getUniVodMax();
+				}
+				// --------------------------同步直播点播数end------------------------------------------
 				
 				moreOnce = true;//到这里才算至少初始化一次了
 				

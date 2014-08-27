@@ -30,6 +30,7 @@ $(document).ready(function() {
 	<li><a href="/dev/roomStatus.action" target="main">会议室状态</a></li>
 	<li><a href="/dev/dsStatus.action" target="main">数据源状态</a></li>
 	<li><a href="/dev/job.action" target="main">任务计划状态</a></li>
+	<li><a href="/dev/proxool.action" target="main">proxool监控</a></li>
 </ul>
 <div style="float:left; border:solid 1px red;">
 	<iframe id="iframeId" name="main" marginwidth="0" marginheight="0" frameborder="0" scrolling="auto"  width="1280" height="768" src="/dev/roomStatus.action"></iframe>

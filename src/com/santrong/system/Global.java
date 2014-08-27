@@ -15,15 +15,6 @@ public class Global {
     
 	
     /*
-     * [DataSource]
-     */
-    public static String CameraUsername = "admin";						// 摄像头默认用户名
-    public static String CameraPassword = "12345";						// 摄像头密码
-    public static int CameraPort = 80;									// 摄像头默认端口
-    public static int VedioCount = 3;									// 视频路数，VGA + Camera
-    
-    
-    /*
      * [System]
      */
     public static String Version = "";
@@ -40,6 +31,16 @@ public class Global {
     public static long DiskWainSizeCancel = 11264;								// 磁盘剩余空间不足的提醒解除值，单位M
     public static int UploadFileSizeLimit = 150;								// 升级文件大小限制，单位M----请确保tomcat限制大小不小于用户配置大小
     
+    
+    /*
+     * [DataSource]
+     */
+    public static String CameraUsername = "admin";						// 摄像头默认用户名
+    public static String CameraPassword = "12345";						// 摄像头密码
+    public static int CameraPort = 80;									// 摄像头默认端口
+    public static int VedioCount = 3;									// 视频路数，VGA + Camera    
+    
+    
     /*
      * [Ftp]
      */
@@ -54,12 +55,6 @@ public class Global {
         
         Ini ini = new Ini();
         if (ini.read(configFile)) {
-
-            CameraUsername = ini.readString("DataSource", "CameraUsername", CameraUsername);
-            CameraPassword = ini.readString("DataSource", "CameraPassword", CameraPassword);
-            CameraPort = ini.readInt("DataSource", "CameraPort", CameraPort);
-            VedioCount = ini.readInt("DataSource", "VedioCount", VedioCount);
-
             Version = ini.readString("System", "Version", Version);
             Title = ini.readString("System", "Title", Title);
             Language = ini.readString("System", "Language", Language);
@@ -73,6 +68,11 @@ public class Global {
             DiskWainSize =ini.readLong("System", "DiskWainSize", DiskWainSize);
             DiskWainSizeCancel =ini.readLong("System", "DiskWainSizeCancel", DiskWainSizeCancel);
             UploadFileSizeLimit =ini.readInt("System", "UploadFileSizeLimit", UploadFileSizeLimit);
+            
+            CameraUsername = ini.readString("DataSource", "CameraUsername", CameraUsername);
+            CameraPassword = ini.readString("DataSource", "CameraPassword", CameraPassword);
+            CameraPort = ini.readInt("DataSource", "CameraPort", CameraPort);
+            VedioCount = ini.readInt("DataSource", "VedioCount", VedioCount);            
             
             FTPConnectMode =ini.readInt("Ftp", "FTPConnectMode", FTPConnectMode);
         }

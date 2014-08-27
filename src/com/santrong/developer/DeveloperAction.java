@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.logicalcobwebs.proxool.ProxoolException;
+import org.logicalcobwebs.proxool.ProxoolFacade;
+import org.logicalcobwebs.proxool.admin.SnapshotIF;
 import org.quartz.CronTrigger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
@@ -142,5 +145,26 @@ public class DeveloperAction extends BaseAction{
 		request.setAttribute("jobList", jobList);
 		return "developer/job";
 	}
-
+	
+	@RequestMapping("/proxool")
+	public String proxool() {
+		try {  
+            SnapshotIF snapshot = ProxoolFacade.getSnapshot("santrong", true);  
+            int curActiveCount = snapshot.getActiveConnectionCount();// 获得活动连接数  
+            int availableCount = snapshot.getAvailableConnectionCount();// 获得可得到的连接数  
+            int maxCount = snapshot.getMaximumConnectionCount();// 获得总连接数  
+            request.setAttribute("curActiveCount", curActiveCount);
+            request.setAttribute("availableCount", availableCount);
+            request.setAttribute("maxCount", maxCount);
+        } catch (ProxoolException e) {  
+            Log.printStackTrace(e); 
+        }
+		return "developer/proxool";
+	}
+	
+	
+	@RequestMapping("/html")
+	public String html() {
+		return "dev/html";
+	}
 }

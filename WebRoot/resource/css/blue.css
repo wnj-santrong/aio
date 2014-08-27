@@ -120,6 +120,7 @@ body {background: url(../photo/bg.gif);}
 .meeting .line .cont{margin-right:10px; display:inline-block;}
 .meeting .datasource .dsItem {border:solid 1px #fff; height:24px; vertical-align:bottom;}
 .meeting .datasource .edit {border-bottom:dashed 1px #86b9e3;}
+.meeting .datasource .dsItem .dynamic {display:inline-block;}
 .meeting .datasource .dsItem .addr {width:140px; float:left; border-bottom:dashed 1px #86b9e3; line-height:22px;}
 .meeting .datasource .dsItem .status {margin:6px 30px 0 14px; float:left;}
 .meeting .datasource .dsItem .filed {float:left;}
