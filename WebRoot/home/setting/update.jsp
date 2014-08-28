@@ -56,6 +56,7 @@
 	        <p><fmt:message key="setting_onlineUpdate2" />:</p>
 	        <span>
 	        	<a href="javascript:void(0);" class="updateNow"><fmt:message key="setting_update_check" /></a>
+	        	<a href="javascript:void(0);" class="reboot"><fmt:message key="setting_reboot" /></a>
 	        </span>
 	    </dd>	    
 	</dl>

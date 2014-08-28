@@ -606,10 +606,15 @@ IndexClass.prototype = {
     		}
     	});
     	
-    	// 系统升级--立刻检测升级（这个比较特殊）
+    	// 系统升级和重启--检测更新
     	$(".updateNow").click(function() {
     		$.simplePost({url : Globals.ctx + "/setting/updateOnlineNow.action"});
     	});
+    	
+    	// 系统升级个重启--重启服务器
+    	$(".reboot").click(function() {
+    		$.simplePost({url : Globals.ctx + "/setting/reboot.action"});
+    	});    	
     	
     	// 获取wan
     	$.ajax({

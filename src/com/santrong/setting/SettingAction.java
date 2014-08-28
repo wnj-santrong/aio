@@ -23,6 +23,7 @@ import com.santrong.base.BaseAction;
 import com.santrong.ftp.FtpConfig;
 import com.santrong.ftp.FtpHandler;
 import com.santrong.log.Log;
+import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.ScheduleManager;
 import com.santrong.schedule.SystemUpdateJob;
@@ -34,6 +35,8 @@ import com.santrong.system.SystemUpdateService;
 import com.santrong.system.UpdateConfig;
 import com.santrong.system.network.NetworkInfo;
 import com.santrong.system.network.SystemUtils;
+import com.santrong.system.status.RoomStatusEntry;
+import com.santrong.system.status.StatusMgr;
 import com.santrong.util.CommonTools;
 import com.santrong.util.FileUtils;
 import com.scand.fileupload.ProgressMonitorFileItemFactory;
@@ -130,6 +133,12 @@ public class SettingAction extends BaseAction{
 		String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/dbBackup.sh " };
 		
 		try {
+			
+			// 判断是否在上课
+			if(isClassOpen()) {
+				return "warn_class_is_open";
+			}			
+			
 			if(isDatabaseDoing) {
 				return "error_setting_dbdoing";
 			}
@@ -184,6 +193,11 @@ public class SettingAction extends BaseAction{
 			return "error_param";
 		}
 		
+		// 判断是否在上课
+		if(isClassOpen()) {
+			return "warn_class_is_open";
+		}		
+		
 		String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/dbRestore.sh " + filename };
 		
 		try {
@@ -230,6 +244,11 @@ public class SettingAction extends BaseAction{
 	public String saveNetwork(int type, String ip, String mask, String gateway) {
 		if(StringUtils.isNullOrEmpty(ip) || StringUtils.isNullOrEmpty(mask) || StringUtils.isNullOrEmpty(gateway)) {
 			return "error_param";
+		}
+		
+		// 判断是否在上课
+		if(isClassOpen()) {
+			return "warn_class_is_open";
 		}
 		
 		NetworkInfo info = new NetworkInfo();
@@ -360,6 +379,12 @@ public class SettingAction extends BaseAction{
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	public String updateLocal(HttpServletRequest request) {
 		try {
+			
+			// 判断是否在上课
+			if(isClassOpen()) {
+				return "warn_class_is_open";
+			}			
+			
     		// 系统正在升级
     		if(SystemUpdateJob.updating) {
     			return "error_system_updating";
@@ -504,6 +529,12 @@ public class SettingAction extends BaseAction{
 		SystemUpdateJob.updating = true;
 		
 		try{
+			
+			// 判断是否在上课
+			if(isClassOpen()) {
+				return "warn_class_is_open";
+			}			
+			
 			SystemUpdateService service = new SystemUpdateService();
 	        String rt = service.update();
 	        
@@ -520,7 +551,33 @@ public class SettingAction extends BaseAction{
 		}
 		
 		return FAIL;
-	}	
+	}
+	
+	@RequestMapping(value="/reboot", method=RequestMethod.POST)
+	@ResponseBody
+	public String reboot(HttpServletRequest request) {
+		
+		try {
+			
+			// 判断是否在上课
+			if(isClassOpen()) {
+				return "warn_class_is_open";
+			}
+			
+			// 重启服务器
+			String[] cmd = new String[] { "/bin/sh", "-c", " " + DirDefine.ShellDir + "/systemReboot.sh " };
+			
+			Runtime.getRuntime().exec(cmd);//只发送指令，不再监控结果
+			
+			Log.logOpt("system-reboot", "reboot", request);
+			
+			return "notice_reboot_success";
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+		}
+		
+		return FAIL;
+	}
 	
 	
 	/*
@@ -535,5 +592,15 @@ public class SettingAction extends BaseAction{
 		
 		return SUCCESS;
 	}	
+	
+	// 判断是否在上课
+	public static boolean isClassOpen() {
+		String key = MeetingItem.ConfIdPreview + 1;// 该版本只有一路，先写死
+		RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(key);
+		if(roomStatus == null || roomStatus.getIsLive() == 0) {
+			return false;
+		}
+		return true;
+	}
 		
 }

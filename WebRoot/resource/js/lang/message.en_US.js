@@ -29,6 +29,7 @@ var Message = {
 	warn_db_backup_confirm : "sure?",
 	warn_db_restore_confirm : "current database will be cover, sure?",
 	warn_datasource_already_max : "max have {0} datasources",
+	warn_class_is_open : "lesson is starting, please do later",
 	
 	notice_must_select_one : "select one less",
 	notice_only_one_select : "only select one you can",
@@ -40,6 +41,7 @@ var Message = {
 	notice_update_success : "update success",	
 	notice_download_player : "download the play plugin and restart ie brownser",
 	notice_over_max_play : "over vod or live limit",
+	notice_reboot_success : "system is rebooting, please fresh page later",
 	
 	play_page_prev : "prev",
 	play_page_next : "next",

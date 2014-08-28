@@ -23,6 +23,20 @@ body {background: url(../photo/bg.gif);}
 .layout_form {padding:0px; width:560px; height:300px;}
 .hide {display:none;}
 .relative {position:relative;}
+.inlineblock {display:inline-block; width:100%;}
+  
+  
+/*-------------浮动窗口----------*/
+.window {width:100%; height:100%; background:#f1faff; border:1px #5d9dd2 solid; overflow:hidden;}
+.window dt {height:30px; line-height:30px; background:#5d9dd2; border-bottom:#085786 1px solid; margin-bottom:26px; color:#FFF; font-size:18px; text-indent:5px;}
+.window dt a {float:right; width:20px; height:20px; margin-top:4px; margin-right:3px; background:url(../photo/edit-delete.png) no-repeat center center;}
+.window dt a:hover {background:url(../photo/delete-hover.png) no-repeat center center;}
+.window dd {margin-bottom:10px;}
+.window dd .tit {width:39%; display:inline-block; text-align:right; line-height:22px; vertical-align:top;}
+.window dd .cont {display:inline-block; margin-left:10px; line-height:22px; width:58%;}
+.window .win_save {width:100%; text-align:center; margin-top:20px;}
+.window .win_save a {display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin:0 10px; color:#5d9dd2; text-align:center;}
+.window .win_save a:hover {color:#f00;border:1px #f00 solid; background:#eeffed;}
   
   
 /*----------pagination分页--------------------*/
@@ -80,6 +94,11 @@ body {background: url(../photo/bg.gif);}
 .file_list table th {height:30px; text-align:center;line-height:32px; font-size:16px; color:#333; background:#e2eef8;}
 .file_list tbody tr td {text-align:center; color:#666; border:1px #ccc solid; overflow:hidden;}
 .file_list tbody tr:hover {background:#ecffca;}
+#file_fileDetail .imgs {float:left; width:33%; text-align:center;}
+#file_fileDetail .imgs img {width: 196px; height:110px; margin-bottom:32px;}
+#file_fileDetail .infos {float:left; width:66%; border-left:solid 1px #86b9e3;}
+#file_fileDetail .window dd .tit {width:100px;}
+#file_fileDetail .window dd .cont {width:376px;}
 
 
 /*----------点播 --列表----------*/
@@ -135,19 +154,6 @@ body {background: url(../photo/bg.gif);}
 .meeting .canves {position:absolute; width:100%; height:100%; left:0px; top:0px; background-color:#000; opacity: 0.1; filter:Alpha(opacity=10);}
 .button_panel {width:100%; text-align:center; margin-top:20px;}
 .button_panel a {display:inline-block; color:#09f; border:1px #09f solid; padding:6px 10px; margin:0 10px;}
-
-
-/*-------------浮动窗口----------*/
-.window {width:100%; height:100%; background:#f1faff; border:1px #5d9dd2 solid; overflow:hidden;}
-.window dt {height:30px; line-height:30px; background:#5d9dd2; border-bottom:#085786 1px solid; margin-bottom:26px; color:#FFF; font-size:18px; text-indent:5px;}
-.window dt a {float:right; width:20px; height:20px; margin-top:4px; margin-right:3px; background:url(../photo/edit-delete.png) no-repeat center center;}
-.window dt a:hover {background:url(../photo/delete-hover.png) no-repeat center center;}
-.window dd {margin-bottom:10px;}
-.window dd .tit {width:39%; display:inline-block; text-align:right; line-height:22px; vertical-align:top;}
-.window dd .cont {display:inline-block; margin-left:10px; line-height:22px; width:58%;}
-.window .win_save {width:100%; text-align:center; margin-top:20px;}
-.window .win_save a {display: inline-block;width:60px; padding:4px; border:1px #5d9dd2 solid; margin:0 10px; color:#5d9dd2; text-align:center;}
-.window .win_save a:hover {color:#f00;border:1px #f00 solid; background:#eeffed;}
 
 
 /*----------公共的-提醒-警告-优先级最高----------*/

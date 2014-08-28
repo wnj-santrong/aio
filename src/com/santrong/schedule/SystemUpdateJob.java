@@ -6,6 +6,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.santrong.log.Log;
+import com.santrong.setting.SettingAction;
 import com.santrong.system.SystemUpdateService;
 import com.santrong.system.UpdateConfig;
 
@@ -47,6 +48,12 @@ public class SystemUpdateJob extends JobImpl {
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		updating = true;
 		try{
+			
+			// 判断是否在上课
+			if(SettingAction.isClassOpen()) {
+				return;
+			}			
+			
 			SystemUpdateService service = new SystemUpdateService();
 	        String rt = service.update();
 	        
