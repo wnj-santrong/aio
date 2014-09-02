@@ -21,7 +21,7 @@ public class WindowsNetworkHandle extends AbstractNetworkHandle {
 	private static final String configFile = "E:\\workspace\\data\\other\\network.txt";
 	private List<String> pro = new ArrayList<String>();
 	
-	private static WindowsNetworkHandle instance;
+	private static WindowsNetworkHandle instance = null;
 	private WindowsNetworkHandle() {
 		
 	}

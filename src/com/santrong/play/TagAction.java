@@ -12,7 +12,7 @@ import com.santrong.base.BaseAction;
 import com.santrong.log.Log;
 import com.santrong.play.dao.TagDao;
 import com.santrong.play.entry.TagItem;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @author weinianjie
@@ -46,7 +46,7 @@ public class TagAction extends BaseAction{
 		tag.setUts(new Date());
 		
 		if(StringUtils.isNullOrEmpty(tag.getId())) {// 新增
-			tag.setId(CommonTools.getGUID());
+			tag.setId(SantrongUtils.getGUID());
 			tag.setCts(new Date());;
 			if(tagDao.insert(tag) < 1) {
 				return FAIL;

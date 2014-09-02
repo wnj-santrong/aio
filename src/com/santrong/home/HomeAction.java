@@ -20,7 +20,7 @@ import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
 import com.santrong.system.tip.TipItem;
 import com.santrong.system.tip.TipService;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @Author weinianjie
@@ -89,7 +89,7 @@ public class HomeAction extends BaseAction{
 			return "error_login_user_not_exists";
 		}
 		
-		if(!user.getPassword().equals(CommonTools.getMD5(password))) {
+		if(!user.getPassword().equals(SantrongUtils.getMD5(password))) {
 			return "error_login_password_wrong";
 		}
 		

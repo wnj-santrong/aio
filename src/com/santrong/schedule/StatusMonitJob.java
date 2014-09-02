@@ -58,6 +58,9 @@ public class StatusMonitJob extends JobImpl {
 			
 			long currentTime = System.currentTimeMillis();
 			if(!moreOnce || (currentTime - lastHeatBeatTime) > Global.HeartTimeout) {
+				// 确保失败或者失联后一旦重连至少能执行一次内存修正。
+				moreOnce = false;				
+				
 				String key = MeetingItem.ConfIdPreview + 1;// 该版本只有一路，先写死
 				RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(key);
 				if(roomStatus == null) {
@@ -67,9 +70,6 @@ public class StatusMonitJob extends JobImpl {
 				roomStatus.setIsConnect(0);
 				StatusMgr.setRoomStatus(key, roomStatus);
 				
-				
-				// 确保失败或者失联后一旦重连至少能执行一次内存修正。
-				moreOnce = false;
 				
 				// --------------------------同步教室状态begin------------------------------------------
 				TcpClientService client = TcpClientService.getInstance();
@@ -115,7 +115,10 @@ public class StatusMonitJob extends JobImpl {
 				}
 				// --------------------------同步直播点播数end------------------------------------------
 				
-				moreOnce = true;//到这里才算至少初始化一次了
+				// 新增重置判断，如果没连接上，都当成初始化失败，需要不断发送
+				if(roomStatus.getIsConnect() == 1) {
+					moreOnce = true;//到这里才算至少初始化一次了
+				}
 				
 			}
 			

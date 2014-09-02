@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.santrong.tcp.client.MainTcp39004.ModuleStatus;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @author weinianjie
@@ -29,7 +29,7 @@ public class SystemInfoView {
 	 */
 	public String getTotalSizeString() {
 		if(this.freeSize != 0 && this.freePcent != 0){
-			return CommonTools.formatDiskSize(this.freeSize * 1024 * 1024 * 100 / this.freePcent);// 先获取总字节然后格式化
+			return SantrongUtils.formatDiskSize(this.freeSize * 1024 * 1024 * 100 / this.freePcent);// 先获取总字节然后格式化
 		}
 		return "unknown";
 	}
@@ -39,7 +39,7 @@ public class SystemInfoView {
 	 */
 	public String getFreeSizeString() {
 		if(this.freeSize != 0) {
-			return CommonTools.formatDiskSize(this.freeSize * 1024 * 1024);// M先转成字节
+			return SantrongUtils.formatDiskSize(this.freeSize * 1024 * 1024);// M先转成字节
 		}
 		return "unknown";
 	}

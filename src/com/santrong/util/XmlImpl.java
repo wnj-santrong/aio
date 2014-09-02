@@ -7,13 +7,23 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 /**
- * xml基类
+ * @author weinianjie
+ * @date 2014年7月18日
+ * @time 下午5:35:18
  */
-public abstract class Xml {
+public abstract class XmlImpl {
     
     protected Document doc;
     protected Element root;
     
+    public Element getRoot() {
+        return root;
+    }
+    
+    public void setRoot(Element root) {
+        this.root = root;
+        this.doc.setRootElement(root);
+    }
     
     public int getInt(String xpath, int def) {
     	return this.getInt(xpath, root, def);
@@ -39,19 +49,7 @@ public abstract class Xml {
     	}
     }
     
-    /**
-     * 寻找单个元素，目前只支持中间元素唯一，最后一个元素带一个属性值过滤
-     * @param xpath  以/分割元素名  例如:/persons/person@id=2
-     * @return
-     */
-    public Element find(String xpath) {
-        return find(xpath, root);
-    }
-    
-    /**
-     * 寻找单个元素，目前只支持中间元素唯一，最后一个元素带一个属性值过滤     * @param xpath  以/分割元素名  例如:/persons/person@id=2
-     * @return
-     */
+
     @SuppressWarnings("unchecked")
 	public Element find(String xpath, Element parent) {
 		try {
@@ -102,20 +100,11 @@ public abstract class Xml {
     	return null;
     }
     
-    /**
-     * 寻找所有匹配元素，目前只支持中间元素唯一，不能带属性过滤
-     * @param xpath  以/分割元素名  例如:/persons/person
-     * @return
-     */
-    public List<Element> finds(String xpath) {
-        return finds(xpath, root);
+    public Element find(String xpath) {
+        return find(xpath, root);
     }
     
-    /**
-     * 寻找所有匹配元素，目前只支持中间元素唯一，不能带属性过滤
-     * @param xpath  以/分割元素名  例如:/persons/person
-     * @return
-     */
+    
     @SuppressWarnings("unchecked")
 	public List<Element> finds(String xpath, Element parent) {
         if (xpath.equals("/")) {
@@ -135,13 +124,7 @@ public abstract class Xml {
         return e.getChildren(nodes[nodes.length - 1]);
     }
     
-    public Element getRoot() {
-        return root;
+    public List<Element> finds(String xpath) {
+        return finds(xpath, root);
     }
-    
-    public void setRoot(Element root) {
-        this.root = root;
-        this.doc.setRootElement(root);
-    }
-    
 }

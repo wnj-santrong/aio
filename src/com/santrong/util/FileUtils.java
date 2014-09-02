@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 读取目录文件并且按照时间进行排序
- * 
  * @author weinianjie
+ * @date 2014年7月18日
+ * @time 下午5:29:22
  */
 public class FileUtils {
 	
@@ -67,7 +67,7 @@ public class FileUtils {
 			if (null != files && files.length > 0) {
 				for (File file : files) {
 					if (null != file && file.isFile()) {
-						if(extName != null && extName != "") {
+						if(extName != null && !extName.equals("")) {
 							if (file.getName().toLowerCase().endsWith(extName.toLowerCase())) {
 								fileNameList.add(file);
 							}

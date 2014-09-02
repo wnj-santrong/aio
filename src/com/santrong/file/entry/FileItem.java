@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.system.DirDefine;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 import com.santrong.util.FileUtils;
 
 /**
@@ -46,7 +46,7 @@ public class FileItem {
 	private Date uts;
 	
 	public String getFileSizeString() {
-		return CommonTools.formatDiskSize(this.fileSize);
+		return SantrongUtils.formatDiskSize(this.fileSize);
 	}
 	
 	// 获取缩略图

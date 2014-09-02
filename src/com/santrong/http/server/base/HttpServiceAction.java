@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.santrong.log.Log;
 import com.santrong.system.Global;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 import com.santrong.util.XmlReader;
 
 /**
@@ -68,8 +68,8 @@ public class HttpServiceAction {
 			byte[] requestData = readContent(in, length);
 			String xmlMsg = new String(requestData, Global.Default_Encoding);
 			
-			String uuid = CommonTools.getGUID();
-			Log.debug("----------http-xml-request-from:" + CommonTools.getIpAddr(request));
+			String uuid = SantrongUtils.getGUID();
+			Log.debug("----------http-xml-request-from:" + SantrongUtils.getRequestAddrIp(request, ""));
 			logger.info("getXmlMsg  [HTTP_BEGIN(" + uuid + ")] : " + xmlMsg);
 			String retMsg = dispatch(xmlMsg);
 			logger.info("sendXmlMsg [HTTP_END  (" + uuid + ")] : " + retMsg);

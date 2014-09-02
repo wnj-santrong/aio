@@ -6,8 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 国际化
- */
+ * 国际化 */
 public class Message {
     
     private static final Message instance = new Message();

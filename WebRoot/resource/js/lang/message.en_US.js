@@ -30,6 +30,7 @@ var Message = {
 	warn_db_restore_confirm : "current database will be cover, sure?",
 	warn_datasource_already_max : "max have {0} datasources",
 	warn_class_is_open : "lesson is starting, please do later",
+	warn_reboot : "server will reboot, sure?",
 	
 	notice_must_select_one : "select one less",
 	notice_only_one_select : "only select one you can",

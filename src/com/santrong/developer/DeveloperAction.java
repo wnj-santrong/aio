@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.ProxoolFacade;
 import org.logicalcobwebs.proxool.admin.SnapshotIF;
 import org.quartz.CronTrigger;
@@ -148,6 +147,19 @@ public class DeveloperAction extends BaseAction{
 		return "developer/job";
 	}
 	
+	@RequestMapping("/playCount")
+	public String playCount(HttpServletRequest request) {
+		try {  
+			
+            request.setAttribute("UniUsrCount", StatusMgr.UniUsrCount);
+            request.setAttribute("VodUsrCount", StatusMgr.VodUsrCount);
+            request.setAttribute("uniVodMax", StatusMgr.uniVodMax);
+        } catch (Exception e) {  
+            Log.printStackTrace(e); 
+        }
+		return "developer/playCount";
+	}	
+	
 	@RequestMapping("/proxool")
 	public String proxool(HttpServletRequest request) {
 		try {  
@@ -158,7 +170,7 @@ public class DeveloperAction extends BaseAction{
             request.setAttribute("curActiveCount", curActiveCount);
             request.setAttribute("availableCount", availableCount);
             request.setAttribute("maxCount", maxCount);
-        } catch (ProxoolException e) {  
+        } catch (Exception e) {  
             Log.printStackTrace(e); 
         }
 		return "developer/proxool";

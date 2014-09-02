@@ -11,9 +11,14 @@ import org.apache.log4j.Logger;
 import com.santrong.log.Log;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.system.Global;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 import com.santrong.util.XmlReader;
 
+/**
+ * @author weinianjie
+ * @date 2014年7月18日
+ * @time 下午5:29:22
+ */
 public class TcpServiceDispatcher implements Runnable{
 
 	private static final Logger logger = Logger.getLogger(TcpServiceDispatcher.class);
@@ -69,7 +74,7 @@ public class TcpServiceDispatcher implements Runnable{
 			
 			String str = new String(in_b, Global.Default_Encoding);
 			
-			String uuid = CommonTools.getGUID();
+			String uuid = SantrongUtils.getGUID();
 			
 			logger.info("getXmlMsg  [TCP_BEGIN(" + uuid + ")] : " + str);
 			String retMsg = dispatch(str);

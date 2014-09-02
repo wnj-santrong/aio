@@ -34,7 +34,7 @@ import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31010;
 import com.santrong.tcp.client.TcpClientService;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @author weinianjie
@@ -346,7 +346,7 @@ public class FileAction extends BaseAction{
 	
 	/*
 	 * 下载课件
-	 * 支持断点下载
+	 * 断点下载
 	 */
 	@RequestMapping(value="/fileDownload")
 	public void fileDownload(String id) {
@@ -357,7 +357,7 @@ public class FileAction extends BaseAction{
 		long readed = 0L;
 		
 		// 代理转发、路由器，是否使用session的key更准确些
-		String downloadKey = CommonTools.getRequestAddrIp(request, "127.0.0.1") + "-" + id;
+		String downloadKey = SantrongUtils.getRequestAddrIp(request, "127.0.0.1") + "-" + id;
 		try{
 			// id不正常
 			if(StringUtils.isNullOrEmpty(id)) {

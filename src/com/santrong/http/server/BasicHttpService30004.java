@@ -27,7 +27,7 @@ import com.santrong.tcp.client.LocalTcp31004.RecStreamInfo;
 import com.santrong.tcp.client.LocalTcp31005;
 import com.santrong.tcp.client.LocalTcp31006;
 import com.santrong.tcp.client.TcpClientService;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 import com.santrong.util.XmlReader;
 
 /**
@@ -168,7 +168,7 @@ public class BasicHttpService30004 implements AbstractHttpService{
 			FileDao fileDao = new FileDao();
 			FileItem file = new FileItem();
 			BeanUtils.copyProperties(meeting, file);
-			file.setId(CommonTools.getGUID());
+			file.setId(SantrongUtils.getGUID());
 			file.setFileName(rcdName);
 			file.setFileSize(0);
 			file.setDuration("");

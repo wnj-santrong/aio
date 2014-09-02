@@ -37,7 +37,7 @@ import com.santrong.tcp.client.LocalTcp31014;
 import com.santrong.tcp.client.LocalTcp31015;
 import com.santrong.tcp.client.LocalTcp31016;
 import com.santrong.tcp.client.TcpClientService;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @author weinianjie
@@ -97,7 +97,7 @@ public class MeetingAction extends BaseAction{
 								for(String s : srcList) {
 									dsxxstr += ("," + s);
 								}
-								dsxxstr.substring(1);
+								dsxxstr = dsxxstr.substring(1);
 								Log.mark("--meetingPage find the datasource size is not equals, remove datasource in control fail:" + dsxxstr);
 							}
 						}
@@ -460,12 +460,12 @@ public class MeetingAction extends BaseAction{
 			DatasourceItem ds = new DatasourceItem();
 			ds.setId(ids[i]);
 			ds.setAddr(addrs[i]);
-			ds.setPort(CommonTools.stringToInt(ports[i], Global.CameraPort));
+			ds.setPort(SantrongUtils.stringToInt(ports[i], Global.CameraPort));
 			String username = StringUtils.isNullOrEmpty(usernames[i])? Global.CameraUsername : usernames[i];
 			ds.setUsername(username);
 			String password = StringUtils.isNullOrEmpty(passwords[i])? Global.CameraPassword : passwords[i];
 			ds.setPassword(password);
-			ds.setPriority(CommonTools.stringToInt(prioritys[i], 0));
+			ds.setPriority(SantrongUtils.stringToInt(prioritys[i], 0));
 			ds.setMeetingId(meeting.getId());
 			ds.setDsType(DatasourceItem.Datasoruce_Type_Camera);
 			ds.setUts(new Date());
@@ -481,7 +481,7 @@ public class MeetingAction extends BaseAction{
 		for(int i=0;i<dsList.size();i++) {
 			DatasourceItem item = dsList.get(i);
 			if(StringUtils.isNullOrEmpty(item.getId())) {
-				item.setId(CommonTools.getGUID());
+				item.setId(SantrongUtils.getGUID());
 				item.setCts(new Date());
 				insertList.add(item);
 			}else{
@@ -641,7 +641,7 @@ public class MeetingAction extends BaseAction{
 		// 新增文件
 		FileItem file = new FileItem();
 		BeanUtils.copyProperties(meeting, file);
-		file.setId(CommonTools.getGUID());
+		file.setId(SantrongUtils.getGUID());
 		file.setFileName(fileName);
 		if(StringUtils.isNullOrEmpty(meeting.getCourseName())) {
 			file.setCourseName(fileName);

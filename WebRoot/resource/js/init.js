@@ -613,7 +613,11 @@ IndexClass.prototype = {
     	
     	// 系统升级个重启--重启服务器
     	$(".reboot").click(function() {
-    		$.simplePost({url : Globals.ctx + "/setting/reboot.action"});
+			Boxy.ask(Message.dynamic("warn_reboot"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
+	            if (response == Message.dynamic("text_confirm")) {
+	            	$.simplePost({url : Globals.ctx + "/setting/reboot.action"});
+	            }
+			})
     	});    	
     	
     	// 获取wan

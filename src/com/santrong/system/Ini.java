@@ -349,9 +349,7 @@ public class Ini {
     }
     
     /**
-     * 另存为
-
-     * @param asFile
+     * 另存为     * @param asFile
      * @return
      */
     public boolean saveAs(String asFile) {

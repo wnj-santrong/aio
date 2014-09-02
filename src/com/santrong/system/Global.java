@@ -48,7 +48,7 @@ public class Global {
     
 
     static {
-        String configFile = Global.class.getClassLoader().getResource("") + "Global.ini";
+        String configFile = Global.class.getClassLoader().getResource("") + "Config.ini";
         if (configFile.startsWith("file:/")) {
             configFile = configFile.substring(5);
         }

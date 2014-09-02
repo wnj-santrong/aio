@@ -17,8 +17,8 @@
 	            <dd><span class="tit"><fmt:message key="file_courseName"/>:</span>
 	            <span class="cont">
 	            <c:choose>  
-				    <c:when test="${fn:length(file.courseName) > 24}">  
-				        <c:out value="${fn:substring(file.courseName, 0, 24)}..." />  
+				    <c:when test="${fn:length(file.courseName) > 20}">  
+				        <c:out value="${fn:substring(file.courseName, 0, 20)}..." />  
 				    </c:when>  
 				   <c:otherwise>  
 				      <c:out value="${file.courseName}" />  
@@ -54,8 +54,8 @@
 	            <dd><span class="tit"><fmt:message key="file_remark"/>:</span>
 	            <span class="cont">
 	            <c:choose>  
-				    <c:when test="${fn:length(file.remark) > 76}">  
-				        <c:out value="${fn:substring(file.remark, 0, 76)}..." />  
+				    <c:when test="${fn:length(file.remark) > 70}">  
+				        <c:out value="${fn:substring(file.remark, 0, 70)}..." />  
 				    </c:when>  
 				   <c:otherwise>  
 				      <c:out value="${file.remark}" />  

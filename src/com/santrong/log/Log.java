@@ -10,7 +10,7 @@ import com.santrong.log.dao.OptLogDao;
 import com.santrong.log.entry.OptLogItem;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @Author weinianjie
@@ -43,7 +43,7 @@ public class Log {
 	public static void logOpt(String title, String content, String username, String ip) {
 		OptLogDao dao = new OptLogDao();
 		OptLogItem item = new OptLogItem();
-		item.setId(CommonTools.getGUID());
+		item.setId(SantrongUtils.getGUID());
 		item.setUsername(username);
 		item.setTitle(title);
 		item.setIp(ip);
@@ -65,10 +65,10 @@ public class Log {
 		}else{
 			item.setUsername("anonymous");
 		}
-		item.setId(CommonTools.getGUID());
+		item.setId(SantrongUtils.getGUID());
 		item.setTitle(title);
 		item.setContent(content);
-		item.setIp(CommonTools.getRequestAddrIp(request, "127.0.0.1"));
+		item.setIp(SantrongUtils.getRequestAddrIp(request, "127.0.0.1"));
 		item.setCts(new Date());
 		item.setUts(new Date());
 		dao.insert(item);
@@ -87,7 +87,7 @@ public class Log {
 //		item.setUts(new Date());
 //		dao.insert(item);
 		// 日志文件
-		logger_request.info(request.getRequestURI() + " --- "  + request.getQueryString() + " --- " + request.getMethod() + " --- " + CommonTools.getRequestAddrIp(request, "127.0.0.1"));
+		logger_request.info(request.getRequestURI() + " --- "  + request.getQueryString() + " --- " + request.getMethod() + " --- " + SantrongUtils.getRequestAddrIp(request, "127.0.0.1"));
 	}	
 	
 	public static void mark(Object obj) {

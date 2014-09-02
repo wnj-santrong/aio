@@ -21,7 +21,7 @@ public class UnixNetworkHandle extends AbstractNetworkHandle {
 	private static final String configFile = "/etc/network/interfaces";
 	private List<String> pro = new ArrayList<String>();
 	
-	private static UnixNetworkHandle instance;
+	private static UnixNetworkHandle instance = null;
 	private UnixNetworkHandle() {
 		
 	}

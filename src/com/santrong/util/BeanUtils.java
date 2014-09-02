@@ -1,12 +1,9 @@
 package com.santrong.util;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
-
-import com.mysql.jdbc.StringUtils;
-import com.santrong.log.Log;
+import java.util.Date;
 
 /**
  * @author weinianjie

@@ -3,6 +3,11 @@ package com.santrong.tcp.client.base;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+/**
+ * @author weinianjie
+ * @date 2014年7月18日
+ * @time 下午5:29:22
+ */
 public class TcpHeader {
 	int normalDataLen;	// 标准xml数据长度，4字节
 	int privateDataLen;// 私有二进制数据长度，4字节

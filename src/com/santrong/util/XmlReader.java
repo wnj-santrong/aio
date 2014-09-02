@@ -7,9 +7,11 @@ import org.jdom.input.SAXBuilder;
 import org.xml.sax.InputSource;
 
 /**
- * xml读取
+ * @author weinianjie
+ * @date 2014年7月18日
+ * @time 下午5:29:22
  */
-public class XmlReader extends Xml {
+public class XmlReader extends XmlImpl {
     
     /**
      * 打开xml文件
@@ -28,8 +30,7 @@ public class XmlReader extends Xml {
     }
     
     /**
-     * 解析字符串
-     * @param xml
+     * 解析字符串     * @param xml
      */
     public boolean parse(String xml) {
         try {

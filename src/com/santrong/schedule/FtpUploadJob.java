@@ -18,7 +18,7 @@ import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
 import com.santrong.opt.ThreadUtils;
 import com.santrong.system.DirDefine;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @author weinianjie
@@ -56,13 +56,13 @@ public class FtpUploadJob extends JobImpl {
 		FtpConfig config = new FtpConfig();
 		
 		if(config.getFtpEnable().equals("1")) {
-			SimpleDateFormat sdf = new SimpleDateFormat(CommonTools.DF_FULL_PATTERN);
+			SimpleDateFormat sdf = new SimpleDateFormat(SantrongUtils.DF_yyyy_MM_dd_HH_mm_ss);
 			Calendar now = Calendar.getInstance();
 			Calendar begin = Calendar.getInstance();
 			Calendar end = Calendar.getInstance();
 			
 			try{
-				String nowDateString = CommonTools.dateToString(new Date(), CommonTools.DF_DATE_PATTERN);
+				String nowDateString = SantrongUtils.dateToString(new Date(), SantrongUtils.DF_yyyy_MM_dd);
 				
 				begin.setTime(sdf.parse(nowDateString + " " + config.getBeginTime() + ":00"));//config里面的时间应该是12:30这样的
 				

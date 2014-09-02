@@ -115,7 +115,7 @@ public class Statement extends Criteria{
     	java.sql.PreparedStatement stm = null;
     	int pIndex = 0;
     	
-    	if (!con.equals(null)){
+    	if (con != null){
     		
     		stm = con.prepareStatement(this.toString());
     		

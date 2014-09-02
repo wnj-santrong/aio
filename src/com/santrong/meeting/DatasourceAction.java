@@ -21,7 +21,7 @@ import com.santrong.system.Global;
 import com.santrong.tcp.client.LocalTcp31014;
 import com.santrong.tcp.client.LocalTcp31015;
 import com.santrong.tcp.client.TcpClientService;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @author weinianjie
@@ -131,7 +131,7 @@ public class DatasourceAction extends BaseAction {
 		ThreadUtils.beginTranx();
 		try{
 			if(StringUtils.isNullOrEmpty(ds.getId())) {
-				ds.setId(CommonTools.getGUID());
+				ds.setId(SantrongUtils.getGUID());
 				ds.setCts(new Date());
 				
 				MeetingDao meetingDao = new MeetingDao();

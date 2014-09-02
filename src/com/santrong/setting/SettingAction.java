@@ -37,7 +37,7 @@ import com.santrong.system.network.NetworkInfo;
 import com.santrong.system.network.SystemUtils;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
-import com.santrong.util.CommonTools;
+import com.santrong.util.SantrongUtils;
 import com.santrong.util.FileUtils;
 import com.scand.fileupload.ProgressMonitorFileItemFactory;
 
@@ -71,8 +71,8 @@ public class SettingAction extends BaseAction{
 			return "error_param";
 		}
 		
-		newpwd = CommonTools.getMD5(newpwd);
-		oldpwd = CommonTools.getMD5(oldpwd);
+		newpwd = SantrongUtils.getMD5(newpwd);
+		oldpwd = SantrongUtils.getMD5(oldpwd);
 		try{
 			UserDao userDao = new UserDao();
 			UserItem user = userDao.selectByUserName(this.currentUser().getUsername());
@@ -400,7 +400,7 @@ public class SettingAction extends BaseAction{
         	// 获取所有文件和输入
         	FileItem remoteFile = null;
         	List<FileItem> files = null;
-            FileItemFactory factory = new ProgressMonitorFileItemFactory(request, CommonTools.getGUID());
+            FileItemFactory factory = new ProgressMonitorFileItemFactory(request, SantrongUtils.getGUID());
             ServletFileUpload upload = new ServletFileUpload(factory);
             upload.setSizeMax(Global.UploadFileSizeLimit * 1024 * 1024);// 设置允许的最大值
             files = upload.parseRequest(request);// 注意，该工具类会将http头中file类型的表单字段和文本类型的表单字段都封装成FileItem，不过文本类型的字段封装时候内容和名称都设置为空值

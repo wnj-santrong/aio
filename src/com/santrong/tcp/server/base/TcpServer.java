@@ -7,7 +7,11 @@ import java.net.Socket;
 import com.santrong.log.Log;
 import com.santrong.tcp.TcpDefine;
 
-
+/**
+ * @author weinianjie
+ * @date 2014年7月18日
+ * @time 下午5:29:22
+ */
 public class TcpServer implements Runnable {
 
 	public static boolean isRun = false;
