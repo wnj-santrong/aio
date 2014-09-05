@@ -53,7 +53,7 @@
 	        <span class="tit"><fmt:message key="meeting_datasource" />:</span>
 	        <span class="cont">
 	        
-	        <p><a href="javascript:void(0);" class="ds_add"><img src="${ctx}/resource/photo/add.png" onmousemove="this.src='${ctx}/resource/photo/add.png'" onmouseout="this.src='${ctx}/resource/photo/add_hover.png'" title='<fmt:message key="text_add" />' /></a></p>
+	        <p><a href="javascript:void(0);" class="ds_add"><img src="${ctx}/resource/photo/add.png" title='<fmt:message key="text_add" />' /></a></p>
 	        
 	        <ul id="dsList">
 	        <c:forEach items="${meeting.dsList}" var="ds">

@@ -348,13 +348,27 @@ IndexClass.prototype = {
         		
     		}else if(target.hasClass("dsDel")) {// 删除
     			
-    			target.parents(".dsItem").remove();
-    			calDsPriority();
-    			
-    			var count = $("#dsList .dsItem").length;
-    			var val = $(".layoutContainer .mode" + count).eq(0).attr("id").substr(1);
-    			$("input[name=recordMode]").val(val);
-    			recordModeSetting();
+    			// 既然持久化，就先问一下
+    			Boxy.ask(Message.dynamic("warn_del_confirm"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
+    	            if (response == Message.dynamic("text_confirm")) {
+    	            	
+    	    			target.parents(".dsItem").remove();
+    	    			calDsPriority();
+    	    			
+    	    			var count = $("#dsList .dsItem").length;
+    	    			var val = $(".layoutContainer .mode" + count).eq(0).attr("id").substr(1);
+    	    			$("input[name=recordMode]").val(val);
+    	    			recordModeSetting();
+    	    			
+    	    			//------直接持久化 begin-----
+    	    			if($(".button_panel .save").size() > 0) {
+    	    				$(".button_panel .save").click();
+    	    			}else {
+    	    				Boxy.alert(Message.dynamic("fail"));
+    	    			}
+    	    			//------直接持久化 end  -----
+    	            }
+    			});
     			
     		}else if(target.hasClass("dsSave")) {// 保存
     			var dsItem = target.parents(".dsItem");
@@ -377,8 +391,16 @@ IndexClass.prototype = {
     			dynamicHtml += '<img class="opert dsDel" src="' + Globals.ctx + '/resource/photo/syicon_net.png" title="' + Message.dynamic("text_del") + '" />';
     			dynamic.html(dynamicHtml);
     			dsItem.removeClass("edit");
-    			
     			calDsPriority();
+    			
+    			//------直接持久化 begin-----
+    			if($(".button_panel .save").size() > 0) {
+    				$(".button_panel .save").click();
+    			}else {
+    				Boxy.alert(Message.dynamic("fail"));
+    			}
+    			//------直接持久化 end  -----
+    			
     		}
     	});
     	
