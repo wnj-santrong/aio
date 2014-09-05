@@ -57,7 +57,7 @@ public class Ini {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new InputStreamReader(new FileInputStream(
-                    iniFile)));
+                    iniFile), encoding));
         } catch (Exception e) {
             if (openBak && copy(iniFile + ".bak", iniFile)) {
                 return read(iniFile);
@@ -365,10 +365,10 @@ public class Ini {
         
         PrintWriter ini = null;
         try {
-//            ini = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-//                    file), encoding));
             ini = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
-                    file)));
+                    file), encoding));
+//            ini = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+//                    file)));
         } catch (Exception e) {
         	Log.printStackTrace(e);
             return false;

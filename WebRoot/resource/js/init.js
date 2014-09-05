@@ -306,6 +306,7 @@ IndexClass.prototype = {
 		        html += '</li>';
 	        	$("#dsList .dsItem:last").before(html);
 	        	
+	        	var count = $("#dsList .dsItem").length;
     			var val = $(".layoutContainer .mode" + count).eq(0).attr("id").substr(1);
     			$("input[name=recordMode]").val(val);
 	        	

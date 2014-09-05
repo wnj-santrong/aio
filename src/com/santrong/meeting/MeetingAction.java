@@ -420,13 +420,24 @@ public class MeetingAction extends BaseAction{
 	 */
 	private String persistence(MeetingItem meeting) throws Exception {
 		HttpServletRequest request = getRequest();
-		// 获取数据源，顺序一定是对的
+		// 获取数据源，顺序一定是对的，数组维数一定相等
 		String[] ids = request.getParameterValues("dsId");
 		String[] addrs = request.getParameterValues("addr");
 		String[] ports = request.getParameterValues("port");
 		String[] usernames = request.getParameterValues("username");
 		String[] passwords = request.getParameterValues("password");
 		String[] prioritys = request.getParameterValues("priority");
+		
+		// 都被删完了，会拿不到参数
+		if(addrs == null) {
+			ids = new String[0];
+			addrs = new String[0];
+			ports = new String[0];
+			usernames = new String[0];
+			passwords = new String[0];
+			prioritys = new String[0];
+		}
+		
 		for(String ad : addrs) {
 			if(StringUtils.isNullOrEmpty(ad)) {
 				return super.ERROR_PARAM;
