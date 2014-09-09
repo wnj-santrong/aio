@@ -515,7 +515,7 @@ public class MeetingAction extends BaseAction{
 		}
 		
 		// 删除数据源，余下的就是要删除的
-		if(dsDbList.size() > 0 && updateList.size() > 0) {
+		if(dsDbList.size() > 0 || updateList.size() > 0) {
 			LocalTcp31015 tcp = new LocalTcp31015();
 			List<String> srcList = new ArrayList<String>();			
 			for(DatasourceItem ds : dsDbList) {

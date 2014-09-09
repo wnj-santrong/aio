@@ -134,7 +134,7 @@ jQuery(function($){
         });	
         
         // 必填0或正整数
-        var re_number = /^[1-9][0-9]*$/i
+        var re_number = /^[0-9]+$/i
         $(this).find("[required_Number]").each(function(){
         	var val = $(this).val().trim();
         	if(val == "" || !re_number.test(val)) {

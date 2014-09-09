@@ -61,7 +61,7 @@ public class MainTcp39004 extends MainTcpBase{
 			module.name = e.getName();
 			module.version = e.getText();
 			
-			if(module.name != null && module.name.equals("SystemVer")) {
+			if(module.name != null && !module.name.equals("SystemVer")) {
 				Element e_state = xml.find("/MsgBody/GetModInfoResp/State/" + module.name);
 				if(e_state != null) {
 					module.state = Integer.parseInt(e_state.getText());
