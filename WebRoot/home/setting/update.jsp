@@ -7,10 +7,10 @@
 	    	<form action="${ctx}/setting/updateLocal.action" method="post" enctype="multipart/form-data" id="local_update">
 		        <p><fmt:message key="setting_localUpdate" />:</p>
 		        <span>
-		        	<input name="localfile" type="file" class="file_update" />
+		        	<input name="localfile" type="file" class="file_update"  required />
 		        </span>
 		        <span>
-		        	<a href="javascript:void(0);" class="submit"><fmt:message key="setting_update_do" /></a>
+		        	<a href="javascript:void(0);" class="updateLocal"><fmt:message key="setting_update_do" /></a>
 		        </span>
 	        </form>
 	    </dd>    

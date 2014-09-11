@@ -24,12 +24,14 @@ var Message = {
 	error_update_no_file : "update file mast end with tar.gz",
 	error_update_error_file_large : "file is too large",
 	error_setting_dbdoing : "db is backup or restore, try again later",
+	error_close_all_room : "close lesson case error",
 	
 	warn_del_confirm : "sure?", 
 	warn_db_backup_confirm : "sure?",
 	warn_db_restore_confirm : "current database will be cover, sure?",
 	warn_datasource_already_max : "max have {0} datasources",
 	warn_class_is_open : "lesson is starting, please do later",
+	warn_class_is_open_update_confirm : "lesson is starting,  still update?",
 	warn_reboot : "server will reboot, sure?",
 	
 	notice_must_select_one : "select one less",
@@ -39,7 +41,8 @@ var Message = {
 	notice_datasource_edit : "database is editing",
 	notice_last_version : "version is last",
 	notice_meeting_is_open : "lesson is begin, coun't update",
-	notice_update_success : "update success",	
+	notice_update_success : "update success, please refresh page",	
+	notice_update_fail : "update fail, please refresh page",	
 	notice_download_player : "download the play plugin and restart ie brownser",
 	notice_over_max_play : "over vod or live limit",
 	notice_reboot_success : "system is rebooting, please fresh page later",
@@ -57,6 +60,10 @@ var Message = {
 	text_username : "uname",
 	text_password : "pwd",
 	text_disconnected : "disconnected",
+	text_uploadprossor : "uploading",
+	text_downloadprossor : "downloading",
+	text_updateprossor : "updateing",
+	text_waitprossor : "waiting",
 	
 	dynamic : function(key, value) {
 		if (key == "") {

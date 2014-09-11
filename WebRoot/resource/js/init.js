@@ -117,12 +117,8 @@ function init() {
 }
 // index模块初始化
 function IndexClass() {
-};
-
-//index模块的具体页面初始化
-IndexClass.prototype = {
 	// 公共方法，绑定登录
-	_bindLogin:function() {
+	bindLogin = function() {
 		$("#index_login input[name=username]").focus();
 		
     	$(".login_submit").bindFormClick({tip : false, isGoodCall : false, afterSubmit : 
@@ -138,10 +134,10 @@ IndexClass.prototype = {
     	// 绑定取消
     	$(".close").bindFormClose();
     	$.cookie('managePage', 0);
-	},
+	};
 	
 	// 直播点播函数
-	_santrongPlay:function(options) {
+	santrongPlay = function(options) {
 //		if(!/MSIE/.test(navigator.userAgent)) {// IE11不兼容
 		if(!$.isIE()) {
 			Boxy.alert(Message.dynamic('notice_only_support_ie'));
@@ -163,17 +159,105 @@ IndexClass.prototype = {
 				}
 			}});
 		}
-	},
+	};
 	
+	// 立刻升级（本地和在线）
+	doneUpdateNow  = function(){
+		var result = arguments[arguments.length  - 1];// 调用的方法不确定，使用arguments获取参数
+		
+		if(result != "success") {
+			if(result == "warn_class_is_open_update_confirm"){// 正在上课
+    			Boxy.ask(Message.dynamic("warn_class_is_open_update_confirm"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
+    	            if (response == Message.dynamic("text_confirm")) {// 确定强制升级
+    	            	// 先发送结束会议指令
+    	            	$.simplePost({url : Globals.ctx + '/meeting/closeAllLive.action', tip : false, callback : function(result){
+    	            		if(result != "success") {
+    	            			Boxy.alert(Message.dynamic(result));
+    	            		}else{
+    	            			// 再进行升级操作
+    	            			if(arguments.length == 1) {
+    	            				// 在线升级
+    	            				$(".updateNow").click();
+    	            			}else {
+    	            				// 本地升级
+    	            				$(".updateLocal").click();
+    	            			}
+    	            		}
+    	            	}});
+    	            }
+    			});
+			}else{
+				Boxy.alert(Message.dynamic(result));
+			}
+		}else {
+			Boxy.load(Globals.ctx + "/updateProssor.action", {
+				modal : true,
+				afterShow : function(){
+					var upprogress = $( "#upprogress" );
+					var upprogressLabel = upprogress.find( ".progress-label" );
+			        var upprogressValue = upprogress.find( ".ui-progressbar-value" );
+			        
+			        upprogress.progressbar({ value: 0 });//init progressbar
+			        upprogressLabel.text(Message.dynamic("text_waitprossor"));
+
+					var going = false;
+					var instance = setInterval(function() {
+						if(!going) {
+							going = true;
+							
+							$.simplePost({
+								url : Globals.ctx + "/updateStatus.action", 
+								tip : false, 
+								callback : function(result) {
+									if(result.indexOf('{') != -1) {
+										var json = eval('(' + result + ')');
+										
+										if(json.updateResult == "success") {// 升级成功
+											
+											clearInterval(instance);
+											upprogressLabel.text(Message.dynamic("notice_update_success"));
+											
+										}else if(json.uploadResult == "fail" || json.updateResult == "fail"){// 升级失败
+											
+											clearInterval(instance);
+											upprogressLabel.text(Message.dynamic("notice_update_fail"));
+											
+										}else if (json.uploading){// 上传或者下载中
+											
+											if(json.updateSource == 0) {
+												upprogressLabel.text(Message.dynamic("text_uploadprossor"));
+											}else {
+												upprogressLabel.text(Message.dynamic("text_downloadprossor"));
+											}
+											upprogress.progressbar( "option", "value", json.uploadPercent);
+											
+										}else if(json.updating) {// 更新中
+											
+											upprogressLabel.text(Message.dynamic("text_updateprossor"));
+											upprogress.progressbar( "option", "value", json.updatePercent);
+											
+										}
+										going = false;
+									}
+								}
+							});
+						}
+					}, 1000);
+				}
+			});
+		}
+	};
+};
+
+//index模块的具体页面初始化
+IndexClass.prototype = {
 	// 登录页
 	login:function() {
-		this._bindLogin();
+		bindLogin();
 	},
 	
 	// 首页
 	index:function() {
-		var _this = this;
-		
 		$("code#pagename").remove();
 		
 		var pageUrl = 'play/homeAnonymous.action';
@@ -187,7 +271,7 @@ IndexClass.prototype = {
 		$(".user_login").click(function() {
 			Boxy.load(Globals.ctx + "/loginForm.action", {
 				modal : true,
-				afterShow : _this._bindLogin
+				afterShow : bindLogin
 			});
 		});
 	},
@@ -240,7 +324,6 @@ IndexClass.prototype = {
     
     // 会议管理
     meeting:function() {
-    	var _this = this;
     	// 计算数据源顺序，新增和删除后一定要调用重算顺序// 0，1，2-------s1，s2，vga
     	var calDsPriority = function() {
     		$("#dsList .dsItem").each(function(index, e) {
@@ -280,7 +363,7 @@ IndexClass.prototype = {
     	$(".stopRecord").bindFormClick({url : Globals.ctx + '/meeting/stopRecord.action', beforeSubmit : preValidate, afterSubmit : freshCurrentModel});
     	
     	$(".preview").click(function() {
-    		_this._santrongPlay({id : $("input[name=id]").val(), type : 1});
+    		santrongPlay({id : $("input[name=id]").val(), type : 1});
     	});
     	
     	// 显示新增或者修改的输入框
@@ -413,7 +496,6 @@ IndexClass.prototype = {
     
     // 视频播放
     play:function() {
-    	var _this = this;
     	$("input[name=keywork]").focus();
     	
     	// 标签修改删除显示切换
@@ -488,13 +570,12 @@ IndexClass.prototype = {
     	});
     	
 	    $(".meeting_vod li a").click(function() {
-	    	_this._santrongPlay({id : $(this).attr("rel"), type : $(this).attr("type")});
+	    	santrongPlay({id : $(this).attr("rel"), type : $(this).attr("type")});
 	    }); 
     },
     
     // 文件管理
     file:function() {
-    	var _this = this;
     	$("input[name=keywork]").focus();
     	
     	var freshPage = function(opts) {
@@ -550,7 +631,7 @@ IndexClass.prototype = {
     		if(values) {
     			var status = $("input[value= " + values + "]").attr("st");//0 是正在录制中
     			if(status != 0) {
-    				_this._santrongPlay({id : values, type : 0});
+    				santrongPlay({id : values, type : 0});
     			}else {
     				Boxy.alert(Message.dynamic("notice_file_recording"));
     			}
@@ -602,7 +683,7 @@ IndexClass.prototype = {
 				afterShow : function() {
 					// 播放
 					$(".cplay").click(function() {
-						_this._santrongPlay({id : $("input[name=id]").val(), type : 0});
+						santrongPlay({id : $("input[name=id]").val(), type : 0});
 					});
 			    	// 绑定取消
 			    	$(".close").bindFormClose();
@@ -619,8 +700,6 @@ IndexClass.prototype = {
     	
     	// 绑定所有form提交
     	$(".submit").bindFormClick({
-    		beforeSubmit : function(form, options){
-    		},
     		afterSubmit : function(form){
     			// 用户修改后清空表单
 	    		if(form.attr("id") == "setting_user") {
@@ -629,12 +708,23 @@ IndexClass.prototype = {
     		}
     	});
     	
-    	// 系统升级和重启--检测更新
-    	$(".updateNow").click(function() {
-    		$.simplePost({url : Globals.ctx + "/setting/updateOnlineNow.action"});
+    	// 本地升级
+    	$(".updateLocal").bindFormClick({
+    		tip : false,
+    		isGoodCall : false,
+    		afterSubmit : doneUpdateNow
     	});
     	
-    	// 系统升级个重启--重启服务器
+    	// 检测更新
+    	$(".updateNow").click(function() {
+    		$.simplePost({
+    			tip : false,
+    			url : Globals.ctx + "/setting/updateOnlineNow.action",
+    			callback : doneUpdateNow
+    		});
+    	});
+    	
+    	// 重启服务器
     	$(".reboot").click(function() {
 			Boxy.ask(Message.dynamic("warn_reboot"), [Message.dynamic("text_confirm"), Message.dynamic("text_cancel")], function(response) {
 	            if (response == Message.dynamic("text_confirm")) {

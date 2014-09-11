@@ -6,6 +6,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.santrong.log.Log;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.system.DirDefine;
 
 /**
@@ -51,7 +52,10 @@ public class LogClearJob extends JobImpl {
 			
 		} catch (Exception e) {
 			Log.printStackTrace(e);
-		}		
+		}finally{
+			// 在quartz里面线程永远不会结束，需要手动关闭数据库连接
+			ThreadUtils.closeAll();
+		}				
 		
 	}
 }

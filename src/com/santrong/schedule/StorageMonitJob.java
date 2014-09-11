@@ -7,6 +7,7 @@ import org.quartz.JobExecutionException;
 
 import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.system.Global;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
@@ -85,7 +86,10 @@ public class StorageMonitJob extends JobImpl {
 			
 		} catch (Exception e) {
 			Log.printStackTrace(e);
-		}		
+		}finally{
+			// 在quartz里面线程永远不会结束，需要手动关闭数据库连接
+			ThreadUtils.closeAll();
+		}				
 		
 	}
 }

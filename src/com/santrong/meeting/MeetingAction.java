@@ -326,6 +326,42 @@ public class MeetingAction extends BaseAction{
 	
 	
 	/**
+	 * 关闭全部会议，特殊情况用
+	 * @param meeting
+	 * @return
+	 */
+	@RequestMapping("/closeAllLive")
+	@ResponseBody
+	public String closeAllLive() {
+		
+		try{
+			List<MeetingItem> list = new MeetingDao().selectAll();
+			
+			// 先全部关闭
+			for(MeetingItem meeting : list) {
+				this.closeLive(meeting);// 先关闭，不管结果
+			}
+			
+			// 判断状态
+			for(MeetingItem meeting : list) {
+				String confId = MeetingItem.ConfIdPreview + meeting.getChannel();
+				RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(confId);
+				if(roomStatus.getIsConnect() == 0 || roomStatus.getIsLive() == 1) {
+					Log.error("close all room case error:  connect=" + roomStatus.getIsConnect() + "|isLive=" + roomStatus.getIsLive());// 记录下失败缘由
+					return "error_close_all_room";// 只要有连接不上或者没关闭的教室，都当成失败处理
+				}
+			}
+			
+			return SUCCESS;
+			
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+		}
+		
+		return "error_close_all_room";
+	}
+	
+	/**
 	 * 开始录制
 	 * @param meeting
 	 * @return

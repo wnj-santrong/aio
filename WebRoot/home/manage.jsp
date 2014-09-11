@@ -9,11 +9,13 @@
 <meta http-equiv="expires" content="0" />
 <title><%=Global.Title%></title>
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/resource/css/jquery.ui.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/boxy.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/resource/css/blue.css" />
 <script type="text/javascript" src="${ctx}/resource/js/lang/message.<%=Global.Language%>.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="${ctx}/resource/js/jquery.ui.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.pagination.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.form.js"></script>
 <script type="text/javascript" src="${ctx}/resource/js/jquery.boxy.js"></script>

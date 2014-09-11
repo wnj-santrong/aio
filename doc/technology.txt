@@ -52,6 +52,7 @@ proxool-0.9.1
 edtftpj2.4.0
 nginx1.7.4
 nginx-rtmp-module-1.1.4
+jquery-ui1.11.1(模块：Core，Widget，Progressbar)
 
 
 

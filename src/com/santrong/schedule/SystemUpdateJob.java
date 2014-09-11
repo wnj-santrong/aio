@@ -6,6 +6,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.santrong.log.Log;
+import com.santrong.opt.ThreadUtils;
 import com.santrong.setting.SettingAction;
 import com.santrong.system.SystemUpdateService;
 import com.santrong.system.UpdateConfig;
@@ -16,8 +17,6 @@ import com.santrong.system.UpdateConfig;
  * @time 下午3:06:20
  */
 public class SystemUpdateJob extends JobImpl {
-	
-	public static boolean updating;
 	
 	@Override
 	public String getJobName() {
@@ -46,25 +45,29 @@ public class SystemUpdateJob extends JobImpl {
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		updating = true;
+		
+		// 判断是否在上课
+		if(SettingAction.isClassOpen()) {
+			return;
+		}			
+		
+		// 系统正在上传升级、下载升级或者升级中
+		if(SystemUpdateService.uploading || SystemUpdateService.updating) {
+			return;
+		}
+		
 		try{
-			
-			// 判断是否在上课
-			if(SettingAction.isClassOpen()) {
-				return;
-			}			
-			
 			SystemUpdateService service = new SystemUpdateService();
-	        String rt = service.update();
+	        service.update();
 	        
 	        // 打日志
-	        if("notice_update_success".equals(rt)){
-	        	Log.logOpt("system-update", "online-cron", "system", "127.0.0.1");
-	        }
+	        Log.logOpt("system-update", "online-cron begin", "system", "127.0.0.1");
+	        
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 		}finally{
-			updating = false;
+			// 在quartz里面线程永远不会结束，需要手动关闭数据库连接
+			ThreadUtils.closeAll();
 		}
 	}
 }

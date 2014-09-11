@@ -7,10 +7,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 
 import com.santrong.log.Log;
+import com.santrong.setting.SettingAction;
+import com.santrong.system.status.StatusMgr;
+import com.santrong.tcp.client.MainTcp31001;
 import com.santrong.tcp.client.MainTcp39004;
 import com.santrong.tcp.client.MainTcp39007;
 import com.santrong.tcp.client.TcpClientService;
@@ -23,11 +27,33 @@ import com.santrong.util.XmlReader;
  */
 public class SystemUpdateService {
 	
+	public static int updateSource;// 更新来源，本地升级包，1在线升级包
+	public static boolean uploading;// 上传或者下载升级文件中
+	public static boolean updating;// 升级中
+	public static int uploadPercent;// 下载或者升级中百分比
+	public static int updatePercent;// 升级中百分比
+	public static String uploadResult;// 上传或者下载升级文件结果
+	public static String updateResult;// 升级结果
+	
 	public static String OnlineUpdateAddr = "http://www.santrong.com/update";	// 在线升级地址
 
+	public static void resetStatus() {
+		SystemUpdateService.updateSource = 0;
+		SystemUpdateService.uploading = false;
+		SystemUpdateService.uploadPercent = 0;
+		SystemUpdateService.uploadResult = null;
+		SystemUpdateService.updating = false;
+		SystemUpdateService.updatePercent = 0;
+		SystemUpdateService.updateResult = null;
+	}
+	
 	public String update() {
 		BufferedReader in = null;
 		try{
+			resetStatus();
+			SystemUpdateService.uploading = true;
+			SystemUpdateService.updateSource = 1;
+			
 			String xmlStr = "";
 			URL url = new URL(OnlineUpdateAddr);
 			URLConnection conn = url.openConnection();
@@ -52,7 +78,8 @@ public class SystemUpdateService {
             String version = xml.find("/Version").getText();
             String FileUrl = xml.find("/FileName").getText();
             if(version == null) {
-            	return "fail";
+            	SystemUpdateService.uploadResult =  "fail";
+            	return SystemUpdateService.uploadResult;
             }
             
             // 获取当前版本
@@ -60,30 +87,37 @@ public class SystemUpdateService {
             MainTcp39004 tcp = new MainTcp39004();
             client.request(tcp);
             if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
-            	return "fail";
+            	SystemUpdateService.uploadResult =  "fail";
+            	return SystemUpdateService.uploadResult;
             }
             
             // 版本对比
             if(version.equals(tcp.getSystemVersion())) {
-            	return "notice_last_version";
+            	SystemUpdateService.uploadResult =  "notice_last_version";
+            	return SystemUpdateService.uploadResult;
             }
             
             // 下载升级文件
             if(!getRemoteFile(FileUrl, "update.tar.gz")) {
-            	return "fail";
+            	SystemUpdateService.uploadResult =  "fail";
+            	return SystemUpdateService.uploadResult;
             }
+            
+            SystemUpdateService.uploading = false;
+			SystemUpdateService.uploadPercent = 100;
+			SystemUpdateService.uploadResult = "success";
             
         	// 发送升级指令
         	if(!cmdUpdate()) {
         		return "fail";
         	}
-            
         	
-            return "notice_update_success";
+            return "success";
 	        
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 		}finally {
+			SystemUpdateService.uploading = false;
             try {
                 if (in != null) {
                     in.close();
@@ -96,22 +130,70 @@ public class SystemUpdateService {
 		return "fail";
 	}
 	
-	
 	/*
 	 * 发送升级指令
 	 */
 	public boolean cmdUpdate() {
+		
+		// 系统正在上传升级、下载升级或者升级中
+		if(SystemUpdateService.uploading || SystemUpdateService.updating) {
+			SystemUpdateService.updateResult = "fail";
+			Log.logOpt("system-update", "systemUpdate end fail", "system", "127.0.0.1");
+			return false;
+		}
+		
+		// 判断是否在上课
+		if(SettingAction.isClassOpen()) {
+			SystemUpdateService.updateResult = "fail";
+			Log.logOpt("system-update", "systemUpdate end fail", "system", "127.0.0.1");
+			return false;
+		}			
+		
+		// 获取文件失败（上传和在线获取）
+		if(!"success".equals(SystemUpdateService.uploadResult)) {
+			SystemUpdateService.updateResult = "fail";
+			Log.logOpt("system-update", "systemUpdate end fail", "system", "127.0.0.1");
+			return false;
+		}
+		
 		try{
+			// 给maintain发送登录，同时校验maintain可用性
 			TcpClientService client = TcpClientService.getInstance();
+			MainTcp31001 tcp31001 = new MainTcp31001();
+			tcp31001.setAddr("http://" + InetAddress.getLocalHost().getHostAddress() + "/http/basic.action");
+			tcp31001.setPort(80);
+			tcp31001.setHeartbeat(Global.HeartInterval);
+			client.request(tcp31001);
+			if(tcp31001.getRespHeader().getReturnCode() == 1 || tcp31001.getResultCode() ==1) {
+				SystemUpdateService.updateResult = "fail";
+				Log.logOpt("system-update", "systemUpdate end fail", "system", "127.0.0.1");
+				return false;
+			}
+			
+			SystemUpdateService.updating = true;
+			SystemUpdateService.updatePercent = 0;
+			
+			
 			MainTcp39007 tcp = new MainTcp39007();
 			client.request(tcp);
 			
 			if(tcp.getRespHeader().getReturnCode() == 0 && tcp.getResultCode() == 0) {
+				Log.logOpt("system-update", "systemUpdate end success", "system", "127.0.0.1");
 				return true;
+			}else {
+				SystemUpdateService.updateResult = "fail";
+				Log.logOpt("system-update", "systemUpdate end fail", "system", "127.0.0.1");
+				SystemUpdateService.updating = false;
+				return false;
 			}
 		}catch(Exception e) {
+			SystemUpdateService.updating = false;
+			Log.logOpt("system-update", "systemUpdate end fail", "system", "127.0.0.1");
 			Log.printStackTrace(e);
 		}
+		
+		SystemUpdateService.updateResult = "fail";
+		Log.logOpt("system-update", "systemUpdate end fail", "system", "127.0.0.1");
 		return false;
 	}
 	
@@ -126,21 +208,40 @@ public class SystemUpdateService {
 	private boolean getRemoteFile(String strUrl, String fileName) {
 		DataInputStream input = null;
 		DataOutputStream output = null;
+		HttpURLConnection conn = null;
 		try{
 			URL url = new URL(strUrl); 
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
+			conn = (HttpURLConnection) url.openConnection(); 
 //			暂时HTTP方式，支持FTP方式的获取，只需要如下改动：
 //		    URLConnection conn = url.openConnection();
+			int  fileSize = 0;// 升级文件大小不可能溢出，用int
+			try{
+				fileSize = conn.getContentLength();
+			}catch(Exception ee) {
+				Log.printStackTrace(ee);
+			}
 			input = new DataInputStream(conn.getInputStream()); 
 			output = new DataOutputStream(new FileOutputStream(DirDefine.updateFileDir + "/" + fileName));
-			byte[] buffer = new byte[1024 * 8];
+			byte[] buffer = new byte[1024 * 8];// 每次1K
 			int count = 0; 
-			while ((count = input.read(buffer)) > 0) { 
-			  output.write(buffer, 0, count); 
+			while ((count = input.read(buffer)) > 0) {
+				output.write(buffer, 0, count);
+				if(fileSize != 0) {
+					SystemUpdateService.uploadPercent = output.size() * 100 / fileSize;
+				}
 			}
+			SystemUpdateService.uploadPercent = 100;
 		}catch(Exception e) {
 			Log.printStackTrace(e);
 		}finally{
+			try{
+				if(conn != null) {
+					conn.disconnect();
+				}
+			}catch(Exception e1) {
+				Log.printStackTrace(e1);
+			}
+			
 			try{
 				if(output != null) {
 					output.close();

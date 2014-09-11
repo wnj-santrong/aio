@@ -251,8 +251,7 @@ jQuery(function($){
 	    	Boxy.get(this).hideAndUnload();
 	    	if(callback)callback();
 	    });
-	};
-	
+	};	
 });
 
 //--------------------以下开始格式化页面----------------------------

@@ -8,6 +8,7 @@ import com.santrong.http.HttpDefine;
 import com.santrong.http.server.base.AbstractHttpService;
 import com.santrong.log.Log;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.system.SystemUpdateService;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.system.tip.TipItem;
@@ -27,6 +28,7 @@ public class BasicHttpService99999 implements AbstractHttpService{
 //	public static final int  EVENT_UNIUSR 				=	66005; // 直播用户数
 //	public static final int  EVENT_SRCSTATE 			=	66006; // 连接状态
 //	public static final int  EVENT_RCDFINISH 			=	66007; // 正常录制结束，会接收到这个消息
+//	public static final int  EVENT_UPDATESTATE 			=	66008; // 系统升级状态上报
 	
 	//接收参数
 	private Event66001 event66001;
@@ -36,6 +38,7 @@ public class BasicHttpService99999 implements AbstractHttpService{
 	private Event66005 event66005;
 	private Event66006 event66006;
 	private Event66007 event66007;
+	private Event66008 event66008;
 
 	@Override
 	public String excute(XmlReader xml) {
@@ -139,6 +142,16 @@ public class BasicHttpService99999 implements AbstractHttpService{
 				Log.logOpt("meeting-record", "stop", "event99999", "127.0.0.1");	
 			
 				break;
+				
+			case 66008 :
+				this.event66008 = new Event66008();
+				this.event66008.percent = Integer.parseInt(xml.find("/MsgBody/ConfEvent/UpdateState/Percent").getText());
+				SystemUpdateService.updatePercent = this.event66008.percent;
+				if(SystemUpdateService.updatePercent == 100) {
+					SystemUpdateService.updating = false;
+					SystemUpdateService.updateResult = "success";
+				}
+				break;
 			}
 			
 		}catch(Exception e) {
@@ -210,6 +223,10 @@ public class BasicHttpService99999 implements AbstractHttpService{
 		private long MVRcdSize;// 单位MB
 		private long CMPSRcdSize;// 单位MB
 		private int rcdType;
+	}
+	
+	private class Event66008 {
+		private int percent;// 升级进度百分比
 	}
 
 }

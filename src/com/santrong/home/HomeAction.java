@@ -2,6 +2,7 @@ package com.santrong.home;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
 import com.santrong.home.dao.MenuDao;
@@ -18,6 +20,8 @@ import com.santrong.log.Log;
 import com.santrong.setting.dao.UserDao;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.Global;
+import com.santrong.system.SysUpdateStatusEntry;
+import com.santrong.system.SystemUpdateService;
 import com.santrong.system.tip.TipItem;
 import com.santrong.system.tip.TipService;
 import com.santrong.util.SantrongUtils;
@@ -124,6 +128,43 @@ public class HomeAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	@RequestMapping(value="/updateProssor", method=RequestMethod.GET)
+	public String updateProssor() {
+		return "inc/updateprossor";
+	}
+	
+	int getRandom(int max) {
+		return new Random().nextInt(max);
+	}
+	
+	@RequestMapping(value="/updateStatus")
+	@ResponseBody
+	public String updateStatus() {
+		Gson gson = new Gson();
+		SysUpdateStatusEntry entry = new SysUpdateStatusEntry();
+		
+		entry.setUpdateSource(SystemUpdateService.updateSource);
+        entry.setUploading(SystemUpdateService.uploading);
+        entry.setUploadPercent(SystemUpdateService.uploadPercent);
+        entry.setUploadResult(SystemUpdateService.uploadResult);
+        entry.setUpdating(SystemUpdateService.updating);
+        entry.setUpdatePercent(SystemUpdateService.updatePercent);
+        entry.setUpdateResult(SystemUpdateService.updateResult);
+        
+//		int a = getRandom(100);
+//		int b = getRandom(100);
+//		int c = getRandom(100) > 50? 0 : 1;
+//		boolean d = getRandom(100) > 50? true : false;
+//		boolean f = getRandom(100) > 50? true : false;
+//		
+//		entry.setUpdateSource(c);
+//        entry.setUploading(d);
+//        entry.setUploadPercent(a);
+//        entry.setUpdating(f);
+//        entry.setUpdatePercent(b);
+        
+        return gson.toJson(entry);
+	}
 	
 	@RequestMapping("/404")
 	public String page404() {

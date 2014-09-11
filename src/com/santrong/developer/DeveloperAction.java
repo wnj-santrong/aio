@@ -29,6 +29,7 @@ import com.santrong.log.Log;
 import com.santrong.meeting.dao.DatasourceDao;
 import com.santrong.meeting.entry.DatasourceItem;
 import com.santrong.schedule.JobImpl;
+import com.santrong.system.SystemUpdateService;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31016;
@@ -175,6 +176,22 @@ public class DeveloperAction extends BaseAction{
         }
 		return "developer/proxool";
 	}
+	
+	@RequestMapping("/sysUpdate")
+	public String sysUpdate(HttpServletRequest request) {
+		try {
+			request.setAttribute("updateSource", SystemUpdateService.updateSource);
+            request.setAttribute("uploading", SystemUpdateService.uploading);
+            request.setAttribute("uploadPercent", SystemUpdateService.uploadPercent);
+            request.setAttribute("uploadResult", SystemUpdateService.uploadResult);
+            request.setAttribute("updating", SystemUpdateService.updating);
+            request.setAttribute("updatePercent", SystemUpdateService.updatePercent);
+            request.setAttribute("updateResult", SystemUpdateService.updateResult);
+        } catch (Exception e) {  
+            Log.printStackTrace(e); 
+        }
+		return "developer/sysUpdate";
+	}	
 	
 	
 	@RequestMapping("/html")

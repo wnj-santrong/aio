@@ -37,8 +37,8 @@ import com.santrong.system.network.NetworkInfo;
 import com.santrong.system.network.SystemUtils;
 import com.santrong.system.status.RoomStatusEntry;
 import com.santrong.system.status.StatusMgr;
-import com.santrong.util.SantrongUtils;
 import com.santrong.util.FileUtils;
+import com.santrong.util.SantrongUtils;
 import com.scand.fileupload.ProgressMonitorFileItemFactory;
 
 /**
@@ -378,18 +378,20 @@ public class SettingAction extends BaseAction{
 	@ResponseBody
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	public String updateLocal(HttpServletRequest request) {
+		
+		// 系统正在上传升级、下载升级或者升级中
+		if(SystemUpdateService.uploading || SystemUpdateService.updating) {
+			return "error_system_updating";
+		}		
+		
+		// 判断是否在上课
+		if(isClassOpen()) {
+			return "warn_class_is_open_update_confirm";
+		}			
+		
 		try {
-			
-			// 判断是否在上课
-			if(isClassOpen()) {
-				return "warn_class_is_open";
-			}			
-			
-    		// 系统正在升级
-    		if(SystemUpdateJob.updating) {
-    			return "error_system_updating";
-    		}
-    		SystemUpdateJob.updating = true;
+    		SystemUpdateService.resetStatus();
+    		SystemUpdateService.uploading = true;
     		
     		// 判断请求是否包含文件
     		boolean isMultipart = FileUpload.isMultipartContent(request);
@@ -398,7 +400,7 @@ public class SettingAction extends BaseAction{
             }
         	
         	// 获取所有文件和输入
-        	FileItem remoteFile = null;
+        	FileItem _remoteFile = null;
         	List<FileItem> files = null;
             FileItemFactory factory = new ProgressMonitorFileItemFactory(request, SantrongUtils.getGUID());
             ServletFileUpload upload = new ServletFileUpload(factory);
@@ -414,38 +416,53 @@ public class SettingAction extends BaseAction{
 	    			String fileName = file.getName();
 	    			if(!StringUtils.isNullOrEmpty(fileName) && fileName.endsWith("tar.gz")) {
 	    		        fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-			            remoteFile = file;
+	    		        _remoteFile = file;
 			            break;
 	    			}
 	    		}
 	        }
+	        final FileItem remoteFile = _remoteFile;
         
 	        // 取不到升级文件
 	        if(remoteFile == null){
 	        	return "error_update_no_file";
 	        }
 	        
-        	// 远程文件存储到本地
-        	File uploadFile = new File(DirDefine.updateFileDir, "update.tar.gz");
-        	remoteFile.write(uploadFile);
+	        // 定义本地文件
+        	final File uploadFile = new File(DirDefine.updateFileDir, "update.tar.gz");
         	
-        	// 发送升级指令
-        	SystemUpdateService service = new SystemUpdateService();
-        	if(!service.cmdUpdate()) {
-        		return FAIL;
-        	}
+        	new Thread() {
+        		public void run() {
+        			try {
+        				// 远程文件存储到本地
+						remoteFile.write(uploadFile);
+						SystemUpdateService.uploading = false;
+						SystemUpdateService.uploadPercent = 100;
+						SystemUpdateService.uploadResult = SUCCESS;
+					} catch (Exception e) {
+						SystemUpdateService.uploadResult = FAIL;
+						Log.printStackTrace(e);
+					}finally{
+			        	SystemUpdateService.uploading = false;
+					}
+        			
+		        	// 发送升级指令
+		        	SystemUpdateService service = new SystemUpdateService();
+		        	service.cmdUpdate();
+        		}
+        	}.start();
         	
-        	Log.logOpt("system-update", "local", request);
-        	return "notice_update_success";
+        	Log.logOpt("system-update", "local begin", request);
+        	return SUCCESS;
         	
         }catch(SizeLimitExceededException e) {
+        	SystemUpdateService.uploading = false;
 			Log.printStackTrace(e);
 			return "error_update_error_file_large";
 			
         }catch(Exception e) {
+        	SystemUpdateService.uploading = false;
 			Log.printStackTrace(e);
-        }finally{
-        	SystemUpdateJob.updating = false;
         }
 		
 		return FAIL;
@@ -476,7 +493,6 @@ public class SettingAction extends BaseAction{
 			UpdateConfig config = new UpdateConfig();
 			
 			// 参数校验
-			
 			if (StringUtils.isNullOrEmpty(hours) || StringUtils.isNullOrEmpty(minutes) || !Pattern.matches("\\d\\d:\\d\\d", hours + ":" + minutes)) {
 				return super.ERROR_PARAM;
 			}
@@ -526,28 +542,30 @@ public class SettingAction extends BaseAction{
 	@RequestMapping(value="/updateOnlineNow", method=RequestMethod.POST)
 	@ResponseBody
 	public String updateOnlineNow(HttpServletRequest request) {
-		SystemUpdateJob.updating = true;
+		
+		// 系统正在上传升级、下载升级或者升级中
+		if(SystemUpdateService.uploading || SystemUpdateService.updating) {
+			return "error_system_updating";
+		}		
+		
+		// 判断是否在上课
+		if(SettingAction.isClassOpen()) {
+			return "warn_class_is_open_update_confirm";	
+		}
 		
 		try{
-			
-			// 判断是否在上课
-			if(isClassOpen()) {
-				return "warn_class_is_open";
-			}			
-			
-			SystemUpdateService service = new SystemUpdateService();
-	        String rt = service.update();
+			new Thread(){
+				public void run() {
+					SystemUpdateService service = new SystemUpdateService();
+			        service.update();
+				}
+			}.start();
 	        
 	        // 打日志
-	        if("notice_update_success".equals(rt)){
-	        	Log.logOpt("system-update", "online-now", request);
-	        }
-	        
-	        return rt;
+			Log.logOpt("system-update", "online-now begin", request);
+        	return SUCCESS;
 		}catch(Exception e) {
 			Log.printStackTrace(e);
-		}finally {
-        	SystemUpdateJob.updating = false;
 		}
 		
 		return FAIL;
