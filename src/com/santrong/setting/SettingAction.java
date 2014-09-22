@@ -145,11 +145,13 @@ public class SettingAction extends BaseAction{
 			isDatabaseDoing = true;
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
-			if (ps.waitFor() == 0) {
+			int psrt = ps.waitFor();
+			if (psrt == 0) {
 				Log.debug("----------- db back success");
 				Log.logOpt("db-backup", "", getRequest());
 				return SUCCESS;
 			} else {
+				Log.info("shell return " + psrt);
 				Log.debug("----------- db back fail");
 			}
 			
@@ -207,11 +209,13 @@ public class SettingAction extends BaseAction{
 			isDatabaseDoing = true;
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
-			if (ps.waitFor() == 0) {
+			int psrt = ps.waitFor();
+			if (psrt== 0) {
 				Log.debug("----------- db restore success");
 				Log.logOpt("db-restore", filename, getRequest());
 				return SUCCESS;
 			} else {
+				Log.info("shell return " + psrt);
 				Log.debug("----------- db restore fail");
 			}
 			
@@ -267,11 +271,13 @@ public class SettingAction extends BaseAction{
 		try {
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
-			if (ps.waitFor() == 0) {
+			int psrt = ps.waitFor();
+			if (psrt== 0) {
 				Log.debug("----------- restart network success");
 				Log.logOpt("net-save", String.valueOf(type), getRequest());
 				return SUCCESS;
 			} else {
+				Log.info("shell return " + psrt);
 				Log.debug("----------- restart network fail");
 			}
 			

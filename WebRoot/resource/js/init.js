@@ -216,6 +216,7 @@ function IndexClass() {
 											
 											clearInterval(instance);
 											upprogressLabel.text(Message.dynamic("notice_update_success"));
+											upprogress.progressbar( "option", "value", json.updatePercent);
 											
 										}else if(json.uploadResult == "fail" || json.updateResult == "fail"){// 升级失败
 											

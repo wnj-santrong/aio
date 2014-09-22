@@ -41,7 +41,7 @@ var Message = {
 	notice_datasource_edit : "database is editing",
 	notice_last_version : "version is last",
 	notice_meeting_is_open : "lesson is begin, coun't update",
-	notice_update_success : "update success, please refresh page",	
+	notice_update_success : "update success, please reboot server",	
 	notice_update_fail : "update fail, please refresh page",	
 	notice_download_player : "download the play plugin and restart ie brownser",
 	notice_over_max_play : "over vod or live limit",

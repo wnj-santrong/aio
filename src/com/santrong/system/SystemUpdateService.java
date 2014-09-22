@@ -55,7 +55,15 @@ public class SystemUpdateService {
 			SystemUpdateService.updateSource = 1;
 			
 			String xmlStr = "";
-			URL url = new URL(OnlineUpdateAddr);
+			String updateUrl = OnlineUpdateAddr;
+			if(!updateUrl.endsWith("xml")) {
+				if(!updateUrl.endsWith("/")) {
+					updateUrl += "/";
+				}
+				updateUrl += "update.xml";
+			}
+			Log.info("get update.xml file from " + updateUrl);
+			URL url = new URL(updateUrl);
 			URLConnection conn = url.openConnection();
 	        // 设置通用的请求属性
 	        conn.setRequestProperty("accept", "*/*");
@@ -76,7 +84,7 @@ public class SystemUpdateService {
             
 //            "<?xml version="1.0" encoding="UTF-8"?><Update><Version>主板本</Version><FileUrl>升级文件下载地址</FileUrl></Update>"
             String version = xml.find("/Version").getText();
-            String FileUrl = xml.find("/FileName").getText();
+            String FileUrl = xml.find("/FileUrl").getText();
             if(version == null) {
             	SystemUpdateService.uploadResult =  "fail";
             	return SystemUpdateService.uploadResult;
@@ -115,6 +123,7 @@ public class SystemUpdateService {
             return "success";
 	        
 		}catch(Exception e) {
+			SystemUpdateService.uploadResult =  "fail";
 			Log.printStackTrace(e);
 		}finally {
 			SystemUpdateService.uploading = false;

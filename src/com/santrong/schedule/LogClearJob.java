@@ -34,7 +34,7 @@ public class LogClearJob extends JobImpl {
 	@Override
 	public Date getDateTime() {
 		return null;
-	}	
+	}
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
@@ -44,9 +44,11 @@ public class LogClearJob extends JobImpl {
 		try {
 			Process ps = Runtime.getRuntime().exec(cmd);
 			
-			if (ps.waitFor() == 0) {
+			int psrt = ps.waitFor();
+			if (psrt == 0) {
 				Log.debug("----------- clear log files success");
 			} else {
+				Log.info("shell return " + psrt);
 				Log.debug("----------- clear log files fail");
 			}
 			
