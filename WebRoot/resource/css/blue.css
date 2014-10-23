@@ -55,8 +55,9 @@ body {background: url(../photo/bg.gif);}
 .topnav_logo p {float:left; width:auto; padding:0 10px; margin:10px 10px 0 0;}
 .topnav_logo h2 {float:left; color:#fff; font-size:26px; line-height:80px;}
 .topnav_logo .message {float:right; display:block; margin-top:50px; margin-right:20px;}
-.topnav_logo .message a {margin:0 17px; color:#fff;}
-.topnav_logo .message a:hover {color:#CF6;}
+.topnav_logo .message .link {margin:0 17px;}
+.topnav_logo .message .link a {color:#fff;}
+.topnav_logo .message .link a:hover {color:#CF6;}
 .topnav_logo .tip {position:absolute; right:75px; top:25px; color:#cc0000; font-weight:bolder;}
 
 
@@ -74,14 +75,14 @@ body {background: url(../photo/bg.gif);}
 .submenu {float:right;width:1054px;height:700px;}
 .sub_top {height:30px; line-height:30px; margin:0 0 5px 5px; background:#d6ecff; color:#006; font-size:18px; text-indent:5px;}
 .search {line-height:26px; width:100%; display:inline-block; border-bottom:solid 1px #86b9e3;}
-.search .search_img {float:left; width:216px; margin-left:22px; background:url(../photo/search_bg.png) no-repeat left top;}
+.search .search_img {float:left; width:216px; margin-left:22px; background:url(../photo/search_bg.png) no-repeat left top; margin-right:10px;}
 .search .search_text {width:150px; border:0; background:none; height:26px; line-height:26px; padding:0 0 0 5px;}
 .search .search_img a {color:#333; margin-left:5px; padding-left:15px; line-height:24px; background:url(../photo/search_icon.png) no-repeat left center;}
 .search .search_img a:hover {background:url(../photo/search_icon.png) no-repeat left center;}
 .search .tag_add {float:left; margin-top:3px; margin-left:10px;}
-.search .tags .tag {float:left; margin-left:10px; position:relative; border:solid 1px #fff;}
+.search .tags .tag {position:relative; float:left; margin-left:10px; border:solid 1px #fff;}
 .search .tags .tag .tsd {padding:0 10px;}
-.search .tags .tag .tmd {position: absolute; top:23px; left:-1px; z-index:10; width:100%; border:solid 1px #86b9e3; border-top:none;}
+.search .tags .tag .tmd {position: absolute; top:23px; left:-1px; width:100%; border:solid 1px #86b9e3; border-top:none; background-color:#fff;}
 .search .tags .tag .tmd a{width:100%; display:inline-block; margin:0; padding:0; line-height:20px; line-height:20px; text-align:center; background:#fff;}
 .search .btns a {float:left; margin-left:20px; background:url(../photo/orange70_none.png) no-repeat center center; width:70px; text-align:center; color:#fff;}
 .search .btns a:hover {background:url(../photo/orange_hover.png) no-repeat center center;}
@@ -104,11 +105,11 @@ body {background: url(../photo/bg.gif);}
 
 /*----------点播 --列表----------*/
 .meeting_vod  {margin-top:10px; margin-left:26px; width:100%; height:580px; display:inline-block;}
-.meeting_vod li {float:left; width:230px;margin:0 20px 10px 0; text-align:center; color:#666; position:relative;background:#f1f8ff;  border-bottom:2px #5d9dd2 solid;}
-.meeting_vod li p {margin:5px 0; overflow:hidden; height:16px; line-height:16px;}
+.meeting_vod li {float:left; width:230px;margin:0 20px 10px 0; text-align:center; color:#666; position:relative; background:#f1f8ff;  border-bottom:2px #5d9dd2 solid;}
 .meeting_vod li em {width:230px; height:131px; position:absolute; left:0; top:0px; background:url(../photo/guankan.png) no-repeat left top;  display:none; z-index:999;}
 .meeting_vod li .guankan_img {position:absolute; left:0; top:0; z-index:2;}
 .meeting_vod li a:hover em {display:block;}
+.meeting_vod li p {margin:5px 0; overflow:hidden; height:16px; line-height:16px;}
 
 
 /*----------系统管理----------*/

@@ -503,10 +503,12 @@ IndexClass.prototype = {
     	if(Globals.isLogined) {
     		$(".tag_add").show();
     		$(".tag").mouseover(function() {
+    			$(".meeting_vod .fuck_ie9").css({"position" : "static"});// 你妹的修复IE9的bug
     			$(this).find(".tmd").show();
     			$(this).css({"border-top" : "solid 1px #86b9e3", "border-left" : "solid 1px #86b9e3", "border-right" : "solid 1px #86b9e3"});
     		});
     		$(".tag").mouseout(function() {
+    			$(".meeting_vod .fuck_ie9").css({"position" : "relative"});// 你妹的修复IE9的bug
     			$(this).find(".tmd").hide();
     			$(this).css({"border" : "solid 1px #fff"});
     		});

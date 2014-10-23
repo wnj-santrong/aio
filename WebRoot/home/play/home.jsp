@@ -22,6 +22,7 @@
         <a href="javascript:void(0);" class="tag_add hide"><img src="${ctx}/resource/photo/tag_add.png" width="54" height="20" /></a>
     </span>
 </div>
+<%-- <img src="${ctx}/resource/photo/video01.jpg" style="width:400px;height:300px; position:absolute;" /> --%>
 <!-- 列表 -->
 <ul class="meeting_vod">
 	<c:if test="${query.pageNum == 0}" >
@@ -43,7 +44,7 @@
     </c:if>
     
  	<c:forEach items="${fileList}" var="file">
-    <li><a href="javascript:void(0);" rel="${file.id}" type="0"><em></em><span class="guankan_img"></span><img src="${ctx}${file.thumbnail[0]}" width="230" height="130" /></a>
+    <li class="fuck_ie9"><a href="javascript:void(0);" rel="${file.id}" type="0"><em></em><img src="${ctx}${file.thumbnail[0]}" width="230" height="130" /></a>
         <p>
       	<c:choose>  
 		    <c:when test="${fn:length(file.courseName) > 15}">  

@@ -35,8 +35,8 @@ Globals.ctx = "${ctx}";
         <p><img src="${ctx}/resource/photo/logo.png" /></p>
         <h2><%=Global.Title%></h2>
         <span class="message">
-        <a href="javascript:void(0);" class="user_login"><fmt:message key="index_admin_login"/></a>
-        <a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a>
+        <span class="link"><a href="javascript:void(0);" class="user_login"><fmt:message key="index_admin_login"/></a></span>
+        <span class="link"><a href="${ctx}/download/santrongPlayer.exe"><fmt:message key="index_download_play_plugin"/></a></span>
         </span>
 	</div>
 </div>
