@@ -100,8 +100,10 @@
 			<img src="${ctx}/resource/photo/layout2-1.png" class="mode2 hide" id="v2"/>
 			<img src="${ctx}/resource/photo/layout2-2.png" class="mode2 hide" id="v6"/>
 			<img src="${ctx}/resource/photo/layout2-3.png" class="mode2 hide" id="v8"/>
+			<img src="${ctx}/resource/photo/layout2-4.png" class="mode2 hide" id="v16"/>
 			
 			<img src="${ctx}/resource/photo/layout3-1.png" class="mode3 hide" id="v10"/>
+			<img src="${ctx}/resource/photo/layout3-2.png" class="mode3 hide" id="v18"/>
 			</span>
 	        </li>      
 	    

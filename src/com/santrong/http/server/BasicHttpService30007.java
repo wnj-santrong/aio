@@ -3,6 +3,8 @@ package com.santrong.http.server;
 import com.santrong.http.HttpDefine;
 import com.santrong.http.server.base.AbstractHttpService;
 import com.santrong.log.Log;
+import com.santrong.system.status.RoomStatusEntry;
+import com.santrong.system.status.StatusMgr;
 import com.santrong.tcp.client.LocalTcp31013;
 import com.santrong.tcp.client.TcpClientService;
 import com.santrong.util.XmlReader;
@@ -30,6 +32,12 @@ public class BasicHttpService30007 implements AbstractHttpService{
 			client.request(tcp);
 			
 			if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
+				// 修改内存状态
+				RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(tcp.get_confId());
+				if(roomStatus != null) {
+					roomStatus.setLayout(tcp.get_layout());
+				}
+				
 				rt = 1;
 			}
 			

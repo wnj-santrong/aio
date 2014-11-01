@@ -339,6 +339,14 @@ IndexClass.prototype = {
     		var layout = $("input[name=recordMode]").val();
     		$(".layoutContainer img").removeClass("cur_layout").hide();
     		$(".layoutContainer .mode" + count).show();
+    		
+    		//布局是一个多对一的映射
+    		layout = (layout == 3? 2 : layout);//3映射2
+    		layout = (layout == 7? 6 : layout);//7映射6
+    		layout = (layout == 9? 8 : layout);//9映射8
+    		layout = (layout == 17? 16 : layout);//17映射16
+    		layout = ((layout >= 11 && layout <= 15)? 10 : layout);//11-15映射10
+    		layout = ((layout >= 19 && layout <= 20)? 18 : layout);//19、20映射18
     		$(".layoutContainer #v" + layout).addClass("cur_layout");
     	};
     	recordModeSetting();

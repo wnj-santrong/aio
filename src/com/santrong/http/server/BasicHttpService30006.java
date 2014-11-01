@@ -39,6 +39,9 @@ public class BasicHttpService30006 implements AbstractHttpService{
 			MeetingDao meetingDao = new MeetingDao();
 			meeting = meetingDao.selectByChannel(channel);
 			
+			// 布局可能会被切换了，从内存中拿
+			meeting.setRecordMode(roomStatus.getLayout());
+			
 			// ds获取
 			DatasourceDao dsDao = new DatasourceDao();
 			List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());

@@ -62,6 +62,11 @@ public class MeetingAction extends BaseAction{
 		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
 		RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
 		
+		// 如果已经开会，布局可能被切换了，从内存中获取
+		if(status.getIsLive() == 1) {
+			meeting.setRecordMode(status.getLayout());
+		}
+		
 		if(dsList != null) {
 			if(status != null && status.getIsConnect() == 1) {
 				//获取数据源状态
@@ -287,6 +292,11 @@ public class MeetingAction extends BaseAction{
 			roomStatus.setIsLive(0);
 			roomStatus.setIsRecord(0);//结束会议必然附带结束录制（如果存在录制的话）
 			StatusMgr.setRoomStatus(confId, roomStatus);
+			
+			// 布局内存状态重新更新为数据库状态 or 布局内存状态写入数据库，暂时采用第一种方案
+			MeetingDao meetingDao = new MeetingDao();
+			MeetingItem dbMeeting = meetingDao.selectById(meeting.getId());
+			roomStatus.setLayout(dbMeeting.getRecordMode());
 			
 			// 要求录制
 			if(meeting.getUseRecord() == 1 && isRecord == 1) {// 为了保险，最好还是同时判断关闭会议之前的录制状态，因为录制状态有可能被外设或者接口停止了

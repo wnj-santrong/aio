@@ -99,6 +99,7 @@ public class StatusMonitJob extends JobImpl {
 							if(entry != null) {
 								entry.setIsLive(item.getLiveState());
 								entry.setIsRecord(item.getRcdState());
+								entry.setLayout(item.getLayout());
 								StatusMgr.setRoomStatus(item.getConfId(), entry);
 							}
 						}
