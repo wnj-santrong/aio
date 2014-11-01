@@ -95,21 +95,13 @@
 	        <span class="tit"><fmt:message key="meeting_recordMode" />:</span>
 	        <span class="cont layoutContainer">
 	        <input type="hidden" name="recordMode" value="${meeting.recordMode}"/>
-	        <img src="${ctx}/resource/photo/1-1.png" class="mode1 hide" id="v1"/>
+	        <img src="${ctx}/resource/photo/layout1-1.png" class="mode1 hide" id="v1"/>
 	        
-			<img src="${ctx}/resource/photo/2-1.png" class="mode2 hide" id="v2"/>
-			<img src="${ctx}/resource/photo/2-2.png" class="mode2 hide" id="v3"/>
-			<img src="${ctx}/resource/photo/2-5.png" class="mode2 hide" id="v6"/>
-			<img src="${ctx}/resource/photo/2-6.png" class="mode2 hide" id="v7"/>
-			<img src="${ctx}/resource/photo/2-7.png" class="mode2 hide" id="v8"/>
-			<img src="${ctx}/resource/photo/2-8.png" class="mode2 hide" id="v9"/>
+			<img src="${ctx}/resource/photo/layout2-1.png" class="mode2 hide" id="v2"/>
+			<img src="${ctx}/resource/photo/layout2-2.png" class="mode2 hide" id="v6"/>
+			<img src="${ctx}/resource/photo/layout2-3.png" class="mode2 hide" id="v8"/>
 			
-			<img src="${ctx}/resource/photo/3-1.png" class="mode3 hide" id="v10"/>
-			<img src="${ctx}/resource/photo/3-2.png" class="mode3 hide" id="v11"/>
-			<img src="${ctx}/resource/photo/3-3.png" class="mode3 hide" id="v12"/>
-			<img src="${ctx}/resource/photo/3-4.png" class="mode3 hide" id="v13"/>
-			<img src="${ctx}/resource/photo/3-5.png" class="mode3 hide" id="v14"/>
-			<img src="${ctx}/resource/photo/3-6.png" class="mode3 hide" id="v15"/>
+			<img src="${ctx}/resource/photo/layout3-1.png" class="mode3 hide" id="v10"/>
 			</span>
 	        </li>      
 	    

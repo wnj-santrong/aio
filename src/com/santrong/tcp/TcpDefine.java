@@ -29,6 +29,9 @@ public class TcpDefine {
 	public static final String Basic_Client_AddSource 			= "31014";	// 添加数据源
 	public static final String Basic_Client_DelSource 			= "31015";	// 删除数据源
 	public static final String Basic_Client_GetSourceState 		= "31016";	// 获取数据源状态
+	public static final String Basic_Client_PushStream 		= "31017";	// 开启关闭推流
+	public static final String Basic_Client_GetPushStreamState 		= "31018";	// 获取推流状态
+	
 	public static final String Main_Client_Login 						= "31001";	// 连接请求
 	public static final String Main_Client_GetModInfo 			= "39004";	// 获取模块信息
 	public static final String Main_Client_Update 				= "39007";	// 升级请求

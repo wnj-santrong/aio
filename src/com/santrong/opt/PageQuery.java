@@ -6,7 +6,7 @@ package com.santrong.opt;
  * @time 下午3:04:18
  */
 public class PageQuery {
-	private int pageNum;
+	private int pageNum;// 当前页，0开始计数
 	private int count;
 	private int pageSize = 16;
 	private int prevInsert = 0; //前置插入混淆数据量

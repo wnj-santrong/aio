@@ -62,7 +62,7 @@ public class MeetingAction extends BaseAction{
 		List<DatasourceItem> dsList = dsDao.selectByMeetingId(meeting.getId());
 		RoomStatusEntry status = StatusMgr.getRoomStatus(MeetingItem.ConfIdPreview + meeting.getChannel());
 		
-		if(dsList != null) { 
+		if(dsList != null) {
 			if(status != null && status.getIsConnect() == 1) {
 				//获取数据源状态
 				LocalTcp31016 tcp = new LocalTcp31016();

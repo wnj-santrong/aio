@@ -15,6 +15,7 @@ public class HttpDefine {
 	public static final String Basic_Server_RecordCtl 				= "30004";	// 录制，暂停，恢复，停止
 	public static final String Basic_Server_TiltCtrl 				= "30005";	// 摄像头控制
 	public static final String Basic_Server_GetMtInfo 				= "30006";	// 获取会议配置
+	public static final String Basic_Server_SetDirect 				= "30007";	// 设置会议布局
 	
 	
 	public static final String Basic_Server_HeatBeat 				= "31003";	// 心跳接口
