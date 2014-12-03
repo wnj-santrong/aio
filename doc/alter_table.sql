@@ -1,6 +1,6 @@
 -- 2014-07-14 weinianjie
-create database aio;
-
+set names utf8;
+create database if not exists aio;
 use aio;
 
 -- 用户表 ---
@@ -36,6 +36,7 @@ insert into web_menu values('10001', 'filePlay', '0', 'play/home.action', 100, n
 insert into web_menu values('10002', 'fileMgr', '0', 'file/home.action', 200, now(), now());
 insert into web_menu values('10003', 'systemMgr', '0', 'setting/home.action', 300, now(), now());
 insert into web_menu values('10004', 'systemInfo', '0', 'info/home.action', 400, now(), now());
+insert into web_menu values('10005', 'conPlatform', '0', 'plt/home.action', 500, now(), now());
 
 
 -- 课件表 ---

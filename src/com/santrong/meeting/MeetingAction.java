@@ -182,6 +182,9 @@ public class MeetingAction extends BaseAction{
 				return rs;
 			}
 			
+			// 布局同步进内存
+			roomStatus.setLayout(meeting.getRecordMode());
+			
 			LocalTcp31004 tcp = new LocalTcp31004();
 			tcp.setConfId(confId);
 			tcp.setIsLive(1);//固定值

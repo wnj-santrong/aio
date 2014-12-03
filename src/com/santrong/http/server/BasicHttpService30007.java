@@ -31,14 +31,15 @@ public class BasicHttpService30007 implements AbstractHttpService{
 			tcp.setLayout(Integer.parseInt(xml.find("/MsgBody/DirectCtrlReq/Layout").getText()));
 			client.request(tcp);
 			
+			// 失败
 			if(tcp.getRespHeader().getReturnCode() == 1 || tcp.getResultCode() == 1) {
+				rt = 1;
+			}else {// 成功
 				// 修改内存状态
 				RoomStatusEntry roomStatus = StatusMgr.getRoomStatus(tcp.get_confId());
 				if(roomStatus != null) {
 					roomStatus.setLayout(tcp.get_layout());
 				}
-				
-				rt = 1;
 			}
 			
 		}catch(Exception e) {

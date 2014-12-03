@@ -849,5 +849,17 @@ IndexClass.prototype = {
     	
 		freshDbList();
 		
+    },
+    
+    // 系统信息
+    info:function() {
+    	
+    },
+    
+    // 连接到云
+    plt:function() {
+    	
+    	//提交
+    	$(".submit").bindFormClick({afterSubmit : function() {$(".navigator a:last").click();}});
     }
 };

@@ -23,6 +23,7 @@ table tr td {text-align:center; color:#666; border:1px #ccc solid; overflow:hidd
 			<th>是否开会</th>
 			<th>是否录制</th>
 			<th>开会来源</th>
+			<th>当前布局</th>
 		</tr>
 		<c:forEach items="${list}" var="item">
 		<tr>
@@ -31,6 +32,7 @@ table tr td {text-align:center; color:#666; border:1px #ccc solid; overflow:hidd
 			<td>${item.isLive}</td>
 			<td>${item.isRecord}</td>
 			<td>${item.liveSource}</td>
+			<td>${item.layout}</td>
 		</tr>
 		</c:forEach>
 	</table>

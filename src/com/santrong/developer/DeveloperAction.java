@@ -67,6 +67,7 @@ public class DeveloperAction extends BaseAction{
 				item.setIsLive(table.get(key).getIsLive());
 				item.setIsRecord(table.get(key).getIsRecord());
 				item.setLiveSource(table.get(key).getLiveSource());
+				item.setLayout(table.get(key).getLayout());
 				list.add(item);
 			}
 		}

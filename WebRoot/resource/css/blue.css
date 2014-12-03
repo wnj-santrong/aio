@@ -133,7 +133,7 @@ body {background: url(../photo/bg.gif);}
 .system_set .file_update {width:177px;}
 
 
-/*-------------会议管理&系统信息---------*/
+/*-------------会议管理&系统信息&连接到云---------*/
 .meeting {width:1020px; border:1px #86b9e3 solid; margin:10px 0 0 10px; padding-top:10px; background:url(../photo/ph.png) no-repeat right top; position:relative;}
 .meeting b {color:#0C0;}
 .meeting .line {width:100%; line-height:24px; margin-bottom:10px;}

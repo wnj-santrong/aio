@@ -1,6 +1,5 @@
 package com.santrong.home;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -48,8 +47,14 @@ public class HomeAction extends BaseAction{
 			MenuDao menuDao = new MenuDao();
 			navigator = menuDao.selectByParentId("0");
 			
-			if(navigator == null) {
-				navigator = new ArrayList<MenuItem>();
+			// 如果配置不显示链接到云，则菜单要移除
+			if(!Global.OpenPlatform && navigator != null) {
+				for(int i = 0;i < navigator.size();i++) {
+					if("conPlatform".equals(navigator.get(i).getMenuName())) {
+						navigator.remove(i);
+						break;
+					}
+				}
 			}
 			
 			// 获取提醒

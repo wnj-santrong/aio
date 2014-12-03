@@ -11,9 +11,9 @@
 	        <span class="tit"><fmt:message key="meeting_bitRate" />:</span>
 	        <span class="cont">
 	        <select name="bitRate" class="rate">
-	            <option value="2048" <c:if test="${meeting.bitRate == 512}">selected</c:if> >512kpbs</option>
-	            <option value="2048" <c:if test="${meeting.bitRate == 768}">selected</c:if> >768kpbs</option>
-	            <option value="2048" <c:if test="${meeting.bitRate == 1024}">selected</c:if> >1024kpbs</option>
+	            <option value="512" <c:if test="${meeting.bitRate == 512}">selected</c:if> >512kpbs</option>
+	            <option value="768" <c:if test="${meeting.bitRate == 768}">selected</c:if> >768kpbs</option>
+	            <option value="1024" <c:if test="${meeting.bitRate == 1024}">selected</c:if> >1024kpbs</option>
 	            <option value="2048" <c:if test="${meeting.bitRate == 2048}">selected</c:if> >2048kpbs</option>
 	            <option value="4096" <c:if test="${meeting.bitRate == 4096}">selected</c:if> >4096kpbs</option>
 	        </select>

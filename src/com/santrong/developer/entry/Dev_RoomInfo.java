@@ -11,7 +11,14 @@ public class Dev_RoomInfo {
 	private int isLive;
 	private int isRecord;
 	private int liveSource;
+	private int layout;
 	
+	public int getLayout() {
+		return layout;
+	}
+	public void setLayout(int layout) {
+		this.layout = layout;
+	}
 	public String getConfId() {
 		return confId;
 	}
