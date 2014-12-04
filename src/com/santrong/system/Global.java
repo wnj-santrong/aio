@@ -31,6 +31,7 @@ public class Global {
     public static long DiskWainSizeCancel = 11264;								// 磁盘剩余空间不足的提醒解除值，单位M
     public static int UploadFileSizeLimit = 150;								// 升级文件大小限制，单位M----请确保tomcat限制大小不小于用户配置大小
     public static boolean OpenPlatform = true;								// 是否开启课云平台功能
+    public static String PlatformDomain = "santrong.com";			// 平台域名
     
     
     /*
@@ -70,6 +71,7 @@ public class Global {
             DiskWainSizeCancel =ini.readLong("System", "DiskWainSizeCancel", DiskWainSizeCancel);
             UploadFileSizeLimit =ini.readInt("System", "UploadFileSizeLimit", UploadFileSizeLimit);
             OpenPlatform =ini.readBoolean("System", "OpenPlatform", OpenPlatform);
+            PlatformDomain =ini.readString("System", "PlatformDomain", PlatformDomain);
             
             CameraUsername = ini.readString("DataSource", "CameraUsername", CameraUsername);
             CameraPassword = ini.readString("DataSource", "CameraPassword", CameraPassword);

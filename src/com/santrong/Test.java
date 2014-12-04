@@ -1,5 +1,13 @@
 package com.santrong;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
+
+import org.logicalcobwebs.proxool.configuration.PropertyConfigurator;
+
+import com.santrong.system.network.SystemUtils;
+
 
 
 
@@ -10,17 +18,17 @@ package com.santrong;
  */
 public class Test {
 	public static void main(String[] args) {
-		new Out().new In().say();
-	}
-}
-
-class Out {
-	void show(){
-		System.out.println("say out");
-	}
-	class In {
-		public void say() {
-			System.out.println("say in");
+		Properties dbProps = new Properties();
+		try {
+			dbProps.load(new FileInputStream(new File("E:\\workspace\\plt\\WebRoot\\WEB-INF\\classes\\datasource.properties")));
+			if(SystemUtils.getOsType() == SystemUtils.WINDOWS) {// 开发坏境不进行链接测试
+//				dbProps.setProperty("jdbc-0.proxool.house-keeping-test-sql", null);
+//				dbProps.remove("jdbc-0.proxool.house-keeping-test-sql");
+			}				
+			PropertyConfigurator.configure(dbProps);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 }

@@ -25,6 +25,7 @@ import com.santrong.schedule.SystemUpdateJob;
 import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
 import com.santrong.system.UpdateConfig;
+import com.santrong.system.network.SystemUtils;
 import com.santrong.tcp.client.LocalTcp31008;
 import com.santrong.tcp.client.TcpClientService;
 
@@ -45,6 +46,9 @@ public class StartUpListener implements ServletContextListener {
 			try{
 				Properties dbProps = new Properties();
 				dbProps.load(StartUpListener.class.getResourceAsStream("/datasource.properties"));
+				if(SystemUtils.getOsType() == SystemUtils.WINDOWS) {// 开发坏境不进行链接测试
+					dbProps.remove("jdbc-0.proxool.house-keeping-test-sql");
+				}				
 				PropertyConfigurator.configure(dbProps);
 			}catch(Exception e) {
 				Log.printStackTrace(e);

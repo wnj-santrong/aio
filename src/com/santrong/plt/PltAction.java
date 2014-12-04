@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mysql.jdbc.StringUtils;
 import com.santrong.base.BaseAction;
+import com.santrong.http.client.AioHttpClient30001;
+import com.santrong.http.client.HttpClientService;
 import com.santrong.log.Log;
+import com.santrong.util.SantrongUtils;
 
 /**
  * @author weinianjie
@@ -25,10 +28,20 @@ public class PltAction extends BaseAction {
 	public String home(){
 		PltConfig config = new PltConfig();
 		
-		//TODO 检查连接到云是否成功
+		boolean conSuccess = false;
+		// 检查链接是否成功
+		if(SantrongUtils.isNotNull(config.getUsername()) && SantrongUtils.isNotNull(config.getPassword())) {
+			HttpClientService client = HttpClientService.getInstance();
+			AioHttpClient30001 http30001 = new AioHttpClient30001();
+			http30001.setUsername(config.getUsername());
+			http30001.setPassword(config.getPassword());
+			client.request(http30001);
+			conSuccess = http30001.getRespHeader().getResultCode()==1? true:false;			
+		}
 		
 		this.getRequest().setAttribute("username", config.getUsername());
 		this.getRequest().setAttribute("password", config.getPassword());
+		this.getRequest().setAttribute("conSuccess", conSuccess);
 		return "plt/home";
 	}
 	
@@ -49,7 +62,7 @@ public class PltAction extends BaseAction {
 			// 持久化
 			PltConfig config = new PltConfig();
 			config.setUsername(username);
-			config.setPassword(password);
+			config.setPassword(SantrongUtils.getMD5(password));// 直接md5加密
 			if(config.write()) {
 				return SUCCESS;			
 			}

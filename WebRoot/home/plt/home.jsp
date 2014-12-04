@@ -9,8 +9,15 @@
 		    </li>
 		    <li class="line">
 		        <span class="tit"><fmt:message key="plt_password" />:</span>
-		        <span class="cont"><input name="password" type="password" class="form_text" value="${password}" required /></span>
-		    </li>    
+		        <span class="cont"><input name="password" type="password" class="form_text" value="" required /></span>
+		    </li>
+		    <li class="line">
+		        <span class="tit"><fmt:message key="plt_conStatus" />:</span>
+		        <span class="cont">
+			        <c:if test="${conSuccess}"><fmt:message key="text_success" /></c:if>
+			        <c:if test="${!conSuccess}"><fmt:message key="text_fail" /></c:if>
+		        </span>
+		    </li>		    
 	</ul>
 	<div class="button_panel">
 		<a href="javascript:void(0);" class="submit"><fmt:message key="text_save" /></a>

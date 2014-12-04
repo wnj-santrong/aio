@@ -435,7 +435,7 @@ public class SettingAction extends BaseAction{
 	        }
 	        
 	        // 定义本地文件
-        	final File uploadFile = new File(DirDefine.updateFileDir, "update.tar.gz");
+        	final File uploadFile = new File(DirDefine.UpdateFileDir, "update.tar.gz");
         	
         	new Thread() {
         		public void run() {

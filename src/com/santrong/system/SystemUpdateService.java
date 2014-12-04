@@ -230,7 +230,7 @@ public class SystemUpdateService {
 				Log.printStackTrace(ee);
 			}
 			input = new DataInputStream(conn.getInputStream()); 
-			output = new DataOutputStream(new FileOutputStream(DirDefine.updateFileDir + "/" + fileName));
+			output = new DataOutputStream(new FileOutputStream(DirDefine.UpdateFileDir + "/" + fileName));
 			byte[] buffer = new byte[1024 * 8];// 每次1K
 			int count = 0; 
 			while ((count = input.read(buffer)) > 0) {
