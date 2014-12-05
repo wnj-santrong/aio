@@ -13,6 +13,10 @@
 	   <a href="javascript:void(0);" id="fileOpen"><fmt:message key="file_open"/></a>
 	   <a href="javascript:void(0);" id="fileClose"><fmt:message key="file_close"/></a>
 	   <a href="javascript:void(0);" id="fileDel"><fmt:message key="text_del"/></a>
+	   <c:if test="${cloudStatus != -1}">
+		   <c:if test="${cloudStatus == 0}"><a href="javascript:void(0);" id="pushPlt" class="disable" title="<fmt:message key="file_pushPlt_disable"/>"><fmt:message key="file_pushPlt"/></a></c:if>
+		   <c:if test="${cloudStatus == 1}"><a href="javascript:void(0);" id="pushPlt"><fmt:message key="file_pushPlt"/></a></c:if>
+	   </c:if>
    </span>
    <a href="javascript:void(0);" id="filePlay"><img src="${ctx}/resource/photo/btn_watching.png"></a>
 </div>
@@ -88,5 +92,3 @@ var pageNum = ${query.pageNum};
 var pageSize = ${query.pageSize};
 var keyword = '${query.keyword}';
 </script>
-
-

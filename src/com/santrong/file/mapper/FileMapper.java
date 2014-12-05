@@ -50,16 +50,20 @@ public interface FileMapper {
     @Delete("delete from web_file where id in (${ids})")
     int deleteByIds(@Param("ids") String ids);
     
-    @Delete("select count(*) from web_file where status = 0 and id in (${ids})")
+    @Select("select count(*) from web_file where status = 0 and id in (${ids})")
     int hasFileRecording(@Param("ids") String ids);
     
     
-    @Delete("update web_file set level = 0 where id in (${ids})")
+    @Update("update web_file set level = 0 where id in (${ids})")
     int openByIds(@Param("ids") String ids);
     
     
-    @Delete("update web_file set level = 1 where id in (${ids})")
+    @Update("update web_file set level = 1 where id in (${ids})")
     int closeByIds(@Param("ids") String ids);
+    
+    
+    @Select("select count(*) from web_file where id in (${ids}) and (status = 0 or status = 10)")
+    int allCanPush(@Param("ids") String ids);    
     
     
     @Update("update web_file set fileName=#{fileName},courseName=#{courseName},teacher=#{teacher},remark=#{remark},fileSize=#{fileSize},tarSize=#{tarSize},duration=#{duration},recordType=#{recordType},status=#{status},level=#{level},channel=#{channel},bitRate=#{bitRate},resolution=#{resolution},playCount=#{playCount},downloadCount=#{downloadCount},uts=#{uts} where id=#{id}")

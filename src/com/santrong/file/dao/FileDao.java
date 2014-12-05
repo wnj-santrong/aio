@@ -145,6 +145,17 @@ public class FileDao extends BaseDao{
 		return 0;
 	}
 	
+	public boolean allCanPush(String[] ids) {
+		String _ids = consistIds(ids);
+		if(_ids != null) {
+			FileMapper mapper = this.getMapper(FileMapper.class);
+			if(mapper != null) {			
+				return mapper.allCanPush(_ids) == 0;// 状态全部满足返回true
+			}
+		}
+		return false;
+	}	
+	
 	public int update(FileItem file) {
 		FileMapper mapper = this.getMapper(FileMapper.class);
 		if(mapper != null) {

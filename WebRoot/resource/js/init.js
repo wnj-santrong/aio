@@ -46,6 +46,13 @@ function init() {
 				el.click();
 				return;
 			}
+			
+			// 连接云
+			el = $(".connectCloud");
+			if(el.size() > 0) {
+				el.click();
+				return;
+			}
 		}else if(e.keyCode==27) {// ESC
 			// 清除所有浮动层---一次性移除，不一层层移除了，麻烦
 			$(".boxy-wrapper").remove();
@@ -687,6 +694,15 @@ IndexClass.prototype = {
     		}
     	});
     	
+    	$("#pushPlt").click(function(){
+    		if(!$(this).hasClass("disable")) {
+	    		var values = $("input[name=CheckboxGroup1]").checkboxVals();
+	    		if(values) {
+	        		$.simplePost({url : Globals.ctx + "/file/pushPlt.action", data : {ids : values}});			
+	    		}
+    		}
+    	});     	
+    	
     	$(".cdetail").click(function() {
     		var id = $(this).parents("tr").find("input[name=CheckboxGroup1]").val();
 			Boxy.load(Globals.ctx + "/file/fileDetail.action?id=" + id, {
@@ -859,7 +875,105 @@ IndexClass.prototype = {
     // 连接到云
     plt:function() {
     	
-    	//提交
-    	$(".submit").bindFormClick({afterSubmit : function() {$(".navigator a:last").click();}});
+    	// tab切换
+    	$(".tab_nav li").click(function() {
+    		var _this = $(this);
+    		_this.siblings().removeClass("current");
+    		_this.addClass("current");
+    		
+    		var index = _this.index();
+    		var rel = _this.attr("rel");
+    		
+    		$.get(rel, function(result) {
+    			$(".tab_content").html(result);
+    			
+    			// 配置页
+        		if(index == 0) {
+        	    	//提交
+        	    	$(".submit").bindFormClick({afterSubmit : function() {_this.click();}});
+        			return;
+        		}
+        		
+        		// 推送列表
+        		if(index == 1) {
+        			
+        			var freshPage = function(opts) {
+        	    		opts = $.extend({
+        	    			pageNum : pageNum
+        	    			}, opts || {});
+        	    		
+        	    		var pageUrl = Globals.ctx + "/plt/pushList.action";
+        	    		
+        	    		$.get(pageUrl, {pageNum : opts.pageNum}, function(result){
+        	    		    $(".tab_content").html(result);
+        	    		    
+                			// 执行自身重新绑定方法
+                			bindPage();
+                			bindFn();
+        	    		  });
+        			}
+        			
+        	    	var bindPage = function() {
+	        	    	$("#pagination").pagination(fileCount, {
+	        	    		items_per_page : pageSize,
+	        	    		current_page : pageNum,
+	        				prev_text: Message.dynamic("play_page_prev"),
+	        				next_text: Message.dynamic("play_page_next"),    		
+	        	    		callback : function(current_page, containers) {
+	        	    			var params = {
+	        	    				pageNum : current_page
+	        	    			};
+	        	    			freshPage(params);
+	        	    		}
+	        	    	});
+        	    	};
+        	    	
+        			var bindFn = function() {
+            			$(".cancel").click(function() {
+            				var id = $(this).attr("rel").split("_")[1];
+            				$.delConfirm(function(){
+            					$.simplePost({url : Globals.ctx + "/plt/removePush.action", data : {id : id}, tip : false, callback : freshPage});
+            				});
+            			});
+        			}        	    	
+        	    	
+        			bindPage();
+        			bindFn();        	    	
+        			return;
+        		}
+        		
+        		// 推送历史
+        		if(index == 2) {
+        	    	var freshPage = function() {
+	        	    	$("#pagination").pagination(fileCount, {
+	        	    		items_per_page : pageSize,
+	        	    		current_page : pageNum,
+	        				prev_text: Message.dynamic("play_page_prev"),
+	        				next_text: Message.dynamic("play_page_next"),    		
+	        	    		callback : function(current_page, containers) {
+	        	    			var params = {
+	        	    				pageNum : current_page
+	        	    			};
+	            	    		var pageUrl = Globals.ctx + "/plt/pushHistory.action";
+	            	    		$.get(pageUrl, {pageNum : params.pageNum}, function(result){
+	            	    		    $(".tab_content").html(result);
+	            	    		    
+	                    			// 执行自身重新绑定方法
+	                    			freshPage();
+	                    			bindFn();
+	            	    		  });
+	        	    		}
+	        	    	});
+        	    	};
+        	    	
+        	    	freshPage();        			
+        			return;
+        		}
+        		
+    		});
+    	});
+    	
+    	// 激活第一个tab
+    	$(".tab_nav li").eq(0).click();
     }
 };

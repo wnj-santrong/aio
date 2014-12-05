@@ -17,6 +17,7 @@
         <mapper class="com.santrong.play.mapper.TagMapper"/>
         <mapper class="com.santrong.log.mapper.OptLogMapper"/>
         <mapper class="com.santrong.log.mapper.RequestLogMapper"/>
+        <mapper class="com.santrong.plt.mapper.FilePushMapper"/>
         
         <!-- <mapper resource="com/santrong/demo/mapper/demo-sqlmap.xml"/> -->
         

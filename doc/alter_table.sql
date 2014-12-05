@@ -90,6 +90,17 @@ insert into web_file values(replace(uuid(), '-', ''), 'file24', '课程24', '','
 insert into web_file values(replace(uuid(), '-', ''), 'file25', '课程25', '','', 1024, 0, '01:28', 1, 1, 0, 1, 768, 1, 1, 1, now(), now());
 insert into web_file values(replace(uuid(), '-', ''), 'file26', '课程26', '','', 1024, 0, '01:28', 1, 1, 0, 1, 768, 1, 1, 1, now(), now());
 
+-- 推送到云表 ---
+drop table if exists web_file_push;
+create table web_file_push(
+	id varchar(32) not null comment 'UUID',
+	fileId varchar(32) not null comment '文件ID',
+	username varchar(64) not null comment '平台用户名',
+	status int(4) not null default 1 comment '推送状态，0待推送，1推送中，2推送异常，3推送完成',
+	cts datetime comment '创建时间',
+	primary key (id)
+) engine=InnoDB default charset=utf8 collate=utf8_bin;
+
 -- 会议表 ---
 drop table if exists web_meeting;
 create table web_meeting(

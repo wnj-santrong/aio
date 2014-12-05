@@ -25,6 +25,7 @@ var Message = {
 	error_update_error_file_large : "file is too large",
 	error_setting_dbdoing : "db is backup or restore, try again later",
 	error_close_all_room : "close lesson case error",
+	error_push_has_begin : "push has begin, coun't cancel",
 	
 	warn_del_confirm : "sure?", 
 	warn_db_backup_confirm : "sure?",
@@ -46,6 +47,8 @@ var Message = {
 	notice_download_player : "download the play plugin and restart ie brownser",
 	notice_over_max_play : "over vod or live limit",
 	notice_reboot_success : "system is rebooting, please fresh page later",
+	notice_plt_con_fail : "cloud connect fail, make sure the config is right",
+	notice_plt_push_file_error : "recording and exception file coun't push",
 	
 	play_page_prev : "prev",
 	play_page_next : "next",

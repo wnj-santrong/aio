@@ -24,9 +24,15 @@ import com.santrong.file.dao.FileDao;
 import com.santrong.file.entry.FileItem;
 import com.santrong.file.entry.FileQuery;
 import com.santrong.file.entry.PlayInfo;
+import com.santrong.http.client.AioHttpClient30001;
+import com.santrong.http.client.HttpClientService;
 import com.santrong.log.Log;
 import com.santrong.meeting.dao.MeetingDao;
 import com.santrong.meeting.entry.MeetingItem;
+import com.santrong.opt.ThreadUtils;
+import com.santrong.plt.PltConfig;
+import com.santrong.plt.dao.FilePushDao;
+import com.santrong.plt.entry.FilePushItem;
 import com.santrong.setting.entry.UserItem;
 import com.santrong.system.DirDefine;
 import com.santrong.system.Global;
@@ -63,8 +69,26 @@ public class FileAction extends BaseAction{
 		query.setCount(fileDao.selectByPageCount(query));
 		List<FileItem> fileList = fileDao.selectByPage(query);
 		
+		// 课云判断结果：-1未开启，0未连接，1已连接
+		int cloudStatus = -1;
+		if(Global.OpenPlatform) {
+			cloudStatus = 0;
+			PltConfig config = new PltConfig();
+			if(SantrongUtils.isNotNull(config.getUsername()) && SantrongUtils.isNotNull(config.getPassword())) {
+				HttpClientService client = HttpClientService.getInstance();
+				AioHttpClient30001 http30001 = new AioHttpClient30001();
+				http30001.setUsername(config.getUsername());
+				http30001.setPassword(config.getPassword());
+				client.request(http30001);
+				if(http30001.getRespHeader().getResultCode() == 1) {
+					cloudStatus = 1;
+				}
+			}
+		}
+		
 		request.setAttribute("query", query);
 		request.setAttribute("fileList", fileList);
+		request.setAttribute("cloudStatus", cloudStatus);
 		return "file/home";
 	}
 	
@@ -463,6 +487,74 @@ public class FileAction extends BaseAction{
 		}
 
 		Log.logOpt("file-download", id, request);
+	}
+	
+	/**
+	 * 推送到云
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value="/pushPlt")
+	@ResponseBody
+	public String pushPlt(String ids) {
+		if(StringUtils.isNullOrEmpty(ids)) {
+			return ERROR_PARAM;
+		}
+		
+		try{
+			
+			// 检测平台身份
+			PltConfig config = new PltConfig();
+			boolean conSuccess = false;
+			if(SantrongUtils.isNotNull(config.getUsername()) && SantrongUtils.isNotNull(config.getPassword())) {
+				HttpClientService client = HttpClientService.getInstance();
+				AioHttpClient30001 http30001 = new AioHttpClient30001();
+				http30001.setUsername(config.getUsername());
+				http30001.setPassword(config.getPassword());
+				client.request(http30001);
+				conSuccess = http30001.getRespHeader().getResultCode()==1? true:false;			
+			}
+			if(!conSuccess) {
+				return "notice_plt_con_fail";
+			}
+			
+			String[] arr = ids.split(",");
+			
+			// 正在录制中的和异常课件不可推送
+			FileDao fileDao = new FileDao();
+			if(!fileDao.allCanPush(arr)) {
+				return "notice_plt_push_file_error";
+			}
+			
+			// 开始数据库操作
+			FilePushDao pushDao = new FilePushDao();
+			ThreadUtils.beginTranx();
+			try{
+				for(String id:arr) {
+					// 某个平台用户的某个课件已经在待推送中，则不新增，推送完了以后可以再次推送
+					if(!pushDao.existWaiting(id, config.getUsername())) {
+						FilePushItem item = new FilePushItem();
+						item.setId(SantrongUtils.getGUID());
+						item.setFileId(id);
+						item.setUsername(config.getUsername());
+						item.setStatus(FilePushItem.File_Push_Status_Wating);
+						item.setCts(new Date());
+						pushDao.insert(item);
+					}
+				}
+				ThreadUtils.commitTranx();
+				
+				Log.logOpt("file-push", ids + "|" + config.getUsername(), getRequest());
+			}catch(Exception e) {
+				ThreadUtils.rollbackTranx();
+				Log.printStackTrace(e);
+				return FAIL;
+			}
+		}catch(Exception e) {
+			Log.printStackTrace(e);
+			return FAIL;
+		}
+		return SUCCESS;
 	}
 	
 	
