@@ -18,6 +18,7 @@ import com.santrong.opt.ThreadUtils;
 import com.santrong.schedule.FileStatusCheckJob;
 import com.santrong.schedule.FtpUploadJob;
 import com.santrong.schedule.LogClearJob;
+import com.santrong.schedule.PltUploadJob;
 import com.santrong.schedule.ScheduleManager;
 import com.santrong.schedule.StatusMonitJob;
 import com.santrong.schedule.StorageMonitJob;
@@ -90,6 +91,8 @@ public class StartUpListener implements ServletContextListener {
 			// 启动文件状态检测修复任务
 			scheManager.startCron(new FileStatusCheckJob());
 			
+			// 启动plt上传扫描线程
+			scheManager.startCron(new PltUploadJob());			
 			
 			// 启动ftp上传扫描线程
 			FtpConfig ftpConfig = new FtpConfig();

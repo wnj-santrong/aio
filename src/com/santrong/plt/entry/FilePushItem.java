@@ -12,6 +12,7 @@ public class FilePushItem {
 	private String fileId;
 	private String username;
 	private int status;
+	private String remoteId;
 	private Date cts;
 	
 	public static final int File_Push_Status_Wating = 0;
@@ -20,6 +21,12 @@ public class FilePushItem {
 	public static final int File_Push_Status_Done = 3;
 	
 	
+	public String getRemoteId() {
+		return remoteId;
+	}
+	public void setRemoteId(String remoteId) {
+		this.remoteId = remoteId;
+	}
 	public String getId() {
 		return id;
 	}

@@ -97,6 +97,7 @@ create table web_file_push(
 	fileId varchar(32) not null comment '文件ID',
 	username varchar(64) not null comment '平台用户名',
 	status int(4) not null default 1 comment '推送状态，0待推送，1推送中，2推送异常，3推送完成',
+	remoteId varchar(32) not null comment '标识ID',
 	cts datetime comment '创建时间',
 	primary key (id)
 ) engine=InnoDB default charset=utf8 collate=utf8_bin;

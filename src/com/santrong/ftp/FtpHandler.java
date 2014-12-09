@@ -146,9 +146,9 @@ public class FtpHandler {
 				if(file.isFile()) {
 					try{
 						
-						logger.info("begin upload file : " + file.getPath());
+						logger.info("begin upload file : " + file.getPath() + " to " + ftp.getRemoteHost());
 						ftp.uploadFile(file.getPath(), key, writeMode);
-						logger.info("end   upload file : " + file.getPath());
+						logger.info("end   upload file : " + file.getPath() + " to " + ftp.getRemoteHost());
 						
 					}catch(Exception e) {
 						
@@ -157,9 +157,9 @@ public class FtpHandler {
 							logger.info("FTP NOT SUPPORT RESUME, CHANGE TO OVERWRITE  ---  " + this.getIp());
 							this.writeMode = WriteMode.OVERWRITE;// 更改模式再传一次，删掉上次的重新传
 							
-							logger.info("begin upload file : " + file.getPath());
+							logger.info("begin upload file : " + file.getPath() + " to " + ftp.getRemoteHost());
 							ftp.uploadFile(file.getPath(), key, writeMode);
-							logger.info("end   upload file : " + file.getPath());
+							logger.info("end   upload file : " + file.getPath() + " to " + ftp.getRemoteHost());
 						}
 						logger.error(e.getMessage(), e);
 					}

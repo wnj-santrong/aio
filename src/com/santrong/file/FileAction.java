@@ -512,7 +512,7 @@ public class FileAction extends BaseAction{
 				http30001.setUsername(config.getUsername());
 				http30001.setPassword(config.getPassword());
 				client.request(http30001);
-				conSuccess = http30001.getRespHeader().getResultCode()==1? true:false;			
+				conSuccess = http30001.getRespHeader().getResultCode()==1? true:false;
 			}
 			if(!conSuccess) {
 				return "notice_plt_con_fail";
@@ -538,6 +538,7 @@ public class FileAction extends BaseAction{
 						item.setFileId(id);
 						item.setUsername(config.getUsername());
 						item.setStatus(FilePushItem.File_Push_Status_Wating);
+						item.setRemoteId(SantrongUtils.getGUID());
 						item.setCts(new Date());
 						pushDao.insert(item);
 					}

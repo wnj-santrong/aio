@@ -13,16 +13,23 @@ public class FilePushView {
 	private String id;						// 推送Id
 	private String fileId;				// 文件Id
 	private String username;			// 平台用户名
-	private String status;				// 推送状态
+	private int status;						// 推送状态
 	private String fileName;			// 文件名
 	private String courseName;		// 课程名
 	private String duration;			// 录制时长
 	private String teacher;				// 授课老师
 	private long fileSize;					// 课件大小
+	private String remoteId;						// 远程Id（推送时候对应的平台ID）
 	private Date cts;						// 课程录制时间
 	
 	public String getFileSizeString() {
 		return SantrongUtils.formatDiskSize(this.fileSize);
+	}
+	public String getRemoteId() {
+		return remoteId;
+	}
+	public void setRemoteId(String remoteId) {
+		this.remoteId = remoteId;
 	}
 	public String getDuration() {
 		return duration;
@@ -60,10 +67,10 @@ public class FilePushView {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public String getFileName() {

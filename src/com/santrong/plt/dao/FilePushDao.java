@@ -32,10 +32,26 @@ public class FilePushDao extends BaseDao {
 		return 0;
 	}
 	
+	public int updateStatus(String id, int status) {
+		FilePushMapper mapper = this.getMapper(FilePushMapper.class);
+		if(mapper != null) {
+			return mapper.updateStatus(id, status);
+		}
+		return 0;
+	}	
+	
 	public FilePushItem selectById(String id) {
 		FilePushMapper mapper = this.getMapper(FilePushMapper.class);
 		if(mapper != null) {
 			return mapper.selectById(id);
+		}
+		return null;
+	}
+	
+	public FilePushView selectLastOne() {
+		FilePushMapper mapper = this.getMapper(FilePushMapper.class);
+		if(mapper != null) {
+			return mapper.selectLastOne();
 		}
 		return null;
 	}
@@ -66,7 +82,7 @@ public class FilePushDao extends BaseDao {
 		
 		try{
 			Statement criteria = new Statement("web_file_push", "p");
-			criteria.setFields("p.id,p.fileId,p.username,p.status,f.fileName,f.courseName,f.teacher,f.duration,f.fileSize,f.cts");
+			criteria.setFields("p.id,p.fileId,p.username,p.status,p.remoteId,f.fileName,f.courseName,f.teacher,f.duration,f.fileSize,f.cts");
 			criteria.ljoin("web_file", "f", "p.fileId", "f.id");
 			// 条件
 			if(query.isHistory()) {
