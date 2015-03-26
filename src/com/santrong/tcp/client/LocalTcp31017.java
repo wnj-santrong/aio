@@ -48,7 +48,7 @@ public class LocalTcp31017 extends LocalTcpBase {
 			sb.append("<MsgBody>");
 				sb.append("<PushStrmReq>");
 					sb.append("<ConfID type=\"string\">").append(this.confId).append("</ConfID>");
-					sb.append("<PushStrmReq type=\"int\">").append(this.bPushStream).append("</bPushStream>");
+					sb.append("<bPushStream type=\"int\">").append(this.bPushStream).append("</bPushStream>");
 					sb.append("<Url type=\"string\">").append(this.url).append("</Url>");
 				sb.append("</PushStrmReq>");
 			sb.append("</MsgBody>");
